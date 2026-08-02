@@ -8,9 +8,10 @@ const {
 } = loadEnv(import.meta.env.MODE, process.cwd(), "");
 import { defineConfig } from "astro/config";
 
-const projectId = PUBLIC_SANITY_STUDIO_PROJECT_ID;
-const dataset = PUBLIC_SANITY_STUDIO_DATASET;
-const studioUrl = PUBLIC_SANITY_STUDIO_URL || "http://localhost:3333";
+const projectId =
+  PUBLIC_SANITY_STUDIO_PROJECT_ID?.trim() || "placeholder";
+const dataset = PUBLIC_SANITY_STUDIO_DATASET?.trim() || "production";
+const studioUrl = PUBLIC_SANITY_STUDIO_URL?.trim() || "http://localhost:3333";
 
 import sanity from "@sanity/astro";
 import react from "@astrojs/react";

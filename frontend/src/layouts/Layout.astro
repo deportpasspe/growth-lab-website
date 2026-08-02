@@ -74,7 +74,7 @@ const fullTitle = title.includes('Growth Lab') ? title : `${title} · Growth Lab
     </noscript>
   </head>
   <body class="flex min-h-screen flex-col font-sans antialiased">
-    <VisualEditing enabled={visualEditingEnabled} />
+    {visualEditingEnabled && <VisualEditing enabled={visualEditingEnabled} />}
     <Header locale={locale} appearance={headerAppearance} />
     <main class="flex-1 overflow-x-clip">
       <slot />

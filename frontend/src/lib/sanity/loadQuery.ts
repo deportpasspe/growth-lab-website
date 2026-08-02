@@ -3,7 +3,7 @@ import {sanityClient} from 'sanity:client'
 const visualEditingEnabled =
   import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === 'true'
 const token = import.meta.env.SANITY_API_READ_TOKEN
-const projectId = import.meta.env.PUBLIC_SANITY_STUDIO_PROJECT_ID
+const projectId = import.meta.env.PUBLIC_SANITY_STUDIO_PROJECT_ID?.trim()
 
 function hasSanityConfig() {
   return Boolean(
