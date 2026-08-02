@@ -183,50 +183,48 @@ const pillLinkClass = [
 
   <div
     id="mobile-nav-panel"
-    class="mobile-nav-panel invisible fixed inset-x-0 top-20 bottom-0 z-50 -translate-y-2 overflow-y-auto bg-[#150e0e] opacity-0 transition-[opacity,transform,visibility] duration-300 ease-[var(--ease-out)] min-[1180px]:hidden"
+    class="mobile-nav-panel invisible fixed inset-x-0 top-20 z-50 bg-[#150e0e] opacity-0 transition-[opacity,visibility] duration-200 ease-[var(--ease-out)] min-[1180px]:hidden"
   >
-    <nav class="flex flex-col gap-1 px-6 py-8 text-lg" aria-label="Mobile">
-      {mainLinks.map((link) => (
-        <a href={getLocalizedPath(locale, link.key)} class="border-b border-white/10 py-4 text-white no-underline">
-          {link.label}
-        </a>
-      ))}
+    <div class="mobile-nav-panel__scroll h-full overflow-y-auto overscroll-y-contain">
+      <nav class="flex flex-col gap-1 px-6 py-8 text-lg" aria-label="Mobile">
+        {mainLinks.map((link) => (
+          <a href={getLocalizedPath(locale, link.key)} class="border-b border-white/10 py-4 text-white no-underline">
+            {link.label}
+          </a>
+        ))}
 
-      <details class="group/details border-b border-white/10 py-4">
-        <summary class="flex cursor-pointer list-none items-center justify-between text-white marker:content-none">
-          {t(locale, 'nav.services')}
-          <svg width="11" height="7" viewBox="0 0 11 7" fill="none" class="shrink-0 transition-transform duration-300 ease-[var(--ease-out)] group-open/details:-rotate-180" aria-hidden="true">
-            <path d="M1 1L5.5 5.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </summary>
-        <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-[var(--ease-out)] group-open/details:grid-rows-[1fr]">
-          <div class="overflow-hidden">
-            <div class="mt-4 flex flex-col gap-4 pl-2 text-base">
-              <p class="m-0 text-white/50">{recruitmentGroup.title}</p>
-              {recruitmentGroup.items.map((item) => (
-                <a href={item.href} class="text-white/80 no-underline hover:text-white">{item.label}</a>
-              ))}
-              <p class="m-0 mt-2 text-white/50">{organizationalGroup.title}</p>
-              {organizationalGroup.items.map((item) => (
-                <a href={item.href} class="text-white/80 no-underline hover:text-white">{item.label}</a>
-              ))}
-            </div>
+        <details class="mobile-nav-details group/details border-b border-white/10 py-4">
+          <summary class="mobile-nav-details__summary flex cursor-pointer list-none items-center justify-between text-white marker:content-none [&::-webkit-details-marker]:hidden">
+            {t(locale, 'nav.services')}
+            <svg width="11" height="7" viewBox="0 0 11 7" fill="none" class="shrink-0 transition-transform duration-300 ease-[var(--ease-out)] group-open/details:-rotate-180" aria-hidden="true">
+              <path d="M1 1L5.5 5.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+          <div class="mt-4 flex flex-col gap-4 border-t border-white/10 pt-4 pl-2 text-base">
+            <p class="m-0 text-white/50">{recruitmentGroup.title}</p>
+            {recruitmentGroup.items.map((item) => (
+              <a href={item.href} class="text-white/80 no-underline hover:text-white">{item.label}</a>
+            ))}
+            <p class="m-0 mt-2 text-white/50">{organizationalGroup.title}</p>
+            {organizationalGroup.items.map((item) => (
+              <a href={item.href} class="text-white/80 no-underline hover:text-white">{item.label}</a>
+            ))}
           </div>
-        </div>
-      </details>
+        </details>
 
-      {trailingLinks.map((link) => (
-        <a href={getLocalizedPath(locale, link.key)} class="border-b border-white/10 py-4 text-white no-underline">
-          {link.label}
-        </a>
-      ))}
-    </nav>
+        {trailingLinks.map((link) => (
+          <a href={getLocalizedPath(locale, link.key)} class="border-b border-white/10 py-4 text-white no-underline">
+            {link.label}
+          </a>
+        ))}
+      </nav>
 
-    <div class="flex flex-col gap-4 px-6 pb-10">
-      <LocaleSwitch locale={locale} pathAfterLocale={pathAfterLocale} variant="menu" />
-      <Button href={getLocalizedPath(locale, 'contact')} variant="primary" size="lg" class="w-full">
-        {t(locale, 'nav.contact')}
-      </Button>
+      <div class="flex flex-col gap-4 px-6 pb-10">
+        <LocaleSwitch locale={locale} pathAfterLocale={pathAfterLocale} variant="menu" />
+        <Button href={getLocalizedPath(locale, 'contact')} variant="primary" size="lg" class="w-full">
+          {t(locale, 'nav.contact')}
+        </Button>
+      </div>
     </div>
   </div>
 </header>
@@ -255,12 +253,23 @@ const pillLinkClass = [
 
   const root = document.querySelector<HTMLElement>('[data-mobile-nav]')
   const toggle = root?.querySelector<HTMLButtonElement>('[data-menu-toggle]')
+  const panelScroll = root?.querySelector<HTMLElement>('.mobile-nav-panel__scroll')
 
   if (root && toggle) {
+    let scrollLockY = 0
+
     const setOpen = (open: boolean) => {
       root.setAttribute('data-open', String(open))
       toggle.setAttribute('aria-expanded', String(open))
-      document.body.classList.toggle('overflow-hidden', open)
+
+      if (open) {
+        scrollLockY = window.scrollY
+        document.documentElement.classList.add('mobile-nav-open')
+      } else {
+        document.documentElement.classList.remove('mobile-nav-open')
+        window.scrollTo({top: scrollLockY, behavior: 'instant'})
+        if (panelScroll) panelScroll.scrollTop = 0
+      }
     }
 
     toggle.addEventListener('click', () => {
@@ -379,6 +388,32 @@ const pillLinkClass = [
   [data-mobile-nav][data-open='true'] .mobile-nav-panel {
     visibility: visible;
     opacity: 1;
-    transform: translateY(0);
+  }
+
+  .mobile-nav-panel {
+    height: calc(100vh - 5rem);
+    height: calc(100dvh - 5rem);
+    max-height: calc(100vh - 5rem);
+    max-height: calc(100dvh - 5rem);
+  }
+
+  .mobile-nav-panel__scroll {
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  :global(html.mobile-nav-open) {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  :global(html.mobile-nav-open body) {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  :global(html.mobile-nav-open .mobile-nav-panel__scroll) {
+    touch-action: pan-y;
   }
 </style>
