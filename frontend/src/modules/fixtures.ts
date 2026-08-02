@@ -255,7 +255,7 @@ export function homeFixtures(locale: Locale): PageSection[] {
           {
             title: 'From diagnosis to action without losing momentum',
             excerpt: 'Why climate assessments often stall and how to turn findings into visible action.',
-            slug: 'diagnosis-to-action',
+            slug: 'organizational-climate-diagnosis-action',
             categories: ['Webinars'],
           },
         ],
@@ -405,7 +405,7 @@ export function homeFixtures(locale: Locale): PageSection[] {
         {
           title: 'Cómo pasar del diagnóstico a la acción sin perder el impulso',
           excerpt: 'Los diagnósticos de clima suelen terminar en presentaciones que nadie ejecuta. Aquí explicamos por qué pasa y cómo evitarlo.',
-          slug: 'diagnostico-a-la-accion',
+          slug: 'clima-organizacional-diagnostico-accion',
           categories: ['Webinars'],
         },
       ],

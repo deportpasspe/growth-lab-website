@@ -104,6 +104,62 @@ const esInsights: InsightDetailItem[] = [
     ],
   },
   {
+    _id: 'insight-culture-fit',
+    title: 'Lo que suele equivocarse el “culture fit”',
+    excerpt:
+      'Contratar por semejanza no es lo mismo que contratar por contribución.',
+    slug: 'culture-fit-equivocado',
+    categories: ['Talento'],
+    contentType: 'article',
+    publishedAt: '2026-05-01T12:00:00.000Z',
+    readTimeMinutes: 4,
+    cover: '/assets/figma/home/insight-one.webp',
+    body: [
+      {
+        _type: 'block',
+        _key: 'intro',
+        style: 'normal',
+        markDefs: [],
+        children: [
+          {
+            _type: 'span',
+            _key: 'intro-span',
+            text: 'El “culture fit” se usa a menudo como atajo para contratar personas que se parecen al equipo actual. Eso reduce fricción a corto plazo, pero también limita la diversidad de pensamiento y la capacidad de la organización para adaptarse.',
+            marks: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    _id: 'insight-succession',
+    title: 'Sucesión sin teatro',
+    excerpt:
+      'Señales prácticas de que alguien está listo para el siguiente asiento.',
+    slug: 'sucesion-sin-teatro',
+    categories: ['Liderazgo'],
+    contentType: 'article',
+    publishedAt: '2026-04-10T12:00:00.000Z',
+    readTimeMinutes: 4,
+    cover: '/assets/figma/home/insight-two.webp',
+    body: [
+      {
+        _type: 'block',
+        _key: 'intro',
+        style: 'normal',
+        markDefs: [],
+        children: [
+          {
+            _type: 'span',
+            _key: 'intro-span',
+            text: 'La sucesión real no se anuncia en un slide de comité. Se observa en decisiones concretas: cómo alguien asume responsabilidad bajo presión, cómo desarrolla a otros y si puede sostener resultados sin depender del rol anterior.',
+            marks: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
     _id: 'insight-playbook-hiring',
     title: 'Playbook de Hiring con métricas accionables',
     excerpt:
@@ -190,6 +246,60 @@ const enInsights: InsightDetailItem[] = [
             _type: 'span',
             _key: 'p-1-span',
             text: 'High-volume candidate screening is where technology has the greatest impact. Processing resumes, identifying career patterns, and mapping the active talent market are tasks where algorithms far exceed human speed and scale.',
+            marks: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    _id: 'insight-culture-fit',
+    title: 'What “culture fit” usually gets wrong',
+    excerpt: 'Hiring for sameness is not the same as hiring for contribution.',
+    slug: 'culture-fit-gets-wrong',
+    categories: ['Talent'],
+    contentType: 'article',
+    publishedAt: '2026-05-01T12:00:00.000Z',
+    readTimeMinutes: 4,
+    cover: '/assets/figma/home/insight-one.webp',
+    body: [
+      {
+        _type: 'block',
+        _key: 'intro',
+        style: 'normal',
+        markDefs: [],
+        children: [
+          {
+            _type: 'span',
+            _key: 'intro-span',
+            text: '“Culture fit” is often used as shorthand for hiring people who resemble the current team. That reduces short-term friction but also limits diversity of thought and the organization’s ability to adapt.',
+            marks: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    _id: 'insight-succession',
+    title: 'Succession without the theater',
+    excerpt: 'Practical signals that someone is ready for the next seat.',
+    slug: 'succession-without-theater',
+    categories: ['Leadership'],
+    contentType: 'article',
+    publishedAt: '2026-04-10T12:00:00.000Z',
+    readTimeMinutes: 4,
+    cover: '/assets/figma/home/insight-two.webp',
+    body: [
+      {
+        _type: 'block',
+        _key: 'intro',
+        style: 'normal',
+        markDefs: [],
+        children: [
+          {
+            _type: 'span',
+            _key: 'intro-span',
+            text: 'Real succession is not announced on a committee slide. It shows up in concrete decisions: how someone takes ownership under pressure, develops others, and sustains results without relying on the previous role.',
             marks: [],
           },
         ],

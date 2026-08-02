@@ -24,18 +24,21 @@ export type InsightItem = {
   author?: InsightAuthor
 }
 
+const GRID_IMAGE_CLASS =
+  'inset-x-0 top-[-6%] !h-[112%] !w-full object-cover object-center'
+
 const GRID_IMAGE_FALLBACKS = [
   {
     src: '/assets/figma/home/insight-one.webp',
-    className: '!h-[114.29%] !w-[151.82%] left-[-39.06%] top-[-14.29%]',
+    className: GRID_IMAGE_CLASS,
   },
   {
     src: '/assets/figma/home/insight-two.webp',
-    className: 'inset-x-0 top-[-6%] !h-[112%] !w-full object-cover object-center',
+    className: GRID_IMAGE_CLASS,
   },
   {
     src: '/assets/figma/home/insight-three.webp',
-    className: 'inset-x-0 top-[-6%] !h-[112%] !w-full object-cover object-center',
+    className: GRID_IMAGE_CLASS,
   },
 ] as const
 
