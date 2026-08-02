@@ -2,6 +2,9 @@
   "name": "frontend",
   "type": "module",
   "version": "0.1.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -38,6 +41,7 @@
     "@portabletext/types": "^4.0.2",
     "@sanity/types": "^5.20.0",
     "@tailwindcss/typography": "^0.5.19",
+    "@types/node": "^22.13.10",
     "prettier": "^3.8.2",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.9.3"
