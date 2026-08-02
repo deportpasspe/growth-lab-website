@@ -72,3 +72,17 @@ export function resolveCta(
   if (!href) return undefined;
   return { label: cta.label, href };
 }
+
+const recruitmentServiceSlugs = new Set(["reclutamiento", "recruitment"]);
+
+/** Resolve case-study related service CTAs to recruitment or service detail routes. */
+export function resolveRelatedServiceHref(
+  locale: Locale,
+  relatedService?: { title?: string; slug?: string },
+): string {
+  if (!relatedService?.slug) return getLocalizedPath(locale, "services");
+  if (recruitmentServiceSlugs.has(relatedService.slug)) {
+    return getLocalizedPath(locale, "recruitment");
+  }
+  return getLocalizedPath(locale, "service", relatedService.slug);
+}

@@ -86,7 +86,7 @@ export type PageSection =
     }
   | {_type: 'logoMarquee'; _key: string; title?: string; logos: {name: string; image?: ImageSource}[]}
   | {_type: 'metrics'; _key: string; title?: string; columns?: 3 | 4; items: {value: string; label: string; icon?: 'calendar' | 'process' | 'cost'}[]}
-  | {_type: 'serviceSplit'; _key: string; title?: string; intro?: string; services: {title: string; summary: string; slug: string}[]}
+  | {_type: 'serviceSplit'; _key: string; title?: string; intro?: string; services: {title: string; summary?: string; slug: string; href?: string}[]}
   | {
       _type: 'methodSteps'
       _key: string
@@ -177,11 +177,13 @@ export function homeFixtures(locale: Locale): PageSection[] {
             title: 'Executive search',
             summary: 'Confidential searches for leadership roles with calibrated judgment.',
             slug: 'executive-search',
+            href: getLocalizedPath('en', 'recruitment'),
           },
           {
             title: 'Organizational development',
             summary: 'Structures, rituals, and capability plans aligned to strategy.',
             slug: 'organizational-development',
+            href: getLocalizedPath('en', 'services'),
           },
           {
             title: 'Assessment & succession',
@@ -224,13 +226,13 @@ export function homeFixtures(locale: Locale): PageSection[] {
             title: 'Rebuilding a commercial leadership bench',
             summary: 'Three critical hires and a succession map for a regional retailer.',
             industry: 'Retail',
-            slug: 'commercial-leadership-bench',
+            slug: 'talent-mapping-banking',
           },
           {
             title: 'Scaling people practices for a growth stage',
             summary: 'Performance and feedback systems that kept pace with headcount.',
             industry: 'Technology',
-            slug: 'growth-stage-people-practices',
+            slug: 'performance-management-energy',
           },
         ],
       },
@@ -325,11 +327,13 @@ export function homeFixtures(locale: Locale): PageSection[] {
           summary:
             'Encontramos al candidato que tu organización necesita — no al que está disponible. Nuestro proceso parte por entender tu empresa antes de salir a buscar.',
           slug: 'reclutamiento-ejecutivo',
+          href: getLocalizedPath('es', 'recruitment'),
         },
         {
           title: 'Desarrollo organizacional: clima, cultura, desempeño, potencial y liderazgo.',
           summary: 'Intervenimos donde el equipo necesita crecer para que la estrategia pueda ejecutarse.',
           slug: 'desarrollo-organizacional',
+          href: getLocalizedPath('es', 'services'),
         },
         {
           title: 'Assessment y sucesión',
@@ -373,14 +377,14 @@ export function homeFixtures(locale: Locale): PageSection[] {
           summary:
             'Tres contrataciones críticas y un mapa de sucesión para un retailer regional.',
           industry: 'Retail',
-          slug: 'banca-comercial-liderazgo',
+          slug: 'potencial-talento-banca',
         },
         {
           title: 'Escalar prácticas de gente en etapa de crecimiento',
           summary:
             'Sistemas de desempeño y feedback que acompañaron el aumento de headcount.',
           industry: 'Tecnología',
-          slug: 'practicas-gente-crecimiento',
+          slug: 'gestion-desempeno-energia',
         },
       ],
     },
@@ -765,7 +769,7 @@ export function recruitmentFixtures(locale: Locale): PageSection[] {
         intervention: 'S&OP + parametrización MRP + tablero OEE.',
         result: isEn ? 'Inventory −15% | Service level +6 p.p.' : 'Inventario −15% | Nivel de servicio +6 p.p.',
         industry: isEn ? 'Guides' : 'Guías',
-        slug: 'sobreinventario-planta',
+        slug: isEn ? 'executive-recruitment-banking' : 'reclutamiento-ejecutivo-banca',
         cover: '/assets/figma/recruitment/case.webp',
       }],
     },

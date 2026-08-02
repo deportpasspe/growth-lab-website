@@ -138,7 +138,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         cases: [{
           title: isEn ? 'Case study' : 'Caso de éxito',
           industry: isEn ? 'Industry and manufacturing' : 'Industria y manufactura',
-          slug: 'rotacion-mandos-medios',
+          slug: isEn ? 'organizational-climate-manufacturing' : 'clima-organizacional-manufactura',
           challenge: isEn
             ? '23% mid-management turnover with no clarity on root cause.'
             : 'Rotación de mandos medios al 23% sin claridad sobre la causa raíz.',
@@ -330,7 +330,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         cases: [{
           title: isEn ? 'Case study' : 'Caso de éxito',
           industry: isEn ? 'Consumer goods' : 'Consumo masivo',
-          slug: 'fusion-unidades-negocio',
+          slug: isEn ? 'organizational-culture-consumer' : 'cultura-organizacional-consumo',
           challenge: isEn
             ? 'Merger of two business units with different cultures and high internal tension.'
             : 'Fusión de dos unidades de negocio con culturas distintas y alta tensión interna.',
@@ -519,7 +519,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         cases: [{
           title: isEn ? 'Case study' : 'Caso de éxito',
           industry: isEn ? 'Banking and finance' : 'Banca y finanzas',
-          slug: 'adopcion-sistema-desempeno',
+          slug: isEn ? 'performance-management-energy' : 'gestion-desempeno-energia',
           challenge: isEn
             ? 'Performance system with 45% adoption and unclear objectives across teams.'
             : 'Sistema de desempeño con 45% de adopción y objetivos poco claros entre equipos.',
@@ -708,7 +708,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         cases: [{
           title: isEn ? 'Case study' : 'Caso de éxito',
           industry: isEn ? 'Energy' : 'Energía',
-          slug: 'mapeo-talento-energia',
+          slug: isEn ? 'talent-mapping-banking' : 'potencial-talento-banca',
           challenge: isEn
             ? 'No visibility on bench strength for critical leadership roles.'
             : 'Sin visibilidad sobre la fuerza de relevo para roles de liderazgo críticos.',
@@ -887,7 +887,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         cases: [{
           title: isEn ? 'Case study' : 'Caso de éxito',
           industry: isEn ? 'Financial services' : 'Servicios financieros',
-          slug: 'coaching-lideres-financieros',
+          slug: isEn ? 'leadership-coaching-manufacturing' : 'liderazgo-coaching-manufactura',
           challenge: isEn
             ? 'Newly promoted managers struggling with team conversations and feedback.'
             : 'Mandos medios recién promovidos con dificultades para conversaciones de equipo y feedback.',

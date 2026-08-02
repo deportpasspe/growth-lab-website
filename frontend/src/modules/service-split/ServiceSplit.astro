@@ -6,7 +6,7 @@ interface Props {
   locale: Locale
   title?: string
   intro?: string
-  services: {title: string; summary?: string; slug: string}[]
+  services: {title: string; summary?: string; slug: string; href?: string}[]
 }
 
 const {locale, title, intro, services} = Astro.props
@@ -41,7 +41,7 @@ const fallbackImages = [
       {
         services.slice(0, 2).map((service, index) => (
           <a
-            href={getLocalizedPath(locale, 'service', service.slug)}
+            href={service.href ?? getLocalizedPath(locale, 'service', service.slug)}
             class="group relative isolate block w-full min-h-[440px] overflow-hidden text-white no-underline transition-[box-shadow,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[0_18px_38px_rgba(139,24,88,0.22)] focus-visible:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta sm:min-h-[520px] lg:aspect-[677/634] lg:min-h-0 lg:h-auto"
             data-reveal
           >
