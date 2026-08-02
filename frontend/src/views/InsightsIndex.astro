@@ -1,0 +1,101 @@
+---
+import type {Locale} from '../i18n/routes'
+import {getLocalizedPath} from '../i18n/routes'
+import Layout from '../layouts/Layout.astro'
+import Hero from '../modules/hero/Hero.astro'
+import CtaBanner from '../modules/cta-banner/CtaBanner.astro'
+import InsightFilters from '../modules/insights-index/InsightFilters.astro'
+import InsightsNewsletter from '../modules/insights-index/InsightsNewsletter.astro'
+import InsightPostCard from '../components/cards/InsightPostCard.astro'
+import {t} from '../i18n'
+import {insightsFixtures} from '../modules/insightsFixtures'
+import {loadQuery} from '../lib/sanity/loadQuery'
+import {insightsListQuery} from '../lib/sanity/queries/insight'
+import type {InsightItem} from '../lib/insights'
+
+interface Props {
+  locale: Locale
+}
+
+const {locale} = Astro.props
+const title = t(locale, 'nav.insights')
+const description = t(locale, 'insights.heroSubheading')
+
+let insights: InsightItem[] = insightsFixtures(locale)
+
+try {
+  const list = await loadQuery<InsightItem[] | null>(insightsListQuery, {locale})
+  if (list?.length) insights = list
+} catch {
+  // fixtures
+}
+
+const [featured, ...gridItems] = insights
+---
+
+<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+  <Hero
+    variant="insights"
+    eyebrow={t(locale, 'insights.heroEyebrow')}
+    heading={t(locale, 'insights.heroHeading')}
+    subheading={t(locale, 'insights.heroSubheading')}
+  />
+
+  <InsightFilters locale={locale} insights={insights} />
+
+  {
+    featured && (
+      <section class="bg-black px-6 pb-10 pt-6 text-white sm:px-[42px]">
+        <div class="mx-auto max-w-[1356px]">
+          <InsightPostCard
+            locale={locale}
+            title={featured.title}
+            excerpt={featured.excerpt}
+            slug={featured.slug}
+            categories={featured.categories}
+            contentType={featured.contentType}
+            downloadUrl={featured.downloadUrl}
+            cover={featured.cover}
+            layout="featured"
+          />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    gridItems.length > 0 && (
+      <section class="bg-black px-6 pb-[88px] text-white sm:px-[42px]">
+        <div class="mx-auto grid max-w-[1356px] gap-4 md:grid-cols-3">
+          {
+            gridItems.map((item, index) => (
+              <InsightPostCard
+                locale={locale}
+                title={item.title}
+                excerpt={item.excerpt}
+                slug={item.slug}
+                categories={item.categories}
+                contentType={item.contentType}
+                downloadUrl={item.downloadUrl}
+                cover={item.cover}
+                imageIndex={index + 1}
+              />
+            ))
+          }
+        </div>
+      </section>
+    )
+  }
+
+  <InsightsNewsletter locale={locale} />
+
+  <CtaBanner
+    heading={t(locale, 'insights.ctaHeading')}
+    subheading={t(locale, 'insights.ctaSubheading')}
+    cta={{label: t(locale, 'insights.ctaSubscribe'), href: '#newsletter'}}
+    secondaryCta={{
+      label: t(locale, 'insights.ctaViewAll'),
+      href: getLocalizedPath(locale, 'insights'),
+    }}
+  />
+</Layout>

@@ -1,0 +1,116 @@
+---
+import {actions} from 'astro:actions'
+import type {Locale} from '../../i18n/routes'
+import {t} from '../../i18n'
+
+interface Props {
+  locale: Locale
+  title?: string
+  interestOptions: {value: string; label: string}[]
+}
+
+const {locale, title = t(locale, 'contact.pathsFormHeading'), interestOptions} = Astro.props
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined
+const result = Astro.getActionResult(actions.contact)
+
+const inputClass =
+  'h-11 w-full rounded-[4px] border border-white/35 bg-transparent px-4 text-base text-white outline-none placeholder:text-white/50 focus:border-white'
+const labelClass = 'text-lg leading-[22px] text-white'
+---
+
+<form method="POST" action={actions.contact} data-contact-form class="grid gap-4">
+  <input type="hidden" name="locale" value={locale} />
+
+  <label class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+    {t(locale, 'form.honeypot')}
+    <input type="text" name="website" tabindex="-1" autocomplete="off" />
+  </label>
+
+  <p class="m-0 text-2xl leading-normal text-white">{title}</p>
+
+  <label class="grid gap-1">
+    <span class={labelClass}>{t(locale, 'form.name')}</span>
+    <input required name="name" type="text" autocomplete="name" placeholder={t(locale, 'form.name')} class={inputClass} />
+  </label>
+
+  <label class="grid gap-1">
+    <span class={labelClass}>{t(locale, 'form.email')}</span>
+    <input required name="email" type="email" autocomplete="email" placeholder={t(locale, 'form.email')} class={inputClass} />
+  </label>
+
+  <label class="grid gap-1">
+    <span class={labelClass}>{t(locale, 'form.company')}</span>
+    <input name="company" type="text" autocomplete="organization" placeholder={t(locale, 'form.company')} class={inputClass} />
+  </label>
+
+  <label class="grid gap-1">
+    <span class={labelClass}>{t(locale, 'contact.form.role')}</span>
+    <input name="role" type="text" autocomplete="organization-title" placeholder={t(locale, 'contact.form.rolePlaceholder')} class={inputClass} />
+  </label>
+
+  <label class="grid gap-1">
+    <span class={labelClass}>{t(locale, 'contact.form.interest')}</span>
+    <div class="relative">
+      <select
+        name="interestArea"
+        class={`${inputClass} appearance-none pr-10`}
+        aria-label={t(locale, 'contact.form.interest')}
+      >
+        <option value="">{t(locale, 'contact.form.interestPlaceholder')}</option>
+        {interestOptions.map((option) => (
+          <option value={option.label}>{option.label}</option>
+        ))}
+      </select>
+      <img
+        src="/assets/figma/contact/chevron-down.svg"
+        alt=""
+        class="pointer-events-none absolute right-4 top-1/2 h-[6px] w-[11px] -translate-y-1/2"
+        width="11"
+        height="6"
+      />
+    </div>
+  </label>
+
+  <label class="grid gap-1">
+    <span class={labelClass}>{t(locale, 'contact.form.challenge')}</span>
+    <input
+      required
+      name="message"
+      type="text"
+      placeholder={t(locale, 'contact.form.challengePlaceholder')}
+      class={inputClass}
+    />
+  </label>
+
+  <label class="flex items-start gap-2 text-sm leading-[22px] text-white/75">
+    <input required type="checkbox" name="consent" value="on" class="mt-0.5 size-[18px] shrink-0 border border-white/35 bg-transparent" />
+    <span>{t(locale, 'contact.form.consent')}</span>
+  </label>
+
+  {
+    turnstileSiteKey && (
+      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark" />
+    )
+  }
+
+  {
+    result?.error && (
+      <p class="text-sm text-cream" role="alert">
+        {result.error.message || t(locale, 'errors.generic')}
+      </p>
+    )
+  }
+
+  <button
+    type="submit"
+    class="flex h-11 w-[100px] items-center justify-center rounded-[2px] bg-white px-4 text-base text-black transition-opacity hover:opacity-90"
+  >
+    {t(locale, 'contact.form.submit')}
+  </button>
+</form>
+
+{
+  turnstileSiteKey && (
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+  )
+}

@@ -1,0 +1,172 @@
+---
+import type {Locale} from '../i18n/routes'
+import {getLocalizedPath} from '../i18n/routes'
+import {t} from '../i18n'
+import BrandLogo from './ui/BrandLogo.astro'
+import Button from './ui/Button.astro'
+
+interface Props {
+  locale: Locale
+}
+
+const {locale} = Astro.props
+const year = new Date().getFullYear()
+
+const companyLinks = [
+  {href: getLocalizedPath(locale, 'about'), label: t(locale, 'nav.about')},
+  {href: getLocalizedPath(locale, 'methodology'), label: t(locale, 'nav.methodology')},
+  {href: getLocalizedPath(locale, 'caseStudies'), label: t(locale, 'nav.caseStudies')},
+  {href: getLocalizedPath(locale, 'insights'), label: t(locale, 'nav.insights')},
+  {href: getLocalizedPath(locale, 'contact'), label: t(locale, 'nav.contact')},
+]
+
+const serviceLinks = locale === 'es'
+  ? ['Reclutamiento', 'Reclutamiento ejecutivo', 'Desarrollo organizacional', 'Clima organizacional', 'Cultura organizacional', 'Gestión del desempeño', 'Potencial y mapeo de talento', 'Liderazgo y coaching']
+  : ['Recruitment', 'Executive search', 'Organizational development', 'Organizational climate', 'Organizational culture', 'Performance management', 'Talent mapping', 'Leadership and coaching']
+
+const socials = [
+  {id: 'facebook', label: 'Facebook'},
+  {id: 'tiktok', label: 'TikTok'},
+  {id: 'youtube', label: 'YouTube'},
+  {id: 'instagram', label: 'Instagram'},
+] as const
+const servicesHref = getLocalizedPath(locale, 'services')
+const footerLinkClass = [
+  'group/link relative w-fit text-white/50 no-underline transition-colors duration-300 ease-[var(--ease-out)]',
+  'hover:text-white focus-visible:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta',
+  'after:absolute after:bottom-[-0.25rem] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-white',
+  'after:transition-transform after:duration-300 after:ease-[var(--ease-out)] hover:after:scale-x-100 focus-visible:after:scale-x-100',
+].join(' ')
+const socialIconClass =
+  '!h-full !w-full max-w-none object-contain transition-[opacity,transform] duration-300 ease-[var(--ease-out)] group-hover/social:scale-110 group-hover/social:opacity-75'
+---
+
+<footer
+  class="mt-auto overflow-hidden bg-black text-white"
+  style="background-color:#000;background-image:radial-gradient(ellipse 110% 120% at 100% 0%,rgba(139,24,88,0.9) 0%,rgba(139,24,88,0.55) 22%,rgba(139,24,88,0.22) 45%,rgba(139,24,88,0.06) 65%,rgba(139,24,88,0) 82%)"
+>
+  <div class="relative mx-auto hidden h-[594px] w-full max-w-[1440px] min-[1440px]:block" data-reveal-group="130">
+    <div class="absolute left-[42.05px] top-[89px] w-[308px]" data-reveal>
+      <BrandLogo class="!h-[28.902px] !w-[212.66px]" />
+      <p class="m-0 mt-[19px] text-[18px] leading-normal">Impact that lasts. Growth that matters.</p>
+    </div>
+
+    <div class="absolute left-[42.05px] top-[198.78px] flex h-[22.44px] items-center gap-[16.32px]" aria-label="Social media" data-reveal>
+      {
+        socials.map((social) => (
+          <span class="group/social relative block h-[22.44px] w-[21.76px] shrink-0 overflow-hidden">
+            <img
+              src={`/assets/figma/home/social-${social.id}.svg`}
+              alt={social.label}
+              class={socialIconClass}
+              width="22"
+              height="22"
+            />
+          </span>
+        ))
+      }
+    </div>
+
+    <div class="absolute left-[42.05px] top-[346px] flex w-[308px] flex-col gap-6 text-[16px] leading-normal" data-reveal>
+      <p class="m-0">Email:</p>
+      <p class="m-0">WhatsApp:</p>
+      <p class="m-0">{locale === 'es' ? 'Dirección:' : 'Address:'}</p>
+    </div>
+
+    <div class="absolute left-[440px] top-[89px] w-[189px]" data-reveal>
+      <h2 class="m-0 text-[20px] font-normal leading-normal">{t(locale, 'nav.services')}</h2>
+      <div class="mt-9 flex flex-col gap-4 text-[16px] leading-normal text-white/50">
+        {serviceLinks.slice(0, 5).map((label) => <a href={servicesHref} class={footerLinkClass}>{label}</a>)}
+      </div>
+    </div>
+
+    <div class="absolute left-[696.5px] top-[146px] flex flex-col gap-4 text-[16px] leading-normal text-white/50" data-reveal>
+      {serviceLinks.slice(5).map((label) => <a href={servicesHref} class={footerLinkClass}>{label}</a>)}
+    </div>
+
+    <nav class="absolute left-[1025px] top-[89px] w-[173px]" aria-label="Footer" data-reveal>
+      <h2 class="m-0 text-[20px] font-normal leading-normal">{locale === 'es' ? 'Compañía' : 'Company'}</h2>
+      <div class="mt-9 flex flex-col gap-4 text-[16px] leading-normal text-white/50">
+        {companyLinks.map((link) => <a href={link.href} class={footerLinkClass}>{link.label}</a>)}
+      </div>
+    </nav>
+
+    <div class="absolute left-[440px] top-[394px] flex items-center gap-6" data-reveal>
+      <Button href={getLocalizedPath(locale, 'privacy')} variant="secondary" size="lg">
+        {t(locale, 'footer.privacy')}
+      </Button>
+      <Button href="#" variant="secondary" size="lg">
+        {locale === 'es' ? 'Libro de reclamaciones' : 'Complaints book'}
+      </Button>
+    </div>
+
+    <div class="absolute bottom-0 left-[42.5px] flex h-[67px] w-[1355px] items-center border-t border-white/25 px-[10px]" data-reveal>
+      <p class="m-0 text-[16px] leading-normal text-white/50">
+        © {year} Growth Lab Consulting. {t(locale, 'footer.rights')}
+      </p>
+    </div>
+  </div>
+
+  <div class="mx-auto w-full max-w-[1280px] px-6 py-16 sm:px-[42px] min-[1440px]:hidden" data-reveal-group="120">
+    <div class="grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.75fr)_minmax(0,1fr)] md:items-start md:gap-x-10 xl:gap-x-14">
+      <div data-reveal>
+        <BrandLogo class="!h-[28.902px] !w-[212.66px]" />
+        <p class="mb-0 mt-[19px] text-[18px]">Impact that lasts. Growth that matters.</p>
+        <div class="mt-8 flex items-center gap-4" aria-label="Social media">
+          {
+            socials.map((social) => (
+              <span class="group/social block h-[22px] w-[22px] shrink-0 overflow-hidden">
+                <img
+                  src={`/assets/figma/home/social-${social.id}.svg`}
+                  alt={social.label}
+                  class={socialIconClass}
+                  width="22"
+                  height="22"
+                />
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="m-0 text-[20px]">{t(locale, 'nav.services')}</h2>
+        <div class="mt-7 grid grid-cols-1 gap-x-8 gap-y-4 text-[16px] text-white/50 min-[480px]:grid-cols-2">
+          <div class="flex flex-col gap-4">
+            {serviceLinks.slice(0, 5).map((label) => <a href={servicesHref} class={footerLinkClass}>{label}</a>)}
+          </div>
+          <div class="flex flex-col gap-4">
+            {serviceLinks.slice(5).map((label) => <a href={servicesHref} class={footerLinkClass}>{label}</a>)}
+          </div>
+        </div>
+      </div>
+
+      <nav aria-label="Footer" data-reveal>
+        <h2 class="m-0 text-[20px]">{locale === 'es' ? 'Compañía' : 'Company'}</h2>
+        <div class="mt-7 flex flex-col gap-4 text-[16px] text-white/50">
+          {companyLinks.map((link) => <a href={link.href} class={footerLinkClass}>{link.label}</a>)}
+        </div>
+      </nav>
+    </div>
+
+    <div class="mt-12 grid gap-8 border-t border-white/15 pt-10 md:grid-cols-2 md:items-end md:gap-10" data-reveal-group="100">
+      <div class="flex flex-col gap-4 text-[16px]" data-reveal>
+        <p class="m-0">Email:</p>
+        <p class="m-0">WhatsApp:</p>
+        <p class="m-0">{locale === 'es' ? 'Dirección:' : 'Address:'}</p>
+      </div>
+      <div class="flex flex-wrap gap-4 md:justify-end" data-reveal>
+        <Button href={getLocalizedPath(locale, 'privacy')} variant="secondary" size="lg">
+          {t(locale, 'footer.privacy')}
+        </Button>
+        <Button href="#" variant="secondary" size="lg">
+          {locale === 'es' ? 'Libro de reclamaciones' : 'Complaints book'}
+        </Button>
+      </div>
+    </div>
+
+    <p class="m-0 mt-10 border-t border-white/25 pt-6 text-[14px] text-white/50">
+      © {year} Growth Lab Consulting. {t(locale, 'footer.rights')}
+    </p>
+  </div>
+</footer>

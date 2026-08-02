@@ -1,0 +1,69 @@
+---
+interface Props {
+  challengeLabel: string
+  challengeHeadline: string
+  challenge: string
+  interventionLabel: string
+  interventionHeadline: string
+  intervention: string
+}
+
+const {
+  challengeLabel,
+  challengeHeadline,
+  challenge,
+  interventionLabel,
+  interventionHeadline,
+  intervention,
+} = Astro.props
+---
+
+<section class="bg-black px-6 pb-[72px] pt-10 text-white sm:px-[42px]">
+  <div class="mx-auto grid max-w-[1356px] gap-4 lg:grid-cols-2">
+    <article class="relative flex min-h-[436px] flex-col gap-4 overflow-hidden rounded-[2px] bg-[#054e58] p-8">
+      <img
+        src="/assets/figma/home/cta-left.svg"
+        alt=""
+        class="pointer-events-none absolute -right-[180px] top-1/2 h-[661px] w-[546px] max-w-none -translate-y-1/2 rotate-[-90deg] opacity-75 mix-blend-luminosity"
+        width="546"
+        height="661"
+        aria-hidden="true"
+      />
+      <img
+        src="/assets/figma/case-studies/icon-challenge.svg"
+        alt=""
+        class="relative z-10 h-[54px] w-[54px]"
+        width="54"
+        height="54"
+      />
+      <p class="relative z-10 m-0 text-2xl leading-none text-white">{challengeLabel}</p>
+      <h2 class="relative z-10 m-0 text-[clamp(1.75rem,3vw,2.625rem)] leading-[1.05] text-white">
+        {challengeHeadline}
+      </h2>
+      <p class="relative z-10 m-0 text-base leading-[1.375] text-white">{challenge}</p>
+    </article>
+
+    <article class="relative flex min-h-[436px] flex-col gap-4 overflow-hidden rounded-[2px] bg-[#8b1758] p-8">
+      <img
+        src="/assets/figma/home/cta-left.svg"
+        alt=""
+        class="pointer-events-none absolute -right-[180px] top-1/2 h-[661px] w-[546px] max-w-none -translate-y-1/2 rotate-[-90deg] opacity-75 mix-blend-luminosity"
+        width="546"
+        height="661"
+        aria-hidden="true"
+      />
+      <img
+        src="/assets/figma/case-studies/icon-intervention.svg"
+        alt=""
+        class="relative z-10 h-[54px] w-[54px]"
+        width="54"
+        height="54"
+      />
+      <p class="relative z-10 m-0 text-2xl leading-none text-white">{interventionLabel}</p>
+      <h2 class="relative z-10 m-0 text-[clamp(1.75rem,3vw,2.625rem)] leading-[1.05] text-white">
+        {interventionHeadline}
+      </h2>
+      <p class="relative z-10 m-0 text-base leading-[1.375] text-white">{intervention}</p>
+    </article>
+  </div>
+</section>

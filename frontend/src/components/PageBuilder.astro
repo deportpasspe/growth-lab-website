@@ -1,0 +1,242 @@
+---
+import type {Locale} from '../i18n/routes'
+import type {PageSection} from '../modules/fixtures'
+import {resolveCta} from '../lib/links'
+import Hero from '../modules/hero/Hero.astro'
+import LogoMarquee from '../modules/logo-marquee/LogoMarquee.astro'
+import Metrics from '../modules/metrics/Metrics.astro'
+import ServiceSplit from '../modules/service-split/ServiceSplit.astro'
+import MethodSteps from '../modules/method-steps/MethodSteps.astro'
+import CaseCards from '../modules/case-cards/CaseCards.astro'
+import InsightCards from '../modules/insight-cards/InsightCards.astro'
+import Faq from '../modules/faq/Faq.astro'
+import CtaBanner from '../modules/cta-banner/CtaBanner.astro'
+import ContactForm from '../modules/contact-form/ContactForm.astro'
+import NarrativeCards from '../modules/narrative-cards/NarrativeCards.astro'
+import ContentCards from '../modules/content-cards/ContentCards.astro'
+import SplitStatement from '../modules/split-statement/SplitStatement.astro'
+import ServiceCatalog from '../modules/service-catalog/ServiceCatalog.astro'
+import ProcessCards from '../modules/process-cards/ProcessCards.astro'
+import ServiceIncludes from '../modules/service-includes/ServiceIncludes.astro'
+import RelatedServices from '../modules/related-services/RelatedServices.astro'
+import AboutStory from '../modules/about-story/AboutStory.astro'
+import WorldMap from '../modules/world-map/WorldMap.astro'
+import TeamCards from '../modules/team-cards/TeamCards.astro'
+import {resolveWorldMapMarkers} from '../modules/world-map/worldMapPresets'
+
+interface Props {
+  locale: Locale
+  sections: PageSection[]
+}
+
+const {locale, sections} = Astro.props
+---
+
+{
+  sections.map((section) => {
+    switch (section._type) {
+      case 'hero':
+        return (
+          <Hero
+            variant={section.variant}
+            eyebrow={section.eyebrow}
+            heading={section.heading}
+            subheading={section.subheading}
+            image={section.image}
+            primaryCta={resolveCta(section.primaryCta, locale)}
+            secondaryCta={resolveCta(section.secondaryCta, locale)}
+          />
+        )
+      case 'logoMarquee':
+        return (
+          <LogoMarquee
+            title={section.title}
+            logos={(section.logos || []).map((logo) => ({
+              name: logo.name,
+              image: logo.image,
+            }))}
+          />
+        )
+      case 'metrics':
+        return <Metrics title={section.title} columns={section.columns} items={section.items || []} />
+      case 'serviceSplit':
+        return (
+          <ServiceSplit
+            locale={locale}
+            title={section.title}
+            intro={section.intro}
+            services={(section.services || []).map((s) => ({
+              title: s.title,
+              summary: s.summary,
+              slug: s.slug,
+            }))}
+          />
+        )
+      case 'methodSteps':
+        return (
+          <MethodSteps
+            locale={locale}
+            layout={section.layout}
+            title={section.title}
+            intro={section.intro}
+            featuredTitle={section.featuredTitle}
+            featuredDescription={section.featuredDescription}
+            showCta={section.showCta}
+            steps={section.steps || []}
+          />
+        )
+      case 'caseCards':
+        return (
+          <CaseCards
+            locale={locale}
+            variant={section.variant}
+            title={section.title}
+            intro={section.intro}
+            showHeader={section.showHeader}
+            cases={(section.cases || []).map((c) => ({
+              title: c.title,
+              summary: c.summary,
+              industry: c.industry,
+              slug: c.slug,
+              challenge: c.challenge,
+              intervention: c.intervention,
+              result: c.result,
+              cover: c.cover,
+            }))}
+          />
+        )
+      case 'insightCards':
+        return (
+          <InsightCards
+            locale={locale}
+            title={section.title}
+            intro={section.intro}
+            insights={(section.insights || []).map((i) => ({
+              title: i.title,
+              excerpt: i.excerpt,
+              slug: i.slug,
+              categories: i.categories,
+            }))}
+          />
+        )
+      case 'faqSection':
+        return <Faq variant={section.variant} title={section.title} items={section.items || []} />
+      case 'ctaBanner':
+        return (
+          <CtaBanner
+            variant={section.variant}
+            heading={section.heading}
+            subheading={section.subheading}
+            cta={resolveCta(section.cta, locale)}
+            secondaryCta={resolveCta(section.secondaryCta, locale)}
+          />
+        )
+      case 'contactFormSection':
+        return (
+          <ContactForm locale={locale} title={section.title} intro={section.intro} />
+        )
+      case 'narrativeCards':
+        return (
+          <NarrativeCards
+            cards={section.cards.map((card) => ({
+              ...card,
+              cta: resolveCta(card.cta, locale),
+            }))}
+          />
+        )
+      case 'contentCards':
+        return (
+          <ContentCards
+            variant={section.variant}
+            eyebrow={section.eyebrow}
+            heading={section.heading}
+            intro={section.intro}
+            cards={section.cards}
+          />
+        )
+      case 'splitStatement':
+        return (
+          <SplitStatement
+            variant={section.variant}
+            eyebrow={section.eyebrow}
+            heading={section.heading}
+            body={section.body}
+            decoration={section.decoration}
+          />
+        )
+      case 'serviceCatalog':
+        return (
+          <ServiceCatalog
+            categories={section.categories.map((category) => ({
+              ...category,
+              cta: resolveCta(category.cta, locale),
+              items: category.items?.map((item) => ({
+                ...item,
+                cta: resolveCta(item.cta, locale),
+              })),
+            }))}
+          />
+        )
+      case 'processCards':
+        return (
+          <ProcessCards
+            heading={section.heading}
+            layout={section.layout}
+            steps={section.steps || []}
+          />
+        )
+      case 'serviceIncludes':
+        return (
+          <ServiceIncludes
+            heading={section.heading}
+            layout={section.layout}
+            items={section.items || []}
+            secondaryHeading={section.secondaryHeading}
+            secondaryItems={section.secondaryItems}
+            image={section.image}
+          />
+        )
+      case 'relatedServices':
+        return (
+          <RelatedServices
+            heading={section.heading}
+            items={(section.items || []).map((item) => ({
+              title: item.title,
+              description: item.description,
+              icon: item.icon,
+              href: item.href || resolveCta(item.cta, locale)?.href || '#',
+            }))}
+          />
+        )
+      case 'aboutStory':
+        return (
+          <AboutStory
+            heading={section.heading}
+            body={section.body}
+            purposeTitle={section.purposeTitle}
+            purposeBody={section.purposeBody}
+            image={section.image}
+          />
+        )
+      case 'worldMap':
+        return (
+          <WorldMap
+            heading={section.heading}
+            intro={section.intro}
+            mapImage={section.mapImage}
+            markers={resolveWorldMapMarkers(section.markers || [])}
+          />
+        )
+      case 'teamCards':
+        return (
+          <TeamCards
+            heading={section.heading}
+            intro={section.intro}
+            members={section.members || []}
+          />
+        )
+      default:
+        return null
+    }
+  })
+}

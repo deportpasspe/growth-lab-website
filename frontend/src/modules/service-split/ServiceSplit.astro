@@ -1,0 +1,67 @@
+---
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+
+interface Props {
+  locale: Locale
+  title?: string
+  intro?: string
+  services: {title: string; summary?: string; slug: string}[]
+}
+
+const {locale, title, intro, services} = Astro.props
+
+const imageBySlug: Record<string, string> = {
+  'reclutamiento-ejecutivo': '/assets/figma/home/service-organization.webp',
+  'executive-search': '/assets/figma/home/service-organization.webp',
+  'desarrollo-organizacional': '/assets/figma/home/service-recruitment.webp',
+  'organizational-development': '/assets/figma/home/service-recruitment.webp',
+}
+
+const fallbackImages = [
+  '/assets/figma/home/service-organization.webp',
+  '/assets/figma/home/service-recruitment.webp',
+]
+---
+
+<section
+  class="bg-black px-6 pb-0 pt-[70px] text-white sm:px-8"
+  style="background-image:linear-gradient(197deg,#8b1858 0%,rgba(139,24,88,0) 28%)"
+>
+  <div class="mx-auto max-w-[1366px]">
+    <header class="mx-auto max-w-[653px] text-center" data-reveal-group="120">
+      {title && <h2 class="m-0 text-[clamp(2rem,3vw,2.625rem)] leading-[1.05] uppercase" data-reveal="text">{title}</h2>}
+      {intro && <p class="mx-auto mb-0 mt-7 max-w-[554px] text-lg leading-[1.1]" data-reveal>{intro}</p>}
+      <p class="mb-5 mt-10 border-b border-white/15 pb-5 text-2xl" data-reveal>
+        {locale === 'es' ? 'Por necesidad' : 'By need'}
+      </p>
+    </header>
+
+    <div class="grid gap-3 lg:grid-cols-2" data-reveal-group="150">
+      {
+        services.slice(0, 2).map((service, index) => (
+          <a
+            href={getLocalizedPath(locale, 'service', service.slug)}
+            class="group relative isolate block w-full min-h-[440px] overflow-hidden text-white no-underline transition-[box-shadow,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[0_18px_38px_rgba(139,24,88,0.22)] focus-visible:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta sm:min-h-[520px] lg:aspect-[677/634] lg:min-h-0 lg:h-auto"
+            data-reveal
+          >
+            <img
+              src={imageBySlug[service.slug] ?? fallbackImages[index]}
+              alt=""
+              class="absolute inset-x-0 top-[-7%] !h-[114%] !w-full !max-w-none object-cover transition-[scale] duration-500 ease-[var(--ease-out)] group-hover:scale-[1.025] group-focus-visible:scale-[1.025]"
+              width="677"
+              height="634"
+              data-parallax="0.1"
+            />
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-black/95 transition-opacity duration-300 ease-[var(--ease-out)] group-hover:opacity-90 group-focus-visible:opacity-90" />
+
+            <div class="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-8 p-6 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-1 group-focus-visible:-translate-y-1">
+              <h3 class="m-0 max-w-[520px] text-2xl leading-[1.05] uppercase">{service.title}</h3>
+              {service.summary && <p class="m-0 max-w-[440px] text-base leading-[1.05]">{service.summary}</p>}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

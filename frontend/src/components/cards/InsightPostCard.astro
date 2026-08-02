@@ -1,0 +1,134 @@
+---
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+import type {SanityImageSource} from '@sanity/image-url'
+import {
+  insightContentTypeLabel,
+  insightCoverUrl,
+  insightCtaLabel,
+  insightGridImage,
+  type InsightContentType,
+} from '../../lib/insights'
+
+interface Props {
+  locale: Locale
+  title: string
+  excerpt?: string
+  slug: string
+  categories?: string[]
+  contentType?: InsightContentType
+  downloadUrl?: string
+  cover?: string | SanityImageSource
+  layout?: 'grid' | 'featured'
+  imageIndex?: number
+  class?: string
+}
+
+const {
+  locale,
+  title,
+  excerpt,
+  slug,
+  categories,
+  contentType = 'article',
+  downloadUrl,
+  cover,
+  layout = 'grid',
+  imageIndex = 0,
+  class: className,
+} = Astro.props
+
+const category = categories?.[0] ?? ''
+const badge = insightContentTypeLabel(locale, contentType)
+const ctaLabel = insightCtaLabel(locale, contentType)
+const href =
+  contentType === 'guide' && downloadUrl
+    ? downloadUrl
+    : getLocalizedPath(locale, 'insight', slug)
+const isExternal = contentType === 'guide' && Boolean(downloadUrl)
+const coverSrc = insightCoverUrl(cover)
+const gridImage = insightGridImage(imageIndex)
+const imageSrc = cover ? coverSrc : gridImage.src
+const imageClass = cover
+  ? 'absolute inset-0 !h-full !w-full object-cover'
+  : gridImage.className
+---
+
+{
+  layout === 'featured' ? (
+    <a
+      href={href}
+      class:list={[
+        'group flex min-h-[452px] flex-col overflow-hidden rounded-[4px] bg-[#150e0e] p-4 no-underline transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(139,24,88,0.2)] lg:flex-row',
+        className,
+      ]}
+      data-insight-card
+      data-content-type={contentType}
+      data-category={category}
+      {...isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {}}
+    >
+      <div class="relative h-[280px] shrink-0 overflow-hidden rounded-[4px] p-3 lg:h-auto lg:w-[654px]">
+        <img
+          src={imageSrc}
+          alt=""
+          class:list={['absolute max-w-none object-cover', imageClass]}
+          width="654"
+          height="420"
+        />
+        <span class="relative inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black">
+          {badge}
+        </span>
+      </div>
+      <div class="flex flex-1 flex-col justify-between gap-6 p-6 lg:p-[42px]">
+        <div class="flex flex-col gap-6">
+          <h2 class="m-0 text-[clamp(1.75rem,3vw,2.625rem)] leading-[1.05] text-white">{title}</h2>
+          {excerpt && <p class="m-0 text-lg leading-normal text-white">{excerpt}</p>}
+        </div>
+        <span class="w-fit border-b border-white py-0.5 text-base leading-none text-white transition-colors duration-300 group-hover:border-magenta-soft group-hover:text-magenta-soft">
+          {ctaLabel}
+        </span>
+      </div>
+    </a>
+  ) : (
+    <article
+      class:list={[
+        'group flex min-h-[562px] flex-col overflow-hidden transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(139,24,88,0.2)] md:h-[562px]',
+        className,
+      ]}
+      data-insight-card
+      data-content-type={contentType}
+      data-category={category}
+    >
+      <div class="relative h-[335px] shrink-0 overflow-hidden p-6">
+        <img
+          src={imageSrc}
+          alt=""
+          class:list={[
+            'absolute max-w-none transition-[scale] duration-500 ease-[var(--ease-out)] group-hover:scale-[1.025]',
+            imageClass,
+          ]}
+          width="441"
+          height="335"
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/95 transition-opacity duration-300 ease-[var(--ease-out)] group-hover:opacity-90" />
+        <span class="relative inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black">
+          {badge}
+        </span>
+      </div>
+      <div class="flex min-h-[227px] flex-1 flex-col gap-4 p-6 backdrop-blur-[36px]">
+        {category && <p class="m-0 text-base leading-normal text-white">{category}</p>}
+        <h3 class="m-0 text-xl leading-[1.05] text-white">{title}</h3>
+        {excerpt && (
+          <p class="m-0 line-clamp-3 text-base leading-normal text-white/50">{excerpt}</p>
+        )}
+        <a
+          href={href}
+          class="mt-auto w-fit border-b border-white py-0.5 text-base leading-none text-white no-underline transition-colors duration-300 ease-[var(--ease-out)] hover:border-magenta-soft hover:text-magenta-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta"
+          {...isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {}}
+        >
+          {ctaLabel}
+        </a>
+      </div>
+    </article>
+  )
+}

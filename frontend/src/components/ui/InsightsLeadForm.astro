@@ -1,0 +1,91 @@
+---
+import {actions} from 'astro:actions'
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+import {t} from '../../i18n'
+import Button from './Button.astro'
+
+interface Props {
+  locale: Locale
+  title?: string
+}
+
+const {locale, title = t(locale, 'insights.leadFormTitle')} = Astro.props
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined
+const privacyHref = getLocalizedPath(locale, 'privacy')
+const result = Astro.getActionResult(actions.contact)
+---
+
+<form method="POST" action={actions.contact} data-contact-form class="grid gap-4">
+  <input type="hidden" name="locale" value={locale} />
+  <input type="hidden" name="message" value={t(locale, 'insights.leadFormMessage')} />
+
+  <label class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+    {t(locale, 'form.honeypot')}
+    <input type="text" name="website" tabindex="-1" autocomplete="off" />
+  </label>
+
+  <p class="m-0 max-w-[458px] text-[clamp(1.75rem,3vw,2.25rem)] leading-[1.05] text-white">
+    {title}
+  </p>
+
+  <input
+    required
+    name="name"
+    type="text"
+    autocomplete="name"
+    placeholder={t(locale, 'form.name')}
+    class="rounded-[4px] border border-white/50 bg-transparent px-4 py-4 text-lg text-white outline-none placeholder:text-white/50 focus:border-white"
+  />
+
+  <input
+    required
+    name="email"
+    type="email"
+    autocomplete="email"
+    placeholder={t(locale, 'form.email')}
+    class="rounded-[4px] border border-white/50 bg-transparent px-4 py-4 text-lg text-white outline-none placeholder:text-white/50 focus:border-white"
+  />
+
+  <input
+    name="company"
+    type="text"
+    autocomplete="organization"
+    placeholder={t(locale, 'form.company')}
+    class="rounded-[4px] border border-white/50 bg-transparent px-4 py-4 text-lg text-white outline-none placeholder:text-white/50 focus:border-white"
+  />
+
+  <label class="flex items-start gap-2.5 text-lg leading-[1.22] text-white">
+    <input required type="checkbox" name="consent" value="on" class="mt-1 size-5 shrink-0 border border-white bg-transparent" />
+    <span>
+      {t(locale, 'insights.leadFormConsent')}
+      <a href={privacyHref} class="text-white underline underline-offset-2">
+        {t(locale, 'footer.privacy')}
+      </a>
+    </span>
+  </label>
+
+  {
+    turnstileSiteKey && (
+      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark" />
+    )
+  }
+
+  {
+    result?.error && (
+      <p class="text-sm text-cream" role="alert">
+        {result.error.message || t(locale, 'errors.generic')}
+      </p>
+    )
+  }
+
+  <Button type="submit" variant="secondary" size="md">
+    {t(locale, 'insights.leadFormSubmit')}
+  </Button>
+</form>
+
+{
+  turnstileSiteKey && (
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+  )
+}

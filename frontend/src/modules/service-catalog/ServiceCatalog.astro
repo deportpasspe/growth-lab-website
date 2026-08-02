@@ -1,0 +1,228 @@
+---
+import type {ServiceCategory} from '../fixtures'
+
+interface Props {
+  categories: ServiceCategory[]
+}
+
+const {categories} = Astro.props
+const groupName = 'service-catalog'
+---
+
+<section class="overflow-x-clip bg-black px-6 py-[63px] text-white sm:px-[42px] lg:py-[63px]">
+  <div class="service-catalog mx-auto w-full max-w-[1356px]" data-reveal-group="100">
+    {
+      categories.map((_category, index) => (
+        <input
+          type="radio"
+          name={groupName}
+          id={`${groupName}-${index}`}
+          class="peer hidden"
+          checked={index === 0}
+        />
+      ))
+    }
+
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] min-[1440px]:grid-cols-[441px_898px]">
+      <aside class="flex min-w-0 flex-col gap-4">
+        {
+          categories.map((category, index) => (
+            <label
+              for={`${groupName}-${index}`}
+              class:list={[
+                'flex min-w-0 cursor-pointer flex-col gap-2.5 rounded-[4px] p-6 sm:p-8 transition-[opacity,background-color,border-color] duration-300 ease-[var(--ease-out)]',
+                `service-catalog-label service-catalog-label-${index}`,
+              ]}
+              data-reveal
+            >
+              <h2 class="m-0 text-[22px] leading-[1.05]">{category.title}</h2>
+              <p class="m-0 text-base leading-[20px] text-white/75">{category.summary}</p>
+              {
+                category.cta && (
+                  <a
+                    href={category.cta.href}
+                    class="mt-2 w-fit text-base leading-none text-white underline transition-colors duration-300 hover:text-magenta-soft"
+                    onclick="event.stopPropagation()"
+                  >
+                    {category.cta.label}
+                  </a>
+                )
+              }
+            </label>
+          ))
+        }
+      </aside>
+
+      <div class="relative min-w-0 lg:min-h-[675px]">
+        {
+          categories.map((category, index) => (
+            <div
+              class:list={[
+                'service-catalog-panel transition-opacity duration-300 ease-[var(--ease-out)]',
+                `service-catalog-panel-${index}`,
+              ]}
+              data-reveal
+            >
+              {
+                category.items?.length ? (
+                  <div class="rounded-[4px] bg-[#150e0e] p-6 sm:p-8">
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {category.items.map((item, itemIndex) => (
+                        <article
+                          class:list={[
+                            'group flex min-w-0 flex-col gap-6 rounded-[4px] p-6 transition-[background-color,border-color,transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-magenta hover:bg-magenta hover:shadow-[0_12px_28px_rgba(139,24,88,0.28)]',
+                            itemIndex < 3 ? 'min-h-[259px]' : 'min-h-[300px]',
+                            itemIndex === 0
+                              ? 'border border-magenta bg-magenta shadow-[0_12px_28px_rgba(139,24,88,0.28)]'
+                              : 'border border-white/25',
+                          ]}
+                        >
+                          <img
+                            src={
+                              item.icon === 'planning'
+                                ? '/assets/figma/services/catalog-planning.svg'
+                                : '/assets/figma/services/catalog-calendar.svg'
+                            }
+                            alt=""
+                            class="h-[42px] w-[42px] max-w-none"
+                            width="42"
+                            height="42"
+                          />
+                          <div class="flex flex-1 flex-col gap-2.5">
+                            <h3 class="m-0 text-lg leading-[1.05]">{item.title}</h3>
+                            <p class="m-0 flex-1 text-base leading-[20px] text-white/75 transition-colors duration-300 group-hover:text-white/90">
+                              {item.description}
+                            </p>
+                            {
+                              item.cta && (
+                                <a
+                                  href={item.cta.href}
+                                  class="w-fit text-base leading-none text-white underline transition-colors duration-300 hover:text-magenta-soft"
+                                >
+                                  {item.cta.label}
+                                </a>
+                              )
+                            }
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div class="flex min-h-[320px] flex-col justify-center rounded-[4px] bg-[#150e0e] p-6 sm:min-h-[420px] sm:p-8 lg:min-h-[675px]">
+                    <h3 class="m-0 max-w-[520px] text-[clamp(1.75rem,2.5vw,2rem)] uppercase leading-[1.05]">
+                      {category.title}
+                    </h3>
+                    <p class="mb-0 mt-4 max-w-[520px] text-lg leading-[1.22] text-white/75">{category.summary}</p>
+                    {
+                      category.cta && (
+                        <a
+                          href={category.cta.href}
+                          class="mt-8 inline-flex h-12 items-center rounded-[2px] border border-white px-4 text-base leading-none text-white no-underline transition-colors duration-300 hover:border-magenta hover:bg-magenta"
+                        >
+                          {category.cta.label}
+                        </a>
+                      )
+                    }
+                  </div>
+                )
+              }
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .service-catalog-label {
+    opacity: 0.5;
+    border-left: 5px solid transparent;
+  }
+
+  /* Mobile / tablet: stack panels in document flow */
+  .service-catalog-panel {
+    display: none;
+  }
+
+  .service-catalog-panel-0 {
+    display: block;
+  }
+
+  .service-catalog:has(#service-catalog-0:checked) .service-catalog-panel-0 {
+    display: block;
+  }
+
+  .service-catalog:has(#service-catalog-0:checked) .service-catalog-panel-1 {
+    display: none;
+  }
+
+  .service-catalog:has(#service-catalog-1:checked) .service-catalog-panel-0 {
+    display: none;
+  }
+
+  .service-catalog:has(#service-catalog-1:checked) .service-catalog-panel-1 {
+    display: block;
+  }
+
+  .service-catalog:has(#service-catalog-0:checked) .service-catalog-label-0 {
+    opacity: 1;
+    border-left-color: var(--color-magenta);
+    background-color: #150e0e;
+  }
+
+  .service-catalog:has(#service-catalog-0:checked) .service-catalog-label-1 {
+    opacity: 0.5;
+    border-left-color: transparent;
+    background-color: transparent;
+  }
+
+  .service-catalog:has(#service-catalog-1:checked) .service-catalog-label-0 {
+    opacity: 0.5;
+    border-left-color: transparent;
+    background-color: transparent;
+  }
+
+  .service-catalog:has(#service-catalog-1:checked) .service-catalog-label-1 {
+    opacity: 1;
+    border-left-color: var(--color-magenta);
+    background-color: #150e0e;
+  }
+
+  /* lg+: sidebar + overlay panels */
+  @media (min-width: 1024px) {
+    .service-catalog-panel {
+      display: block;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .service-catalog-panel-0 {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .service-catalog:has(#service-catalog-0:checked) .service-catalog-panel-0 {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .service-catalog:has(#service-catalog-0:checked) .service-catalog-panel-1 {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .service-catalog:has(#service-catalog-1:checked) .service-catalog-panel-0 {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .service-catalog:has(#service-catalog-1:checked) .service-catalog-panel-1 {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+</style>

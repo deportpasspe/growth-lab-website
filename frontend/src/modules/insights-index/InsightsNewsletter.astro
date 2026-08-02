@@ -1,0 +1,32 @@
+---
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+import {t} from '../../i18n'
+import InsightsLeadForm from '../../components/ui/InsightsLeadForm.astro'
+import {actions} from 'astro:actions'
+
+interface Props {
+  locale: Locale
+}
+
+const {locale} = Astro.props
+const result = Astro.getActionResult(actions.contact)
+
+if (result && !result.error && result.data?.ok) {
+  return Astro.redirect(getLocalizedPath(locale, 'thankYou'))
+}
+---
+
+<section id="newsletter" class="bg-black px-6 py-[88px] text-white sm:px-[42px]">
+  <div class="mx-auto grid max-w-[1356px] gap-10 lg:grid-cols-[minmax(0,523px)_minmax(0,670px)] lg:items-start lg:justify-between lg:gap-8">
+    <div class="flex flex-col gap-4">
+      <h2 class="m-0 text-[clamp(2rem,3vw,2.625rem)] uppercase leading-[1.05]">
+        {t(locale, 'insights.newsletterHeading')}
+      </h2>
+      <p class="m-0 text-lg leading-[1.22]">{t(locale, 'insights.newsletterIntro')}</p>
+    </div>
+    <div class="bg-magenta p-6 sm:p-[42px]">
+      <InsightsLeadForm locale={locale} />
+    </div>
+  </div>
+</section>

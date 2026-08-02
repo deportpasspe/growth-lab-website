@@ -1,0 +1,49 @@
+---
+import type {Locale} from '../i18n/routes'
+import Layout from '../layouts/Layout.astro'
+import Hero from '../modules/hero/Hero.astro'
+import ContactPaths from '../modules/contact-paths/ContactPaths.astro'
+import ContactChannels from '../modules/contact-channels/ContactChannels.astro'
+import ContactReasons from '../modules/contact-reasons/ContactReasons.astro'
+import Faq from '../modules/faq/Faq.astro'
+import {contactFaqItems, contactHero} from '../modules/contactPageFixtures'
+import {loadQuery} from '../lib/sanity/loadQuery'
+import {contactPageQuery} from '../lib/sanity/queries/pages'
+import {t} from '../i18n'
+
+interface Props {
+  locale: Locale
+}
+
+const {locale} = Astro.props
+const hero = contactHero(locale)
+let title = t(locale, 'nav.contact')
+let description = hero.subheading
+
+try {
+  const data = await loadQuery<{
+    title?: string
+    intro?: string
+    seo?: {metaTitle?: string; metaDescription?: string}
+  } | null>(contactPageQuery, {locale})
+  if (data) {
+    title = data.seo?.metaTitle || data.title || title
+    description = data.seo?.metaDescription || data.intro || description
+  }
+} catch {
+  // defaults
+}
+---
+
+<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+  <Hero
+    variant="contact"
+    heading={hero.heading}
+    subheading={hero.subheading}
+    image={hero.image}
+  />
+  <ContactPaths locale={locale} />
+  <ContactChannels locale={locale} />
+  <ContactReasons locale={locale} />
+  <Faq title={t(locale, 'sections.faq')} items={contactFaqItems(locale)} />
+</Layout>

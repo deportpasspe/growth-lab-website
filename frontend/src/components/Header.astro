@@ -1,0 +1,384 @@
+---
+import type {Locale} from '../i18n/routes'
+import {getLocalizedPath} from '../i18n/routes'
+import {t} from '../i18n'
+import BrandLogo from './ui/BrandLogo.astro'
+import Button from './ui/Button.astro'
+import LocaleSwitch from './ui/LocaleSwitch.astro'
+
+interface Props {
+  locale: Locale
+  appearance?: 'auto' | 'overlay' | 'solid'
+}
+
+const {locale, appearance = 'auto'} = Astro.props
+const pathAfterLocale = Astro.url.pathname.replace(new RegExp(`^/${locale}/?`), '')
+const isHome = pathAfterLocale === ''
+const isOverlay = appearance === 'overlay' || (appearance === 'auto' && isHome)
+
+const mainLinks = [{key: 'home' as const, label: locale === 'es' ? 'Inicio' : 'Home'}]
+const trailingLinks = [
+  {key: 'methodology' as const, label: t(locale, 'nav.methodology')},
+  {key: 'caseStudies' as const, label: t(locale, 'nav.caseStudies')},
+  {key: 'about' as const, label: t(locale, 'nav.about')},
+  {key: 'insights' as const, label: t(locale, 'nav.insights')},
+]
+
+const servicesHref = getLocalizedPath(locale, 'services')
+const recruitmentHref = getLocalizedPath(locale, 'recruitment')
+
+const recruitmentGroup = {
+  title: t(locale, 'nav.recruitment'),
+  items: [
+    {label: locale === 'es' ? 'Reclutamiento ejecutivo' : 'Executive search', href: recruitmentHref},
+  ],
+}
+
+const organizationalGroup = {
+  title: locale === 'es' ? 'Desarrollo organizacional' : 'Organizational development',
+  items: (
+    locale === 'es'
+      ? ['Clima organizacional', 'Gestión del desempeño', 'Liderazgo y coaching', 'Cultura organizacional', 'Potencial y mapeo de talento']
+      : ['Organizational climate', 'Performance management', 'Leadership and coaching', 'Organizational culture', 'Talent and potential mapping']
+  ).map((label) => ({label, href: servicesHref})),
+}
+
+const navLinkClass = [
+  'relative border-b border-transparent px-0.5 py-0.5 text-base leading-none no-underline transition-colors duration-300 ease-[var(--ease-out)]',
+  'hover:border-white hover:text-white focus-visible:border-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta',
+].join(' ')
+
+const megaLinkClass = [
+  'group/mega-link relative w-fit text-white/70 no-underline transition-colors duration-300 ease-[var(--ease-out)]',
+  'hover:text-white focus-visible:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta',
+  'after:absolute after:bottom-[-0.2rem] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-white',
+  'after:transition-transform after:duration-300 after:ease-[var(--ease-out)] hover:after:scale-x-100 focus-visible:after:scale-x-100',
+].join(' ')
+
+const pillLinkClass = [
+  'flex items-center gap-2.5 rounded-[4px] border border-white/25 px-4 py-4 text-white/80 no-underline transition-[color,border-color,background-color] duration-300 ease-[var(--ease-out)]',
+  'hover:border-white/60 hover:bg-white/5 hover:text-white focus-visible:border-white focus-visible:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta',
+].join(' ')
+---
+
+<header
+  data-site-header
+  data-mobile-nav
+  data-open="false"
+  class:list={[
+    'group/mobile-nav site-header z-40 h-20 w-full border-b border-white/15 text-white',
+    isOverlay ? 'fixed inset-x-0 top-0 bg-transparent' : 'sticky top-0 bg-[#150e0e]/95 backdrop-blur-md',
+  ]}
+>
+  <div class="mx-auto flex h-full w-full items-center justify-between px-6 sm:px-[42px]">
+    <a
+      href={getLocalizedPath(locale, 'home')}
+      class="header-item header-item--logo shrink-0 transition-opacity duration-300 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta"
+      aria-label={t(locale, 'brand')}
+    >
+      <BrandLogo />
+    </a>
+
+    <nav class="hidden items-center gap-[30px] min-[1180px]:flex min-[1320px]:gap-[42px]" aria-label="Primary">
+      {
+        mainLinks.map((link, i) => (
+          <a
+            href={getLocalizedPath(locale, link.key)}
+            class:list={[navLinkClass, 'header-item header-item--link', Astro.url.pathname === getLocalizedPath(locale, link.key) && 'border-white']}
+            style={`--header-i:${i}`}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+
+      <div class="group/services">
+        <a href={servicesHref} class:list={[navLinkClass, 'header-item header-item--link flex items-center gap-1.5']} style={`--header-i:${mainLinks.length}`}>
+          {t(locale, 'nav.services')}
+          <svg
+            width="11"
+            height="7"
+            viewBox="0 0 11 7"
+            fill="none"
+            class="shrink-0 transition-transform duration-300 ease-[var(--ease-out)] group-hover/services:-rotate-180 group-focus-within/services:-rotate-180"
+            aria-hidden="true"
+          >
+            <path d="M1 1L5.5 5.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+
+        <div data-mega-menu class="invisible absolute inset-x-0 top-full overflow-hidden opacity-0 transition-[opacity,visibility] duration-300 ease-[var(--ease-out)] group-hover/services:visible group-hover/services:opacity-100 group-focus-within/services:visible group-focus-within/services:opacity-100">
+          <div class="mega-menu-panel border-t border-white/15 bg-black shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
+            <div class="mx-auto flex max-w-[1240px] gap-14 px-6 py-12 sm:px-[42px]">
+              <div class="flex shrink-0 flex-col gap-5">
+                <p class="m-0 text-[24px] leading-none">{recruitmentGroup.title}</p>
+                <div class="flex flex-col gap-3 text-lg">
+                  {recruitmentGroup.items.map((item) => (
+                    <a href={item.href} class={megaLinkClass}>{item.label}</a>
+                  ))}
+                </div>
+              </div>
+
+              <div class="w-px shrink-0 self-stretch bg-white/15" />
+
+              <div class="flex flex-1 flex-col gap-5">
+                <p class="m-0 text-[24px] leading-none">{organizationalGroup.title}</p>
+                <div class="grid grid-cols-3 gap-3.5 text-base">
+                  {organizationalGroup.items.map((item) => (
+                    <a href={item.href} class={pillLinkClass}>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0" aria-hidden="true">
+                        <circle cx="8" cy="8" r="8" fill="#8b1858" />
+                        <path d="M4.8 8.2L6.8 10.2L11.2 5.6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {
+        trailingLinks.map((link, i) => (
+          <a
+            href={getLocalizedPath(locale, link.key)}
+            class:list={[navLinkClass, 'header-item header-item--link', Astro.url.pathname === getLocalizedPath(locale, link.key) && 'border-white']}
+            style={`--header-i:${i + mainLinks.length + 1}`}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="header-item header-item--controls flex shrink-0 items-center gap-2.5 min-[1180px]:ml-6">
+      <LocaleSwitch locale={locale} pathAfterLocale={pathAfterLocale} />
+      <Button
+        href={getLocalizedPath(locale, 'contact')}
+        variant="primary"
+        size="md"
+        class="!hidden min-[1180px]:!inline-flex"
+      >
+        {t(locale, 'nav.contact')}
+      </Button>
+
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-nav-panel"
+        aria-label={locale === 'es' ? 'Abrir menú' : 'Open menu'}
+        class="relative flex h-10 w-10 shrink-0 items-center justify-center min-[1180px]:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta"
+      >
+        <span class="relative block h-[14px] w-5" aria-hidden="true">
+          <span class="absolute left-0 top-0 h-[1.5px] w-full origin-center bg-white transition-transform duration-300 ease-[var(--ease-out)] group-data-[open=true]/mobile-nav:translate-y-[6.25px] group-data-[open=true]/mobile-nav:rotate-45"></span>
+          <span class="absolute left-0 top-1/2 h-[1.5px] w-full -translate-y-1/2 bg-white transition-opacity duration-200 ease-[var(--ease-out)] group-data-[open=true]/mobile-nav:opacity-0"></span>
+          <span class="absolute bottom-0 left-0 h-[1.5px] w-full origin-center bg-white transition-transform duration-300 ease-[var(--ease-out)] group-data-[open=true]/mobile-nav:-translate-y-[6.25px] group-data-[open=true]/mobile-nav:-rotate-45"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-nav-panel"
+    class="mobile-nav-panel invisible fixed inset-x-0 top-20 bottom-0 z-50 -translate-y-2 overflow-y-auto bg-[#150e0e] opacity-0 transition-[opacity,transform,visibility] duration-300 ease-[var(--ease-out)] min-[1180px]:hidden"
+  >
+    <nav class="flex flex-col gap-1 px-6 py-8 text-lg" aria-label="Mobile">
+      {mainLinks.map((link) => (
+        <a href={getLocalizedPath(locale, link.key)} class="border-b border-white/10 py-4 text-white no-underline">
+          {link.label}
+        </a>
+      ))}
+
+      <details class="group/details border-b border-white/10 py-4">
+        <summary class="flex cursor-pointer list-none items-center justify-between text-white marker:content-none">
+          {t(locale, 'nav.services')}
+          <svg width="11" height="7" viewBox="0 0 11 7" fill="none" class="shrink-0 transition-transform duration-300 ease-[var(--ease-out)] group-open/details:-rotate-180" aria-hidden="true">
+            <path d="M1 1L5.5 5.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </summary>
+        <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-[var(--ease-out)] group-open/details:grid-rows-[1fr]">
+          <div class="overflow-hidden">
+            <div class="mt-4 flex flex-col gap-4 pl-2 text-base">
+              <p class="m-0 text-white/50">{recruitmentGroup.title}</p>
+              {recruitmentGroup.items.map((item) => (
+                <a href={item.href} class="text-white/80 no-underline hover:text-white">{item.label}</a>
+              ))}
+              <p class="m-0 mt-2 text-white/50">{organizationalGroup.title}</p>
+              {organizationalGroup.items.map((item) => (
+                <a href={item.href} class="text-white/80 no-underline hover:text-white">{item.label}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </details>
+
+      {trailingLinks.map((link) => (
+        <a href={getLocalizedPath(locale, link.key)} class="border-b border-white/10 py-4 text-white no-underline">
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex flex-col gap-4 px-6 pb-10">
+      <LocaleSwitch locale={locale} pathAfterLocale={pathAfterLocale} variant="menu" />
+      <Button href={getLocalizedPath(locale, 'contact')} variant="primary" size="lg" class="w-full">
+        {t(locale, 'nav.contact')}
+      </Button>
+    </div>
+  </div>
+</header>
+
+<script>
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.header-item').forEach((el) => el.classList.add('is-header-visible'))
+  } else {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document.querySelectorAll('.header-item').forEach((el) => el.classList.add('is-header-visible'))
+      }, 100)
+    })
+  }
+
+  const header = document.querySelector<HTMLElement>('[data-site-header]')
+
+  if (header) {
+    const updateHeaderState = () => {
+      header.toggleAttribute('data-scrolled', window.scrollY > 12)
+    }
+
+    updateHeaderState()
+    window.addEventListener('scroll', updateHeaderState, {passive: true})
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-mobile-nav]')
+  const toggle = root?.querySelector<HTMLButtonElement>('[data-menu-toggle]')
+
+  if (root && toggle) {
+    const setOpen = (open: boolean) => {
+      root.setAttribute('data-open', String(open))
+      toggle.setAttribute('aria-expanded', String(open))
+      document.body.classList.toggle('overflow-hidden', open)
+    }
+
+    toggle.addEventListener('click', () => {
+      setOpen(root.getAttribute('data-open') !== 'true')
+    })
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && root.getAttribute('data-open') === 'true') {
+        setOpen(false)
+        toggle.focus()
+      }
+    })
+
+    root.querySelectorAll('#mobile-nav-panel a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false))
+    })
+  }
+</script>
+
+<style>
+  .site-header {
+    transition: background-color 300ms var(--ease-out), border-color 300ms var(--ease-out);
+  }
+
+  .site-header[data-scrolled] {
+    background-color: rgb(21 14 14 / 0.88);
+    backdrop-filter: blur(14px);
+    border-color: rgb(255 255 255 / 0.2);
+  }
+
+  .site-header:has(.group\/services:hover),
+  .site-header:has(.group\/services:focus-within) {
+    background-color: #000 !important;
+    border-color: rgb(255 255 255 / 0.2);
+  }
+
+  .mega-menu-panel {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(-1rem);
+    transition: clip-path 460ms var(--ease-out), transform 460ms var(--ease-out);
+    will-change: clip-path, transform;
+  }
+
+  .group\/services:hover .mega-menu-panel,
+  .group\/services:focus-within .mega-menu-panel {
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .mega-menu-panel,
+    .header-item {
+      transition: none;
+      animation: none;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  @keyframes header-slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes header-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes header-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  :global(html.motion-ready) .header-item {
+    opacity: 0;
+  }
+
+  :global(html.motion-ready) .header-item.is-header-visible {
+    animation: header-fade-up 520ms var(--ease-reveal) forwards;
+  }
+
+  :global(html.motion-ready) .header-item--logo.is-header-visible {
+    animation-name: header-slide-down;
+    animation-duration: 440ms;
+    animation-delay: 0ms;
+  }
+
+  :global(html.motion-ready) .header-item--link.is-header-visible {
+    animation-delay: calc(120ms + var(--header-i, 0) * 55ms);
+  }
+
+  :global(html.motion-ready) .header-item--controls.is-header-visible {
+    animation-name: header-fade-in;
+    animation-duration: 520ms;
+    animation-delay: 420ms;
+  }
+
+  [data-mobile-nav][data-open='true'] .mobile-nav-panel {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

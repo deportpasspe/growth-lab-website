@@ -1,0 +1,109 @@
+---
+import {urlFor} from '../../lib/sanity/image'
+import type {SanityImageSource} from '@sanity/image-url'
+import type {ImageSource} from '../fixtures'
+
+export type TeamMember = {
+  _key?: string
+  name: string
+  role: string
+  bio: string
+  photo?: ImageSource
+  linkedInUrl?: string
+}
+
+interface Props {
+  heading: string
+  intro?: string
+  members: TeamMember[]
+}
+
+const {heading, intro, members} = Astro.props
+
+function photoSrc(photo?: ImageSource): string {
+  if (typeof photo === 'string') return photo
+  if (photo) return urlFor(photo as SanityImageSource).width(654).height(468).fit('crop').auto('format').url()
+  return '/assets/figma/about/team-member.webp'
+}
+---
+
+<section class="bg-black px-6 py-[72px] text-white sm:px-[42px] lg:py-[88px]">
+  <div class="mx-auto max-w-[1356px]">
+    <header class="mx-auto flex max-w-[921px] flex-col items-center gap-4 text-center" data-reveal-group="90">
+      <h2 class="m-0 text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase" data-reveal="text">
+        {heading}
+      </h2>
+      {intro && (
+        <p class="m-0 max-w-[554px] text-lg leading-[1.22] text-white" data-reveal>
+          {intro}
+        </p>
+      )}
+    </header>
+
+    <div
+      class="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4"
+      data-reveal-group="100"
+    >
+      {
+        members.map((member) => (
+          <article
+            class="flex min-h-[468px] flex-col overflow-hidden rounded-[4px] bg-[#150e0e]"
+            data-reveal
+          >
+            <div class="relative min-h-[234px] flex-1 overflow-hidden">
+              <img
+                src={photoSrc(member.photo)}
+                alt=""
+                class="absolute inset-0 h-full w-full object-cover"
+                width="327"
+                height="234"
+                loading="lazy"
+              />
+            </div>
+
+            <div class="flex min-h-[234px] flex-1 flex-col justify-between p-4">
+              <div class="flex flex-col gap-3">
+                <h3 class="m-0 text-2xl leading-none text-white">{member.name}</h3>
+                <p class="m-0 text-lg leading-none text-white/35">{member.role}</p>
+                <p class="m-0 text-lg leading-normal text-white">{member.bio}</p>
+              </div>
+
+              {
+                member.linkedInUrl ? (
+                  <a
+                    href={member.linkedInUrl}
+                    class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[2px] bg-magenta transition-opacity duration-200 hover:opacity-90"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`LinkedIn — ${member.name}`}
+                  >
+                    <img
+                      src="/assets/figma/about/linkedin.svg"
+                      alt=""
+                      class="h-9 w-9 max-w-none"
+                      width="36"
+                      height="36"
+                    />
+                  </a>
+                ) : (
+                  <span
+                    class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[2px] bg-magenta"
+                    aria-hidden="true"
+                  >
+                    <img
+                      src="/assets/figma/about/linkedin.svg"
+                      alt=""
+                      class="h-9 w-9 max-w-none"
+                      width="36"
+                      height="36"
+                    />
+                  </span>
+                )
+              }
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

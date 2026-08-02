@@ -1,0 +1,91 @@
+---
+import type {Locale} from '../../i18n/routes'
+import type {InsightContentType, InsightItem} from '../../lib/insights'
+import {t} from '../../i18n'
+
+interface Props {
+  locale: Locale
+  insights: InsightItem[]
+}
+
+const {locale, insights} = Astro.props
+
+const contentTypes = Array.from(
+  new Set(insights.map((item) => item.contentType ?? 'article')),
+) as InsightContentType[]
+
+const categories = Array.from(
+  new Set(insights.flatMap((item) => item.categories ?? []).filter(Boolean)),
+).sort()
+---
+
+<section class="bg-black px-6 pb-2 pt-8 text-white sm:px-[42px]">
+  <div class="mx-auto grid max-w-[1356px] gap-6 md:grid-cols-2">
+    <label class="grid gap-3">
+      <span class="text-lg leading-[1.22]">{t(locale, 'insights.filterType')}</span>
+      <div class="relative">
+        <select
+          data-insight-filter="type"
+          class="w-full appearance-none rounded-[4px] border border-white/50 bg-transparent px-4 py-4 pr-10 text-lg text-white outline-none focus:border-white"
+        >
+          <option value="">{t(locale, 'insights.filterPlaceholder')}</option>
+          {
+            contentTypes.map((type) => (
+              <option value={type}>{type === 'guide' ? t(locale, 'insights.guide') : t(locale, 'insights.article')}</option>
+            ))
+          }
+        </select>
+        <img
+          src="/assets/figma/home/chevron-down.svg"
+          alt=""
+          class="pointer-events-none absolute right-4 top-1/2 size-3 -translate-y-1/2"
+          width="12"
+          height="6"
+        />
+      </div>
+    </label>
+
+    <label class="grid gap-3">
+      <span class="text-lg leading-[1.22]">{t(locale, 'insights.filterTopic')}</span>
+      <div class="relative">
+        <select
+          data-insight-filter="topic"
+          class="w-full appearance-none rounded-[4px] border border-white/50 bg-transparent px-4 py-4 pr-10 text-lg text-white outline-none focus:border-white"
+        >
+          <option value="">{t(locale, 'insights.filterPlaceholder')}</option>
+          {categories.map((category) => <option value={category}>{category}</option>)}
+        </select>
+        <img
+          src="/assets/figma/home/chevron-down.svg"
+          alt=""
+          class="pointer-events-none absolute right-4 top-1/2 size-3 -translate-y-1/2"
+          width="12"
+          height="6"
+        />
+      </div>
+    </label>
+  </div>
+</section>
+
+<script>
+  function applyInsightFilters() {
+    const typeFilter = document.querySelector<HTMLSelectElement>('[data-insight-filter="type"]')
+    const topicFilter = document.querySelector<HTMLSelectElement>('[data-insight-filter="topic"]')
+    if (!typeFilter || !topicFilter) return
+
+    const selectedType = typeFilter.value
+    const selectedTopic = topicFilter.value
+
+    document.querySelectorAll<HTMLElement>('[data-insight-card]').forEach((card) => {
+      const cardType = card.dataset.contentType ?? 'article'
+      const cardTopic = card.dataset.category ?? ''
+      const typeMatch = !selectedType || cardType === selectedType
+      const topicMatch = !selectedTopic || cardTopic === selectedTopic
+      card.hidden = !(typeMatch && topicMatch)
+    })
+  }
+
+  document.querySelectorAll<HTMLSelectElement>('[data-insight-filter]').forEach((select) => {
+    select.addEventListener('change', applyInsightFilters)
+  })
+</script>

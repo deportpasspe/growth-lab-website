@@ -1,0 +1,87 @@
+---
+import {VisualEditing} from '@sanity/astro/visual-editing'
+import '../styles/global.css'
+import type {Locale} from '../i18n/routes'
+import {defaultLocale} from '../i18n/routes'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+
+interface Props {
+  locale?: Locale
+  title: string
+  description?: string
+  image?: string
+  headerAppearance?: 'auto' | 'overlay' | 'solid'
+}
+
+const {
+  locale = defaultLocale,
+  title,
+  description,
+  image,
+  headerAppearance = 'auto',
+} = Astro.props
+
+const canonicalURL = Astro.url
+const visualEditingEnabled =
+  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === 'true'
+const fullTitle = title.includes('Growth Lab') ? title : `${title} · Growth Lab`
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL} />
+
+    {description && <meta name="description" content={description} />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    {description && <meta property="og:description" content={description} />}
+    {image && <meta property="og:image" content={image} />}
+
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={fullTitle} />
+    {description && <meta name="twitter:description" content={description} />}
+    {image && <meta name="twitter:image" content={image} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Questrial&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{fullTitle}</title>
+
+    <script is:inline>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion-ready')
+      }
+    </script>
+    <noscript>
+      <style>
+        [data-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="flex min-h-screen flex-col font-sans antialiased">
+    <VisualEditing enabled={visualEditingEnabled} />
+    <Header locale={locale} appearance={headerAppearance} />
+    <main class="flex-1 overflow-x-clip">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <script>
+      import '../scripts/motion'
+    </script>
+  </body>
+</html>

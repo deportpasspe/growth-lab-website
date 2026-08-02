@@ -1,0 +1,68 @@
+---
+import StatIcon from '../../components/ui/StatIcon.astro'
+
+interface Metric {
+  value: string
+  label: string
+  icon?: 'calendar' | 'process' | 'cost'
+}
+
+interface Props {
+  title?: string
+  columns?: 3 | 4
+  alignTitle?: 'center' | 'left'
+  compact?: boolean
+  items: Metric[]
+}
+
+const {title, columns = 3, alignTitle = 'center', compact: compactProp, items} = Astro.props
+const compact = compactProp ?? columns === 4
+const cardHeightClass = compact ? 'min-h-[366px]' : 'min-h-[320px] md:min-h-[364px]'
+---
+
+<section class="bg-black px-6 pb-[62px] pt-8 text-white sm:px-[42px]">
+  {
+    title && (
+      <h2
+        class:list={[
+          'mx-auto mb-10 mt-0 text-2xl leading-none text-white',
+          alignTitle === 'left' ? 'max-w-[1356px] text-left' : 'max-w-[478px] text-center',
+        ]}
+        data-reveal="text"
+      >
+        {title}
+      </h2>
+    )
+  }
+  <div
+    class:list={[
+      'mx-auto grid max-w-[1356px] gap-4',
+      columns === 4 ? 'sm:grid-cols-2 xl:grid-cols-4' : 'md:grid-cols-3',
+    ]}
+    data-reveal-group="120"
+  >
+    {
+      items.map((item) => (
+        <article
+          class:list={[
+            'flex flex-col justify-between bg-[#150e0e] p-[42px]',
+            compact ? 'min-h-[366px]' : cardHeightClass,
+          ]}
+          data-reveal
+          data-metric
+        >
+          <div class="flex flex-col gap-4">
+            {item.icon && <StatIcon icon={item.icon} />}
+            <p
+              class="m-0 font-display text-[clamp(2.75rem,3.9vw,3.5rem)] leading-none uppercase tabular-nums md:text-[3.5rem]"
+              data-count-value={item.value}
+            >
+              {item.value}
+            </p>
+          </div>
+          <p class="m-0 border-t border-white/50 pt-4 text-xl md:text-2xl">{item.label}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>

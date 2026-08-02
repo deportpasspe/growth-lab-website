@@ -1,0 +1,79 @@
+---
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+import {actions} from 'astro:actions'
+import {t} from '../../i18n'
+import {contactInterestOptions} from '../contactPageFixtures'
+import ContactLeadForm from './ContactLeadForm.astro'
+
+interface Props {
+  locale: Locale
+}
+
+const {locale} = Astro.props
+const calendlyUrl = import.meta.env.PUBLIC_CALENDLY_URL as string | undefined
+const result = Astro.getActionResult(actions.contact)
+const interestOptions = contactInterestOptions(locale)
+
+if (result && !result.error && result.data?.ok) {
+  return Astro.redirect(getLocalizedPath(locale, 'thankYou'))
+}
+---
+
+<section class="bg-surface px-6 py-16 sm:px-[42px] sm:py-[72px]">
+  <div class="mx-auto max-w-[1356px]">
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-4" data-reveal-group="110">
+      <div class="flex flex-col gap-4" data-reveal>
+        <div class="flex flex-col gap-2">
+          <h2 class="m-0 text-[clamp(1.5rem,2.5vw,2.375rem)] uppercase leading-[1.05] text-navy">
+            {t(locale, 'contact.pathsMeetingTitle')}
+          </h2>
+          <p class="m-0 text-base text-navy-muted">{t(locale, 'contact.pathsMeetingEyebrow')}</p>
+        </div>
+
+        <div class="flex flex-col rounded-[2px] bg-white p-6">
+          {
+            calendlyUrl ? (
+              <div
+                class="calendly-inline-widget min-h-[487px] w-full overflow-hidden rounded-[8px]"
+                data-url={calendlyUrl}
+              />
+            ) : (
+              <div class="overflow-hidden rounded-[8px]">
+                <img
+                  src="/assets/figma/contact/calendly-fallback.webp"
+                  alt=""
+                  class="aspect-[499/487] w-full object-cover object-top"
+                  width="499"
+                  height="487"
+                />
+              </div>
+            )
+          }
+          <div class="mt-6 border-t border-[#d0dadd] pt-6">
+            <p class="m-0 text-sm leading-normal text-black">{t(locale, 'contact.pathsMeetingFooter')}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4" data-reveal>
+        <div class="flex flex-col gap-2">
+          <h2 class="m-0 text-[clamp(1.5rem,2.5vw,2.375rem)] uppercase leading-[1.05] text-navy">
+            {t(locale, 'contact.pathsFormTitle')}
+          </h2>
+          <p class="m-0 text-base text-navy-muted">{t(locale, 'contact.pathsFormEyebrow')}</p>
+        </div>
+
+        <div class="rounded-[2px] bg-magenta p-8">
+          <ContactLeadForm locale={locale} interestOptions={interestOptions} />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{
+  calendlyUrl && (
+    <script is:inline src="https://assets.calendly.com/assets/external/widget.js" async />
+  )
+}

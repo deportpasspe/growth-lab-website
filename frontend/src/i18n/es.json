@@ -1,0 +1,160 @@
+{
+  "brand": "Growth Lab",
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "recruitment": "Reclutamiento",
+    "about": "Nosotros",
+    "methodology": "Metodología",
+    "insights": "Insights",
+    "caseStudies": "Casos de éxito",
+    "contact": "Contacto"
+  },
+  "cta": {
+    "primary": "Conversemos",
+    "secondary": "Conoce nuestra metodología",
+    "viewAll": "Ver todos",
+    "learnMore": "Saber más",
+    "readInsight": "Leer artículo",
+    "viewCase": "Ver caso",
+    "viewFullCase": "Ver caso completo",
+    "whatsapp": "Escribir por WhatsApp",
+    "submit": "Enviar mensaje"
+  },
+  "form": {
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "company": "Empresa",
+    "phone": "Teléfono",
+    "message": "Mensaje",
+    "privacy": "Acepto la política de privacidad",
+    "honeypot": "No completar",
+    "sending": "Enviando…",
+    "successRedirect": "Gracias, te contactaremos pronto."
+  },
+  "errors": {
+    "required": "Este campo es obligatorio",
+    "email": "Ingresa un correo válido",
+    "privacy": "Debes aceptar la política de privacidad",
+    "turnstile": "No pudimos verificar que no eres un robot",
+    "generic": "Algo salió mal. Intenta de nuevo o escríbenos por WhatsApp."
+  },
+  "footer": {
+    "tagline": "Talento y desarrollo organizacional con rigor y cercanía.",
+    "rights": "Todos los derechos reservados.",
+    "privacy": "Política de privacidad"
+  },
+  "sections": {
+    "services": "Servicios",
+    "method": "Cómo trabajamos",
+    "cases": "Casos de éxito",
+    "insights": "Insights",
+    "faq": "Preguntas frecuentes",
+    "clients": "Quienes confían en nosotros"
+  },
+  "localeSwitch": "English",
+  "thankYou": {
+    "title": "Recibimos tu mensaje.",
+    "message": "Alguien del equipo se pondrá en contacto contigo en menos de 24 horas.",
+    "ctaHeading": "¿Prefieres agendar directamente?",
+    "ctaSubheading": "Si no quieres esperar, elige el día y la hora que mejor te convenga.",
+    "bookMeeting": "Agenda una reunión"
+  },
+  "insights": {
+    "filterType": "Por tipo",
+    "filterTopic": "Por tema",
+    "filterPlaceholder": "Seleccione el área de interés",
+    "back": "Regresar",
+    "related": "Artículos relacionados",
+    "readTime": "min de lectura",
+    "article": "Artículo",
+    "guide": "Guía descargable",
+    "downloadFree": "Descargar gratis",
+    "readArticle": "Leer artículo",
+    "newsletterHeading": "Una perspectiva al mes sobre talento y cultura en el mercado peruano.",
+    "newsletterIntro": "Sin spam. Solo contenido accionable para equipos de RRHH y líderes que toman decisiones sobre personas.",
+    "leadFormTitle": "Te contactamos en menos de 24 horas.",
+    "leadFormConsent": "Acepto los términos y condiciones y la",
+    "leadFormSubmit": "Enviar",
+    "leadFormMessage": "Suscripción a insights desde la página de listado.",
+    "heroEyebrow": "Insights",
+    "heroHeading": "Ideas para tomar mejores decisiones sobre tu gente.",
+    "heroSubheading": "Perspectivas sobre talento, liderazgo y cultura organizacional para equipos que quieren crecer con método.",
+    "ctaHeading": "¿Quieres recibir contenido accionable sobre talento y cultura?",
+    "ctaSubheading": "Suscríbete y recibe una perspectiva mensual directamente en tu correo.",
+    "ctaSubscribe": "Suscribirme",
+    "ctaViewAll": "Ver todos los insights",
+    "detailCtaHeading": "¿Tienes un proceso de búsqueda ejecutiva abierto?",
+    "detailCtaSubheading": "Cuéntanos el perfil y conversemos.",
+    "detailCtaButton": "Agenda una reunión"
+  },
+  "contact": {
+    "heroHeading": "Hablemos de tu organización.",
+    "heroSubheading": "Sin compromisos. Una conversación para entender tu situación y ver si podemos ayudarte.",
+    "pathsMeetingTitle": "Agenda una reunión",
+    "pathsMeetingEyebrow": "Para organizaciones listas para arrancar un proceso.",
+    "pathsMeetingFooter": "Elige el día y la hora que mejor te convenga. Te confirmamos en menos de 24 horas.",
+    "pathsFormTitle": "Solicita un diagnóstico gratuito",
+    "pathsFormEyebrow": "Para organizaciones que quieren explorar primero.",
+    "pathsFormHeading": "Te contactamos en menos de 24 horas.",
+    "channelsHeading": "También puedes escribirnos directamente.",
+    "channels": {
+      "emailTitle": "Email:",
+      "emailValue": "contacto@growthlab.pe",
+      "whatsappTitle": "WhatsApp:",
+      "whatsappValue": "+51 999 999 999",
+      "whatsappHref": "https://wa.me/51999999999",
+      "linkedinTitle": "LinkedIn:",
+      "linkedinValue": "Growth Lab Perú",
+      "linkedinHref": "https://www.linkedin.com/company/growthlab",
+      "addressTitle": "Dirección:",
+      "addressValue": "San Isidro, Lima, Perú"
+    },
+    "reasonsHeading": "Por qué vale la pena dar el primer paso.",
+    "reasons": {
+      "r1Title": "Sin compromiso inicial",
+      "r1Body": "La primera conversación es solo eso: una conversación. No hay propuesta ni presión de por medio.",
+      "r2Title": "Diagnóstico primero",
+      "r2Body": "Antes de recomendarte cualquier servicio, entendemos tu situación. No al revés.",
+      "r3Title": "Modelo al éxito",
+      "r3Body": "En reclutamiento facturamos solo cuando el candidato es incorporado. Tu riesgo es mínimo."
+    },
+    "form": {
+      "role": "Cargo",
+      "rolePlaceholder": "Tu cargo",
+      "interest": "Área de interés",
+      "interestPlaceholder": "Seleccione el área de interés",
+      "interestExecutive": "Reclutamiento ejecutivo",
+      "interestDevelopment": "Desarrollo organizacional",
+      "interestOther": "Otro",
+      "challenge": "¿Cuál es tu principal desafío ahora mismo?",
+      "challengePlaceholder": "Cuéntanos brevemente",
+      "consent": "Acepto los términos y condiciones y la política de privacidad.",
+      "submit": "Enviar"
+    },
+    "faq": {
+      "q1": "¿Cuánto dura la primera reunión?",
+      "a1": "Entre treinta y cuarenta y cinco minutos. Es una conversación exploratoria para entender tu situación y ver si podemos ayudarte.",
+      "q2": "¿Tienen que tener un proceso abierto para contactarnos?",
+      "a2": "No. Muchas conversaciones empiezan antes de que exista un rol o proyecto definido. Si no encajamos, te lo decimos con claridad.",
+      "q3": "¿Trabajan con empresas fuera de Perú?",
+      "a3": "Sí. Trabajamos con organizaciones en Perú y en la región. Lo evaluamos caso por caso según el alcance del proyecto.",
+      "q4": "¿Cuánto cuesta un proceso de reclutamiento ejecutivo o desarrollo organizacional?",
+      "a4": "Depende del alcance, la complejidad y el tipo de intervención. En la primera conversación te damos una referencia clara antes de avanzar."
+    }
+  },
+  "caseStudies": {
+    "heroEyebrow": "Casos de éxito",
+    "heroHeading": "Resultados que se miden, no que se describen.",
+    "heroSubheading": "Cada caso parte de un problema real y termina con un número concreto. Así medimos el éxito.",
+    "ctaHeading": "¿Tu organización tiene un reto similar?",
+    "ctaSubheading": "Cuéntanos dónde estás parado y vemos cómo podemos ayudarte.",
+    "ctaPrimary": "Agenda una reunión",
+    "ctaSecondary": "Ver todos los servicios",
+    "challengeLabel": "El reto",
+    "interventionLabel": "La intervención",
+    "resultsTitle": "Resultados",
+    "serviceCtaButton": "Conocer el método",
+    "relatedTitle": "Otros casos de éxito"
+  }
+}

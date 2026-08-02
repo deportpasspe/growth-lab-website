@@ -1,0 +1,93 @@
+---
+interface Props {
+  variant?: 'default' | 'methodIntro' | 'successBanner'
+  eyebrow?: string
+  heading: string
+  body: string
+  decoration?: 'magentaGlow'
+}
+
+const {variant = 'default', eyebrow, heading, body, decoration} = Astro.props
+---
+
+{
+  variant === 'methodIntro' ? (
+    <section class="bg-surface px-6 py-[72px] text-navy sm:px-[42px]">
+      <div
+        class="mx-auto grid max-w-[1356px] gap-8 md:grid-cols-[minmax(0,670px)_minmax(0,574px)] md:items-start md:justify-between md:gap-[34px]"
+        data-reveal-group="120"
+      >
+        <h2
+          class="m-0 text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase"
+          data-reveal="text"
+        >
+          {heading}
+        </h2>
+        <p class="m-0 text-lg leading-[1.22] text-navy" data-reveal>
+          {body}
+        </p>
+      </div>
+    </section>
+  ) : variant === 'successBanner' ? (
+    <section class="bg-black px-6 py-[72px] text-white sm:px-[42px]">
+      <div
+        class="relative mx-auto min-h-[399px] max-w-[1356px] overflow-hidden rounded-[4px]"
+        data-reveal
+      >
+        <img
+          src="/assets/figma/methodology/success-banner.webp"
+          alt=""
+          class="absolute inset-0 !h-full !w-full !max-w-none object-cover"
+          width="1356"
+          height="399"
+        />
+        <div
+          class="absolute inset-0 rounded-[4px]"
+          style="background:linear-gradient(208deg,rgba(0,0,0,0) 9.4%,rgb(0,0,0) 87.7%)"
+          aria-hidden="true"
+        />
+        <div class="relative flex flex-col items-start gap-8 px-6 py-12 sm:px-[113px] lg:flex-row lg:items-center lg:gap-[54px] lg:py-[103px]">
+          <h2 class="m-0 max-w-[479px] shrink-0 text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase">
+            {heading}
+          </h2>
+          <img
+            src="/assets/figma/methodology/divider.svg"
+            alt=""
+            class="hidden h-[193px] w-px max-w-none shrink-0 lg:block"
+            width="1"
+            height="193"
+          />
+          <hr class="m-0 w-full border-0 border-t border-magenta lg:hidden" />
+          <p class="m-0 max-w-[543px] text-base leading-normal text-white lg:flex-1">{body}</p>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section class="relative min-h-[275px] overflow-hidden bg-black px-6 py-[72px] text-white sm:px-[42px]">
+      {decoration === 'magentaGlow' && (
+        <img
+          src="/assets/figma/recruitment/guarantees-decor.svg"
+          alt=""
+          class="pointer-events-none absolute left-[8%] top-[-70px] h-[620px] w-[620px] max-w-none rotate-[45deg] opacity-80"
+          width="620"
+          height="720"
+          data-parallax="0.08"
+        />
+      )}
+      <div
+        class="relative mx-auto grid max-w-[1355px] gap-8 md:grid-cols-[minmax(0,1fr)_minmax(320px,554px)] md:items-start md:gap-[34px]"
+        data-reveal-group="120"
+      >
+        <div data-reveal>
+          {eyebrow && <p class="m-0 text-xl leading-none text-magenta">{eyebrow}</p>}
+          <h2 class="m-0 mt-4 max-w-[768px] text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase">
+            {heading}
+          </h2>
+        </div>
+        <p class="m-0 text-lg leading-[1.22] text-white md:text-right" data-reveal>
+          {body}
+        </p>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,72 @@
+---
+import type {ContentCard} from '../fixtures'
+
+interface Props {
+  cards: ContentCard[]
+}
+
+const {cards} = Astro.props
+
+const iconByName: Record<NonNullable<ContentCard['icon']>, string> = {
+  calendar: '/assets/figma/recruitment/narrative-calendar.svg',
+  process: '/assets/figma/recruitment/narrative-calendar.svg',
+  market: '/assets/figma/recruitment/deliverable-market.svg',
+  marketBrand: '/assets/figma/recruitment/deliverable-market-brand.svg',
+  arrow: '/assets/figma/recruitment/target-icon-magenta.svg',
+  industryCalendar: '/assets/figma/services/industry-calendar.svg',
+  industryPlanning: '/assets/figma/services/industry-planning.svg',
+  industryMoney: '/assets/figma/services/industry-money.svg',
+  planning: '/assets/figma/about/value-planning.svg',
+  money: '/assets/figma/about/value-money.svg',
+  relationship: '/assets/figma/about/value-money.svg',
+}
+---
+
+<section class="bg-black px-6 py-[72px] text-white sm:px-[42px] lg:py-[104px]">
+  <div class="mx-auto grid max-w-[1356px] gap-4 lg:grid-cols-2" data-reveal-group="120">
+    {
+      cards.map((card) => (
+        <article
+          class="flex min-h-[389px] flex-col items-start bg-[#150e0e] p-8 sm:p-[42px]"
+          data-reveal
+        >
+          {card.icon && (
+            <span class="flex h-[54px] w-[54px] items-center justify-center">
+              <img
+                src={iconByName[card.icon]}
+                alt=""
+                class="h-[53.669px] w-[49.851px] max-w-none"
+                width="49.851"
+                height="53.669"
+              />
+            </span>
+          )}
+          <h2 class="m-0 mt-8 max-w-[586px] text-[clamp(1.75rem,2.23vw,2rem)] uppercase leading-[1.03]">
+            {
+              card.emphasis && card.title.includes(card.emphasis) ? (
+                <>
+                  {card.title.slice(0, card.title.indexOf(card.emphasis))}
+                  <span class="text-magenta">{card.emphasis}</span>
+                  {card.title.slice(card.title.indexOf(card.emphasis) + card.emphasis.length)}
+                </>
+              ) : card.title
+            }
+          </h2>
+          {card.description && (
+            <p class="m-0 mt-4 max-w-[586px] text-lg leading-[1.22] text-white">
+              {card.description}
+            </p>
+          )}
+          {card.cta && (
+            <a
+              href={card.cta.href}
+              class="mt-4 inline-flex h-12 items-center rounded-[2px] border border-white px-4 text-base leading-none text-white no-underline transition-colors duration-300 hover:border-magenta hover:bg-magenta"
+            >
+              {card.cta.label}
+            </a>
+          )}
+        </article>
+      ))
+    }
+  </div>
+</section>

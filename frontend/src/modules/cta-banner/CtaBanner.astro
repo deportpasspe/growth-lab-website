@@ -1,0 +1,64 @@
+---
+import Button from '../../components/ui/Button.astro'
+
+interface Props {
+  variant?: 'default' | 'recruitment' | 'services' | 'caseStudy'
+  heading: string
+  subheading?: string
+  cta?: {label: string; href: string}
+  secondaryCta?: {label: string; href: string}
+}
+
+const {variant = 'default', heading, subheading, cta, secondaryCta} = Astro.props
+const brandPrimary = variant === 'recruitment' || variant === 'services' || variant === 'caseStudy'
+---
+
+<section class="overflow-x-clip bg-black px-6 py-16 text-white sm:px-[42px] sm:py-[72px]">
+  <div class="relative mx-auto flex min-h-[424px] max-w-[1356px] items-center justify-center overflow-hidden bg-[#150e0e] px-6 py-[72px]">
+    <img src="/assets/figma/home/cta-left.svg" alt="" class="absolute -bottom-[120px] -left-[330px] h-[661px] w-[546px] max-w-none rotate-[-90deg] opacity-75 mix-blend-luminosity" width="546" height="661" data-parallax="0.2" />
+    <img src="/assets/figma/home/cta-right.svg" alt="" class="absolute -right-[305px] -top-[273px] h-[661px] w-[546px] max-w-none rotate-[-90deg] opacity-75 mix-blend-luminosity" width="546" height="661" data-parallax="-0.2" />
+    <div
+      class="relative mx-auto flex max-w-[898px] flex-col items-center gap-4 text-center"
+      data-reveal-group="120"
+    >
+    <h2 class="m-0 max-w-[547px] text-[clamp(2rem,3vw,2.625rem)] leading-[1.05] uppercase" data-reveal="text">{heading}</h2>
+    {subheading && (
+      <p
+        class:list={[
+          'm-0 text-lg leading-[1.1]',
+          variant === 'services' ? 'max-w-[746px]' : 'max-w-[518px]',
+        ]}
+        data-reveal
+      >
+        {subheading}
+      </p>
+    )}
+    <div class="mt-0 flex flex-wrap justify-center gap-4" data-reveal>
+      {
+        cta && (
+          <Button
+            href={cta.href}
+            variant={brandPrimary ? 'brand' : 'primary'}
+            size="lg"
+          >
+            {cta.label}
+          </Button>
+        )
+      }
+      {
+        secondaryCta && (
+          <Button
+            href={secondaryCta.href}
+            variant="secondary"
+            size="lg"
+            external={secondaryCta.href.startsWith('http')}
+          >
+            <img src="/assets/figma/home/whatsapp.svg" alt="" class="h-6 w-6 max-w-none" width="24" height="24" />
+            {secondaryCta.label}
+          </Button>
+        )
+      }
+    </div>
+    </div>
+  </div>
+</section>

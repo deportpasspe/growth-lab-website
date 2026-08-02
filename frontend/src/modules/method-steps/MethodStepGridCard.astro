@@ -1,0 +1,35 @@
+---
+interface Props {
+  variant: 'featured' | 'step'
+  number?: number
+  title: string
+  description?: string
+}
+
+const {variant, number, title, description} = Astro.props
+---
+
+{
+  variant === 'featured' ? (
+    <article class="flex min-h-[232px] flex-col justify-center rounded-[4px] bg-magenta p-8">
+      <h3 class="m-0 text-2xl uppercase leading-normal text-white">{title}</h3>
+      {description && (
+        <p class="m-0 mt-2.5 max-w-[353px] text-base leading-5 text-white/75">{description}</p>
+      )}
+    </article>
+  ) : (
+    <article class="flex min-h-[232px] flex-col justify-center rounded-[4px] border-l-[3px] border-magenta bg-black p-8">
+      <div class="flex flex-col gap-2.5 pl-4">
+        {number !== undefined && (
+          <span class="flex size-[42px] items-center justify-center rounded-full bg-magenta text-xl leading-5 text-white">
+            {number}
+          </span>
+        )}
+        <h3 class="m-0 text-base leading-5 text-white">{title}</h3>
+        {description && (
+          <p class="m-0 text-base leading-5 text-white/75">{description}</p>
+        )}
+      </div>
+    </article>
+  )
+}

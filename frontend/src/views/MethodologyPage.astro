@@ -1,0 +1,42 @@
+---
+import type {Locale} from '../i18n/routes'
+import Layout from '../layouts/Layout.astro'
+import PageBuilder from '../components/PageBuilder.astro'
+import {methodologyFixtures, type PageSection} from '../modules/fixtures'
+import {loadQuery} from '../lib/sanity/loadQuery'
+import {methodologyPageQuery} from '../lib/sanity/queries/pages'
+import {t} from '../i18n'
+
+interface Props {
+  locale: Locale
+}
+
+const {locale} = Astro.props
+
+let sections: PageSection[] = methodologyFixtures(locale)
+let title = t(locale, 'nav.methodology')
+let description =
+  locale === 'es'
+    ? 'Nuestro proceso de diagnóstico, diseño, entrega e integración.'
+    : 'Our diagnose, design, deliver, and embed process.'
+
+try {
+  const data = await loadQuery<{
+    title?: string
+    seo?: {metaTitle?: string; metaDescription?: string}
+    pageBuilder?: PageSection[]
+  } | null>(methodologyPageQuery, {locale})
+
+  if (data?.pageBuilder?.length) {
+    sections = data.pageBuilder
+    title = data.seo?.metaTitle || data.title || title
+    description = data.seo?.metaDescription || description
+  }
+} catch {
+  // CMS unavailable — fixtures
+}
+---
+
+<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+  <PageBuilder locale={locale} sections={sections} />
+</Layout>

@@ -1,0 +1,304 @@
+---
+import type {ContentCard} from '../fixtures'
+
+interface Props {
+  variant?: 'lists' | 'deliverables' | 'industries' | 'values' | 'principles'
+  eyebrow?: string
+  heading: string
+  intro?: string
+  cards: ContentCard[]
+}
+
+const {variant = 'lists', eyebrow, heading, intro, cards} = Astro.props
+
+const icons = {
+  arrow: '/assets/figma/recruitment/target-icon-magenta.svg',
+  calendar: '/assets/figma/recruitment/deliverable-calendar.svg',
+  process: '/assets/figma/recruitment/deliverable-process.svg',
+  market: '/assets/figma/recruitment/deliverable-market.svg',
+  marketBrand: '/assets/figma/recruitment/deliverable-market-brand.svg',
+  industryCalendar: '/assets/figma/services/industry-calendar.svg',
+  industryPlanning: '/assets/figma/services/industry-planning.svg',
+  industryMoney: '/assets/figma/services/industry-money.svg',
+  planning: '/assets/figma/about/value-planning.svg',
+  money: '/assets/figma/about/value-money.svg',
+  relationship: '/assets/figma/about/value-money.svg',
+}
+
+const iconSizes = {
+  arrow: {width: 54, height: 54},
+  calendar: {width: 49.851, height: 53.669},
+  process: {width: 53.672, height: 53.115},
+  market: {width: 52.845, height: 53.669},
+  marketBrand: {width: 52.845, height: 53.669},
+  industryCalendar: {width: 54, height: 54},
+  industryPlanning: {width: 54, height: 54},
+  industryMoney: {width: 54, height: 54},
+  planning: {width: 54, height: 54},
+  money: {width: 54, height: 54},
+  relationship: {width: 54, height: 54},
+}
+
+const toneClass = {
+  dark: 'border border-magenta bg-[#150e0e]',
+  teal: 'border border-transparent bg-[#054e58]',
+  magenta: 'border border-magenta bg-magenta',
+}
+
+const interactiveCardClass =
+  'group flex min-w-0 flex-col items-start gap-6 rounded-[4px] border border-magenta bg-[#150e0e] p-8 transition-[background-color,border-color,transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:bg-magenta hover:shadow-[0_12px_28px_rgba(139,24,88,0.28)] focus-within:-translate-y-0.5 focus-within:bg-magenta focus-within:shadow-[0_12px_28px_rgba(139,24,88,0.28)]'
+
+const interactiveCardGhostClass =
+  'group flex min-w-0 flex-col items-start gap-6 rounded-[4px] border border-magenta bg-transparent p-8 transition-[background-color,border-color,transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:bg-magenta hover:shadow-[0_12px_28px_rgba(139,24,88,0.28)] focus-within:-translate-y-0.5 focus-within:bg-magenta focus-within:shadow-[0_12px_28px_rgba(139,24,88,0.28)]'
+---
+
+<section
+  id={variant === 'deliverables' ? 'deliverables' : undefined}
+  class:list={[
+    'relative overflow-hidden bg-black px-6 text-white sm:px-[42px]',
+    variant === 'lists'
+      ? 'py-[70px]'
+      : variant === 'values'
+        ? 'py-[72px] lg:pb-[86px] lg:pt-[72px]'
+        : variant === 'industries'
+        ? 'py-[72px] lg:py-[88px]'
+        : variant === 'principles'
+          ? 'py-[72px] lg:pb-[88px] lg:pt-[72px]'
+        : 'py-[72px] lg:pb-[63px] lg:pt-[88px]',
+  ]}
+>
+  {
+    variant === 'lists' && (
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[260px] bg-[radial-gradient(ellipse_at_70%_0%,rgba(139,24,88,0.65),transparent_60%)]" />
+    )
+  }
+  {
+    variant === 'industries' && (
+      <div
+        class="pointer-events-none absolute inset-0"
+        style="background-image:radial-gradient(ellipse 110% 120% at 100% 0%,rgba(139,24,88,0.9) 0%,rgba(139,24,88,0.55) 22%,rgba(139,24,88,0.22) 45%,rgba(139,24,88,0.06) 65%,rgba(139,24,88,0) 82%)"
+        aria-hidden="true"
+      />
+    )
+  }
+
+  <div class="relative mx-auto w-full max-w-[1356px]">
+    {
+      variant === 'principles' ? (
+        <>
+          <h2 class="m-0 max-w-[761px] text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase" data-reveal="text">
+            {heading}
+          </h2>
+          <div class="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3" data-reveal-group="80">
+            {cards.map((card) => (
+              <article class="flex min-h-[158px] items-center gap-6 rounded-[4px] border border-magenta px-4 py-6">
+                {card.icon && (
+                  <span class="flex h-[54px] w-[54px] shrink-0 items-center justify-center">
+                    <img
+                      src={icons[card.icon]}
+                      alt=""
+                      class="max-w-none"
+                      width={iconSizes[card.icon]?.width ?? 54}
+                      height={iconSizes[card.icon]?.height ?? 54}
+                      style={`width:${iconSizes[card.icon]?.width ?? 54}px;height:${iconSizes[card.icon]?.height ?? 54}px`}
+                    />
+                  </span>
+                )}
+                <div>
+                  <h3 class="m-0 text-[22px] leading-[1.05]">{card.title}</h3>
+                  {card.description && (
+                    <p class="m-0 mt-2.5 text-base leading-normal text-white">{card.description}</p>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </>
+      ) : variant === 'values' ? (
+        <>
+          <h2 class="m-0 max-w-[643px] text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase" data-reveal="text">
+            {heading}
+          </h2>
+          <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4" data-reveal-group="80">
+            {cards.map((card) => (
+              <article class="flex min-h-[225px] flex-col justify-center gap-6 rounded-[4px] border border-magenta px-4 py-6">
+                {card.icon && (
+                  <span class="flex h-[54px] w-[54px] items-center justify-center">
+                    <img
+                      src={
+                        card.icon === 'calendar'
+                          ? '/assets/figma/about/value-calendar.svg'
+                          : icons[card.icon]
+                      }
+                      alt=""
+                      class="max-w-none"
+                      width={iconSizes[card.icon]?.width ?? 54}
+                      height={iconSizes[card.icon]?.height ?? 54}
+                      style={`width:${iconSizes[card.icon]?.width ?? 54}px;height:${iconSizes[card.icon]?.height ?? 54}px`}
+                    />
+                  </span>
+                )}
+                <div>
+                  <h3 class="m-0 text-[22px] leading-[1.05]">{card.title}</h3>
+                  {card.description && (
+                    <p class="m-0 mt-2.5 text-base leading-normal text-white">{card.description}</p>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+    <header class="mx-auto max-w-[921px] text-center" data-reveal-group="90">
+      {eyebrow && <p class="m-0 text-xl leading-none text-magenta" data-reveal>{eyebrow}</p>}
+      <h2 class="m-0 mt-4 text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase" data-reveal="text">
+        {heading}
+      </h2>
+      {intro && (
+        <p
+          class:list={[
+            'mx-auto mb-0 mt-4 text-lg leading-[1.22]',
+            variant === 'industries' ? 'max-w-[534px]' : 'max-w-[554px]',
+          ]}
+          data-reveal
+        >
+          {intro}
+        </p>
+      )}
+    </header>
+
+    {
+      variant === 'lists' ? (
+        <div class="mt-[52px] grid gap-4 lg:grid-cols-2" data-reveal-group="100">
+          {cards.map((card, index) => (
+            <article
+              class:list={[
+                'relative min-h-[307px] overflow-hidden rounded-[2px] p-8',
+                toneClass[card.tone ?? (index === 0 ? 'teal' : 'magenta')],
+              ]}
+              data-reveal
+            >
+              <img
+                src={index === 0 ? '/assets/figma/recruitment/target-lines-teal.svg' : '/assets/figma/recruitment/target-lines-magenta.svg'}
+                alt=""
+                class="pointer-events-none absolute inset-0 h-full w-full max-w-none object-cover opacity-70 mix-blend-luminosity"
+                width="670"
+                height="307"
+              />
+              <div class="relative">
+                <img
+                  src={index === 0 ? '/assets/figma/recruitment/target-icon-teal.svg' : '/assets/figma/recruitment/target-icon-magenta.svg'}
+                  alt=""
+                  class="h-[54px] w-[54px] max-w-none"
+                  width="54"
+                  height="54"
+                />
+                <h3 class="m-0 mt-4 text-2xl leading-[1.05]">{card.title}</h3>
+                {card.items && (
+                  <ul class="mb-0 mt-3 list-disc space-y-0 pl-6 text-base leading-[1.38]">
+                    {card.items.map((item) => <li>{item}</li>)}
+                  </ul>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : variant === 'industries' ? (
+        <div class="mt-[52px]" data-reveal-group="80">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {cards.slice(0, 3).map((card) => (
+              <article class:list={[interactiveCardGhostClass, 'min-h-[226px]']} data-reveal>
+                {card.icon && (
+                  <span class="flex h-[54px] w-[54px] items-center justify-center transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.04] group-focus-within:scale-[1.04]">
+                    <img
+                      src={icons[card.icon]}
+                      alt=""
+                      class="max-w-none transition-opacity duration-300 ease-[var(--ease-out)]"
+                      width={iconSizes[card.icon].width}
+                      height={iconSizes[card.icon].height}
+                      style={`width:${iconSizes[card.icon].width}px;height:${iconSizes[card.icon].height}px`}
+                    />
+                  </span>
+                )}
+                <div>
+                  <h3 class="m-0 text-[22px] leading-[1.05]">{card.title}</h3>
+                  {card.description && (
+                    <p class="m-0 mt-2.5 text-base leading-[20px] text-white/75 transition-colors duration-300 ease-[var(--ease-out)] group-hover:text-white/90 group-focus-within:text-white/90">
+                      {card.description}
+                    </p>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+          <div class="mx-auto mt-4 grid w-full max-w-[898px] grid-cols-1 gap-4 sm:grid-cols-2">
+            {cards.slice(3).map((card) => (
+              <article class:list={[interactiveCardGhostClass, 'min-h-[207px]']} data-reveal>
+                {card.icon && (
+                  <span class="flex h-[54px] w-[54px] items-center justify-center transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.04] group-focus-within:scale-[1.04]">
+                    <img
+                      src={icons[card.icon]}
+                      alt=""
+                      class="max-w-none transition-opacity duration-300 ease-[var(--ease-out)]"
+                      width={iconSizes[card.icon].width}
+                      height={iconSizes[card.icon].height}
+                      style={`width:${iconSizes[card.icon].width}px;height:${iconSizes[card.icon].height}px`}
+                    />
+                  </span>
+                )}
+                <div>
+                  <h3 class="m-0 text-[22px] leading-[1.05]">{card.title}</h3>
+                  {card.description && (
+                    <p class="m-0 mt-2.5 text-base leading-[20px] text-white/75 transition-colors duration-300 ease-[var(--ease-out)] group-hover:text-white/90 group-focus-within:text-white/90">
+                      {card.description}
+                    </p>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div class="mt-[52px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12" data-reveal-group="80">
+          {cards.map((card, index) => (
+            <article
+              class:list={[
+                interactiveCardClass,
+                index < 4 ? 'sm:min-h-[226px]' : 'sm:min-h-[210px]',
+                'min-h-[210px]',
+                index < 4 ? 'lg:col-span-3' : 'lg:col-span-3',
+                index === 4 && 'lg:col-start-2',
+              ]}
+              data-reveal
+            >
+              {card.icon && (
+                <span class="flex h-[54px] w-[54px] items-center justify-center transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.04] group-focus-within:scale-[1.04]">
+                  <img
+                    src={icons[card.icon]}
+                    alt=""
+                    class="max-w-none transition-opacity duration-300 ease-[var(--ease-out)]"
+                    width={iconSizes[card.icon].width}
+                    height={iconSizes[card.icon].height}
+                    style={`width:${iconSizes[card.icon].width}px;height:${iconSizes[card.icon].height}px`}
+                  />
+                </span>
+              )}
+              <div>
+                <h3 class="m-0 text-[22px] leading-[1.05]">{card.title}</h3>
+                {card.description && (
+                  <p class="m-0 mt-2.5 text-base leading-normal text-white/50 transition-colors duration-300 ease-[var(--ease-out)] group-hover:text-white/75 group-focus-within:text-white/75">
+                    {card.description}
+                  </p>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      )
+    }
+        </>
+      )
+    }
+  </div>
+</section>

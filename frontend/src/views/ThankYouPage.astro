@@ -1,0 +1,53 @@
+---
+import type {Locale} from '../i18n/routes'
+import {getLocalizedPath} from '../i18n/routes'
+import Layout from '../layouts/Layout.astro'
+import ThankYouHero from '../modules/thank-you/ThankYouHero.astro'
+import CtaBanner from '../modules/cta-banner/CtaBanner.astro'
+import {loadQuery} from '../lib/sanity/loadQuery'
+import {thankYouPageQuery} from '../lib/sanity/queries/pages'
+import {t} from '../i18n'
+
+interface Props {
+  locale: Locale
+}
+
+const {locale} = Astro.props
+let heading = t(locale, 'thankYou.title')
+let message = t(locale, 'thankYou.message')
+let seoTitle = locale === 'es' ? 'Gracias' : 'Thank you'
+let seoDescription = message
+
+try {
+  const data = await loadQuery<{
+    title?: string
+    message?: string
+    seo?: {metaTitle?: string; metaDescription?: string}
+  } | null>(thankYouPageQuery, {locale})
+  if (data) {
+    heading = data.title || heading
+    message = data.message || message
+    seoTitle = data.seo?.metaTitle || data.title || seoTitle
+    seoDescription = data.seo?.metaDescription || message
+  }
+} catch {
+  // defaults
+}
+
+const contactHref = getLocalizedPath(locale, 'contact')
+---
+
+<Layout
+  locale={locale}
+  title={seoTitle}
+  description={seoDescription}
+  headerAppearance="overlay"
+>
+  <ThankYouHero locale={locale} heading={heading} message={message} />
+  <CtaBanner
+    variant="recruitment"
+    heading={t(locale, 'thankYou.ctaHeading')}
+    subheading={t(locale, 'thankYou.ctaSubheading')}
+    cta={{label: t(locale, 'thankYou.bookMeeting'), href: contactHref}}
+  />
+</Layout>

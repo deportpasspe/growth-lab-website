@@ -1,0 +1,13 @@
+---
+interface Props {
+  summary: string
+}
+
+const {summary} = Astro.props
+---
+
+<section class="bg-black px-6 pt-[76px] text-white sm:px-[42px]">
+  <div class="mx-auto max-w-[574px] text-center">
+    <p class="m-0 text-lg leading-normal text-white">{summary}</p>
+  </div>
+</section>

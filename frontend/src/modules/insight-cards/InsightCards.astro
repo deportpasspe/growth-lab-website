@@ -1,0 +1,49 @@
+---
+import type {Locale} from '../../i18n/routes'
+import InsightPostCard from '../../components/cards/InsightPostCard.astro'
+import type {InsightContentType} from '../../lib/insights'
+
+interface Props {
+  locale: Locale
+  title?: string
+  intro?: string
+  insights: {
+    title: string
+    excerpt?: string
+    slug: string
+    categories?: string[]
+    contentType?: InsightContentType
+    downloadUrl?: string
+  }[]
+}
+
+const {locale, title, intro, insights} = Astro.props
+---
+
+<section class="bg-black px-6 py-[88px] text-white sm:px-[42px]">
+  <div class="mx-auto max-w-[1356px]">
+    <header class="text-center" data-reveal-group="120">
+      {title && <h2 class="m-0 text-[42px] leading-none uppercase" data-reveal="text">{title}</h2>}
+      {intro && <p class="mx-auto mb-0 mt-4 max-w-[580px] text-lg leading-[1.1] text-white/75" data-reveal>{intro}</p>}
+    </header>
+
+    <div class="mt-[66px] grid gap-4 md:grid-cols-3" data-reveal-group="130">
+      {
+        insights.slice(0, 3).map((item, index) => (
+          <div data-reveal>
+            <InsightPostCard
+              locale={locale}
+              title={item.title}
+              excerpt={item.excerpt}
+              slug={item.slug}
+              categories={item.categories}
+              contentType={item.contentType}
+              downloadUrl={item.downloadUrl}
+              imageIndex={index}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

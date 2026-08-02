@@ -1,0 +1,143 @@
+---
+import type {Locale} from '../i18n/routes'
+import {getLocalizedPath} from '../i18n/routes'
+import Layout from '../layouts/Layout.astro'
+import Hero from '../modules/hero/Hero.astro'
+import CaseStudyIntro from '../modules/case-study-detail/CaseStudyIntro.astro'
+import CaseStudySplit from '../modules/case-study-detail/CaseStudySplit.astro'
+import Metrics from '../modules/metrics/Metrics.astro'
+import CtaBanner from '../modules/cta-banner/CtaBanner.astro'
+import CaseStudyRelatedCard from '../components/cards/CaseStudyRelatedCard.astro'
+import {t} from '../i18n'
+import {caseStudiesFixtures, caseStudyFixtureBySlug} from '../modules/caseStudiesFixtures'
+import {loadQuery} from '../lib/sanity/loadQuery'
+import {caseStudyBySlugQuery} from '../lib/sanity/queries/caseStudy'
+import {
+  caseStudyHeroHeading,
+  caseStudyMetricIcon,
+  type CaseStudyDetail,
+  type CaseStudyRelatedItem,
+} from '../lib/caseStudies'
+
+interface Props {
+  locale: Locale
+  slug: string
+}
+
+const {locale, slug} = Astro.props
+
+const fixture = caseStudyFixtureBySlug(locale, slug)
+
+let study: CaseStudyDetail | null = fixture
+
+try {
+  const data = await loadQuery<CaseStudyDetail | null>(caseStudyBySlugQuery, {locale, slug})
+  if (data) {
+    study = {
+      ...data,
+      title: data.seo?.metaTitle || data.title,
+      summary: data.summary || data.seo?.metaDescription || '',
+      metrics: data.metrics || [],
+      relatedCases: data.relatedCases || [],
+    }
+  }
+} catch {
+  // fixture
+}
+
+if (!study) {
+  return new Response(null, {status: 404, statusText: 'Not Found'})
+}
+
+const heroHeading = caseStudyHeroHeading(study)
+const related: CaseStudyRelatedItem[] =
+  study.relatedCases?.length && study.relatedCases.length > 0
+    ? study.relatedCases
+    : caseStudiesFixtures(locale).filter((item) => item.slug !== slug).slice(0, 2)
+
+const serviceHref = study.relatedService?.slug
+  ? getLocalizedPath(locale, 'service', study.relatedService.slug)
+  : getLocalizedPath(locale, 'services')
+
+const metricItems = (study.metrics || []).map((metric, index) => ({
+  value: metric.value,
+  label: metric.label,
+  icon: caseStudyMetricIcon(metric, index),
+}))
+---
+
+<Layout
+  locale={locale}
+  title={study.title}
+  description={study.summary}
+  headerAppearance="overlay"
+>
+  <Hero
+    variant="caseStudyDetail"
+    pill={study.service}
+    subheading={study.service}
+    heading={heroHeading}
+    image={study.cover}
+  />
+
+  {study.summary && <CaseStudyIntro summary={study.summary} />}
+
+  {
+    study.challenge &&
+      study.intervention && (
+        <CaseStudySplit
+          challengeLabel={t(locale, 'caseStudies.challengeLabel')}
+          challengeHeadline={study.challengeHeadline || study.title}
+          challenge={study.challenge}
+          interventionLabel={t(locale, 'caseStudies.interventionLabel')}
+          interventionHeadline={study.interventionHeadline || study.service || study.title}
+          intervention={study.intervention}
+        />
+      )
+  }
+
+  {
+    metricItems.length > 0 && (
+      <Metrics
+        title={t(locale, 'caseStudies.resultsTitle')}
+        alignTitle="left"
+        items={metricItems}
+      />
+    )
+  }
+
+  {
+    study.service && (
+      <CtaBanner
+        variant="caseStudy"
+        heading={study.service}
+        cta={{label: t(locale, 'caseStudies.serviceCtaButton'), href: serviceHref}}
+      />
+    )
+  }
+
+  {
+    related.length > 0 && (
+      <section class="bg-black px-6 pb-[88px] pt-10 text-white sm:px-[42px]">
+        <div class="mx-auto max-w-[1356px]">
+          <h2 class="m-0 mb-10 text-2xl leading-none text-white">{t(locale, 'caseStudies.relatedTitle')}</h2>
+          <div class="grid gap-4 lg:grid-cols-2">
+            {
+              related.slice(0, 2).map((item, index) => (
+                <CaseStudyRelatedCard
+                  locale={locale}
+                  title={item.title}
+                  slug={item.slug}
+                  industry={item.industry}
+                  challenge={item.challenge}
+                  cover={item.cover}
+                  imageIndex={index + 1}
+                />
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Layout>

@@ -1,0 +1,73 @@
+---
+import {urlFor} from '../../lib/sanity/image'
+import type {SanityImageSource} from '@sanity/image-url'
+import type {ImageSource} from '../fixtures'
+import ServiceIncludesPanel from './ServiceIncludesPanel.astro'
+
+interface Props {
+  heading?: string
+  layout?: 'dualColumns' | 'splitImage'
+  items: string[]
+  secondaryHeading?: string
+  secondaryItems?: string[]
+  image?: ImageSource
+}
+
+const {
+  heading = 'Lo que incluye el proceso.',
+  layout = 'splitImage',
+  items,
+  secondaryHeading,
+  secondaryItems = [],
+  image,
+} = Astro.props
+
+const imageSrc =
+  typeof image === 'string'
+    ? image
+    : image
+      ? urlFor(image as SanityImageSource).width(1284).height(624).fit('crop').auto('format').url()
+      : '/assets/figma/services/includes-placeholder.webp'
+---
+
+<section class="overflow-x-clip bg-black px-6 py-[72px] text-white sm:px-[42px] lg:py-[88px]">
+  {
+    layout === 'dualColumns' ? (
+      <div
+        class="mx-auto grid max-w-[1264px] grid-cols-1 gap-4 lg:grid-cols-2 lg:items-stretch"
+        data-reveal-group="110"
+      >
+        <div data-reveal>
+          <ServiceIncludesPanel heading={heading} items={items} accent="teal" />
+        </div>
+        {secondaryHeading && secondaryItems.length > 0 && (
+          <div data-reveal>
+            <ServiceIncludesPanel
+              heading={secondaryHeading}
+              items={secondaryItems}
+              accent="magenta"
+            />
+          </div>
+        )}
+      </div>
+    ) : (
+      <div
+        class="mx-auto grid max-w-[1264px] grid-cols-1 items-stretch gap-4 lg:grid-cols-[minmax(0,552px)_minmax(0,1fr)] lg:gap-4"
+        data-reveal-group="110"
+      >
+        <div data-reveal>
+          <ServiceIncludesPanel heading={heading} items={items} accent="teal" />
+        </div>
+        <div class="relative min-h-[260px] overflow-hidden rounded-[4px] lg:min-h-[312px]" data-reveal>
+          <img
+            src={imageSrc}
+            alt=""
+            class="absolute inset-0 !h-full !w-full !max-w-none object-cover"
+            width="642"
+            height="312"
+          />
+        </div>
+      </div>
+    )
+  }
+</section>

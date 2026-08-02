@@ -1,0 +1,146 @@
+---
+import {actions} from 'astro:actions'
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+import {t} from '../../i18n'
+import Container from '../../components/ui/Container.astro'
+import Section from '../../components/ui/Section.astro'
+import Heading from '../../components/ui/Heading.astro'
+import Button from '../../components/ui/Button.astro'
+import TextLink from '../../components/ui/TextLink.astro'
+
+interface Props {
+  locale: Locale
+  title?: string
+  intro?: string
+}
+
+const {locale, title, intro} = Astro.props
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined
+const privacyHref = getLocalizedPath(locale, 'privacy')
+const result = Astro.getActionResult(actions.contact)
+
+if (result && !result.error && result.data?.ok) {
+  return Astro.redirect(getLocalizedPath(locale, 'thankYou'))
+}
+---
+
+<Section tone="cream" id="contacto">
+  <Container narrow>
+    <div data-reveal-group="110">
+      {
+        title && (
+          <div data-reveal="text">
+            <Heading as="h2">{title}</Heading>
+          </div>
+        )
+      }
+      {
+        intro && (
+          <p class="mt-4 text-navy-muted" data-reveal>
+            {intro}
+          </p>
+        )
+      }
+    </div>
+
+    <form
+      method="POST"
+      action={actions.contact}
+      data-contact-form
+      class="mt-10 grid gap-5"
+    >
+      <input type="hidden" name="locale" value={locale} />
+
+      <label class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+        {t(locale, 'form.honeypot')}
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
+
+      <label class="grid gap-2 text-sm">
+        <span>{t(locale, 'form.name')}</span>
+        <input
+          required
+          name="name"
+          type="text"
+          autocomplete="name"
+          class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
+        />
+      </label>
+
+      <label class="grid gap-2 text-sm">
+        <span>{t(locale, 'form.email')}</span>
+        <input
+          required
+          name="email"
+          type="email"
+          autocomplete="email"
+          class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
+        />
+      </label>
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <label class="grid gap-2 text-sm">
+          <span>{t(locale, 'form.company')}</span>
+          <input
+            name="company"
+            type="text"
+            autocomplete="organization"
+            class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
+          />
+        </label>
+        <label class="grid gap-2 text-sm">
+          <span>{t(locale, 'form.phone')}</span>
+          <input
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
+          />
+        </label>
+      </div>
+
+      <label class="grid gap-2 text-sm">
+        <span>{t(locale, 'form.message')}</span>
+        <textarea
+          required
+          name="message"
+          rows="5"
+          class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
+        ></textarea>
+      </label>
+
+      <label class="flex items-start gap-3 text-sm text-navy-muted">
+        <input required type="checkbox" name="consent" value="on" class="mt-1" />
+        <span>
+          {t(locale, 'form.privacy')} —
+          <TextLink href={privacyHref}>{t(locale, 'footer.privacy')}</TextLink>
+        </span>
+      </label>
+
+      {
+        turnstileSiteKey && (
+          <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />
+        )
+      }
+
+      {
+        result?.error && (
+          <p class="text-sm text-magenta" data-form-error role="alert">
+            {result.error.message || t(locale, 'errors.generic')}
+          </p>
+        )
+      }
+
+      <Button type="submit" variant="brand">
+        {t(locale, 'cta.submit')}
+      </Button>
+    </form>
+  </Container>
+</Section>
+
+{
+  turnstileSiteKey && (
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+  )
+}

@@ -1,0 +1,376 @@
+---
+import Button from '../../components/ui/Button.astro'
+import {urlFor} from '../../lib/sanity/image'
+import type {SanityImageSource} from '@sanity/image-url'
+
+interface Props {
+  variant?: 'home' | 'recruitment' | 'services' | 'servicePage' | 'about' | 'methodology' | 'insights' | 'caseStudies' | 'caseStudyDetail' | 'contact'
+  eyebrow?: string
+  heading: string
+  subheading?: string
+  pill?: string
+  image?: string | SanityImageSource
+  primaryCta?: {label: string; href: string}
+  secondaryCta?: {label: string; href: string}
+}
+
+const {
+  variant = 'home',
+  eyebrow,
+  heading,
+  subheading,
+  pill,
+  image,
+  primaryCta,
+  secondaryCta,
+} = Astro.props
+
+const isCompactHero =
+  variant === 'servicePage' ||
+  variant === 'insights' ||
+  variant === 'caseStudies' ||
+  variant === 'caseStudyDetail' ||
+  variant === 'contact'
+
+// servicePage heroes with 4–5 line headings need more vertical room than the 548px default.
+const servicePageHeroHeight =
+  variant === 'servicePage'
+    ? heading.length > 70
+      ? 'min-h-[660px] lg:min-h-[660px]'
+      : heading.length > 50
+        ? 'min-h-[604px] lg:min-h-[604px]'
+        : 'min-h-[548px] lg:min-h-[548px]'
+    : null
+
+const imageSrc =
+  typeof image === 'string'
+    ? image
+    : image
+      ? urlFor(image).width(1920).height(1080).fit('crop').auto('format').url()
+      : variant === 'recruitment'
+        ? '/assets/figma/recruitment/hero.webp'
+        : variant === 'services'
+        ? '/assets/figma/services/hero.webp'
+        : variant === 'servicePage'
+          ? '/assets/figma/services/hero.webp'
+          : variant === 'about'
+            ? '/assets/figma/about/hero.webp'
+            : variant === 'methodology'
+              ? '/assets/figma/methodology/hero.webp'
+              : variant === 'insights'
+                ? '/assets/figma/insights/hero.webp'
+                : variant === 'caseStudies'
+                  ? '/assets/figma/case-studies/hero.webp'
+                  : variant === 'caseStudyDetail'
+                    ? '/assets/figma/case-studies/detail-hero.webp'
+                    : variant === 'contact'
+                      ? '/assets/figma/contact/hero.webp'
+              : '/assets/figma/home/hero.webp'
+---
+
+<section
+  class:list={[
+    'relative isolate overflow-hidden bg-black text-white',
+    variant === 'recruitment' || variant === 'about' || variant === 'methodology'
+      ? 'min-h-[701px] lg:h-[701px]'
+      : variant === 'services'
+        ? 'min-h-[550px] lg:h-[550px]'
+        : variant === 'servicePage'
+          ? servicePageHeroHeight
+          : variant === 'insights' || variant === 'caseStudies' || variant === 'caseStudyDetail'
+            ? 'min-h-[548px] lg:h-[548px]'
+            : 'min-h-[720px] lg:h-[810px]',
+  ]}
+>
+  <img
+    src={imageSrc}
+    alt=""
+    class:list={[
+      'absolute inset-x-0 !w-full !max-w-none object-cover',
+      variant === 'recruitment'
+        ? 'inset-y-0 !h-full object-bottom'
+        : variant === 'about' || variant === 'methodology'
+          ? 'inset-y-0 !h-full object-cover'
+          : variant === 'services' || isCompactHero
+          ? 'inset-y-0 !h-full object-center'
+          : 'top-[-6%] !h-[112%] object-bottom',
+    ]}
+    width="1440"
+    height={variant === 'recruitment' || variant === 'about' || variant === 'methodology' ? 701 : variant === 'services' ? 550 : isCompactHero ? 548 : 810}
+    data-parallax={variant === 'recruitment' || variant === 'about' || variant === 'methodology' ? '0.06' : variant === 'services' || isCompactHero ? '0.05' : '0.14'}
+  />
+  <div class="pointer-events-none absolute inset-0 bg-black/50"></div>
+  {
+    variant === 'home' && (
+      <img
+        src="/assets/figma/home/hero-accent.svg"
+        alt=""
+        class="pointer-events-none absolute -left-[195px] -top-[235px] h-[783px] w-[779px] max-w-none opacity-70"
+        width="779"
+        height="783"
+        data-parallax="-0.22"
+      />
+    )
+  }
+
+  <div
+    class:list={[
+      'relative z-10 mx-auto w-full px-6 sm:px-[42px]',
+      variant === 'recruitment' || variant === 'about' || variant === 'methodology'
+        ? 'min-h-[701px] lg:h-[701px]'
+        : variant === 'services'
+          ? 'min-h-[550px] lg:h-[550px]'
+          : variant === 'servicePage'
+            ? `flex flex-col justify-end pb-12 pt-28 lg:justify-center lg:pb-16 lg:pt-28 ${servicePageHeroHeight}`
+            : isCompactHero
+              ? 'flex min-h-[548px] flex-col justify-end pb-12 pt-28 lg:min-h-0 lg:h-full lg:justify-center lg:pb-16 lg:pt-0'
+              : 'flex min-h-[720px] flex-col justify-end pb-16 pt-40 lg:min-h-0 lg:h-full lg:block lg:pt-0',
+    ]}
+  >
+    {
+      variant === 'services' ? (
+        <div
+          class="flex min-h-[470px] w-full max-w-[648px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+38px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          data-reveal-group="140"
+          data-reveal-on="load"
+        >
+          <h1
+            class="m-0 max-w-[648px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            data-reveal="text"
+          >
+            {heading}
+          </h1>
+          {subheading && (
+            <p class="m-0 max-w-[529px] text-lg leading-[1.22] text-white" data-reveal>
+              {subheading}
+            </p>
+          )}
+        </div>
+      ) : variant === 'servicePage' ? (
+        <div
+          class="flex w-full max-w-[848px] flex-col gap-[19px]"
+          data-reveal-group="140"
+          data-reveal-on="load"
+        >
+          {eyebrow && (
+            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+              {eyebrow}
+            </p>
+          )}
+          <h1
+            class="m-0 max-w-[848px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            data-reveal="text"
+          >
+            {heading}
+          </h1>
+          {subheading && (
+            <p class="m-0 max-w-[672px] text-lg leading-[1.22] text-white" data-reveal>
+              {subheading}
+            </p>
+          )}
+          {(primaryCta || secondaryCta) && (
+            <div class="flex flex-wrap gap-4" data-reveal>
+              {primaryCta && (
+                <Button href={primaryCta.href} variant="secondary" size="lg">
+                  {primaryCta.label}
+                </Button>
+              )}
+              {secondaryCta && (
+                <Button href={secondaryCta.href} variant="primary" size="lg">
+                  {secondaryCta.label}
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      ) : variant === 'insights' || variant === 'caseStudies' ? (
+        <div
+          class="flex min-h-[468px] w-full max-w-[848px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+16px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          data-reveal-group="140"
+          data-reveal-on="load"
+        >
+          {eyebrow && (
+            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+              {eyebrow}
+            </p>
+          )}
+          <h1
+            class="m-0 max-w-[848px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            data-reveal="text"
+          >
+            {heading}
+          </h1>
+          {subheading && (
+            <p class="m-0 max-w-[672px] text-lg leading-[1.22] text-white" data-reveal>
+              {subheading}
+            </p>
+          )}
+        </div>
+      ) : variant === 'caseStudyDetail' ? (
+        <div
+          class="flex min-h-[468px] w-full max-w-[634px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-1/2 lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          data-reveal-group="140"
+          data-reveal-on="load"
+        >
+          {pill && (
+            <span class="inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black" data-reveal>
+              {pill}
+            </span>
+          )}
+          {subheading && (
+            <p class="m-0 text-lg leading-[1.22] text-white" data-reveal>
+              {subheading}
+            </p>
+          )}
+          <h1
+            class="m-0 max-w-[634px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            data-reveal="text"
+          >
+            {heading}
+          </h1>
+        </div>
+      ) : variant === 'contact' ? (
+        <div
+          class="flex min-h-[468px] w-full max-w-[683px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-1/2 lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          data-reveal-group="140"
+          data-reveal-on="load"
+        >
+          <h1
+            class="m-0 max-w-[683px] font-display text-[clamp(2rem,3.6vw,3.25rem)] uppercase leading-[1.05]"
+            data-reveal="text"
+          >
+            {heading}
+          </h1>
+          {subheading && (
+            <p class="m-0 max-w-[445px] text-lg leading-[1.22] text-white" data-reveal>
+              {subheading}
+            </p>
+          )}
+        </div>
+      ) : variant === 'about' ? (
+        <div
+          class="flex min-h-[621px] w-full max-w-[683px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+18px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          data-reveal-group="140"
+          data-reveal-on="load"
+        >
+          {eyebrow && (
+            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+              {eyebrow}
+            </p>
+          )}
+          <h1
+            class="m-0 max-w-[589px] font-display text-[clamp(2rem,3.6vw,3.25rem)] uppercase leading-[1.05]"
+            data-reveal="text"
+          >
+            {heading}
+          </h1>
+          {subheading && (
+            <p class="m-0 max-w-[551px] text-lg leading-[1.22] text-white" data-reveal>
+              {subheading}
+            </p>
+          )}
+        </div>
+      ) : variant === 'methodology' ? (
+        <div
+          class="flex min-h-[621px] w-full max-w-[607px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+18px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          data-reveal-group="140"
+          data-reveal-on="load"
+        >
+          {eyebrow && (
+            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+              {eyebrow}
+            </p>
+          )}
+          <h1
+            class="m-0 max-w-[607px] font-display text-[clamp(2rem,3.6vw,3.25rem)] uppercase leading-[1.05]"
+            data-reveal="text"
+          >
+            {heading}
+          </h1>
+          {subheading && (
+            <p class="m-0 max-w-[607px] text-lg leading-[1.22] text-white" data-reveal>
+              {subheading}
+            </p>
+          )}
+        </div>
+      ) : variant === 'recruitment' ? (
+        <div
+          class="flex min-h-[621px] w-full max-w-[670px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+25px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          data-reveal-group="140"
+          data-reveal-on="load"
+        >
+          {eyebrow && (
+            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+              {eyebrow}
+            </p>
+          )}
+          <h1
+            class="m-0 max-w-[670px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            data-reveal="text"
+          >
+            {heading}
+          </h1>
+          {subheading && (
+            <p class="m-0 max-w-[529px] text-lg leading-[1.22] text-white" data-reveal>
+              {subheading}
+            </p>
+          )}
+          {(primaryCta || secondaryCta) && (
+            <div class="flex flex-wrap gap-4" data-reveal>
+              {primaryCta && (
+                <Button href={primaryCta.href} variant="secondary" size="lg">
+                  {primaryCta.label}
+                </Button>
+              )}
+              {secondaryCta && (
+                <Button href={secondaryCta.href} variant="primary" size="lg">
+                  {secondaryCta.label}
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div class="flex flex-col gap-10 lg:block" data-reveal-group="140" data-reveal-on="load">
+          <div class="lg:absolute lg:left-[42px] lg:top-[369px] lg:w-[523px]">
+            {eyebrow && (
+              <p class="mb-4 text-sm uppercase tracking-widest text-white/70" data-reveal>
+                {eyebrow}
+              </p>
+            )}
+            <h1
+              class="m-0 max-w-[523px] font-display text-[clamp(2.5rem,3.62vw,3.25rem)] uppercase leading-[1.04]"
+              data-reveal="text"
+            >
+              {heading}
+            </h1>
+          </div>
+
+          {subheading && (
+            <p
+              class="m-0 max-w-[302px] text-base leading-[1.08] lg:absolute lg:right-[42px] lg:top-[451px] lg:text-lg"
+              data-reveal
+            >
+              {subheading}
+            </p>
+          )}
+
+          {(primaryCta || secondaryCta) && (
+            <div class="flex flex-wrap gap-4 lg:absolute lg:left-[42px] lg:top-[595px]" data-reveal>
+              {primaryCta && (
+                <Button href={primaryCta.href} variant="primary" size="lg">
+                  {primaryCta.label}
+                </Button>
+              )}
+              {secondaryCta && (
+                <Button href={secondaryCta.href} variant="secondary" size="lg">
+                  {secondaryCta.label}
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      )
+    }
+  </div>
+</section>

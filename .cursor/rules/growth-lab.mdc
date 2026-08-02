@@ -1,0 +1,15 @@
+---
+description: Growth Lab project conventions — keep the codebase clean and modular
+alwaysApply: true
+---
+
+# Growth Lab conventions
+
+- Stack: Astro (`frontend/`) + Sanity Studio (`studio/`). No third-party Astro themes.
+- Import direction only: `pages` → `modules` / `layouts` → `components/ui` or `components/cards`. Never reverse.
+- GROQ queries live in `frontend/src/lib/sanity/queries/`. Use `defineQuery`.
+- One Sanity section object maps to one Astro module renderer. Visual variants are props, not duplicate components.
+- Islands (`client:*`) only for mobile nav, FAQ accordion, and forms.
+- Do not add unused dependencies, generic UI kits, Storybook, or premature abstractions.
+- Locales: `es` (default) and `en`. Static path segments are translated via `i18n/routes.ts`.
+- For full project context (architecture, Figma workflow, section layouts), read `docs/AGENT_CONTEXT.md`.

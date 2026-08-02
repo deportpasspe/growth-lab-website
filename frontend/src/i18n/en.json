@@ -1,0 +1,160 @@
+{
+  "brand": "Growth Lab",
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "recruitment": "Recruitment",
+    "about": "About",
+    "methodology": "Methodology",
+    "insights": "Insights",
+    "caseStudies": "Case studies",
+    "contact": "Contact"
+  },
+  "cta": {
+    "primary": "Let's talk",
+    "secondary": "Explore our methodology",
+    "viewAll": "View all",
+    "learnMore": "Learn more",
+    "readInsight": "Read article",
+    "viewCase": "View case",
+    "viewFullCase": "View full case",
+    "whatsapp": "Message on WhatsApp",
+    "submit": "Send message"
+  },
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "company": "Company",
+    "phone": "Phone",
+    "message": "Message",
+    "privacy": "I accept the privacy policy",
+    "honeypot": "Leave blank",
+    "sending": "Sending…",
+    "successRedirect": "Thank you — we'll be in touch soon."
+  },
+  "errors": {
+    "required": "This field is required",
+    "email": "Enter a valid email",
+    "privacy": "You must accept the privacy policy",
+    "turnstile": "We couldn't verify you're human",
+    "generic": "Something went wrong. Try again or reach us on WhatsApp."
+  },
+  "footer": {
+    "tagline": "Talent and organizational development with rigor and care.",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy policy"
+  },
+  "sections": {
+    "services": "Services",
+    "method": "How we work",
+    "cases": "Case studies",
+    "insights": "Insights",
+    "faq": "FAQ",
+    "clients": "Trusted by"
+  },
+  "localeSwitch": "Español",
+  "thankYou": {
+    "title": "We received your message.",
+    "message": "Someone from our team will get in touch within 24 hours.",
+    "ctaHeading": "Prefer to schedule directly?",
+    "ctaSubheading": "If you don't want to wait, choose the day and time that works best for you.",
+    "bookMeeting": "Book a meeting"
+  },
+  "insights": {
+    "filterType": "By type",
+    "filterTopic": "By topic",
+    "filterPlaceholder": "Select an area of interest",
+    "back": "Back",
+    "related": "Related articles",
+    "readTime": "min read",
+    "article": "Article",
+    "guide": "Downloadable guide",
+    "downloadFree": "Download free",
+    "readArticle": "Read article",
+    "newsletterHeading": "One perspective per month on talent and culture in the Peruvian market.",
+    "newsletterIntro": "No spam. Only actionable content for HR teams and leaders making people decisions.",
+    "leadFormTitle": "We will contact you in less than 24 hours.",
+    "leadFormConsent": "I accept the terms and conditions and the",
+    "leadFormSubmit": "Send",
+    "leadFormMessage": "Insights subscription from the listing page.",
+    "heroEyebrow": "Insights",
+    "heroHeading": "Ideas to make better decisions about your people.",
+    "heroSubheading": "Perspectives on talent, leadership, and organizational culture for teams that want to grow with method.",
+    "ctaHeading": "Want actionable content on talent and culture?",
+    "ctaSubheading": "Subscribe and receive a monthly perspective directly in your inbox.",
+    "ctaSubscribe": "Subscribe",
+    "ctaViewAll": "View all insights",
+    "detailCtaHeading": "Do you have an open executive search process?",
+    "detailCtaSubheading": "Tell us about the profile and let's talk.",
+    "detailCtaButton": "Book a meeting"
+  },
+  "contact": {
+    "heroHeading": "Let's talk about your organization.",
+    "heroSubheading": "No commitment. A conversation to understand your situation and see if we can help.",
+    "pathsMeetingTitle": "Book a meeting",
+    "pathsMeetingEyebrow": "For organizations ready to start a process.",
+    "pathsMeetingFooter": "Choose the day and time that works best for you. We confirm within 24 hours.",
+    "pathsFormTitle": "Request a free diagnostic",
+    "pathsFormEyebrow": "For organizations that want to explore first.",
+    "pathsFormHeading": "We will contact you in less than 24 hours.",
+    "channelsHeading": "You can also reach us directly.",
+    "channels": {
+      "emailTitle": "Email:",
+      "emailValue": "contacto@growthlab.pe",
+      "whatsappTitle": "WhatsApp:",
+      "whatsappValue": "+51 999 999 999",
+      "whatsappHref": "https://wa.me/51999999999",
+      "linkedinTitle": "LinkedIn:",
+      "linkedinValue": "Growth Lab Peru",
+      "linkedinHref": "https://www.linkedin.com/company/growthlab",
+      "addressTitle": "Address:",
+      "addressValue": "San Isidro, Lima, Peru"
+    },
+    "reasonsHeading": "Why it's worth taking the first step.",
+    "reasons": {
+      "r1Title": "No initial commitment",
+      "r1Body": "The first conversation is just that: a conversation. No proposal or pressure involved.",
+      "r2Title": "Diagnosis first",
+      "r2Body": "Before recommending any service, we understand your situation. Not the other way around.",
+      "r3Title": "Success-based model",
+      "r3Body": "In recruitment we invoice only when the candidate is hired. Your risk is minimal."
+    },
+    "form": {
+      "role": "Role",
+      "rolePlaceholder": "Your role",
+      "interest": "Area of interest",
+      "interestPlaceholder": "Select an area of interest",
+      "interestExecutive": "Executive recruitment",
+      "interestDevelopment": "Organizational development",
+      "interestOther": "Other",
+      "challenge": "What is your main challenge right now?",
+      "challengePlaceholder": "Tell us briefly",
+      "consent": "I accept the terms and conditions and the privacy policy.",
+      "submit": "Send"
+    },
+    "faq": {
+      "q1": "How long does the first meeting last?",
+      "a1": "Between thirty and forty-five minutes. It's an exploratory conversation to understand your situation and see if we can help.",
+      "q2": "Do we need an open process to contact you?",
+      "a2": "No. Many conversations start before a role or project is defined. If we're not a fit, we'll tell you clearly.",
+      "q3": "Do you work with companies outside Peru?",
+      "a3": "Yes. We work with organizations in Peru and the region. We evaluate scope case by case.",
+      "q4": "How much does an executive recruitment or organizational development process cost?",
+      "a4": "It depends on scope, complexity, and type of intervention. In the first conversation we give you a clear reference before moving forward."
+    }
+  },
+  "caseStudies": {
+    "heroEyebrow": "Case studies",
+    "heroHeading": "Results you can measure, not just describe.",
+    "heroSubheading": "Every case starts from a real problem and ends with a concrete number. That is how we measure success.",
+    "ctaHeading": "Does your organization face a similar challenge?",
+    "ctaSubheading": "Tell us where you stand and let's see how we can help.",
+    "ctaPrimary": "Book a meeting",
+    "ctaSecondary": "View all services",
+    "challengeLabel": "The challenge",
+    "interventionLabel": "The intervention",
+    "resultsTitle": "Results",
+    "serviceCtaButton": "Explore the method",
+    "relatedTitle": "Other case studies"
+  }
+}

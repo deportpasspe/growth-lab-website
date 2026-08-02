@@ -1,0 +1,50 @@
+---
+import {isLocale, resolveRoute} from '../../i18n/routes'
+import HomePage from '../../views/HomePage.astro'
+import ServicesIndex from '../../views/ServicesIndex.astro'
+import ServiceDetail from '../../views/ServiceDetail.astro'
+import AboutPage from '../../views/AboutPage.astro'
+import MethodologyPage from '../../views/MethodologyPage.astro'
+import RecruitmentPage from '../../views/RecruitmentPage.astro'
+import InsightsIndex from '../../views/InsightsIndex.astro'
+import InsightDetail from '../../views/InsightDetail.astro'
+import CaseStudiesIndex from '../../views/CaseStudiesIndex.astro'
+import CaseStudyDetail from '../../views/CaseStudyDetail.astro'
+import ContactPage from '../../views/ContactPage.astro'
+import ThankYouPage from '../../views/ThankYouPage.astro'
+import LegalPage from '../../views/LegalPage.astro'
+
+const {locale: raw, path} = Astro.params
+
+if (!raw || !isLocale(raw)) {
+  return new Response(null, {status: 404, statusText: 'Not Found'})
+}
+
+const locale = raw
+const segments = (path || '')
+  .split('/')
+  .map((s) => s.trim())
+  .filter(Boolean)
+
+const route = resolveRoute(locale, segments)
+const privacySlug = locale === 'es' ? 'politica-de-privacidad' : 'privacy-policy'
+
+if (route.kind === 'notFound') {
+  return new Response(null, {status: 404, statusText: 'Not Found'})
+}
+---
+
+{route.kind === 'home' && <HomePage locale={locale} />}
+{route.kind === 'services' && <ServicesIndex locale={locale} />}
+{route.kind === 'service' && <ServiceDetail locale={locale} slug={route.slug} />}
+{route.kind === 'about' && <AboutPage locale={locale} />}
+{route.kind === 'methodology' && <MethodologyPage locale={locale} />}
+{route.kind === 'recruitment' && <RecruitmentPage locale={locale} />}
+{route.kind === 'insights' && <InsightsIndex locale={locale} />}
+{route.kind === 'insight' && <InsightDetail locale={locale} slug={route.slug} />}
+{route.kind === 'caseStudies' && <CaseStudiesIndex locale={locale} />}
+{route.kind === 'caseStudy' && <CaseStudyDetail locale={locale} slug={route.slug} />}
+{route.kind === 'contact' && <ContactPage locale={locale} />}
+{route.kind === 'thankYou' && <ThankYouPage locale={locale} />}
+{route.kind === 'privacy' && <LegalPage locale={locale} slug={privacySlug} />}
+{route.kind === 'legal' && <LegalPage locale={locale} slug={route.slug} />}

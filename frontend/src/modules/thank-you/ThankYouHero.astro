@@ -1,0 +1,46 @@
+---
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+import BackLink from '../../components/ui/BackLink.astro'
+import {t} from '../../i18n'
+
+interface Props {
+  locale: Locale
+  heading: string
+  message: string
+}
+
+const {locale, heading, message} = Astro.props
+const backHref = getLocalizedPath(locale, 'contact')
+---
+
+<section class="bg-black px-6 pb-16 pt-28 text-white sm:px-[42px] lg:pb-[72px]">
+  <div
+    class="mx-auto grid max-w-[1356px] gap-10 lg:grid-cols-[minmax(0,350px)_minmax(0,754px)] lg:items-center lg:justify-between lg:gap-[52px]"
+    data-reveal-group="110"
+  >
+    <div>
+      <div data-reveal>
+        <BackLink locale={locale} href={backHref} label={t(locale, 'insights.back')} />
+      </div>
+      <h1
+        class="mt-6 max-w-[350px] text-[clamp(2rem,3vw,2.625rem)] uppercase leading-[1.05]"
+        data-reveal="text"
+      >
+        {heading}
+      </h1>
+      <p class="mt-6 max-w-[325px] text-base leading-normal" data-reveal>
+        {message}
+      </p>
+    </div>
+    <div class="overflow-hidden rounded-[4px] lg:justify-self-end" data-reveal>
+      <img
+        src="/assets/figma/thank-you/hero.jpg"
+        alt=""
+        class="aspect-[754/493] w-full object-cover"
+        width="754"
+        height="493"
+      />
+    </div>
+  </div>
+</section>

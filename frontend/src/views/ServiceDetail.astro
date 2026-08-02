@@ -1,0 +1,46 @@
+---
+import type {Locale} from '../i18n/routes'
+import Layout from '../layouts/Layout.astro'
+import PageBuilder from '../components/PageBuilder.astro'
+import {serviceFixtures, serviceMeta} from '../modules/servicePageFixtures'
+import type {PageSection} from '../modules/fixtures'
+import {loadQuery} from '../lib/sanity/loadQuery'
+import {serviceBySlugQuery} from '../lib/sanity/queries/service'
+
+interface Props {
+  locale: Locale
+  slug: string
+}
+
+const {locale, slug} = Astro.props
+
+const fixtureMeta = serviceMeta(slug, locale)
+let sections: PageSection[] | null = serviceFixtures(slug, locale)
+let title = fixtureMeta?.title || slug
+let description = fixtureMeta?.description || ''
+
+if (!sections) {
+  return new Response(null, {status: 404, statusText: 'Not Found'})
+}
+
+try {
+  const data = await loadQuery<{
+    title?: string
+    summary?: string
+    seo?: {metaTitle?: string; metaDescription?: string}
+    pageBuilder?: PageSection[]
+  } | null>(serviceBySlugQuery, {locale, slug})
+
+  if (data?.pageBuilder?.length) {
+    sections = data.pageBuilder
+    title = data.seo?.metaTitle || data.title || title
+    description = data.seo?.metaDescription || data.summary || description
+  }
+} catch {
+  // CMS unavailable — fixtures
+}
+---
+
+<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+  <PageBuilder locale={locale} sections={sections} />
+</Layout>

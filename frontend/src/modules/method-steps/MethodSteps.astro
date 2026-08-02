@@ -1,0 +1,359 @@
+---
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+import Button from '../../components/ui/Button.astro'
+import MethodStepGridCard from './MethodStepGridCard.astro'
+
+interface Props {
+  locale?: Locale
+  layout?: 'diagram' | 'grid'
+  title?: string
+  intro?: string
+  featuredTitle?: string
+  featuredDescription?: string
+  showCta?: boolean
+  steps: {title: string; description: string}[]
+}
+
+const {
+  locale = 'es',
+  layout = 'diagram',
+  title,
+  intro,
+  featuredTitle,
+  featuredDescription,
+  showCta = true,
+  steps,
+} = Astro.props
+
+const nodes = steps.slice(0, 4)
+const gridSteps = steps.slice(0, 7)
+
+const desktopNodes = [
+  {
+    className: 'left-[6.4%] top-[11.2%] h-[261px] w-[261px]',
+    circle: '/assets/figma/home/method-circle-primary.svg',
+    size: 261,
+    showNumber: false,
+    showDescription: true,
+  },
+  {
+    className: 'left-[31%] top-[58.5%] h-[242px] w-[242px]',
+    circle: '/assets/figma/home/method-circle-secondary.svg',
+    size: 242,
+    showNumber: true,
+    showDescription: false,
+  },
+  {
+    className: 'left-[51.4%] top-[10%] h-[252px] w-[252px]',
+    circle: '/assets/figma/home/method-circle-tertiary.svg',
+    size: 252,
+    showNumber: true,
+    showDescription: false,
+  },
+  {
+    className: 'left-[79.5%] top-[40.6%] h-[252px] w-[252px]',
+    circle: '/assets/figma/home/method-circle-tertiary.svg',
+    size: 252,
+    showNumber: true,
+    showDescription: false,
+  },
+] as const
+
+const dots = [
+  {left: '0%', top: '35.5%', color: 'bg-[#48595C]', size: 'size-[25px]'},
+  {left: '25%', top: '0.7%', color: 'bg-[#48595C]', size: 'size-[25px]'},
+  {left: '31.5%', top: '37%', color: 'bg-[#541B3B]', size: 'size-[25px]'},
+  {left: '24.4%', top: '59.2%', color: 'bg-[#541B3B]', size: 'size-[25px]'},
+  {left: '42.7%', top: '29%', color: 'bg-[#48595C]', size: 'size-[22px]'},
+  {left: '50.5%', top: '54%', color: 'bg-[#48595C]', size: 'size-[24px]'},
+  {left: '27.6%', top: '96.5%', color: 'bg-[#48595C]', size: 'size-[24px]'},
+  {left: '70.5%', top: '0%', color: 'bg-[#48595C]', size: 'size-[24px]'},
+  {left: '74.7%', top: '35.3%', color: 'bg-[#541B3B]', size: 'size-[25px]'},
+  {left: '75.4%', top: '82.2%', color: 'bg-[#48595C]', size: 'size-[24px]'},
+  {left: '98.4%', top: '33.7%', color: 'bg-[#48595C]', size: 'size-[22px]'},
+] as const
+---
+
+{
+  layout === 'grid' ? (
+    <section class="relative overflow-hidden bg-[#150e0e] px-6 pb-[90px] pt-[92px] text-white sm:px-[42px]">
+      <div
+        class="pointer-events-none absolute inset-0"
+        style="background-image:linear-gradient(202deg,rgb(139,24,88) 25%,rgba(139,24,88,0) 39%),linear-gradient(90deg,rgb(21,14,14),rgb(21,14,14))"
+        aria-hidden="true"
+      />
+
+      <header class="relative mx-auto max-w-[900px] text-center" data-reveal-group="120">
+        {title && (
+          <h2 class="m-0 text-[clamp(2rem,3vw,2.625rem)] leading-none uppercase" data-reveal="text">
+            {title}
+          </h2>
+        )}
+        {intro && (
+          <p class="mx-auto mb-0 mt-[18px] max-w-[811px] text-lg leading-[1.2]" data-reveal>
+            {intro}
+          </p>
+        )}
+      </header>
+
+      <div class="relative mx-auto mt-[72px] max-w-[1356px]" data-reveal>
+        <img
+          src="/assets/figma/methodology/grid-path.svg"
+          alt=""
+          class="pointer-events-none absolute left-[3%] top-[36%] hidden h-auto w-[83%] max-w-none xl:block"
+          width="1191"
+          height="631"
+        />
+
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
+          {featuredTitle && (
+            <div class="xl:col-start-1 xl:row-start-1">
+              <MethodStepGridCard
+                variant="featured"
+                title={featuredTitle}
+                description={featuredDescription}
+              />
+            </div>
+          )}
+          {gridSteps.map((step, index) => (
+            <div
+              class:list={[
+                index === 0 && 'xl:col-start-2 xl:row-start-1',
+                index === 1 && 'xl:col-start-3 xl:row-start-1',
+                index === 2 && 'xl:col-start-1 xl:row-start-2',
+                index === 3 && 'xl:col-start-2 xl:row-start-2',
+                index === 4 && 'xl:col-start-3 xl:row-start-2',
+                index === 5 && 'xl:col-start-1 xl:row-start-3',
+                index === 6 && 'xl:col-start-2 xl:row-start-3',
+              ]}
+            >
+              <MethodStepGridCard
+                variant="step"
+                number={index + 1}
+                title={step.title}
+                description={step.description}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ) : (
+<section class="overflow-hidden bg-black px-6 pb-[90px] pt-[92px] text-white sm:px-[42px]">
+  <header class="mx-auto max-w-[900px] text-center" data-reveal-group="120">
+    {
+      title && (
+        <h2 class="m-0 text-[clamp(2rem,3vw,2.625rem)] leading-none uppercase" data-reveal="text">
+          {title}
+        </h2>
+      )
+    }
+    {
+      intro && (
+        <p class="mx-auto mb-0 mt-[18px] max-w-[898px] text-lg leading-[1.2]" data-reveal>
+          {intro}
+        </p>
+      )
+    }
+  </header>
+
+  <div
+    class="method-diagram relative mx-auto mt-[72px] hidden aspect-[1362/672] w-full max-w-[1362px] lg:block"
+    data-reveal
+  >
+    <img
+      src="/assets/figma/home/method-lines-left.svg"
+      alt=""
+      class="method-line method-line-left pointer-events-none absolute left-[1.2%] top-[2.7%] h-[74%] w-[70%] max-w-none"
+      width="950"
+      height="498"
+    />
+    <img
+      src="/assets/figma/home/method-lines-mid.svg"
+      alt=""
+      class="method-line method-line-mid pointer-events-none absolute left-[45.5%] top-[43.2%] h-[23.3%] w-[10.1%] max-w-none"
+      width="138"
+      height="157"
+    />
+    <img
+      src="/assets/figma/home/method-lines-right.svg"
+      alt=""
+      class="method-line method-line-right pointer-events-none absolute left-[28.4%] top-[31.6%] h-[67%] w-[70.5%] max-w-none"
+      width="961"
+      height="450"
+    />
+
+    {
+      dots.map((dot) => (
+        <span
+          class:list={[
+            'method-dot pointer-events-none absolute rounded-full',
+            dot.color,
+            dot.size,
+          ]}
+          style={`left:${dot.left};top:${dot.top}`}
+          aria-hidden="true"
+        />
+      ))
+    }
+
+    <ol class="m-0 list-none p-0">
+      {
+        nodes.map((step, index) => {
+          const layout = desktopNodes[index]
+          return (
+            <li
+              class:list={[
+                'method-node group/node absolute flex items-center justify-center text-center transition-transform duration-300 ease-[var(--ease-out)] hover:-translate-y-1',
+                layout.className,
+              ]}
+              style={`--node-delay:${index * 0.65}s`}
+            >
+              <img
+                src={layout.circle}
+                alt=""
+                class="absolute inset-0 !h-full !w-full !max-w-none transition-transform duration-500 ease-[var(--ease-out)] group-hover/node:scale-[1.03]"
+                width={layout.size}
+                height={layout.size}
+              />
+              <div class="relative max-w-[205px] px-3">
+                {layout.showNumber && (
+                  <p class="m-0 text-[42px] leading-none">
+                    {String(index + 1).padStart(2, '0')}
+                  </p>
+                )}
+                <h3
+                  class:list={[
+                    'm-0 text-xl leading-[1.05] uppercase',
+                    layout.showNumber ? 'mt-1' : '',
+                  ]}
+                >
+                  {step.title}
+                </h3>
+                {layout.showDescription && step.description && (
+                  <p class="mx-auto mb-0 mt-1 max-w-[184px] text-base leading-[1.15] text-white/75">
+                    {step.description}
+                  </p>
+                )}
+              </div>
+            </li>
+          )
+        })
+      }
+    </ol>
+  </div>
+
+  <ol class="mx-auto mt-12 grid max-w-3xl list-none gap-4 p-0 lg:hidden" data-reveal-group="110">
+    {
+      nodes.map((step, index) => (
+        <li
+          class:list={[
+            'rounded-full p-8 text-center transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)]',
+            index === 0
+              ? 'bg-magenta shadow-[0_12px_32px_rgba(139,24,88,0.28)]'
+              : 'border border-white/20 bg-[#48595C]/35',
+          ]}
+          data-reveal
+        >
+          <p class="m-0 text-3xl leading-none">{String(index + 1).padStart(2, '0')}</p>
+          <h3 class="mb-0 mt-2 text-lg uppercase">{step.title}</h3>
+          <p class="mb-0 mt-2 text-sm leading-[1.25] text-white/70">{step.description}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  {
+    showCta && (
+      <div class="mt-12 flex justify-center lg:mt-10" data-reveal>
+        <Button href={getLocalizedPath(locale, 'methodology')} variant="brand" size="lg">
+          {locale === 'es' ? 'Conoce más del Growth Talent Method™' : 'Learn more about Growth Talent Method™'}
+        </Button>
+      </div>
+    )
+  }
+</section>
+  )
+}
+
+<style>
+  .method-node {
+    animation: method-float 7s var(--ease-out) var(--node-delay) infinite alternate;
+  }
+
+  .method-dot {
+    animation: method-pulse 3.6s var(--ease-out) infinite;
+  }
+
+  .method-dot:nth-of-type(3n) {
+    animation-delay: 0.7s;
+  }
+
+  .method-dot:nth-of-type(3n + 1) {
+    animation-delay: 1.4s;
+  }
+
+  .method-line {
+    clip-path: inset(0 100% 0 0);
+    animation: method-line-draw 1.35s var(--ease-out) forwards;
+    filter: drop-shadow(0 0 0.28rem rgb(139 24 88 / 0.14));
+  }
+
+  /* Hold the line drawing until the diagram scrolls into view */
+  :global(html.motion-ready) .method-diagram .method-line {
+    animation-play-state: paused;
+  }
+
+  :global(html.motion-ready) .method-diagram.is-revealed .method-line {
+    animation-play-state: running;
+  }
+
+  .method-line-mid {
+    animation-delay: 0.55s;
+  }
+
+  .method-line-right {
+    animation-delay: 0.95s;
+  }
+
+  @keyframes method-float {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(0, -0.5rem, 0);
+    }
+  }
+
+  @keyframes method-pulse {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.16);
+    }
+  }
+
+  @keyframes method-line-draw {
+    from {
+      clip-path: inset(0 100% 0 0);
+      opacity: 0;
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+      opacity: 0.72;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .method-node,
+    .method-dot,
+    .method-line {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,95 @@
+---
+interface Props {
+  variant?: 'default' | 'roomy'
+  title?: string
+  items: {question: string; answer: string}[]
+}
+
+const {variant = 'default', title, items} = Astro.props
+---
+
+<section
+  class:list={[
+    'bg-black px-6 text-white sm:px-[42px]',
+    variant === 'roomy' ? 'pb-[119px] pt-[118px]' : 'py-[86px]',
+  ]}
+>
+  <div class="mx-auto max-w-[898px]">
+    {title && <h2 class="mb-[58px] mt-0 text-center text-[42px] leading-none uppercase" data-reveal="text">{title}</h2>}
+    <div data-faq data-reveal-group="70">
+      {
+        items.map((item, index) => (
+          <details
+            class:list={[
+              'group border-b transition-[background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white/[0.03] focus-within:bg-white/[0.03] group-open:border-magenta group-open:bg-white/[0.03]',
+              index === 0 ? 'border-b-2 border-magenta pt-0' : 'border-white/15',
+            ]}
+            open={index === 0}
+            data-reveal
+          >
+            <summary class="flex min-h-[106px] w-full cursor-pointer list-none items-center justify-between gap-4 px-4 py-7 text-xl marker:content-none transition-[background-color,color] duration-300 ease-[var(--ease-out)] hover:bg-white/[0.025] focus-visible:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-magenta [&::-webkit-details-marker]:hidden">
+              <span>{item.question}</span>
+              <span class="relative h-6 w-6 shrink-0">
+                <img src="/assets/figma/home/chevron-down.svg" alt="" class="absolute inset-0 h-6 w-6 max-w-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-open:-rotate-90 group-open:opacity-0" width="24" height="24" />
+                <img src="/assets/figma/home/chevron-up.svg" alt="" class="absolute inset-0 h-6 w-6 max-w-none rotate-90 opacity-0 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-open:rotate-0 group-open:opacity-100" width="24" height="24" />
+              </span>
+            </summary>
+            <div data-faq-content>
+              <p class="mb-8 mt-0 px-4 text-base leading-5 text-white/75">{item.answer}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-faq]').forEach((root) => {
+    const items = Array.from(root.querySelectorAll<HTMLDetailsElement>('details'))
+    const duration = 520
+    const easing = 'cubic-bezier(0.16, 1, 0.3, 1)'
+
+    const animate = (details: HTMLDetailsElement, open: boolean) => {
+      const summary = details.querySelector<HTMLElement>('summary')
+      if (!summary) return
+
+      details.getAnimations().forEach((animation) => animation.cancel())
+      const startHeight = details.offsetHeight
+
+      if (open) {
+        details.open = true
+      }
+
+      const endHeight = open ? details.offsetHeight : summary.offsetHeight
+      details.style.overflow = 'hidden'
+
+      const animation = details.animate(
+        {height: [`${startHeight}px`, `${endHeight}px`]},
+        {duration, easing},
+      )
+
+      animation.onfinish = () => {
+        if (!open) details.open = false
+        details.style.height = ''
+        details.style.overflow = ''
+      }
+    }
+
+    items.forEach((details) => {
+      const summary = details.querySelector('summary')
+      summary?.addEventListener('click', (event) => {
+        event.preventDefault()
+        const open = !details.open
+
+        if (open) {
+          items.forEach((other) => {
+            if (other !== details && other.open) animate(other, false)
+          })
+        }
+
+        animate(details, open)
+      })
+    })
+  })
+</script>

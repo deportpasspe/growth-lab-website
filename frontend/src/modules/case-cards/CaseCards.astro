@@ -1,0 +1,194 @@
+---
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+import Button from '../../components/ui/Button.astro'
+import {urlFor} from '../../lib/sanity/image'
+import type {ImageSource} from '../fixtures'
+import type {SanityImageSource} from '@sanity/image-url'
+
+interface Props {
+  locale: Locale
+  variant?: 'carousel' | 'featured'
+  title?: string
+  intro?: string
+  showHeader?: boolean
+  cases: {
+    title: string
+    summary?: string
+    industry?: string
+    slug: string
+    challenge?: string
+    intervention?: string
+    result?: string
+    cover?: ImageSource
+  }[]
+}
+
+const {locale, variant = 'carousel', title, intro, showHeader = true, cases} = Astro.props
+
+const images = [
+  {
+    webp: '/assets/figma/home/case-one.webp',
+    avif: '/assets/figma/home/case-one.avif',
+    width: 366,
+    height: 434,
+  },
+  {
+    webp: '/assets/figma/home/case-two.webp',
+    avif: '/assets/figma/home/case-two.webp',
+    width: 366,
+    height: 434,
+  },
+]
+
+const interventionCopy =
+  locale === 'es'
+    ? 'Growth Talent Method™ — mapeo activo + Multi-Layer Assessment™ (evaluación en 3 capas)'
+    : 'Growth Talent Method™ — active mapping + Multi-Layer Assessment™ (3-layer evaluation)'
+
+const imageUrl = (source: ImageSource | undefined, fallback: string) =>
+  typeof source === 'string'
+    ? source
+    : source
+      ? urlFor(source as SanityImageSource).width(1400).height(900).fit('crop').auto('format').url()
+      : fallback
+---
+
+<section
+  class:list={[
+    'overflow-hidden px-6 text-white sm:px-[42px]',
+    variant === 'featured' ? 'bg-black pb-[61px]' : 'bg-[#150e0e] py-[68px]',
+  ]}
+>
+  <div class="mx-auto max-w-[1356px]">
+    {
+      showHeader && (
+        <header
+          class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-start"
+          data-reveal-group="120"
+        >
+          <div class="max-w-[442px]">
+            {title && <h2 class="m-0 max-w-[500px] text-[clamp(2rem,3vw,2.5rem)] leading-[1.05] uppercase" data-reveal="text">{title}</h2>}
+            {intro && <p class="mb-0 mt-4 max-w-[383px] text-base leading-[1.1] text-white/75" data-reveal>{intro}</p>}
+          </div>
+          <div data-reveal>
+            <Button href={getLocalizedPath(locale, 'caseStudies')} variant="secondary" size="lg">
+              {locale === 'es' ? 'Ver casos de éxito' : 'View case studies'}
+            </Button>
+          </div>
+        </header>
+      )
+    }
+
+    <div
+      class:list={[
+        variant === 'featured'
+          ? 'grid'
+          : 'flex snap-x snap-mandatory gap-[17px] overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+        showHeader && 'mt-12',
+      ]}
+      data-reveal-group="150"
+    >
+      {
+        cases.slice(0, variant === 'featured' ? 1 : 2).map((item, index) => (
+          <article
+            class:list={[
+              'group rounded transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(139,24,88,0.18)]',
+              variant === 'featured'
+                ? 'grid min-h-[466px] overflow-hidden bg-[#150e0e] p-4 md:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]'
+                : 'flex min-h-[420px] min-w-[92vw] snap-start items-stretch bg-black p-4 sm:min-h-[466px] sm:min-w-[min(839px,calc((100%-17px)/1.5))]',
+            ]}
+            data-reveal
+          >
+            <div
+              class:list={[
+                'relative overflow-hidden rounded',
+                variant === 'featured' ? 'min-h-[320px] md:min-h-0' : 'hidden w-[min(42%,366px)] shrink-0 p-3 sm:block',
+              ]}
+            >
+              {variant === 'featured' ? (
+                <img
+                  src={imageUrl(item.cover, '/assets/figma/recruitment/case.webp')}
+                  alt=""
+                  class="absolute inset-0 !h-full !w-full !max-w-none object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
+                  width="668"
+                  height="434"
+                />
+              ) : (
+                <picture>
+                  <source srcset={images[index].avif} type="image/avif" />
+                  <source srcset={images[index].webp} type="image/webp" />
+                  <img
+                    src={images[index].webp}
+                    alt=""
+                    class="absolute inset-x-0 top-[-5%] !h-[110%] !w-full !max-w-none rounded object-cover object-bottom transition-[scale] duration-500 ease-[var(--ease-out)] group-hover:scale-[1.025]"
+                    data-parallax="0.06"
+                    width={images[index].width}
+                    height={images[index].height}
+                  />
+                </picture>
+              )}
+              {item.industry && (
+                <span class="absolute left-3 top-3 z-10 inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black">
+                  {item.industry}
+                </span>
+              )}
+            </div>
+
+            <div class="flex min-w-0 flex-1 flex-col justify-between overflow-hidden px-5 py-6 sm:p-[42px]">
+              <div class="flex flex-col gap-6">
+                {variant === 'featured' && <p class="m-0 text-base text-white/70">{item.challenge ?? (locale === 'es' ? 'Reto:' : 'Challenge:')}</p>}
+                <h3 class="m-0 text-[clamp(1.125rem,2vw,1.5rem)] leading-[1.05] text-white">{item.title}</h3>
+
+                <div class="flex items-start gap-2.5">
+                  <img
+                    src="/assets/figma/home/check.svg"
+                    alt=""
+                    class="mt-0.5 !size-4 shrink-0 !max-w-none"
+                    width="16"
+                    height="16"
+                  />
+                  <div class="flex min-w-0 flex-col gap-2.5">
+                    <p class="m-0 text-base leading-normal text-white/50">
+                      {locale === 'es' ? 'Intervención:' : 'Intervention:'}
+                    </p>
+                    <p class="m-0 text-[clamp(0.95rem,1.4vw,1.125rem)] leading-normal text-white">
+                      {item.intervention ?? interventionCopy}
+                    </p>
+                  </div>
+                </div>
+
+                {(item.result || item.summary) && (
+                  <div class="flex items-start gap-2.5">
+                    <img
+                      src="/assets/figma/home/check.svg"
+                      alt=""
+                      class="mt-0.5 !size-4 shrink-0 !max-w-none"
+                      width="16"
+                      height="16"
+                    />
+                    <div class="flex min-w-0 flex-col gap-2.5">
+                      <p class="m-0 text-base leading-normal text-white/50">
+                        {locale === 'es' ? 'Resultado:' : 'Result:'}
+                      </p>
+                      <p class="m-0 text-[clamp(0.95rem,1.4vw,1.125rem)] leading-normal text-white">
+                        {item.result ?? item.summary}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <a
+                href={getLocalizedPath(locale, 'caseStudy', item.slug)}
+                class="mt-10 w-fit border-b border-white py-0.5 text-base leading-none text-white no-underline transition-colors duration-300 ease-[var(--ease-out)] hover:border-magenta-soft hover:text-magenta-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta"
+              >
+                {locale === 'es' ? 'Ver caso completo' : 'View full case'}
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

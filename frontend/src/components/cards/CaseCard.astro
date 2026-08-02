@@ -1,0 +1,88 @@
+---
+import type {Locale} from '../../i18n/routes'
+import {getLocalizedPath} from '../../i18n/routes'
+import type {SanityImageSource} from '@sanity/image-url'
+import {t} from '../../i18n'
+import {
+  caseStudyCardHeadline,
+  caseStudyCardOutcome,
+  caseStudyCoverUrl,
+  caseStudyGridImage,
+} from '../../lib/caseStudies'
+
+interface Props {
+  locale: Locale
+  title: string
+  summary?: string
+  industry?: string
+  service?: string
+  challenge?: string
+  result?: string
+  slug: string
+  cover?: string | SanityImageSource
+  imageIndex?: number
+  class?: string
+}
+
+const {
+  locale,
+  title,
+  summary,
+  industry,
+  service,
+  challenge,
+  result,
+  slug,
+  cover,
+  imageIndex = 0,
+  class: className,
+} = Astro.props
+
+const headline = caseStudyCardHeadline({challenge, title})
+const outcome = caseStudyCardOutcome({result, summary})
+const href = getLocalizedPath(locale, 'caseStudy', slug)
+const gridImage = caseStudyGridImage(imageIndex)
+const imageSrc = cover ? caseStudyCoverUrl(cover) : gridImage.src
+const imageClass = cover
+  ? 'absolute inset-0 !h-full !w-full object-cover'
+  : gridImage.className
+---
+
+<article
+  class:list={[
+    'group flex min-h-[562px] flex-col overflow-hidden transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(139,24,88,0.2)] md:h-[562px]',
+    className,
+  ]}
+>
+  <div class="relative h-[335px] shrink-0 overflow-hidden p-6">
+    <img
+      src={imageSrc}
+      alt=""
+      class:list={[
+        'absolute max-w-none transition-[scale] duration-500 ease-[var(--ease-out)] group-hover:scale-[1.025]',
+        imageClass,
+      ]}
+      width="441"
+      height="335"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/95 transition-opacity duration-300 ease-[var(--ease-out)] group-hover:opacity-90" />
+    {
+      industry && (
+        <span class="relative inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black">
+          {industry}
+        </span>
+      )
+    }
+  </div>
+  <div class="flex min-h-[227px] flex-1 flex-col gap-4 p-6 backdrop-blur-[36px]">
+    {service && <p class="m-0 text-base leading-normal text-white">{service}</p>}
+    <h3 class="m-0 text-xl leading-[1.05] text-white">{headline}</h3>
+    {outcome && <p class="m-0 line-clamp-3 text-base leading-normal text-white/50">{outcome}</p>}
+    <a
+      href={href}
+      class="mt-auto w-fit border-b border-white py-0.5 text-base leading-none text-white no-underline transition-colors duration-300 ease-[var(--ease-out)] hover:border-magenta-soft hover:text-magenta-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta"
+    >
+      {t(locale, 'cta.viewFullCase')}
+    </a>
+  </div>
+</article>

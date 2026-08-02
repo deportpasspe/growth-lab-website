@@ -1,0 +1,214 @@
+---
+import type {Locale} from '../i18n/routes'
+import {getLocalizedPath} from '../i18n/routes'
+import type {PortableTextBlock} from '@portabletext/types'
+import {PortableText} from 'astro-portabletext'
+import Layout from '../layouts/Layout.astro'
+import BackLink from '../components/ui/BackLink.astro'
+import InsightPostCard from '../components/cards/InsightPostCard.astro'
+import CtaBanner from '../modules/cta-banner/CtaBanner.astro'
+import {t} from '../i18n'
+import {insightFixtureBySlug, insightsFixtures} from '../modules/insightsFixtures'
+import {loadQuery} from '../lib/sanity/loadQuery'
+import {insightBySlugQuery} from '../lib/sanity/queries/insight'
+import {
+  formatInsightDate,
+  formatReadTime,
+  insightCoverUrl,
+  type InsightItem,
+} from '../lib/insights'
+
+interface Props {
+  locale: Locale
+  slug: string
+}
+
+const {locale, slug} = Astro.props
+
+const fixture = insightFixtureBySlug(locale, slug)
+
+let insight: {
+  title: string
+  excerpt?: string
+  categories?: string[]
+  contentType?: 'article' | 'guide'
+  publishedAt?: string
+  readTimeMinutes?: number
+  downloadUrl?: string
+  author?: {name?: string; role?: string}
+  cover?: string | import('@sanity/image-url').SanityImageSource
+  body?: PortableTextBlock[]
+  related?: InsightItem[]
+  seo?: {metaTitle?: string; metaDescription?: string}
+} | null = fixture
+  ? {
+      title: fixture.title,
+      excerpt: fixture.excerpt,
+      categories: fixture.categories,
+      contentType: fixture.contentType,
+      publishedAt: fixture.publishedAt,
+      readTimeMinutes: fixture.readTimeMinutes,
+      downloadUrl: fixture.downloadUrl,
+      author: fixture.author,
+      cover: fixture.cover,
+      body: fixture.body,
+      related: fixture.related,
+    }
+  : null
+
+try {
+  const data = await loadQuery<{
+    title: string
+    excerpt?: string
+    categories?: string[]
+    contentType?: 'article' | 'guide'
+    publishedAt?: string
+    readTimeMinutes?: number
+    downloadUrl?: string
+    author?: {name?: string; role?: string}
+    cover?: string | import('@sanity/image-url').SanityImageSource
+    body?: PortableTextBlock[]
+    related?: InsightItem[]
+    seo?: {metaTitle?: string; metaDescription?: string}
+  } | null>(insightBySlugQuery, {locale, slug})
+  if (data) {
+    insight = {
+      title: data.seo?.metaTitle || data.title,
+      excerpt: data.excerpt || data.seo?.metaDescription || '',
+      categories: data.categories || [],
+      contentType: data.contentType,
+      publishedAt: data.publishedAt,
+      readTimeMinutes: data.readTimeMinutes,
+      downloadUrl: data.downloadUrl,
+      author: data.author,
+      cover: data.cover,
+      body: data.body,
+      related: data.related,
+      seo: data.seo,
+    }
+  }
+} catch {
+  // fixture
+}
+
+if (!insight) {
+  return new Response(null, {status: 404, statusText: 'Not Found'})
+}
+
+const category = insight.categories?.[0] ?? ''
+const readTime = formatReadTime(locale, insight.readTimeMinutes)
+const publishedLabel = formatInsightDate(locale, insight.publishedAt)
+const coverSrc = insightCoverUrl(insight.cover)
+const related =
+  insight.related?.length && insight.related.length > 0
+    ? insight.related
+    : insightsFixtures(locale).filter((item) => item.slug !== slug).slice(0, 3)
+const contactHref = getLocalizedPath(locale, 'contact')
+---
+
+<Layout
+  locale={locale}
+  title={insight.title}
+  description={insight.excerpt}
+  headerAppearance="overlay"
+>
+  <article class="bg-black px-6 pb-[88px] pt-28 text-white sm:px-[42px]">
+    <div class="mx-auto max-w-[898px]">
+      <BackLink locale={locale} />
+
+      <div class="mt-6 overflow-hidden rounded-[4px]">
+        <img
+          src={coverSrc}
+          alt=""
+          class="aspect-[898/493] w-full object-cover"
+          width="898"
+          height="493"
+        />
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm leading-[1.57]">
+        <div class="flex items-center gap-1">
+          <img
+            src="/assets/figma/insights/icon-tag.svg"
+            alt=""
+            class="size-4 max-w-none"
+            width="16"
+            height="16"
+          />
+          <span>
+            {category}
+            {readTime && category ? ' · ' : ''}
+            {readTime}
+          </span>
+        </div>
+        {
+          publishedLabel && (
+            <div class="flex items-center gap-1">
+              <img
+                src="/assets/figma/insights/icon-calendar.svg"
+                alt=""
+                class="size-4 max-w-none"
+                width="16"
+                height="16"
+              />
+              <span class="capitalize">{publishedLabel}</span>
+            </div>
+          )
+        }
+      </div>
+
+      <h1 class="mt-6 text-[clamp(2rem,3vw,2.625rem)] uppercase leading-[1.05]">
+        {insight.title}
+      </h1>
+
+      {
+        insight.author?.name && (
+          <p class="mt-4 text-2xl leading-[1.22]">(autor) {insight.author.name}</p>
+        )
+      }
+      {
+        insight.author?.role && (
+          <p class="mt-1 text-lg leading-[1.22] text-white/50">{insight.author.role}</p>
+        )
+      }
+
+      {
+        Array.isArray(insight.body) && insight.body.length > 0 ? (
+          <div class="prose prose-invert mt-10 max-w-none prose-headings:font-display prose-headings:text-xl prose-headings:font-normal prose-headings:uppercase prose-headings:leading-normal prose-p:text-base prose-p:leading-normal prose-li:text-base prose-li:leading-normal prose-strong:text-white">
+            <PortableText value={insight.body} />
+          </div>
+        ) : insight.excerpt ? (
+          <p class="mt-10 text-base leading-normal">{insight.excerpt}</p>
+        ) : null
+      }
+    </div>
+
+    <div class="mx-auto mt-20 max-w-[1356px] border-t border-white/25 pt-10">
+      <h2 class="m-0 text-[32px] uppercase leading-none">{t(locale, 'insights.related')}</h2>
+      <div class="mt-10 grid gap-4 md:grid-cols-3">
+        {
+          related.slice(0, 3).map((item, index) => (
+            <InsightPostCard
+              locale={locale}
+              title={item.title}
+              excerpt={item.excerpt}
+              slug={item.slug}
+              categories={item.categories}
+              contentType={item.contentType}
+              downloadUrl={item.downloadUrl}
+              cover={item.cover}
+              imageIndex={index}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </article>
+
+  <CtaBanner
+    variant="recruitment"
+    heading={t(locale, 'insights.detailCtaHeading')}
+    subheading={t(locale, 'insights.detailCtaSubheading')}
+    cta={{label: t(locale, 'insights.detailCtaButton'), href: contactHref}}
+  />
+</Layout>

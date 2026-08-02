@@ -1,0 +1,68 @@
+---
+import {urlFor} from '../../lib/sanity/image'
+import type {SanityImageSource} from '@sanity/image-url'
+
+interface Logo {
+  name: string
+  image?: SanityImageSource | string
+}
+
+interface Props {
+  title?: string
+  logos: Logo[]
+}
+
+const {title, logos} = Astro.props
+const loop = [...logos, ...logos]
+
+function logoSrc(logo: Logo): string | null {
+  if (typeof logo.image === 'string') return logo.image
+  if (logo.image) return urlFor(logo.image).height(64).fit('max').auto('format').url()
+  return null
+}
+---
+
+<section class="bg-black px-6 py-[70px] text-white sm:px-[42px]">
+  <div class="mx-auto max-w-[1356px]">
+    {title && <p class="mb-10 text-center text-2xl leading-none" data-reveal>{title}</p>}
+    <div class="relative overflow-hidden">
+      <div
+        class="pointer-events-none absolute inset-y-0 left-0 z-10 w-[333px] max-w-[23%] bg-gradient-to-r from-black to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        class="pointer-events-none absolute inset-y-0 right-0 z-10 w-[333px] max-w-[23%] bg-gradient-to-l from-black to-transparent"
+        aria-hidden="true"
+      />
+      <ul class="animate-marquee m-0 flex w-max list-none items-center gap-16 p-0">
+        {
+          loop.map((logo, i) => {
+            const src = logoSrc(logo)
+            return (
+              <li
+                class="flex h-[64px] shrink-0 items-center justify-center"
+                aria-hidden={i >= logos.length ? 'true' : undefined}
+              >
+                {
+                  src ? (
+                    <img
+                      src={src}
+                      alt={logo.name}
+                      class="h-auto max-h-[64px] w-auto max-w-[160px] object-contain opacity-80"
+                      width="160"
+                      height="64"
+                    />
+                  ) : (
+                    <span class="whitespace-nowrap font-display text-2xl tracking-wide text-white/45">
+                      {logo.name}
+                    </span>
+                  )
+                }
+              </li>
+            )
+          })
+        }
+      </ul>
+    </div>
+  </div>
+</section>

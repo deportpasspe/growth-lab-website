@@ -1,0 +1,71 @@
+---
+import type {Locale} from '../i18n/routes'
+import {getLocalizedPath} from '../i18n/routes'
+import Layout from '../layouts/Layout.astro'
+import Hero from '../modules/hero/Hero.astro'
+import CtaBanner from '../modules/cta-banner/CtaBanner.astro'
+import CaseCard from '../components/cards/CaseCard.astro'
+import {t} from '../i18n'
+import {caseStudiesFixtures} from '../modules/caseStudiesFixtures'
+import {loadQuery} from '../lib/sanity/loadQuery'
+import {caseStudiesListQuery} from '../lib/sanity/queries/caseStudy'
+import type {CaseStudyListItem} from '../lib/caseStudies'
+
+interface Props {
+  locale: Locale
+}
+
+const {locale} = Astro.props
+const title = t(locale, 'nav.caseStudies')
+const description = t(locale, 'caseStudies.heroSubheading')
+
+let cases: CaseStudyListItem[] = caseStudiesFixtures(locale)
+
+try {
+  const list = await loadQuery<CaseStudyListItem[] | null>(caseStudiesListQuery, {locale})
+  if (list?.length) cases = list
+} catch {
+  // fixtures
+}
+---
+
+<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+  <Hero
+    variant="caseStudies"
+    eyebrow={t(locale, 'caseStudies.heroEyebrow')}
+    heading={t(locale, 'caseStudies.heroHeading')}
+    subheading={t(locale, 'caseStudies.heroSubheading')}
+  />
+
+  <section class="bg-black px-6 pb-[88px] pt-[97px] text-white sm:px-[42px]">
+    <div class="mx-auto grid max-w-[1356px] gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {
+        cases.map((item, index) => (
+          <CaseCard
+            locale={locale}
+            title={item.title}
+            summary={item.summary}
+            industry={item.industry}
+            service={item.service}
+            challenge={item.challenge}
+            result={item.result}
+            slug={item.slug}
+            cover={item.cover}
+            imageIndex={index}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <CtaBanner
+    variant="services"
+    heading={t(locale, 'caseStudies.ctaHeading')}
+    subheading={t(locale, 'caseStudies.ctaSubheading')}
+    cta={{label: t(locale, 'caseStudies.ctaPrimary'), href: getLocalizedPath(locale, 'contact')}}
+    secondaryCta={{
+      label: t(locale, 'caseStudies.ctaSecondary'),
+      href: getLocalizedPath(locale, 'services'),
+    }}
+  />
+</Layout>

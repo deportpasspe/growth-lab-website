@@ -1,0 +1,64 @@
+---
+import {urlFor} from '../../lib/sanity/image'
+import type {SanityImageSource} from '@sanity/image-url'
+
+interface Props {
+  heading: string
+  body: string
+  purposeTitle: string
+  purposeBody: string
+  image?: string | SanityImageSource
+}
+
+const {heading, body, purposeTitle, purposeBody, image} = Astro.props
+
+const imageSrc =
+  typeof image === 'string'
+    ? image
+    : image
+      ? urlFor(image).width(1552).height(1142).fit('crop').auto('format').url()
+      : '/assets/figma/about/story.webp'
+---
+
+<section class="bg-black px-6 py-[90px] text-white sm:px-[42px] lg:py-[96px]">
+  <div
+    class="mx-auto grid max-w-[1356px] gap-10 lg:grid-cols-[minmax(0,776px)_minmax(0,494px)] lg:items-start lg:gap-[51px]"
+    data-reveal-group="120"
+  >
+    <div class="overflow-hidden rounded-[4px]" data-reveal>
+      <img
+        src={imageSrc}
+        alt=""
+        class="aspect-[776/571] h-full w-full object-cover object-[center_18%]"
+        width="776"
+        height="571"
+      />
+    </div>
+
+    <div class="flex flex-col gap-10 lg:gap-[40px]">
+      <div data-reveal>
+        <h2 class="m-0 text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase">{heading}</h2>
+        <p class="m-0 mt-6 text-lg leading-[1.22] text-white">{body}</p>
+      </div>
+
+      <div
+        class="flex items-center gap-2.5 rounded-[4px] bg-magenta p-4"
+        data-reveal
+      >
+        <span class="flex h-[54px] w-[54px] shrink-0 items-center justify-center">
+          <img
+            src="/assets/figma/about/purpose-icon.svg"
+            alt=""
+            class="h-[54px] w-[54px] max-w-none -rotate-90"
+            width="54"
+            height="54"
+          />
+        </span>
+        <div class="min-w-0 flex-1">
+          <p class="m-0 text-lg leading-none text-white">{purposeTitle}</p>
+          <p class="m-0 mt-1 text-base leading-normal text-white/50">{purposeBody}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

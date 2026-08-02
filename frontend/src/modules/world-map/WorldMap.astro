@@ -1,0 +1,161 @@
+---
+import type {SanityImageSource} from '@sanity/image-url'
+import {urlFor} from '../../lib/sanity/image'
+import type {ResolvedWorldMapMarker} from './worldMapPresets'
+
+interface Props {
+  heading: string
+  intro?: string
+  mapImage?: string | SanityImageSource
+  markers: ResolvedWorldMapMarker[]
+}
+
+const {heading, intro, mapImage, markers} = Astro.props
+
+const mapSrc =
+  typeof mapImage === 'string'
+    ? mapImage
+    : mapImage
+      ? urlFor(mapImage).width(1116).height(542).fit('max').auto('format').url()
+      : '/assets/figma/about/map-dots.svg'
+---
+
+<section class="overflow-hidden bg-black px-6 py-[88px] text-white sm:px-[42px] lg:py-[103px]">
+  <div class="mx-auto max-w-[1356px]">
+    <header class="mx-auto max-w-[811px] text-center" data-reveal-group="90">
+      <h2 class="m-0 text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase" data-reveal="text">
+        {heading}
+      </h2>
+      {intro && (
+        <p class="m-0 mt-4 text-lg leading-none text-white" data-reveal>
+          {intro}
+        </p>
+      )}
+    </header>
+
+    <div class="relative mx-auto mt-[76px] w-full max-w-[1116px]" data-reveal>
+      <div class="relative aspect-[1116/542] w-full" data-world-map>
+        <div class="world-map-canvas absolute inset-[3%_3.6%_6.4%_7%]">
+          <img
+            src={mapSrc}
+            alt=""
+            class="pointer-events-none h-full w-full max-w-none object-contain object-center"
+            width="999"
+            height="491"
+          />
+
+          {
+            markers.map((marker, index) => (
+              <div
+                class="world-map-marker absolute -translate-x-1/2 -translate-y-1/2"
+                style={`top:${marker.top}%;left:${marker.left}%;`}
+                data-active={marker.active ? 'true' : undefined}
+              >
+                <div
+                  id={`world-map-tooltip-${index}`}
+                  class:list={[
+                    'world-map-tooltip pointer-events-none absolute bottom-full z-30 mb-3 w-[185px] rounded-[4px] bg-white p-2 text-black opacity-0 shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-opacity duration-200',
+                    marker.left < 35
+                      ? 'left-0'
+                      : marker.left > 65
+                        ? 'right-0'
+                        : 'left-1/2 -translate-x-1/2',
+                  ]}
+                  role="tooltip"
+                >
+                  <div class="flex items-center gap-1">
+                    <img
+                      src="/assets/figma/about/map-pin-icon.svg"
+                      alt=""
+                      class="h-[18px] w-3 max-w-none"
+                      width="12"
+                      height="18"
+                    />
+                    <p class="m-0 flex-1 text-lg leading-none">{marker.country}</p>
+                  </div>
+                  <ul class="mb-0 mt-2 list-disc space-y-0 pl-5 text-sm leading-4 text-black">
+                    {marker.organizations.map((organization) => (
+                      <li>{organization}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <button
+                  type="button"
+                  class="world-map-trigger relative block h-[52px] w-[35px] cursor-pointer border-0 bg-transparent p-0"
+                  aria-expanded={marker.active ? 'true' : 'false'}
+                  aria-controls={`world-map-tooltip-${index}`}
+                >
+                  <span
+                    class="world-map-rings pointer-events-none absolute left-1/2 top-[12px] z-[3] -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200"
+                    aria-hidden="true"
+                  >
+                    <span class="absolute left-1/2 top-1/2 h-[58px] w-[58px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/20" />
+                    <span class="absolute left-1/2 top-1/2 h-[48px] w-[48px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/35" />
+                  </span>
+
+                  <img
+                    src="/assets/figma/about/map-pin.svg"
+                    alt=""
+                    class="world-map-pin pointer-events-none absolute inset-0 z-[1] h-[52px] w-[35px] max-w-none opacity-0 transition-opacity duration-200"
+                    width="35"
+                    height="52"
+                  />
+
+                  <img
+                    src={marker.flag || '/assets/figma/about/flag-us.png'}
+                    alt=""
+                    class="pointer-events-none absolute left-1/2 top-[12px] z-[2] h-6 w-6 max-w-none -translate-x-1/2 -translate-y-1/2 rounded-full border border-white object-cover"
+                    width="24"
+                    height="24"
+                  />
+                </button>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .world-map-canvas {
+    position: relative;
+  }
+
+  .world-map-marker:is(:hover, :focus-within, [data-active='true']) .world-map-tooltip,
+  .world-map-marker:is(:hover, :focus-within, [data-active='true']) .world-map-pin,
+  .world-map-marker:is(:hover, :focus-within, [data-active='true']) .world-map-rings {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-world-map]').forEach((root) => {
+    const markers = Array.from(root.querySelectorAll<HTMLElement>('.world-map-marker'))
+
+    root.addEventListener('click', (event) => {
+      const trigger = (event.target as HTMLElement).closest<HTMLButtonElement>('.world-map-trigger')
+      if (!trigger) return
+
+      event.preventDefault()
+      event.stopPropagation()
+
+      const marker = trigger.closest('.world-map-marker')
+      if (!marker) return
+
+      const isActive = marker.getAttribute('data-active') === 'true'
+
+      markers.forEach((other) => {
+        other.removeAttribute('data-active')
+        other.querySelector('.world-map-trigger')?.setAttribute('aria-expanded', 'false')
+      })
+
+      if (!isActive) {
+        marker.setAttribute('data-active', 'true')
+        trigger.setAttribute('aria-expanded', 'true')
+      }
+    })
+  })
+</script>

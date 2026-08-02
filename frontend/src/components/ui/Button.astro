@@ -1,0 +1,82 @@
+---
+/**
+ * Single Growth Lab button.
+ *
+ * Variants:
+ * - primary → white fill, black text → hover magenta + white text
+ * - secondary → outline (white on dark / navy on light)
+ * - brand → magenta fill (CTA banner, forms)
+ * - ghost → text-only
+ *
+ * Tone:
+ * - dark  → for black/navy surfaces (default)
+ * - light → for cream/white surfaces
+ */
+interface Props {
+  href?: string
+  variant?: 'primary' | 'secondary' | 'brand' | 'ghost'
+  tone?: 'dark' | 'light'
+  type?: 'button' | 'submit' | 'reset'
+  class?: string
+  external?: boolean
+  size?: 'md' | 'lg'
+}
+
+const {
+  href,
+  variant = 'primary',
+  tone = 'dark',
+  type = 'button',
+  class: className = '',
+  external = false,
+  size = 'md',
+} = Astro.props
+
+const base = [
+  'group/btn relative inline-flex items-center justify-center gap-2.5 overflow-hidden',
+  'rounded-[2px] text-base leading-none no-underline',
+  'transition-[color,background-color,border-color,transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta',
+  'active:scale-[0.98] [&_img]:transition-[filter,transform] [&_svg]:transition-[filter,transform]',
+].join(' ')
+
+const sizes = {
+  md: 'h-11 px-4',
+  lg: 'h-12 px-4',
+}
+
+const variants = {
+  primary:
+    tone === 'light'
+      ? 'border border-border bg-white !text-black hover:border-magenta hover:bg-magenta hover:!text-white hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(139,24,88,0.35)]'
+      : 'bg-white !text-black hover:bg-magenta hover:!text-white hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(139,24,88,0.35)]',
+  secondary:
+    tone === 'light'
+      ? 'border border-navy bg-transparent !text-navy hover:bg-navy hover:!text-white hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(6,26,59,0.2)] hover:[&_img]:brightness-0 hover:[&_img]:invert hover:[&_svg]:brightness-0 hover:[&_svg]:invert'
+      : 'border border-white bg-transparent !text-white hover:bg-white hover:!text-black hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(255,255,255,0.12)] hover:[&_img]:brightness-0 hover:[&_svg]:brightness-0',
+  brand:
+    'bg-magenta !text-white hover:!text-white hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(139,24,88,0.35)]',
+  ghost:
+    tone === 'light'
+      ? 'bg-transparent !text-navy underline-offset-4 hover:!text-magenta hover:underline'
+      : 'bg-transparent !text-white underline-offset-4 hover:!text-white hover:underline',
+} as const
+
+const classes = [base, sizes[size], variants[variant], className]
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      class:list={classes}
+      {...(external ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class:list={classes}>
+      <slot />
+    </button>
+  )
+}
