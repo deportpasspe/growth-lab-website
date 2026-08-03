@@ -58,10 +58,11 @@ export function sanityLcpPreloadUrl(source: SanityImageSource): string {
 export function resolveHeroImage(image: string | SanityImageSource | undefined, fallback: string) {
   if (typeof image === 'string') {
     const srcset = staticSrcset(image)
+    const src = staticLcpPreloadUrl(image)
     return {
-      src: image,
+      src,
       srcset,
-      lcpPreload: staticLcpPreloadUrl(image),
+      lcpPreload: src,
       width: 1024,
       height: 572,
     }
@@ -69,7 +70,7 @@ export function resolveHeroImage(image: string | SanityImageSource | undefined, 
 
   if (image) {
     return {
-      src: sanityHeroUrl(image),
+      src: sanityHeroUrl(image, 640),
       srcset: sanityHeroSrcset(image),
       lcpPreload: sanityLcpPreloadUrl(image),
       width: 1024,
@@ -78,10 +79,11 @@ export function resolveHeroImage(image: string | SanityImageSource | undefined, 
   }
 
   const srcset = staticSrcset(fallback)
+  const src = staticLcpPreloadUrl(fallback)
   return {
-    src: fallback,
+    src,
     srcset,
-    lcpPreload: staticLcpPreloadUrl(fallback),
+    lcpPreload: src,
     width: 1024,
     height: 572,
   }

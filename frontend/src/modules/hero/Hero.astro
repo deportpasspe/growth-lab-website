@@ -100,7 +100,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
   <div class="hero-bg absolute inset-0 overflow-hidden" aria-hidden="true" data-parallax={parallaxSpeed}>
     <img
       src={heroImage.src}
-      {...heroImage.srcset ? {srcset: heroImage.srcset, sizes: '100vw'} : {}}
+      {...heroImage.srcset ? {srcset: heroImage.srcset, sizes: '(max-width: 640px) 100vw, 1024px'} : {}}
       alt=""
       class:list={[
         'hero-bg__image',
@@ -110,6 +110,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
       width={heroImage.width}
       height={heroImage.height}
       fetchpriority="high"
+      loading="eager"
       decoding="async"
     />
   </div>
@@ -138,7 +139,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
         >
           <h1
             class:list={[heroHeadingClass, 'max-w-[648px] text-[clamp(2rem,4.25vw,3.25rem)]']}
-            data-reveal="text"
+            data-reveal
           >
             {heading}
           </h1>
@@ -161,7 +162,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
           )}
           <h1
             class:list={[heroHeadingClass, 'max-w-[848px] text-[clamp(2rem,4.25vw,3.25rem)]']}
-            data-reveal="text"
+            data-reveal
           >
             {heading}
           </h1>
@@ -198,7 +199,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
           )}
           <h1
             class:list={[heroHeadingClass, 'max-w-[848px] text-[clamp(2rem,4.25vw,3.25rem)]']}
-            data-reveal="text"
+            data-reveal
           >
             {heading}
           </h1>
@@ -226,7 +227,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
           )}
           <h1
             class:list={[heroHeadingClass, 'max-w-[634px] text-[clamp(2rem,4.25vw,3.25rem)]']}
-            data-reveal="text"
+            data-reveal
           >
             {heading}
           </h1>
@@ -239,7 +240,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
         >
           <h1
             class:list={[heroHeadingClass, 'max-w-[683px] text-[clamp(2rem,3.6vw,3.25rem)]']}
-            data-reveal="text"
+            data-reveal
           >
             {heading}
           </h1>
@@ -262,7 +263,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
           )}
           <h1
             class:list={[heroHeadingClass, 'max-w-[589px] text-[clamp(2rem,3.6vw,3.25rem)]']}
-            data-reveal="text"
+            data-reveal
           >
             {heading}
           </h1>
@@ -285,7 +286,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
           )}
           <h1
             class:list={[heroHeadingClass, 'max-w-[607px] text-[clamp(2rem,3.6vw,3.25rem)]']}
-            data-reveal="text"
+            data-reveal
           >
             {heading}
           </h1>
@@ -308,7 +309,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
           )}
           <h1
             class:list={[heroHeadingClass, 'max-w-[670px] text-[clamp(2rem,4.25vw,3.25rem)]']}
-            data-reveal="text"
+            data-reveal
           >
             {heading}
           </h1>
@@ -342,7 +343,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
             )}
             <h1
               class:list={[heroHeadingClass, 'max-w-[523px] text-[clamp(2.5rem,3.62vw,3.25rem)] leading-[1.04]']}
-              data-reveal="text"
+              data-reveal
             >
               {heading}
             </h1>
@@ -391,7 +392,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
 
   @keyframes hero-bg-zoom {
     from {
-      transform: scale(1.1);
+      transform: scale(1.04);
     }
     to {
       transform: scale(1);
@@ -433,14 +434,16 @@ const heroBgOverscanClass = !hasParallaxOverscan
     max-width: none;
     object-fit: cover;
     object-position: center;
-    transform: scale(1.1);
-    transform-origin: center center;
-    animation: hero-bg-zoom 2.4s var(--ease-out) both;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-bg__image {
+      animation: hero-bg-zoom 2.4s var(--ease-out) both;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .hero-bg__image {
-      transform: none;
       animation: none;
     }
   }

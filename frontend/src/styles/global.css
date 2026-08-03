@@ -13,6 +13,15 @@
     U+FFFD;
 }
 
+@font-face {
+  font-family: "Questrial Fallback";
+  src: local("Helvetica Neue"), local("Arial");
+  size-adjust: 101.75%;
+  ascent-override: 88.73%;
+  descent-override: 23.43%;
+  line-gap-override: 0%;
+}
+
 @theme {
   /* Brand */
   --color-magenta: #8b1858;
@@ -33,8 +42,8 @@
   --color-surface-alt: #fff5cc;
   --color-border: #cdd1d8;
 
-  --font-display: "Questrial", "Helvetica Neue", Arial, sans-serif;
-  --font-sans: "Questrial", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Questrial", "Questrial Fallback", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Questrial", "Questrial Fallback", "Helvetica Neue", Arial, sans-serif;
 
   --text-display: clamp(2.25rem, 5vw, 3.75rem);
   --text-h2: clamp(1.75rem, 3vw, 2.5rem);

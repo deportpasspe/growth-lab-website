@@ -67,6 +67,11 @@ function splitIntoWords(element: HTMLElement): number {
 function prepare(element: HTMLElement) {
   if (element.dataset.reveal !== 'text' || element.dataset.revealSplit !== undefined) return
 
+  if (element.closest('.hero-stack')) {
+    element.dataset.reveal = ''
+    return
+  }
+
   if (splitIntoWords(element) > 0) {
     element.dataset.revealSplit = ''
   } else {
