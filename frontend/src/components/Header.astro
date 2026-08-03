@@ -2,6 +2,8 @@
 import type {Locale} from '../i18n/routes'
 import {getLocalizedPath} from '../i18n/routes'
 import {t} from '../i18n'
+import {resolveLinkHref} from '../lib/sanity/resolveLink'
+import type {NavService, SiteSettings} from '../lib/sanity/types'
 import BrandLogo from './ui/BrandLogo.astro'
 import Button from './ui/Button.astro'
 import LocaleSwitch from './ui/LocaleSwitch.astro'
@@ -9,9 +11,16 @@ import LocaleSwitch from './ui/LocaleSwitch.astro'
 interface Props {
   locale: Locale
   appearance?: 'auto' | 'overlay' | 'solid'
+  siteSettings?: SiteSettings | null
+  navServices?: NavService[]
 }
 
-const {locale, appearance = 'auto'} = Astro.props
+const {
+  locale,
+  appearance = 'auto',
+  siteSettings = null,
+  navServices = [],
+} = Astro.props
 const pathAfterLocale = Astro.url.pathname.replace(new RegExp(`^/${locale}/?`), '')
 const isHome = pathAfterLocale === ''
 const isOverlay = appearance === 'overlay' || (appearance === 'auto' && isHome)
@@ -27,21 +36,69 @@ const trailingLinks = [
 const servicesHref = getLocalizedPath(locale, 'services')
 const recruitmentHref = getLocalizedPath(locale, 'recruitment')
 
-const recruitmentGroup = {
-  title: t(locale, 'nav.recruitment'),
-  items: [
-    {label: locale === 'es' ? 'Reclutamiento ejecutivo' : 'Executive search', href: recruitmentHref},
-  ],
-}
+const cmsRecruitmentGroup = siteSettings?.navGroups?.[0]
+const cmsOrganizationalGroup = siteSettings?.navGroups?.[1]
 
-const organizationalGroup = {
-  title: locale === 'es' ? 'Desarrollo organizacional' : 'Organizational development',
-  items: (
-    locale === 'es'
-      ? ['Clima organizacional', 'Gestión del desempeño', 'Liderazgo y coaching', 'Cultura organizacional', 'Potencial y mapeo de talento']
-      : ['Organizational climate', 'Performance management', 'Leadership and coaching', 'Organizational culture', 'Talent and potential mapping']
-  ).map((label) => ({label, href: servicesHref})),
-}
+const recruitmentGroup = cmsRecruitmentGroup?.title
+  ? {
+      title: cmsRecruitmentGroup.title,
+      items: (cmsRecruitmentGroup.items || [])
+        .map((item) => ({
+          label: item.label || '',
+          href: resolveLinkHref(item.link, locale) || recruitmentHref,
+        }))
+        .filter((item) => item.label),
+    }
+  : {
+      title: t(locale, 'nav.recruitment'),
+      items: [
+        {
+          label: locale === 'es' ? 'Reclutamiento ejecutivo' : 'Executive search',
+          href: recruitmentHref,
+        },
+      ],
+    }
+
+const organizationalFromServices = navServices.length
+  ? navServices.map((service) => ({
+      label: service.title,
+      href: getLocalizedPath(locale, 'service', service.slug),
+    }))
+  : []
+
+const organizationalGroup = cmsOrganizationalGroup?.title
+  ? {
+      title: cmsOrganizationalGroup.title,
+      items: (cmsOrganizationalGroup.items || [])
+        .map((item) => ({
+          label: item.label || '',
+          href: resolveLinkHref(item.link, locale) || servicesHref,
+        }))
+        .filter((item) => item.label),
+    }
+  : {
+      title: locale === 'es' ? 'Desarrollo organizacional' : 'Organizational development',
+      items:
+        organizationalFromServices.length > 0
+          ? organizationalFromServices
+          : (
+              locale === 'es'
+                ? [
+                    'Clima organizacional',
+                    'Gestión del desempeño',
+                    'Liderazgo y coaching',
+                    'Cultura organizacional',
+                    'Potencial y mapeo de talento',
+                  ]
+                : [
+                    'Organizational climate',
+                    'Performance management',
+                    'Leadership and coaching',
+                    'Organizational culture',
+                    'Talent and potential mapping',
+                  ]
+            ).map((label) => ({label, href: servicesHref})),
+    }
 
 const navLinkClass = [
   'relative border-b border-transparent px-0.5 py-0.5 text-base leading-none no-underline transition-colors duration-300 ease-[var(--ease-out)]',
@@ -61,13 +118,14 @@ const pillLinkClass = [
 ].join(' ')
 ---
 
+
 <header
   data-site-header
   data-mobile-nav
   data-open="false"
   class:list={[
     'group/mobile-nav site-header z-40 h-20 w-full border-b border-white/15 text-white',
-    isOverlay ? 'fixed inset-x-0 top-0 bg-transparent' : 'sticky top-0 bg-[#150e0e]/95 backdrop-blur-md',
+    isOverlay ? 'fixed inset-x-0 top-0 bg-transparent' : 'sticky top-0 bg-black/95 backdrop-blur-md',
   ]}
 >
   <div class="mx-auto flex h-full w-full items-center justify-between px-6 sm:px-[42px]">
@@ -109,7 +167,7 @@ const pillLinkClass = [
 
         <div data-mega-menu class="invisible absolute inset-x-0 top-full overflow-hidden opacity-0 transition-[opacity,visibility] duration-300 ease-[var(--ease-out)] group-hover/services:visible group-hover/services:opacity-100 group-focus-within/services:visible group-focus-within/services:opacity-100">
           <div class="mega-menu-panel border-t border-white/15 bg-black shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
-            <div class="mx-auto flex max-w-[1240px] gap-14 px-6 py-12 sm:px-[42px]">
+            <div class="mx-auto flex w-full gap-14 px-6 py-12 sm:px-[42px]">
               <div class="flex shrink-0 flex-col gap-5">
                 <p class="m-0 text-[24px] leading-none">{recruitmentGroup.title}</p>
                 <div class="flex flex-col gap-3 text-lg">
@@ -183,7 +241,7 @@ const pillLinkClass = [
 
   <div
     id="mobile-nav-panel"
-    class="mobile-nav-panel invisible fixed inset-x-0 top-20 z-50 bg-[#150e0e] opacity-0 transition-[opacity,visibility] duration-200 ease-[var(--ease-out)] min-[1180px]:hidden"
+    class="mobile-nav-panel invisible fixed inset-x-0 top-20 z-50 bg-black opacity-0 transition-[opacity,visibility] duration-200 ease-[var(--ease-out)] min-[1180px]:hidden"
   >
     <div class="mobile-nav-panel__scroll h-full overflow-y-auto overscroll-y-contain">
       <nav class="flex flex-col gap-1 px-6 py-8 text-lg" aria-label="Mobile">

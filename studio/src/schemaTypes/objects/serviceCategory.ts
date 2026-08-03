@@ -1,23 +1,16 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {IconPickerInput} from '../../components/IconPickerInput'
+import {getCatalogPreviewPath, getIconPreviewUrl} from '../../lib/iconCatalog'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'serviceCategory',
   title: 'Service category',
   type: 'object',
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'summary',
-      title: 'Summary',
-      type: 'text',
-      rows: 3,
-      validation: (Rule) => Rule.required(),
-    }),
+    localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
+    localizedTextField('summary', 'Summary', {validation: (Rule) => Rule.required()}),
     defineField({name: 'cta', title: 'Category call to action', type: 'cta'}),
     defineField({
       name: 'items',
@@ -29,25 +22,16 @@ export default defineType({
           title: 'Service',
           type: 'object',
           fields: [
-            defineField({
-              name: 'title',
-              title: 'Title',
-              type: 'string',
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: 'description',
-              title: 'Description',
-              type: 'text',
-              rows: 4,
-              validation: (Rule) => Rule.required(),
-            }),
+            localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
+            localizedTextField('description', 'Description', {validation: (Rule) => Rule.required()}),
             defineField({
               name: 'icon',
               title: 'Icon',
               type: 'string',
               initialValue: 'calendar',
+              components: {input: IconPickerInput},
               options: {
+                iconCatalog: 'serviceCatalog',
                 list: [
                   {title: 'Calendar', value: 'calendar'},
                   {title: 'Planning', value: 'planning'},
@@ -59,7 +43,18 @@ export default defineType({
             defineField({name: 'cta', title: 'Call to action', type: 'cta'}),
           ],
           preview: {
-            select: {title: 'title', subtitle: 'description'},
+            select: {title: 'title', subtitle: 'description', icon: 'icon'},
+            prepare: ({title, subtitle, icon}) => {
+              const previewPath =
+                typeof icon === 'string'
+                  ? getCatalogPreviewPath('serviceCatalog', icon)
+                  : undefined
+              return {
+                title: localizedPreviewValue(title, 'Service'),
+                subtitle: localizedPreviewValue(subtitle),
+                media: previewPath ? getIconPreviewUrl(previewPath) : undefined,
+              }
+            },
           },
         }),
       ],
@@ -67,5 +62,9 @@ export default defineType({
   ],
   preview: {
     select: {title: 'title', subtitle: 'summary'},
+    prepare: ({title, subtitle}) => ({
+      title: localizedPreviewValue(title, 'Service category'),
+      subtitle: localizedPreviewValue(subtitle),
+    }),
   },
 })

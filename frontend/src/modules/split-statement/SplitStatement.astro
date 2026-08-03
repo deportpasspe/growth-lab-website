@@ -1,18 +1,29 @@
 ---
+import type {SanityImageSource} from '@sanity/image-url'
+import {urlFor} from '../../lib/sanity/image'
+
 interface Props {
   variant?: 'default' | 'methodIntro' | 'successBanner'
   eyebrow?: string
   heading: string
   body: string
   decoration?: 'magentaGlow'
+  image?: SanityImageSource | string
 }
 
-const {variant = 'default', eyebrow, heading, body, decoration} = Astro.props
+const {variant = 'default', eyebrow, heading, body, decoration, image} = Astro.props
+
+const bannerSrc =
+  typeof image === 'string'
+    ? image
+    : image
+      ? urlFor(image).width(1356).height(399).auto('format').url()
+      : '/assets/figma/methodology/success-banner.webp'
 ---
 
 {
   variant === 'methodIntro' ? (
-    <section class="bg-surface px-6 py-[72px] text-navy sm:px-[42px]">
+    <section class="bg-black px-6 py-[72px] text-white sm:px-[42px]">
       <div
         class="mx-auto grid max-w-[1356px] gap-8 md:grid-cols-[minmax(0,670px)_minmax(0,574px)] md:items-start md:justify-between md:gap-[34px]"
         data-reveal-group="120"
@@ -23,7 +34,7 @@ const {variant = 'default', eyebrow, heading, body, decoration} = Astro.props
         >
           {heading}
         </h2>
-        <p class="m-0 text-lg leading-[1.22] text-navy" data-reveal>
+        <p class="m-0 text-lg leading-[1.22] text-white/75" data-reveal>
           {body}
         </p>
       </div>
@@ -35,7 +46,7 @@ const {variant = 'default', eyebrow, heading, body, decoration} = Astro.props
         data-reveal
       >
         <img
-          src="/assets/figma/methodology/success-banner.webp"
+          src={bannerSrc}
           alt=""
           class="absolute inset-0 !h-full !w-full !max-w-none object-cover"
           width="1356"

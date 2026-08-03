@@ -51,6 +51,8 @@ function logoSrc(logo: Logo): string | null {
                       class="h-auto max-h-[64px] w-auto max-w-[160px] object-contain opacity-80"
                       width="160"
                       height="64"
+                      loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <span class="whitespace-nowrap font-display text-2xl tracking-wide text-white/45">

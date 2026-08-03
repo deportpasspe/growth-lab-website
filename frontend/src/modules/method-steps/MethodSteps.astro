@@ -3,6 +3,9 @@ import type {Locale} from '../../i18n/routes'
 import {getLocalizedPath} from '../../i18n/routes'
 import Button from '../../components/ui/Button.astro'
 import MethodStepGridCard from './MethodStepGridCard.astro'
+import {urlFor} from '../../lib/sanity/image'
+import type {SanityImageSource} from '@sanity/image-url'
+import type {ImageSource} from '../fixtures'
 
 interface Props {
   locale?: Locale
@@ -12,6 +15,7 @@ interface Props {
   featuredTitle?: string
   featuredDescription?: string
   showCta?: boolean
+  diagramImage?: ImageSource
   steps: {title: string; description: string}[]
 }
 
@@ -23,8 +27,16 @@ const {
   featuredTitle,
   featuredDescription,
   showCta = true,
+  diagramImage,
   steps,
 } = Astro.props
+
+const diagramImageSrc =
+  typeof diagramImage === 'string'
+    ? diagramImage
+    : diagramImage
+      ? urlFor(diagramImage as SanityImageSource).width(1191).height(631).fit('max').auto('format').url()
+      : '/assets/figma/methodology/grid-path.svg'
 
 const nodes = steps.slice(0, 4)
 const gridSteps = steps.slice(0, 7)
@@ -73,10 +85,10 @@ const dots = [
 
 {
   layout === 'grid' ? (
-    <section class="relative overflow-hidden bg-[#150e0e] px-6 pb-[90px] pt-[92px] text-white sm:px-[42px]">
+    <section class="relative overflow-hidden bg-black px-6 pb-[90px] pt-[92px] text-white sm:px-[42px]">
       <div
         class="pointer-events-none absolute inset-0"
-        style="background-image:linear-gradient(202deg,rgb(139,24,88) 25%,rgba(139,24,88,0) 39%),linear-gradient(90deg,rgb(21,14,14),rgb(21,14,14))"
+        style="background-image:radial-gradient(ellipse 110% 120% at 100% 0%,rgba(139,24,88,0.9) 0%,rgba(139,24,88,0.55) 22%,rgba(139,24,88,0.22) 45%,rgba(139,24,88,0.06) 65%,rgba(139,24,88,0) 82%)"
         aria-hidden="true"
       />
 
@@ -95,16 +107,16 @@ const dots = [
 
       <div class="relative mx-auto mt-[72px] max-w-[1356px]" data-reveal>
         <img
-          src="/assets/figma/methodology/grid-path.svg"
+          src={diagramImageSrc}
           alt=""
           class="pointer-events-none absolute left-[3%] top-[36%] hidden h-auto w-[83%] max-w-none xl:block"
           width="1191"
           height="631"
         />
 
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
+        <div class="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-2 xl:grid-cols-3">
           {featuredTitle && (
-            <div class="xl:col-start-1 xl:row-start-1">
+            <div class="h-full xl:col-start-1 xl:row-start-1">
               <MethodStepGridCard
                 variant="featured"
                 title={featuredTitle}
@@ -115,6 +127,7 @@ const dots = [
           {gridSteps.map((step, index) => (
             <div
               class:list={[
+                'h-full',
                 index === 0 && 'xl:col-start-2 xl:row-start-1',
                 index === 1 && 'xl:col-start-3 xl:row-start-1',
                 index === 2 && 'xl:col-start-1 xl:row-start-2',

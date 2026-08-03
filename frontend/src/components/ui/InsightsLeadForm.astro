@@ -3,7 +3,10 @@ import {actions} from 'astro:actions'
 import type {Locale} from '../../i18n/routes'
 import {getLocalizedPath} from '../../i18n/routes'
 import {t} from '../../i18n'
+import {formErrorClass, formHeadingClass} from '../../lib/forms'
 import Button from './Button.astro'
+import FormCheckbox from './FormCheckbox.astro'
+import FormInput from './FormInput.astro'
 
 interface Props {
   locale: Locale
@@ -25,45 +28,45 @@ const result = Astro.getActionResult(actions.contact)
     <input type="text" name="website" tabindex="-1" autocomplete="off" />
   </label>
 
-  <p class="m-0 max-w-[458px] text-[clamp(1.75rem,3vw,2.25rem)] leading-[1.05] text-white">
+  <p class={formHeadingClass('dark', 'max-w-[458px] text-[clamp(1.75rem,3vw,2.25rem)]')}>
     {title}
   </p>
 
-  <input
+  <FormInput
+    tone="dark"
+    size="lg"
     required
     name="name"
     type="text"
     autocomplete="name"
     placeholder={t(locale, 'form.name')}
-    class="rounded-[4px] border border-white/50 bg-transparent px-4 py-4 text-lg text-white outline-none placeholder:text-white/50 focus:border-white"
   />
 
-  <input
+  <FormInput
+    tone="dark"
+    size="lg"
     required
     name="email"
     type="email"
     autocomplete="email"
     placeholder={t(locale, 'form.email')}
-    class="rounded-[4px] border border-white/50 bg-transparent px-4 py-4 text-lg text-white outline-none placeholder:text-white/50 focus:border-white"
   />
 
-  <input
+  <FormInput
+    tone="dark"
+    size="lg"
     name="company"
     type="text"
     autocomplete="organization"
     placeholder={t(locale, 'form.company')}
-    class="rounded-[4px] border border-white/50 bg-transparent px-4 py-4 text-lg text-white outline-none placeholder:text-white/50 focus:border-white"
   />
 
-  <label class="flex items-start gap-2.5 text-lg leading-[1.22] text-white">
-    <input required type="checkbox" name="consent" value="on" class="mt-1 size-5 shrink-0 border border-white bg-transparent" />
-    <span>
-      {t(locale, 'insights.leadFormConsent')}
-      <a href={privacyHref} class="text-white underline underline-offset-2">
-        {t(locale, 'footer.privacy')}
-      </a>
-    </span>
-  </label>
+  <FormCheckbox tone="dark" required>
+    {t(locale, 'insights.leadFormConsent')}
+    <a href={privacyHref} class="text-white underline underline-offset-2 transition-opacity duration-300 hover:opacity-80">
+      {t(locale, 'footer.privacy')}
+    </a>
+  </FormCheckbox>
 
   {
     turnstileSiteKey && (
@@ -73,7 +76,7 @@ const result = Astro.getActionResult(actions.contact)
 
   {
     result?.error && (
-      <p class="text-sm text-cream" role="alert">
+      <p class={formErrorClass('dark')} role="alert">
         {result.error.message || t(locale, 'errors.generic')}
       </p>
     )

@@ -8,6 +8,11 @@ import Section from '../../components/ui/Section.astro'
 import Heading from '../../components/ui/Heading.astro'
 import Button from '../../components/ui/Button.astro'
 import TextLink from '../../components/ui/TextLink.astro'
+import FormCheckbox from '../../components/ui/FormCheckbox.astro'
+import FormField from '../../components/ui/FormField.astro'
+import FormInput from '../../components/ui/FormInput.astro'
+import FormTextarea from '../../components/ui/FormTextarea.astro'
+import {formErrorClass} from '../../lib/forms'
 
 interface Props {
   locale: Locale
@@ -25,7 +30,7 @@ if (result && !result.error && result.data?.ok) {
 }
 ---
 
-<Section tone="cream" id="contacto">
+<Section id="contacto">
   <Container narrow>
     <div data-reveal-group="110">
       {
@@ -37,7 +42,7 @@ if (result && !result.error && result.data?.ok) {
       }
       {
         intro && (
-          <p class="mt-4 text-navy-muted" data-reveal>
+          <p class="mt-4 text-white/75" data-reveal>
             {intro}
           </p>
         )
@@ -57,76 +62,41 @@ if (result && !result.error && result.data?.ok) {
         <input type="text" name="website" tabindex="-1" autocomplete="off" />
       </label>
 
-      <label class="grid gap-2 text-sm">
-        <span>{t(locale, 'form.name')}</span>
-        <input
-          required
-          name="name"
-          type="text"
-          autocomplete="name"
-          class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
-        />
-      </label>
+      <FormField tone="dark" label={t(locale, 'form.name')}>
+        <FormInput tone="dark" required name="name" type="text" autocomplete="name" />
+      </FormField>
 
-      <label class="grid gap-2 text-sm">
-        <span>{t(locale, 'form.email')}</span>
-        <input
-          required
-          name="email"
-          type="email"
-          autocomplete="email"
-          class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
-        />
-      </label>
+      <FormField tone="dark" label={t(locale, 'form.email')}>
+        <FormInput tone="dark" required name="email" type="email" autocomplete="email" />
+      </FormField>
 
       <div class="grid gap-5 sm:grid-cols-2">
-        <label class="grid gap-2 text-sm">
-          <span>{t(locale, 'form.company')}</span>
-          <input
-            name="company"
-            type="text"
-            autocomplete="organization"
-            class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
-          />
-        </label>
-        <label class="grid gap-2 text-sm">
-          <span>{t(locale, 'form.phone')}</span>
-          <input
-            name="phone"
-            type="tel"
-            autocomplete="tel"
-            class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
-          />
-        </label>
+        <FormField tone="dark" label={t(locale, 'form.company')}>
+          <FormInput tone="dark" name="company" type="text" autocomplete="organization" />
+        </FormField>
+        <FormField tone="dark" label={t(locale, 'form.phone')}>
+          <FormInput tone="dark" name="phone" type="tel" autocomplete="tel" />
+        </FormField>
       </div>
 
-      <label class="grid gap-2 text-sm">
-        <span>{t(locale, 'form.message')}</span>
-        <textarea
-          required
-          name="message"
-          rows="5"
-          class="border border-border bg-white px-4 py-3 text-navy outline-none focus:border-magenta"
-        ></textarea>
-      </label>
+      <FormField tone="dark" label={t(locale, 'form.message')}>
+        <FormTextarea tone="dark" required name="message" rows={5} />
+      </FormField>
 
-      <label class="flex items-start gap-3 text-sm text-navy-muted">
-        <input required type="checkbox" name="consent" value="on" class="mt-1" />
-        <span>
-          {t(locale, 'form.privacy')} —
-          <TextLink href={privacyHref}>{t(locale, 'footer.privacy')}</TextLink>
-        </span>
-      </label>
+      <FormCheckbox tone="dark" required>
+        {t(locale, 'form.privacy')} —
+        <TextLink href={privacyHref}>{t(locale, 'footer.privacy')}</TextLink>
+      </FormCheckbox>
 
       {
         turnstileSiteKey && (
-          <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />
+          <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark" />
         )
       }
 
       {
         result?.error && (
-          <p class="text-sm text-magenta" data-form-error role="alert">
+          <p class={formErrorClass('dark')} data-form-error role="alert">
             {result.error.message || t(locale, 'errors.generic')}
           </p>
         )

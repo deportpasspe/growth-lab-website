@@ -1,21 +1,35 @@
 import {defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'serviceSplit',
   title: 'Service split',
   type: 'object',
   fields: [
-    defineField({name: 'title', title: 'Title', type: 'string'}),
-    defineField({name: 'intro', title: 'Intro', type: 'text', rows: 3}),
+    localizedStringField('title', 'Title'),
+    localizedTextField('intro', 'Intro'),
     defineField({
-      name: 'services',
-      title: 'Services',
+      name: 'cardImages',
+      title: 'Card background images',
+      description: 'Two background images for the cards (left, right).',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'service'}]}],
+      of: [{type: 'image', options: {hotspot: true}}],
+      validation: (Rule) => Rule.max(2),
+    }),
+    defineField({
+      name: 'cards',
+      title: 'Cards',
+      description: 'Two cards linking to Reclutamiento and Servicios (index page).',
+      type: 'array',
+      of: [{type: 'serviceSplitCard'}],
+      validation: (Rule) => Rule.max(2),
     }),
   ],
   preview: {
     select: {title: 'title'},
-    prepare: ({title}) => ({title: title || 'Service split'}),
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'Service split'),
+    }),
   },
 })

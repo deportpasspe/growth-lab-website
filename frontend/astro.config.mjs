@@ -5,6 +5,7 @@ const {
   PUBLIC_SANITY_STUDIO_PROJECT_ID,
   PUBLIC_SANITY_STUDIO_DATASET,
   PUBLIC_SANITY_STUDIO_URL,
+  PUBLIC_SITE_URL,
 } = loadEnv(import.meta.env.MODE, process.cwd(), "");
 import { defineConfig } from "astro/config";
 
@@ -24,10 +25,15 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
+  site: PUBLIC_SITE_URL?.trim() || "http://localhost:4321",
   // Set to 'server' for Visual Editing and on-demand rendering
   // Requires an adapter for deployment (Vercel, Netlify, Cloudflare, Node, etc.)
   output: "server",
   adapter: vercel(),
+  compressHTML: true,
+  build: {
+    inlineStylesheets: "always",
+  },
   integrations: [
     sanity({
       projectId,

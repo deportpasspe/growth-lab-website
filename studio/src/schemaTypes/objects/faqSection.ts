@@ -1,4 +1,6 @@
 import {defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'faqSection',
@@ -18,7 +20,7 @@ export default defineType({
         layout: 'radio',
       },
     }),
-    defineField({name: 'title', title: 'Title', type: 'string'}),
+    localizedStringField('title', 'Title'),
     defineField({
       name: 'items',
       title: 'Items',
@@ -28,6 +30,8 @@ export default defineType({
   ],
   preview: {
     select: {title: 'title'},
-    prepare: ({title}) => ({title: title || 'FAQ'}),
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'FAQ'),
+    }),
   },
 })

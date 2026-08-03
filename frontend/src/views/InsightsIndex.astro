@@ -9,8 +9,14 @@ import InsightsNewsletter from '../modules/insights-index/InsightsNewsletter.ast
 import InsightPostCard from '../components/cards/InsightPostCard.astro'
 import {t} from '../i18n'
 import {insightsFixtures} from '../modules/insightsFixtures'
+import type {SanityImageSource} from '@sanity/image-url'
+import {getDraftModeProps} from '../lib/sanity/draft-mode'
 import {loadQuery} from '../lib/sanity/loadQuery'
+import {insightsIndexPageQuery} from '../lib/sanity/queries/pages'
 import {insightsListQuery} from '../lib/sanity/queries/insight'
+import {resolveCta} from '../lib/sanity/resolveLink'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
+import {singletonBreadcrumbs} from '../lib/seo/breadcrumbs'
 import type {InsightItem} from '../lib/insights'
 
 interface Props {
@@ -18,27 +24,104 @@ interface Props {
 }
 
 const {locale} = Astro.props
-const title = t(locale, 'nav.insights')
-const description = t(locale, 'insights.heroSubheading')
+const draft = getDraftModeProps(Astro.cookies)
+
+let title = t(locale, 'nav.insights')
+let description = t(locale, 'insights.heroSubheading')
+let heroEyebrow = t(locale, 'insights.heroEyebrow')
+let heroHeading = t(locale, 'insights.heroHeading')
+let heroSubheading = t(locale, 'insights.heroSubheading')
+let heroImage: SanityImageSource | string | undefined
+let ctaHeading = t(locale, 'insights.ctaHeading')
+let ctaSubheading = t(locale, 'insights.ctaSubheading')
+let cta = {label: t(locale, 'insights.ctaSubscribe'), href: '#newsletter'}
+let secondaryCta = {
+  label: t(locale, 'insights.ctaViewAll'),
+  href: getLocalizedPath(locale, 'insights'),
+}
 
 let insights: InsightItem[] = insightsFixtures(locale)
+let seo: PageSeo | undefined
 
 try {
-  const list = await loadQuery<InsightItem[] | null>(insightsListQuery, {locale})
+  const [page, list] = await Promise.all([
+    loadQuery<{
+      title?: string
+      hero?: {eyebrow?: string; heading?: string; subheading?: string; image?: SanityImageSource}
+      bottomCta?: {
+        heading?: string
+        subheading?: string
+        cta?: {label?: string; link?: unknown}
+        secondaryCta?: {label?: string; link?: unknown}
+      }
+      featuredInsight?: InsightItem | null
+      seo?: PageSeo
+    } | null>(insightsIndexPageQuery, {locale}, {perspectiveCookie: draft.perspectiveCookie}),
+    loadQuery<InsightItem[] | null>(
+      insightsListQuery,
+      {locale},
+      {perspectiveCookie: draft.perspectiveCookie},
+    ),
+  ])
+
   if (list?.length) insights = list
+
+  if (page) {
+    seo = page.seo
+    title = page.seo?.metaTitle || page.title || title
+    description = page.seo?.metaDescription || page.hero?.subheading || description
+
+    if (page.hero?.heading) {
+      heroEyebrow = page.hero.eyebrow || heroEyebrow
+      heroHeading = page.hero.heading
+      heroSubheading = page.hero.subheading || heroSubheading
+      heroImage = page.hero.image
+    }
+
+    if (page.featuredInsight?.slug) {
+      const withoutFeatured = insights.filter((item) => item.slug !== page.featuredInsight?.slug)
+      insights = [page.featuredInsight, ...withoutFeatured]
+    }
+
+    if (page.bottomCta?.heading) {
+      ctaHeading = page.bottomCta.heading
+      ctaSubheading = page.bottomCta.subheading || ctaSubheading
+      const primary = resolveCta(page.bottomCta.cta, locale)
+      const secondary = resolveCta(page.bottomCta.secondaryCta, locale)
+      if (primary) cta = primary
+      if (secondary) secondaryCta = secondary
+    }
+  }
 } catch {
   // fixtures
 }
 
+const meta = resolvePageSeo({
+  seo,
+  title,
+  description,
+  ogImageFallback: heroImage,
+  origin: Astro.url.origin,
+})
+
 const [featured, ...gridItems] = insights
 ---
 
-<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+<Layout
+  locale={locale}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  headerAppearance="overlay"
+  routeKey="insights"
+  breadcrumbs={singletonBreadcrumbs(locale, meta.title, Astro.url.pathname)}
+>
   <Hero
     variant="insights"
-    eyebrow={t(locale, 'insights.heroEyebrow')}
-    heading={t(locale, 'insights.heroHeading')}
-    subheading={t(locale, 'insights.heroSubheading')}
+    eyebrow={heroEyebrow}
+    heading={heroHeading}
+    subheading={heroSubheading}
+    image={heroImage}
   />
 
   <InsightFilters locale={locale} insights={insights} />
@@ -90,12 +173,9 @@ const [featured, ...gridItems] = insights
   <InsightsNewsletter locale={locale} />
 
   <CtaBanner
-    heading={t(locale, 'insights.ctaHeading')}
-    subheading={t(locale, 'insights.ctaSubheading')}
-    cta={{label: t(locale, 'insights.ctaSubscribe'), href: '#newsletter'}}
-    secondaryCta={{
-      label: t(locale, 'insights.ctaViewAll'),
-      href: getLocalizedPath(locale, 'insights'),
-    }}
+    heading={ctaHeading}
+    subheading={ctaSubheading}
+    cta={cta}
+    secondaryCta={secondaryCta}
   />
 </Layout>

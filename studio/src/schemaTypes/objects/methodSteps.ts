@@ -1,4 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'methodSteps',
@@ -18,19 +20,18 @@ export default defineType({
         layout: 'radio',
       },
     }),
-    defineField({name: 'title', title: 'Title', type: 'string'}),
-    defineField({name: 'intro', title: 'Intro', type: 'text', rows: 3}),
-    defineField({
-      name: 'featuredTitle',
-      title: 'Featured card title',
-      type: 'string',
+    localizedStringField('title', 'Title'),
+    localizedTextField('intro', 'Intro'),
+    localizedStringField('featuredTitle', 'Featured card title', {
+      hidden: ({parent}) => parent?.layout !== 'grid',
+    }),
+    localizedTextField('featuredDescription', 'Featured card description', {
       hidden: ({parent}) => parent?.layout !== 'grid',
     }),
     defineField({
-      name: 'featuredDescription',
-      title: 'Featured card description',
-      type: 'text',
-      rows: 4,
+      name: 'diagramImage',
+      title: 'Diagram image',
+      type: 'image',
       hidden: ({parent}) => parent?.layout !== 'grid',
     }),
     defineField({
@@ -48,10 +49,15 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           fields: [
-            defineField({name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()}),
-            defineField({name: 'description', title: 'Description', type: 'text', rows: 3}),
+            localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
+            localizedTextField('description', 'Description'),
           ],
-          preview: {select: {title: 'title'}},
+          preview: {
+            select: {title: 'title'},
+            prepare: ({title}) => ({
+              title: localizedPreviewValue(title, 'Step'),
+            }),
+          },
         }),
       ],
       validation: (Rule) =>
@@ -67,7 +73,7 @@ export default defineType({
   preview: {
     select: {title: 'title', layout: 'layout'},
     prepare: ({title, layout}) => ({
-      title: title || 'Method steps',
+      title: localizedPreviewValue(title, 'Method steps'),
       subtitle: layout === 'grid' ? 'Grid layout' : 'Diagram layout',
     }),
   },

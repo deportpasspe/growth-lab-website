@@ -1,5 +1,11 @@
 import {BulbOutlineIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {
+  localizedSlugField,
+  localizedStringField,
+  localizedTextField,
+} from '../fields/localizedFields'
 
 export default defineType({
   name: 'service',
@@ -7,26 +13,21 @@ export default defineType({
   type: 'document',
   icon: BulbOutlineIcon,
   fields: [
+    localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
+    localizedSlugField,
+    localizedTextField('summary', 'Summary', {rows: 3}),
     defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
+      name: 'showInNav',
+      title: 'Show in navigation',
+      type: 'boolean',
+      initialValue: false,
     }),
     defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
+      name: 'navOrder',
+      title: 'Navigation order',
+      type: 'number',
+      hidden: ({parent}) => !parent?.showInNav,
     }),
-    defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {source: 'title'},
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'summary', title: 'Summary', type: 'text', rows: 3}),
     defineField({
       name: 'pageBuilder',
       title: 'Page builder',
@@ -88,10 +89,9 @@ export default defineType({
     defineField({name: 'seo', title: 'SEO', type: 'seo'}),
   ],
   preview: {
-    select: {title: 'title', language: 'language'},
-    prepare: ({title, language}) => ({
-      title: title || 'Service',
-      subtitle: language?.toUpperCase(),
+    select: {title: 'title'},
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'Service'),
     }),
   },
 })

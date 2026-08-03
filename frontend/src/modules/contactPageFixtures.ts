@@ -58,19 +58,24 @@ export function contactChannels(locale: Locale) {
   ]
 }
 
+export type ContactReasonTone = 'magenta' | 'teal' | 'navyDeep'
+
 export function contactReasons(locale: Locale) {
   return [
     {
+      tone: 'magenta' as ContactReasonTone,
       image: '/assets/figma/contact/value-prop-1.webp',
       title: t(locale, 'contact.reasons.r1Title'),
       description: t(locale, 'contact.reasons.r1Body'),
     },
     {
+      tone: 'teal' as ContactReasonTone,
       image: '/assets/figma/contact/value-prop-2.webp',
       title: t(locale, 'contact.reasons.r2Title'),
       description: t(locale, 'contact.reasons.r2Body'),
     },
     {
+      tone: 'navyDeep' as ContactReasonTone,
       image: '/assets/figma/contact/value-prop-3.webp',
       title: t(locale, 'contact.reasons.r3Title'),
       description: t(locale, 'contact.reasons.r3Body'),

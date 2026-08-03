@@ -18,6 +18,8 @@ import {
   type CaseStudyDetail,
   type CaseStudyRelatedItem,
 } from '../lib/caseStudies'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
+import {indexDetailBreadcrumbs} from '../lib/seo/breadcrumbs'
 
 interface Props {
   locale: Locale
@@ -25,14 +27,21 @@ interface Props {
 }
 
 const {locale, slug} = Astro.props
+const perspectiveCookie = Astro.locals.perspectiveCookie
 
 const fixture = caseStudyFixtureBySlug(locale, slug)
 
+let seo: PageSeo | undefined
+let alternateSlugs: Partial<Record<Locale, string>> | undefined
 let study: CaseStudyDetail | null = fixture
 
 try {
-  const data = await loadQuery<CaseStudyDetail | null>(caseStudyBySlugQuery, {locale, slug})
+  const data = await loadQuery<
+    CaseStudyDetail & {alternateSlugs?: Partial<Record<Locale, string>>} | null
+  >(caseStudyBySlugQuery, {locale, slug}, {perspectiveCookie})
   if (data) {
+    seo = data.seo
+    alternateSlugs = data.alternateSlugs
     study = {
       ...data,
       title: data.seo?.metaTitle || data.title,
@@ -62,13 +71,31 @@ const metricItems = (study.metrics || []).map((metric, index) => ({
   label: metric.label,
   icon: caseStudyMetricIcon(metric, index),
 }))
+
+const meta = resolvePageSeo({
+  seo,
+  title: study.title,
+  description: study.summary,
+  ogImageFallback: study.cover,
+  origin: Astro.url.origin,
+})
 ---
 
 <Layout
   locale={locale}
-  title={study.title}
-  description={study.summary}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
   headerAppearance="overlay"
+  routeKey="caseStudy"
+  alternateSlugs={alternateSlugs}
+  breadcrumbs={indexDetailBreadcrumbs(
+    locale,
+    'caseStudies',
+    t(locale, 'nav.caseStudies'),
+    meta.title,
+    Astro.url.pathname,
+  )}
 >
   <Hero
     variant="caseStudyDetail"

@@ -1,5 +1,7 @@
 ---
 import type {ContentCard} from '../fixtures'
+import {urlFor} from '../../lib/sanity/image'
+import type {SanityImageSource} from '@sanity/image-url'
 
 interface Props {
   variant?: 'lists' | 'deliverables' | 'industries' | 'values' | 'principles'
@@ -23,6 +25,32 @@ const icons = {
   planning: '/assets/figma/about/value-planning.svg',
   money: '/assets/figma/about/value-money.svg',
   relationship: '/assets/figma/about/value-money.svg',
+} as const
+
+type EnumIcon = keyof typeof icons
+
+function isEnumIcon(icon: ContentCard['icon']): icon is EnumIcon {
+  return typeof icon === 'string' && icon in icons
+}
+
+function resolveIconSrc(icon: ContentCard['icon'], cardVariant = variant): string | undefined {
+  if (!icon) return undefined
+  if (typeof icon === 'object') {
+    return urlFor(icon as SanityImageSource).width(54).height(54).fit('max').auto('format').url()
+  }
+  if (typeof icon === 'string' && icon.startsWith('/')) return icon
+  if (isEnumIcon(icon)) {
+    if (cardVariant === 'values' && icon === 'calendar') {
+      return '/assets/figma/about/value-calendar.svg'
+    }
+    return icons[icon]
+  }
+  return undefined
+}
+
+function resolveIconSize(icon: ContentCard['icon']) {
+  if (isEnumIcon(icon)) return iconSizes[icon] ?? {width: 54, height: 54}
+  return {width: 54, height: 54}
 }
 
 const iconSizes = {
@@ -95,12 +123,12 @@ const interactiveCardGhostClass =
                 {card.icon && (
                   <span class="flex h-[54px] w-[54px] shrink-0 items-center justify-center">
                     <img
-                      src={icons[card.icon]}
+                      src={resolveIconSrc(card.icon)}
                       alt=""
                       class="max-w-none"
-                      width={iconSizes[card.icon]?.width ?? 54}
-                      height={iconSizes[card.icon]?.height ?? 54}
-                      style={`width:${iconSizes[card.icon]?.width ?? 54}px;height:${iconSizes[card.icon]?.height ?? 54}px`}
+                      width={resolveIconSize(card.icon).width}
+                      height={resolveIconSize(card.icon).height}
+                      style={`width:${resolveIconSize(card.icon).width}px;height:${resolveIconSize(card.icon).height}px`}
                     />
                   </span>
                 )}
@@ -125,16 +153,12 @@ const interactiveCardGhostClass =
                 {card.icon && (
                   <span class="flex h-[54px] w-[54px] items-center justify-center">
                     <img
-                      src={
-                        card.icon === 'calendar'
-                          ? '/assets/figma/about/value-calendar.svg'
-                          : icons[card.icon]
-                      }
+                      src={resolveIconSrc(card.icon)}
                       alt=""
                       class="max-w-none"
-                      width={iconSizes[card.icon]?.width ?? 54}
-                      height={iconSizes[card.icon]?.height ?? 54}
-                      style={`width:${iconSizes[card.icon]?.width ?? 54}px;height:${iconSizes[card.icon]?.height ?? 54}px`}
+                      width={resolveIconSize(card.icon).width}
+                      height={resolveIconSize(card.icon).height}
+                      style={`width:${resolveIconSize(card.icon).width}px;height:${resolveIconSize(card.icon).height}px`}
                     />
                   </span>
                 )}
@@ -212,12 +236,12 @@ const interactiveCardGhostClass =
                 {card.icon && (
                   <span class="flex h-[54px] w-[54px] items-center justify-center transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.04] group-focus-within:scale-[1.04]">
                     <img
-                      src={icons[card.icon]}
+                      src={resolveIconSrc(card.icon)}
                       alt=""
                       class="max-w-none transition-opacity duration-300 ease-[var(--ease-out)]"
-                      width={iconSizes[card.icon].width}
-                      height={iconSizes[card.icon].height}
-                      style={`width:${iconSizes[card.icon].width}px;height:${iconSizes[card.icon].height}px`}
+                      width={resolveIconSize(card.icon).width}
+                      height={resolveIconSize(card.icon).height}
+                      style={`width:${resolveIconSize(card.icon).width}px;height:${resolveIconSize(card.icon).height}px`}
                     />
                   </span>
                 )}
@@ -238,12 +262,12 @@ const interactiveCardGhostClass =
                 {card.icon && (
                   <span class="flex h-[54px] w-[54px] items-center justify-center transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.04] group-focus-within:scale-[1.04]">
                     <img
-                      src={icons[card.icon]}
+                      src={resolveIconSrc(card.icon)}
                       alt=""
                       class="max-w-none transition-opacity duration-300 ease-[var(--ease-out)]"
-                      width={iconSizes[card.icon].width}
-                      height={iconSizes[card.icon].height}
-                      style={`width:${iconSizes[card.icon].width}px;height:${iconSizes[card.icon].height}px`}
+                      width={resolveIconSize(card.icon).width}
+                      height={resolveIconSize(card.icon).height}
+                      style={`width:${resolveIconSize(card.icon).width}px;height:${resolveIconSize(card.icon).height}px`}
                     />
                   </span>
                 )}
@@ -275,12 +299,12 @@ const interactiveCardGhostClass =
               {card.icon && (
                 <span class="flex h-[54px] w-[54px] items-center justify-center transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.04] group-focus-within:scale-[1.04]">
                   <img
-                    src={icons[card.icon]}
+                    src={resolveIconSrc(card.icon)}
                     alt=""
                     class="max-w-none transition-opacity duration-300 ease-[var(--ease-out)]"
-                    width={iconSizes[card.icon].width}
-                    height={iconSizes[card.icon].height}
-                    style={`width:${iconSizes[card.icon].width}px;height:${iconSizes[card.icon].height}px`}
+                    width={resolveIconSize(card.icon).width}
+                    height={resolveIconSize(card.icon).height}
+                    style={`width:${resolveIconSize(card.icon).width}px;height:${resolveIconSize(card.icon).height}px`}
                   />
                 </span>
               )}

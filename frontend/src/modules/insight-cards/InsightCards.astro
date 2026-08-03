@@ -2,6 +2,7 @@
 import type {Locale} from '../../i18n/routes'
 import InsightPostCard from '../../components/cards/InsightPostCard.astro'
 import type {InsightContentType} from '../../lib/insights'
+import type {SanityImageSource} from '@sanity/image-url'
 
 interface Props {
   locale: Locale
@@ -14,6 +15,7 @@ interface Props {
     categories?: string[]
     contentType?: InsightContentType
     downloadUrl?: string
+    cover?: string | SanityImageSource
   }[]
 }
 
@@ -39,6 +41,7 @@ const {locale, title, intro, insights} = Astro.props
               categories={item.categories}
               contentType={item.contentType}
               downloadUrl={item.downloadUrl}
+              cover={item.cover}
               imageIndex={index}
             />
           </div>

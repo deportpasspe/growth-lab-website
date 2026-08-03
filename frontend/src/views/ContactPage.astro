@@ -6,44 +6,122 @@ import ContactPaths from '../modules/contact-paths/ContactPaths.astro'
 import ContactChannels from '../modules/contact-channels/ContactChannels.astro'
 import ContactReasons from '../modules/contact-reasons/ContactReasons.astro'
 import Faq from '../modules/faq/Faq.astro'
+import type {SanityImageSource} from '@sanity/image-url'
 import {contactFaqItems, contactHero} from '../modules/contactPageFixtures'
+import {getDraftModeProps} from '../lib/sanity/draft-mode'
 import {loadQuery} from '../lib/sanity/loadQuery'
 import {contactPageQuery} from '../lib/sanity/queries/pages'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
+import {singletonBreadcrumbs} from '../lib/seo/breadcrumbs'
 import {t} from '../i18n'
+import type {ContactChannel, ContactPathsCopy, ContactReason} from '../lib/sanity/types'
 
 interface Props {
   locale: Locale
 }
 
 const {locale} = Astro.props
-const hero = contactHero(locale)
+const draft = getDraftModeProps(Astro.cookies)
+const heroFixture = contactHero(locale)
+
 let title = t(locale, 'nav.contact')
-let description = hero.subheading
+let description = heroFixture.subheading
+let hero: {heading: string; subheading: string; image?: string | SanityImageSource} = heroFixture
+let paths: ContactPathsCopy | undefined = undefined
+let channelsHeading = undefined
+let channels: ContactChannel[] | undefined = undefined
+let reasonsHeading = undefined
+let reasons: ContactReason[] | undefined = undefined
+let faqItems = contactFaqItems(locale)
+let faqTitle = t(locale, 'sections.faq')
+let interestOptions = undefined
+let seo: PageSeo | undefined
 
 try {
   const data = await loadQuery<{
     title?: string
-    intro?: string
-    seo?: {metaTitle?: string; metaDescription?: string}
-  } | null>(contactPageQuery, {locale})
+    hero?: {
+      variant?: string
+      heading?: string
+      subheading?: string
+      image?: SanityImageSource
+    }
+    paths?: ContactPathsCopy
+    channelsHeading?: string
+    channels?: ContactChannel[]
+    reasonsHeading?: string
+    reasons?: ContactReason[]
+    faq?: {title?: string; items?: Array<{question?: string; answer?: string}>}
+    interestOptions?: Array<{value?: string; label?: string}>
+    seo?: PageSeo
+  } | null>(contactPageQuery, {locale}, {perspectiveCookie: draft.perspectiveCookie})
+
   if (data) {
+    seo = data.seo
     title = data.seo?.metaTitle || data.title || title
-    description = data.seo?.metaDescription || data.intro || description
+    description = data.seo?.metaDescription || data.hero?.subheading || description
+
+    if (data.hero?.heading) {
+      hero = {
+        heading: data.hero.heading,
+        subheading: data.hero.subheading || heroFixture.subheading,
+        image: data.hero.image || heroFixture.image,
+      }
+    }
+
+    paths = data.paths
+    channelsHeading = data.channelsHeading || undefined
+    channels = data.channels?.length ? data.channels : undefined
+    reasonsHeading = data.reasonsHeading || undefined
+    reasons = data.reasons?.length ? data.reasons : undefined
+
+    if (data.faq?.items?.length) {
+      faqTitle = data.faq.title || faqTitle
+      faqItems = data.faq.items.map((item) => ({
+        question: item.question || '',
+        answer: item.answer || '',
+      }))
+    }
+
+    if (data.interestOptions?.length) {
+      interestOptions = data.interestOptions
+        .filter((item) => item.value && item.label)
+        .map((item) => ({value: item.value!, label: item.label!}))
+    }
   }
 } catch {
-  // defaults
+  // fixtures
 }
+
+const meta = resolvePageSeo({
+  seo,
+  title,
+  description,
+  ogImageFallback: hero.image,
+  origin: Astro.url.origin,
+})
 ---
 
-<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
-  <Hero
-    variant="contact"
-    heading={hero.heading}
-    subheading={hero.subheading}
-    image={hero.image}
-  />
-  <ContactPaths locale={locale} />
-  <ContactChannels locale={locale} />
-  <ContactReasons locale={locale} />
-  <Faq title={t(locale, 'sections.faq')} items={contactFaqItems(locale)} />
+<Layout
+  locale={locale}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  headerAppearance="overlay"
+  routeKey="contact"
+  faqItems={faqItems}
+  breadcrumbs={singletonBreadcrumbs(locale, meta.title, Astro.url.pathname)}
+>
+  <div class="bg-black">
+    <Hero
+      variant="contact"
+      heading={hero.heading}
+      subheading={hero.subheading}
+      image={hero.image}
+    />
+    <ContactPaths locale={locale} paths={paths} interestOptions={interestOptions} />
+    <ContactChannels locale={locale} heading={channelsHeading} channels={channels} />
+    <ContactReasons locale={locale} heading={reasonsHeading} reasons={reasons} />
+    <Faq title={faqTitle} items={faqItems} />
+  </div>
 </Layout>

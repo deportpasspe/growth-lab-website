@@ -1,26 +1,52 @@
 import type {StructureResolver} from 'sanity/structure'
 
+const singletonTitles: Record<string, string> = {
+  homePage: 'Home',
+  aboutPage: 'Nosotros',
+  methodologyPage: 'Metodología',
+  recruitmentPage: 'Reclutamiento',
+  servicesIndexPage: 'Servicios (índice)',
+  insightsIndexPage: 'Insights (índice)',
+  caseStudiesIndexPage: 'Casos (índice)',
+  contactPage: 'Contacto',
+  thankYouPage: 'Gracias',
+  siteSettings: 'Site settings',
+}
+
+function singletonItem(S: Parameters<StructureResolver>[0], typeName: string) {
+  return S.listItem()
+    .id(typeName)
+    .title(singletonTitles[typeName] || typeName)
+    .child(
+      S.document().schemaType(typeName).documentId(typeName).title(singletonTitles[typeName] || typeName),
+    )
+}
+
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Growth Lab')
     .items([
       S.listItem()
+        .id('paginas')
         .title('Páginas')
         .child(
           S.list()
             .title('Páginas')
             .items([
-              S.documentTypeListItem('homePage').title('Home'),
-              S.documentTypeListItem('aboutPage').title('Nosotros'),
-              S.documentTypeListItem('methodologyPage').title('Metodología'),
-              S.documentTypeListItem('recruitmentPage').title('Reclutamiento'),
-              S.documentTypeListItem('servicesIndexPage').title('Servicios (índice)'),
-              S.documentTypeListItem('contactPage').title('Contacto'),
-              S.documentTypeListItem('thankYouPage').title('Gracias'),
+              singletonItem(S, 'homePage'),
+              singletonItem(S, 'aboutPage'),
+              singletonItem(S, 'methodologyPage'),
+              singletonItem(S, 'recruitmentPage'),
+              singletonItem(S, 'servicesIndexPage'),
+              singletonItem(S, 'insightsIndexPage'),
+              singletonItem(S, 'caseStudiesIndexPage'),
+              singletonItem(S, 'contactPage'),
+              singletonItem(S, 'thankYouPage'),
               S.documentTypeListItem('legalPage').title('Legales'),
             ]),
         ),
       S.listItem()
+        .id('colecciones')
         .title('Colecciones')
         .child(
           S.list()
@@ -32,16 +58,5 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.divider(),
-      S.listItem()
-        .title('Ajustes')
-        .child(
-          S.list()
-            .title('Ajustes')
-            .items([
-              S.listItem()
-                .title('Site settings')
-                .id('siteSettings')
-                .child(S.document().schemaType('siteSettings').documentId('siteSettings')),
-            ]),
-        ),
+      singletonItem(S, 'siteSettings'),
     ])

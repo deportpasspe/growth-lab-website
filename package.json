@@ -10,7 +10,16 @@
     "lint": "npm run lint --workspace=frontend",
     "format": "prettier --write \"frontend/src/**/*.{ts,astro,css,json}\" \"studio/src/**/*.{ts,tsx}\"",
     "test:e2e": "playwright test",
-    "typegen": "cd studio && npx sanity@latest schema extract --path=../frontend/schema.json --force && npx sanity@latest typegen generate"
+    "typegen": "cd studio && npx sanity@latest schema extract --path=../frontend/schema.json --force && npx sanity@latest typegen generate",
+    "seed": "tsx studio/scripts/seed.ts",
+    "migrate:i18n": "tsx studio/scripts/migrate-i18n-field-level.ts",
+    "migrate:i18n:v5": "tsx studio/scripts/migrate-i18n-v5-language-field.ts",
+    "repair:i18n": "tsx studio/scripts/repair-i18n-data.ts",
+    "validate:i18n": "tsx studio/scripts/validate-i18n-data.ts",
+    "validate:audit": "tsx studio/scripts/audit-data.ts",
+    "patch:seo": "tsx studio/scripts/patch-seo.ts",
+    "validate:seo": "tsx studio/scripts/patch-seo.ts",
+    "validate:images": "tsx studio/scripts/validate-images.ts"
   },
   "workspaces": [
     "studio",
@@ -23,6 +32,7 @@
     "@playwright/test": "^1.51.0",
     "concurrently": "^9.2.1",
     "prettier": "^3.8.2",
-    "prettier-plugin-astro": "^0.14.1"
+    "prettier-plugin-astro": "^0.14.1",
+    "tsx": "^4.23.5"
   }
 }

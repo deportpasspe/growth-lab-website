@@ -2,14 +2,15 @@
 interface Props {
   id?: string
   class?: string
-  tone?: 'default' | 'cream' | 'navy' | 'teal'
+  tone?: 'default' | 'cream' | 'navy' | 'teal' | 'black'
 }
 
 const {id, class: className = '', tone = 'default'} = Astro.props
 
 const tones = {
-  default: 'bg-transparent text-navy',
+  default: 'bg-black text-white',
   cream: 'bg-cream-pale text-navy',
+  black: 'bg-black text-white',
   navy: 'bg-navy text-white',
   teal: 'bg-teal text-white',
 }

@@ -1,15 +1,18 @@
 ---
 import type {Locale} from '../../i18n/routes'
 import {getLocalizedPath} from '../../i18n/routes'
+import type {SanityImageSource} from '@sanity/image-url'
+import {urlFor} from '../../lib/sanity/image'
 
 interface Props {
   locale: Locale
   title?: string
   intro?: string
+  cardImages?: Array<SanityImageSource | string>
   services: {title: string; summary?: string; slug: string; href?: string}[]
 }
 
-const {locale, title, intro, services} = Astro.props
+const {locale, title, intro, cardImages, services} = Astro.props
 
 const imageBySlug: Record<string, string> = {
   'reclutamiento-ejecutivo': '/assets/figma/home/service-organization.webp',
@@ -22,6 +25,14 @@ const fallbackImages = [
   '/assets/figma/home/service-organization.webp',
   '/assets/figma/home/service-recruitment.webp',
 ]
+
+function cardImageSrc(index: number, slug: string): string {
+  const cmsImage = cardImages?.[index]
+  if (cmsImage) {
+    return typeof cmsImage === 'string' ? cmsImage : urlFor(cmsImage).width(677).height(634).auto('format').url()
+  }
+  return imageBySlug[slug] ?? fallbackImages[index] ?? fallbackImages[0]
+}
 ---
 
 <section
@@ -46,11 +57,13 @@ const fallbackImages = [
             data-reveal
           >
             <img
-              src={imageBySlug[service.slug] ?? fallbackImages[index]}
+              src={cardImageSrc(index, service.slug)}
               alt=""
               class="absolute inset-x-0 top-[-7%] !h-[114%] !w-full !max-w-none object-cover transition-[scale] duration-500 ease-[var(--ease-out)] group-hover:scale-[1.025] group-focus-visible:scale-[1.025]"
               width="677"
-              height="634"
+              height="388"
+              loading="lazy"
+              decoding="async"
               data-parallax="0.1"
             />
             <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-black/95 transition-opacity duration-300 ease-[var(--ease-out)] group-hover:opacity-90 group-focus-visible:opacity-90" />

@@ -1,28 +1,17 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
-import {documentInternationalization} from '@sanity/document-internationalization'
-import {defineDocuments, defineLocations, presentationTool} from 'sanity/presentation'
+import {assist} from '@sanity/assist'
+import {internationalizedArray} from 'sanity-plugin-internationalized-array'
+import {defineDocuments, presentationTool} from 'sanity/presentation'
 import {schemaTypes} from './src/schemaTypes'
 import {structure} from './src/structure'
+import {I18N_DOCUMENT_TYPES, SUPPORTED_LANGUAGES} from './src/lib/i18n'
+import {presentationLocations} from './src/presentation'
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
-const previewUrl = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321'
-
-const i18nTypes = [
-  'homePage',
-  'aboutPage',
-  'methodologyPage',
-  'recruitmentPage',
-  'servicesIndexPage',
-  'contactPage',
-  'thankYouPage',
-  'legalPage',
-  'service',
-  'insight',
-  'caseStudy',
-]
+const previewOrigin = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321'
 
 export default defineConfig({
   name: 'growth-lab',
@@ -32,120 +21,91 @@ export default defineConfig({
   plugins: [
     structureTool({structure}),
     presentationTool({
-      previewUrl,
+      previewUrl: {
+        initial: previewOrigin,
+        previewMode: {
+          enable: '/api/draft-mode/enable',
+          disable: '/api/draft-mode/disable',
+        },
+      },
       resolve: {
         mainDocuments: defineDocuments([
+          {route: '/:locale', filter: () => `_type == "homePage"`},
+          {route: '/:locale/nosotros', filter: () => `_type == "aboutPage"`},
+          {route: '/:locale/about', filter: () => `_type == "aboutPage"`},
+          {route: '/:locale/reclutamiento', filter: () => `_type == "recruitmentPage"`},
+          {route: '/:locale/recruitment', filter: () => `_type == "recruitmentPage"`},
+          {route: '/:locale/servicios', filter: () => `_type == "servicesIndexPage"`},
+          {route: '/:locale/services', filter: () => `_type == "servicesIndexPage"`},
+          {route: '/:locale/contacto', filter: () => `_type == "contactPage"`},
+          {route: '/:locale/contact', filter: () => `_type == "contactPage"`},
+          {route: '/:locale/gracias', filter: () => `_type == "thankYouPage"`},
+          {route: '/:locale/thank-you', filter: () => `_type == "thankYouPage"`},
           {
-            route: '/:locale',
-            filter: ({params}) =>
-              `_type == "homePage" && language == "${params.locale}"`,
+            route: '/:locale/politica-de-privacidad',
+            filter: () =>
+              `_type == "legalPage" && slug.es.current == "politica-de-privacidad"`,
           },
+          {
+            route: '/:locale/privacy-policy',
+            filter: () => `_type == "legalPage" && slug.en.current == "privacy-policy"`,
+          },
+          {route: '/:locale/insights', filter: () => `_type == "insightsIndexPage"`},
+          {route: '/:locale/casos-de-exito', filter: () => `_type == "caseStudiesIndexPage"`},
+          {route: '/:locale/case-studies', filter: () => `_type == "caseStudiesIndexPage"`},
           {
             route: '/:locale/servicios/:slug',
             filter: ({params}) =>
-              `_type == "service" && language == "${params.locale}" && slug.current == "${params.slug}"`,
+              `_type == "service" && slug.es.current == "${params.slug}"`,
           },
           {
             route: '/:locale/services/:slug',
             filter: ({params}) =>
-              `_type == "service" && language == "${params.locale}" && slug.current == "${params.slug}"`,
+              `_type == "service" && slug.en.current == "${params.slug}"`,
           },
           {
             route: '/:locale/insights/:slug',
             filter: ({params}) =>
-              `_type == "insight" && language == "${params.locale}" && slug.current == "${params.slug}"`,
+              `_type == "insight" && slug.es.current == "${params.slug}"`,
+          },
+          {
+            route: '/:locale/insights/:slug',
+            filter: ({params}) =>
+              `_type == "insight" && slug.en.current == "${params.slug}"`,
           },
           {
             route: '/:locale/casos-de-exito/:slug',
             filter: ({params}) =>
-              `_type == "caseStudy" && language == "${params.locale}" && slug.current == "${params.slug}"`,
+              `_type == "caseStudy" && slug.es.current == "${params.slug}"`,
           },
           {
             route: '/:locale/case-studies/:slug',
             filter: ({params}) =>
-              `_type == "caseStudy" && language == "${params.locale}" && slug.current == "${params.slug}"`,
+              `_type == "caseStudy" && slug.en.current == "${params.slug}"`,
           },
-          {
-            route: '/:locale/metodologia',
-            filter: ({params}) =>
-              `_type == "methodologyPage" && language == "${params.locale}"`,
-          },
-          {
-            route: '/:locale/methodology',
-            filter: ({params}) =>
-              `_type == "methodologyPage" && language == "${params.locale}"`,
-          },
+          {route: '/:locale/metodologia', filter: () => `_type == "methodologyPage"`},
+          {route: '/:locale/methodology', filter: () => `_type == "methodologyPage"`},
         ]),
-        locations: {
-          homePage: defineLocations({
-            select: {title: 'title', language: 'language'},
-            resolve: (doc) => ({
-              locations: doc?.language
-                ? [{title: doc.title || 'Home', href: `/${doc.language}/`}]
-                : [],
-            }),
-          }),
-          methodologyPage: defineLocations({
-            select: {title: 'title', language: 'language'},
-            resolve: (doc) => {
-              if (!doc?.language) return {locations: []}
-              const path = doc.language === 'es' ? 'metodologia' : 'methodology'
-              return {
-                locations: [
-                  {title: doc.title || 'Methodology', href: `/${doc.language}/${path}`},
-                ],
-              }
-            },
-          }),
-          service: defineLocations({
-            select: {title: 'title', slug: 'slug.current', language: 'language'},
-            resolve: (doc) => {
-              if (!doc?.slug || !doc?.language) return {locations: []}
-              const base = doc.language === 'es' ? 'servicios' : 'services'
-              return {
-                locations: [
-                  {title: doc.title || 'Service', href: `/${doc.language}/${base}/${doc.slug}`},
-                ],
-              }
-            },
-          }),
-          insight: defineLocations({
-            select: {title: 'title', slug: 'slug.current', language: 'language'},
-            resolve: (doc) =>
-              doc?.slug && doc?.language
-                ? {
-                    locations: [
-                      {
-                        title: doc.title || 'Insight',
-                        href: `/${doc.language}/insights/${doc.slug}`,
-                      },
-                    ],
-                  }
-                : {locations: []},
-          }),
-          caseStudy: defineLocations({
-            select: {title: 'title', slug: 'slug.current', language: 'language'},
-            resolve: (doc) => {
-              if (!doc?.slug || !doc?.language) return {locations: []}
-              const base = doc.language === 'es' ? 'casos-de-exito' : 'case-studies'
-              return {
-                locations: [
-                  {title: doc.title || 'Case', href: `/${doc.language}/${base}/${doc.slug}`},
-                ],
-              }
-            },
-          }),
+        locations: presentationLocations,
+      },
+    }),
+    internationalizedArray({
+      languages: [...SUPPORTED_LANGUAGES],
+      defaultLanguages: ['es'],
+      fieldTypes: ['string', 'text', 'portableText'],
+      languageFilter: {
+        documentTypes: [...I18N_DOCUMENT_TYPES],
+      },
+    }),
+    assist({
+      translate: {
+        field: {
+          languages: SUPPORTED_LANGUAGES.map(({id, title}) => ({id, title})),
+          documentTypes: [...I18N_DOCUMENT_TYPES],
         },
       },
     }),
     visionTool(),
-    documentInternationalization({
-      supportedLanguages: [
-        {id: 'es', title: 'Español'},
-        {id: 'en', title: 'English'},
-      ],
-      schemaTypes: i18nTypes,
-    }),
   ],
   schema: {types: schemaTypes},
 })

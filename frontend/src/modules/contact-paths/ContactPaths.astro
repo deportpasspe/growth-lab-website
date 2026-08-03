@@ -4,31 +4,46 @@ import {getLocalizedPath} from '../../i18n/routes'
 import {actions} from 'astro:actions'
 import {t} from '../../i18n'
 import {contactInterestOptions} from '../contactPageFixtures'
+import type {ContactPathsCopy} from '../../lib/sanity/types'
 import ContactLeadForm from './ContactLeadForm.astro'
+import {urlFor} from '../../lib/sanity/image'
+import type {SanityImageSource} from '@sanity/image-url'
 
 interface Props {
   locale: Locale
+  paths?: ContactPathsCopy
+  interestOptions?: Array<{value: string; label: string}>
 }
 
-const {locale} = Astro.props
+const {locale, paths, interestOptions: cmsInterestOptions} = Astro.props
 const calendlyUrl = import.meta.env.PUBLIC_CALENDLY_URL as string | undefined
 const result = Astro.getActionResult(actions.contact)
-const interestOptions = contactInterestOptions(locale)
+const interestOptions = cmsInterestOptions?.length
+  ? cmsInterestOptions
+  : contactInterestOptions(locale)
+
+const meetingTitle = paths?.meetingTitle || t(locale, 'contact.pathsMeetingTitle')
+const meetingEyebrow = paths?.meetingEyebrow || t(locale, 'contact.pathsMeetingEyebrow')
+const formTitle = paths?.formTitle || t(locale, 'contact.pathsFormTitle')
+const formEyebrow = paths?.formEyebrow || t(locale, 'contact.pathsFormEyebrow')
+const meetingImageSrc = paths?.meetingImage
+  ? urlFor(paths.meetingImage as SanityImageSource).width(499).height(487).fit('crop').auto('format').url()
+  : '/assets/figma/contact/calendly-fallback.webp'
 
 if (result && !result.error && result.data?.ok) {
   return Astro.redirect(getLocalizedPath(locale, 'thankYou'))
 }
 ---
 
-<section class="bg-surface px-6 py-16 sm:px-[42px] sm:py-[72px]">
+<section class="bg-black px-6 py-16 text-white sm:px-[42px] sm:py-[72px]">
   <div class="mx-auto max-w-[1356px]">
     <div class="grid gap-10 lg:grid-cols-2 lg:gap-4" data-reveal-group="110">
       <div class="flex flex-col gap-4" data-reveal>
         <div class="flex flex-col gap-2">
-          <h2 class="m-0 text-[clamp(1.5rem,2.5vw,2.375rem)] uppercase leading-[1.05] text-navy">
-            {t(locale, 'contact.pathsMeetingTitle')}
+          <h2 class="m-0 text-[clamp(1.5rem,2.5vw,2.375rem)] uppercase leading-[1.05] text-white">
+            {meetingTitle}
           </h2>
-          <p class="m-0 text-base text-navy-muted">{t(locale, 'contact.pathsMeetingEyebrow')}</p>
+          <p class="m-0 text-base text-white/75">{meetingEyebrow}</p>
         </div>
 
         <div class="flex flex-col rounded-[2px] bg-white p-6">
@@ -41,7 +56,7 @@ if (result && !result.error && result.data?.ok) {
             ) : (
               <div class="overflow-hidden rounded-[8px]">
                 <img
-                  src="/assets/figma/contact/calendly-fallback.webp"
+                  src={meetingImageSrc}
                   alt=""
                   class="aspect-[499/487] w-full object-cover object-top"
                   width="499"
@@ -58,10 +73,10 @@ if (result && !result.error && result.data?.ok) {
 
       <div class="flex flex-col gap-4" data-reveal>
         <div class="flex flex-col gap-2">
-          <h2 class="m-0 text-[clamp(1.5rem,2.5vw,2.375rem)] uppercase leading-[1.05] text-navy">
-            {t(locale, 'contact.pathsFormTitle')}
+          <h2 class="m-0 text-[clamp(1.5rem,2.5vw,2.375rem)] uppercase leading-[1.05] text-white">
+            {formTitle}
           </h2>
-          <p class="m-0 text-base text-navy-muted">{t(locale, 'contact.pathsFormEyebrow')}</p>
+          <p class="m-0 text-base text-white/75">{formEyebrow}</p>
         </div>
 
         <div class="rounded-[2px] bg-magenta p-8">

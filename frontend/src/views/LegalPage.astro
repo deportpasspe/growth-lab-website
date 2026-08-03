@@ -8,6 +8,8 @@ import Section from "../components/ui/Section.astro";
 import Heading from "../components/ui/Heading.astro";
 import { loadQuery } from "../lib/sanity/loadQuery";
 import { legalPageBySlugQuery } from "../lib/sanity/queries/pages";
+import { resolvePageSeo, type PageSeo } from "../lib/seo/resolvePageSeo";
+import { singletonBreadcrumbs } from "../lib/seo/breadcrumbs";
 import { t } from "../i18n";
 
 interface Props {
@@ -16,6 +18,7 @@ interface Props {
 }
 
 const { locale, slug } = Astro.props;
+const perspectiveCookie = Astro.locals.perspectiveCookie;
 
 const privacySlug = locale === "es" ? "politica-de-privacidad" : "privacy-policy";
 const resolvedSlug = slug || privacySlug;
@@ -26,14 +29,16 @@ let description =
     ? "Esta es una página legal placeholder. El contenido completo se gestiona en Sanity."
     : "This is a legal page placeholder. Full content is managed in Sanity.";
 let body: PortableTextBlock[] | null = null;
+let seo: PageSeo | undefined;
 
 try {
   const data = await loadQuery<{
     title?: string;
     body?: PortableTextBlock[];
-    seo?: { metaTitle?: string; metaDescription?: string };
-  } | null>(legalPageBySlugQuery, { locale, slug: resolvedSlug });
+    seo?: PageSeo;
+  } | null>(legalPageBySlugQuery, { locale, slug: resolvedSlug }, { perspectiveCookie });
   if (data) {
+    seo = data.seo;
     title = data.seo?.metaTitle || data.title || title;
     description = data.seo?.metaDescription || description;
     body = data.body || null;
@@ -41,19 +46,33 @@ try {
 } catch {
   // placeholder
 }
+
+const meta = resolvePageSeo({
+  seo,
+  title,
+  description,
+  origin: Astro.url.origin,
+});
 ---
 
-<Layout locale={locale} title={title} description={description}>
+<Layout
+  locale={locale}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  routeKey="privacy"
+  breadcrumbs={singletonBreadcrumbs(locale, meta.title, Astro.url.pathname)}
+>
   <Section>
     <Container narrow>
       <Heading as="h1">{title}</Heading>
       {
         Array.isArray(body) && body.length > 0 ? (
-          <div class="prose prose-neutral mt-8 max-w-none">
+          <div class="prose prose-invert mt-8 max-w-none">
             <PortableText value={body} />
           </div>
         ) : (
-          <p class="mt-6 text-navy-muted">{description}</p>
+          <p class="mt-6 text-white/75">{description}</p>
         )
       }
     </Container>

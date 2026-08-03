@@ -1,6 +1,6 @@
 ---
 import Button from '../../components/ui/Button.astro'
-import {urlFor} from '../../lib/sanity/image'
+import {resolveHeroImage} from '../../lib/images'
 import type {SanityImageSource} from '@sanity/image-url'
 
 interface Props {
@@ -42,30 +42,49 @@ const servicePageHeroHeight =
         : 'min-h-[548px] lg:min-h-[548px]'
     : null
 
-const imageSrc =
-  typeof image === 'string'
-    ? image
-    : image
-      ? urlFor(image).width(1920).height(1080).fit('crop').auto('format').url()
-      : variant === 'recruitment'
-        ? '/assets/figma/recruitment/hero.webp'
-        : variant === 'services'
-        ? '/assets/figma/services/hero.webp'
-        : variant === 'servicePage'
-          ? '/assets/figma/services/hero.webp'
-          : variant === 'about'
-            ? '/assets/figma/about/hero.webp'
-            : variant === 'methodology'
-              ? '/assets/figma/methodology/hero.webp'
-              : variant === 'insights'
-                ? '/assets/figma/insights/hero.webp'
-                : variant === 'caseStudies'
-                  ? '/assets/figma/case-studies/hero.webp'
-                  : variant === 'caseStudyDetail'
-                    ? '/assets/figma/case-studies/detail-hero.webp'
-                    : variant === 'contact'
-                      ? '/assets/figma/contact/hero.webp'
-              : '/assets/figma/home/hero.webp'
+const heroFallback =
+  variant === 'recruitment'
+    ? '/assets/figma/recruitment/hero.webp'
+    : variant === 'services' || variant === 'servicePage'
+      ? '/assets/figma/services/hero.webp'
+      : variant === 'about'
+        ? '/assets/figma/about/hero.webp'
+        : variant === 'methodology'
+          ? '/assets/figma/methodology/hero.webp'
+          : variant === 'insights'
+            ? '/assets/figma/insights/hero.webp'
+            : variant === 'caseStudies'
+              ? '/assets/figma/case-studies/hero.webp'
+              : variant === 'caseStudyDetail'
+                ? '/assets/figma/case-studies/detail-hero.webp'
+                : variant === 'contact'
+                  ? '/assets/figma/contact/hero.webp'
+                  : '/assets/figma/home/hero.webp'
+
+const heroImage = resolveHeroImage(image, heroFallback)
+
+const parallaxSpeed =
+  variant === 'recruitment' || variant === 'about' || variant === 'methodology'
+    ? '0.06'
+    : variant === 'services' || isCompactHero
+      ? '0.05'
+      : '0.14'
+
+const heroBgObjectPosition = variant === 'recruitment' || variant === 'home' ? 'bottom' : 'center'
+
+const hasParallaxOverscan =
+  variant === 'recruitment' ||
+  variant === 'about' ||
+  variant === 'methodology' ||
+  variant === 'home' ||
+  variant === 'services' ||
+  isCompactHero
+
+const heroBgOverscanClass = !hasParallaxOverscan
+  ? undefined
+  : variant === 'home'
+    ? 'hero-bg__image--overscan-tall'
+    : 'hero-bg__image--overscan'
 ---
 
 <section
@@ -82,23 +101,23 @@ const imageSrc =
             : 'min-h-[720px] lg:h-[810px]',
   ]}
 >
-  <img
-    src={imageSrc}
-    alt=""
-    class:list={[
-      'absolute inset-x-0 !w-full !max-w-none object-cover',
-      variant === 'recruitment'
-        ? 'inset-y-0 !h-full object-bottom'
-        : variant === 'about' || variant === 'methodology'
-          ? 'inset-y-0 !h-full object-cover'
-          : variant === 'services' || isCompactHero
-          ? 'inset-y-0 !h-full object-center'
-          : 'top-[-6%] !h-[112%] object-bottom',
-    ]}
-    width="1440"
-    height={variant === 'recruitment' || variant === 'about' || variant === 'methodology' ? 701 : variant === 'services' ? 550 : isCompactHero ? 548 : 810}
-    data-parallax={variant === 'recruitment' || variant === 'about' || variant === 'methodology' ? '0.06' : variant === 'services' || isCompactHero ? '0.05' : '0.14'}
-  />
+  <div class="hero-bg absolute inset-0 overflow-hidden" aria-hidden="true" data-parallax={parallaxSpeed}>
+    <img
+      src={heroImage.src}
+      srcset={heroImage.srcset}
+      sizes="100vw"
+      alt=""
+      class:list={[
+        'hero-bg__image',
+        heroBgObjectPosition === 'bottom' && 'hero-bg__image--bottom',
+        heroBgOverscanClass,
+      ]}
+      width={heroImage.width}
+      height={heroImage.height}
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
   <div class="pointer-events-none absolute inset-0 bg-black/50"></div>
   {
     variant === 'home' && (
@@ -374,3 +393,29 @@ const imageSrc =
     }
   </div>
 </section>
+
+<style>
+  .hero-bg__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-bg__image--bottom {
+    object-position: bottom;
+  }
+
+  .hero-bg__image--overscan {
+    top: -2.5%;
+    height: 105%;
+  }
+
+  .hero-bg__image--overscan-tall {
+    top: -6%;
+    height: 112%;
+  }
+</style>

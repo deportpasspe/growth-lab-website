@@ -1,16 +1,13 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'processCards',
   title: 'Process cards',
   type: 'object',
   fields: [
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
+    localizedStringField('heading', 'Heading', {validation: (Rule) => Rule.required()}),
     defineField({
       name: 'layout',
       title: 'Layout',
@@ -28,6 +25,11 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'decorImage',
+      title: 'Decoration image',
+      type: 'image',
+    }),
+    defineField({
       name: 'steps',
       title: 'Steps',
       type: 'array',
@@ -35,10 +37,15 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           fields: [
-            defineField({name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()}),
-            defineField({name: 'description', title: 'Description', type: 'text', rows: 4}),
+            localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
+            localizedTextField('description', 'Description'),
           ],
-          preview: {select: {title: 'title'}},
+          preview: {
+            select: {title: 'title'},
+            prepare: ({title}) => ({
+              title: localizedPreviewValue(title, 'Step'),
+            }),
+          },
         }),
       ],
       validation: (Rule) =>
@@ -65,6 +72,9 @@ export default defineType({
   ],
   preview: {
     select: {title: 'heading', layout: 'layout'},
-    prepare: ({title, layout}) => ({title: title || 'Process cards', subtitle: layout}),
+    prepare: ({title, layout}) => ({
+      title: localizedPreviewValue(title, 'Process cards'),
+      subtitle: layout,
+    }),
   },
 })

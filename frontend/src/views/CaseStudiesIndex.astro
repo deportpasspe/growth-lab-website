@@ -7,8 +7,14 @@ import CtaBanner from '../modules/cta-banner/CtaBanner.astro'
 import CaseCard from '../components/cards/CaseCard.astro'
 import {t} from '../i18n'
 import {caseStudiesFixtures} from '../modules/caseStudiesFixtures'
+import type {SanityImageSource} from '@sanity/image-url'
+import {getDraftModeProps} from '../lib/sanity/draft-mode'
 import {loadQuery} from '../lib/sanity/loadQuery'
+import {caseStudiesIndexPageQuery} from '../lib/sanity/queries/pages'
 import {caseStudiesListQuery} from '../lib/sanity/queries/caseStudy'
+import {resolveCta} from '../lib/sanity/resolveLink'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
+import {singletonBreadcrumbs} from '../lib/seo/breadcrumbs'
 import type {CaseStudyListItem} from '../lib/caseStudies'
 
 interface Props {
@@ -16,25 +22,107 @@ interface Props {
 }
 
 const {locale} = Astro.props
-const title = t(locale, 'nav.caseStudies')
-const description = t(locale, 'caseStudies.heroSubheading')
+const draft = getDraftModeProps(Astro.cookies)
+
+let title = t(locale, 'nav.caseStudies')
+let description = t(locale, 'caseStudies.heroSubheading')
+let heroEyebrow = t(locale, 'caseStudies.heroEyebrow')
+let heroHeading = t(locale, 'caseStudies.heroHeading')
+let heroSubheading = t(locale, 'caseStudies.heroSubheading')
+let heroImage: SanityImageSource | string | undefined
+let ctaHeading = t(locale, 'caseStudies.ctaHeading')
+let ctaSubheading = t(locale, 'caseStudies.ctaSubheading')
+let cta = {label: t(locale, 'caseStudies.ctaPrimary'), href: getLocalizedPath(locale, 'contact')}
+let secondaryCta = {
+  label: t(locale, 'caseStudies.ctaSecondary'),
+  href: getLocalizedPath(locale, 'services'),
+}
+let ctaVariant: 'default' | 'recruitment' | 'services' = 'services'
 
 let cases: CaseStudyListItem[] = caseStudiesFixtures(locale)
+let seo: PageSeo | undefined
 
 try {
-  const list = await loadQuery<CaseStudyListItem[] | null>(caseStudiesListQuery, {locale})
+  const [page, list] = await Promise.all([
+    loadQuery<{
+      title?: string
+      hero?: {eyebrow?: string; heading?: string; subheading?: string; image?: SanityImageSource}
+      bottomCta?: {
+        variant?: string
+        heading?: string
+        subheading?: string
+        cta?: {label?: string; link?: unknown}
+        secondaryCta?: {label?: string; link?: unknown}
+      }
+      featuredCase?: CaseStudyListItem | null
+      seo?: PageSeo
+    } | null>(caseStudiesIndexPageQuery, {locale}, {perspectiveCookie: draft.perspectiveCookie}),
+    loadQuery<CaseStudyListItem[] | null>(
+      caseStudiesListQuery,
+      {locale},
+      {perspectiveCookie: draft.perspectiveCookie},
+    ),
+  ])
+
   if (list?.length) cases = list
+
+  if (page) {
+    seo = page.seo
+    title = page.seo?.metaTitle || page.title || title
+    description = page.seo?.metaDescription || page.hero?.subheading || description
+
+    if (page.hero?.heading) {
+      heroEyebrow = page.hero.eyebrow || heroEyebrow
+      heroHeading = page.hero.heading
+      heroSubheading = page.hero.subheading || heroSubheading
+      heroImage = page.hero.image
+    }
+
+    if (page.featuredCase?.slug) {
+      const withoutFeatured = cases.filter((item) => item.slug !== page.featuredCase?.slug)
+      cases = [page.featuredCase, ...withoutFeatured]
+    }
+
+    if (page.bottomCta?.heading) {
+      ctaHeading = page.bottomCta.heading
+      ctaSubheading = page.bottomCta.subheading || ctaSubheading
+      if (page.bottomCta.variant === 'services' || page.bottomCta.variant === 'recruitment') {
+        ctaVariant = page.bottomCta.variant
+      }
+      const primary = resolveCta(page.bottomCta.cta, locale)
+      const secondary = resolveCta(page.bottomCta.secondaryCta, locale)
+      if (primary) cta = primary
+      if (secondary) secondaryCta = secondary
+    }
+  }
 } catch {
   // fixtures
 }
+
+const meta = resolvePageSeo({
+  seo,
+  title,
+  description,
+  ogImageFallback: heroImage,
+  origin: Astro.url.origin,
+})
 ---
 
-<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+<Layout
+  locale={locale}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  headerAppearance="overlay"
+  routeKey="caseStudies"
+  breadcrumbs={singletonBreadcrumbs(locale, meta.title, Astro.url.pathname)}
+>
   <Hero
     variant="caseStudies"
-    eyebrow={t(locale, 'caseStudies.heroEyebrow')}
-    heading={t(locale, 'caseStudies.heroHeading')}
-    subheading={t(locale, 'caseStudies.heroSubheading')}
+    eyebrow={heroEyebrow}
+    heading={heroHeading}
+    subheading={heroSubheading}
+    image={heroImage}
   />
 
   <section class="bg-black px-6 pb-[88px] pt-[97px] text-white sm:px-[42px]">
@@ -59,13 +147,10 @@ try {
   </section>
 
   <CtaBanner
-    variant="services"
-    heading={t(locale, 'caseStudies.ctaHeading')}
-    subheading={t(locale, 'caseStudies.ctaSubheading')}
-    cta={{label: t(locale, 'caseStudies.ctaPrimary'), href: getLocalizedPath(locale, 'contact')}}
-    secondaryCta={{
-      label: t(locale, 'caseStudies.ctaSecondary'),
-      href: getLocalizedPath(locale, 'services'),
-    }}
+    variant={ctaVariant}
+    heading={ctaHeading}
+    subheading={ctaSubheading}
+    cta={cta}
+    secondaryCta={secondaryCta}
   />
 </Layout>

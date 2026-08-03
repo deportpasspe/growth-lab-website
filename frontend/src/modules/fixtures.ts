@@ -11,6 +11,7 @@ export type ContentCard = {
   items?: string[]
   tone?: 'dark' | 'teal' | 'magenta'
   icon?:
+    | ImageSource
     | 'arrow'
     | 'calendar'
     | 'process'
@@ -39,6 +40,8 @@ export type ServiceCategory = {
   title: string
   summary: string
   cta?: Cta
+  image?: ImageSource
+  bodyLines?: string[]
   items?: ServiceCatalogItem[]
 }
 
@@ -86,11 +89,12 @@ export type PageSection =
     }
   | {_type: 'logoMarquee'; _key: string; title?: string; logos: {name: string; image?: ImageSource}[]}
   | {_type: 'metrics'; _key: string; title?: string; columns?: 3 | 4; items: {value: string; label: string; icon?: 'calendar' | 'process' | 'cost'}[]}
-  | {_type: 'serviceSplit'; _key: string; title?: string; intro?: string; services: {title: string; summary?: string; slug: string; href?: string}[]}
+  | {_type: 'serviceSplit'; _key: string; title?: string; intro?: string; cardImages?: ImageSource[]; cards?: {title: string; summary?: string; page?: {_type?: string; slug?: string}}[]; services?: {title: string; summary?: string; slug: string; href?: string}[]}
   | {
       _type: 'methodSteps'
       _key: string
       layout?: 'diagram' | 'grid'
+      diagramImage?: ImageSource
       title?: string
       intro?: string
       featuredTitle?: string
@@ -99,17 +103,18 @@ export type PageSection =
       steps: {title: string; description: string}[]
     }
   | {_type: 'caseCards'; _key: string; variant?: 'carousel' | 'featured'; title?: string; intro?: string; showHeader?: boolean; cases: {title: string; summary?: string; industry?: string; slug: string; challenge?: string; intervention?: string; result?: string; cover?: ImageSource}[]}
-  | {_type: 'insightCards'; _key: string; title?: string; intro?: string; insights: {title: string; excerpt: string; slug: string; categories: string[]}[]}
+  | {_type: 'insightCards'; _key: string; title?: string; intro?: string; insights: {title: string; excerpt: string; slug: string; categories: string[]; cover?: ImageSource}[]}
   | {_type: 'faqSection'; _key: string; variant?: 'default' | 'roomy'; title?: string; items: {question: string; answer: string}[]}
   | {_type: 'ctaBanner'; _key: string; variant?: 'default' | 'recruitment' | 'services'; heading: string; subheading?: string; cta?: Cta; secondaryCta?: Cta}
   | {_type: 'contactFormSection'; _key: string; title?: string; intro?: string}
   | {_type: 'narrativeCards'; _key: string; cards: ContentCard[]}
   | {_type: 'contentCards'; _key: string; variant?: 'lists' | 'deliverables' | 'industries' | 'values' | 'principles'; eyebrow?: string; heading: string; intro?: string; cards: ContentCard[]}
-  | {_type: 'splitStatement'; _key: string; variant?: 'default' | 'methodIntro' | 'successBanner'; eyebrow?: string; heading: string; body: string; decoration?: 'magentaGlow'}
+  | {_type: 'splitStatement'; _key: string; variant?: 'default' | 'methodIntro' | 'successBanner'; eyebrow?: string; heading: string; body: string; decoration?: 'magentaGlow'; image?: ImageSource}
   | {_type: 'serviceCatalog'; _key: string; categories: ServiceCategory[]}
   | {
       _type: 'processCards'
       _key: string
+      id?: string
       heading: string
       layout?:
         | 'accordionRow'
@@ -142,6 +147,7 @@ export function homeFixtures(locale: Locale): PageSection[] {
         heading: 'Strategy with measurable results.',
         subheading:
           'We help companies find, develop, and retain talent—with methodology, judgment, and real partnership.',
+        image: '/assets/figma/home/hero.webp',
         primaryCta: {label: 'Book a meeting', href: '/en/contact'},
         secondaryCta: {label: 'View case studies', href: '/en/case-studies'},
       },
@@ -172,6 +178,10 @@ export function homeFixtures(locale: Locale): PageSection[] {
         _key: 'services',
         title: 'Two ways to grow through talent',
         intro: 'We help companies find, develop, and retain it—with methodology, judgment, and real partnership.',
+        cardImages: [
+          '/assets/figma/home/service-organization.webp',
+          '/assets/figma/home/service-recruitment.webp',
+        ],
         services: [
           {
             title: 'Executive search',
@@ -291,6 +301,7 @@ export function homeFixtures(locale: Locale): PageSection[] {
       heading: 'Estrategia con resultados medibles.',
       subheading:
         'Ayudamos a las empresas a encontrarlo, desarrollarlo y retenerlo — con metodología, criterio y acompañamiento real.',
+      image: '/assets/figma/home/hero.webp',
       primaryCta: {label: 'Agenda una reunión', href: '/es/contacto'},
       secondaryCta: {label: 'Ver casos de éxito', href: '/es/casos-de-exito'},
     },
@@ -321,6 +332,10 @@ export function homeFixtures(locale: Locale): PageSection[] {
       _key: 'services',
       title: 'Dos maneras de crecer a través del talento',
       intro: 'Ayudamos a las empresas a encontrarlo, desarrollarlo y retenerlo — con metodología, criterio y acompañamiento real.',
+      cardImages: [
+        '/assets/figma/home/service-organization.webp',
+        '/assets/figma/home/service-recruitment.webp',
+      ],
       services: [
         {
           title: 'Reclutamiento ejecutivo',
@@ -524,6 +539,16 @@ export function servicesFixtures(locale: Locale): PageSection[] {
           summary: isEn
             ? 'The right candidate is not on a job board. They are working. We find them.'
             : 'El candidato correcto no está en un portal. Está trabajando. Nosotros lo encontramos.',
+          image: '/assets/figma/services/catalog-recruitment.jpg',
+          bodyLines: isEn
+            ? [
+                'We find the candidate your organization needs — not whoever happens to be available.',
+                'Our process starts by understanding your company before we start searching.',
+              ]
+            : [
+                'Encontramos al candidato que tu organización necesita — no al que está disponible.',
+                'Nuestro proceso parte por entender tu empresa antes de salir a buscar.',
+              ],
           cta: {
             label: isEn ? 'Learn about the method' : 'Conocer el método',
             href: recruitmentHref,
@@ -831,6 +856,7 @@ export function methodologyFixtures(locale: Locale): PageSection[] {
       _type: 'methodSteps',
       _key: 'growth-talent-method',
       layout: 'grid',
+      diagramImage: '/assets/figma/methodology/grid-path.svg',
       title: isEn ? 'Two methodologies. One principle.' : 'Dos metodologías. Un mismo principio.',
       intro: isEn
         ? 'At Growth Lab we work on two dimensions of talent: finding it and developing it. Each has its own method, but both start from the same place: understand first, act second.'
@@ -932,6 +958,7 @@ export function methodologyFixtures(locale: Locale): PageSection[] {
       _type: 'splitStatement',
       _key: 'success',
       variant: 'successBanner',
+      image: '/assets/figma/methodology/success-banner.webp',
       heading: isEn
         ? 'We trust our process. That is why we work on success.'
         : 'Confiamos en nuestro proceso. Por eso trabajamos al éxito.',

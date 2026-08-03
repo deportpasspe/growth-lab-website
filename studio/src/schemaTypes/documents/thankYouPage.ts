@@ -1,5 +1,7 @@
 import {CheckmarkCircleIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'thankYouPage',
@@ -7,26 +9,22 @@ export default defineType({
   type: 'document',
   icon: CheckmarkCircleIcon,
   fields: [
+    localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
+    localizedStringField('heroHeading', 'Hero heading'),
+    localizedTextField('heroMessage', 'Hero message', {rows: 3}),
     defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
+      name: 'heroImage',
+      title: 'Hero image',
+      type: 'image',
+      options: {hotspot: true},
     }),
-    defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'message', title: 'Message', type: 'text', rows: 3}),
+    defineField({name: 'cta', title: 'CTA banner', type: 'ctaBanner'}),
     defineField({name: 'seo', title: 'SEO', type: 'seo'}),
   ],
   preview: {
-    select: {title: 'title', language: 'language'},
-    prepare: ({title, language}) => ({
-      title: title || 'Thank you',
-      subtitle: language?.toUpperCase(),
+    select: {title: 'title'},
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'Thank you'),
     }),
   },
 })

@@ -1,4 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField} from '../fields/localizedFields'
 
 const COUNTRY_PRESETS = [
   {title: 'Estados Unidos', value: 'us'},
@@ -18,13 +20,8 @@ export default defineType({
   title: 'World map',
   type: 'object',
   fields: [
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'intro', title: 'Introduction', type: 'string'}),
+    localizedStringField('heading', 'Heading', {validation: (Rule) => Rule.required()}),
+    localizedStringField('intro', 'Introduction'),
     defineField({
       name: 'mapImage',
       title: 'Map background',
@@ -49,18 +46,15 @@ export default defineType({
               initialValue: 'us',
               validation: (Rule) => Rule.required(),
             }),
-            defineField({
-              name: 'country',
-              title: 'Country label',
+            localizedStringField('country', 'Country label', {
               description: 'Displayed in the tooltip.',
-              type: 'string',
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: 'organizations',
               title: 'Organizations',
               type: 'array',
-              of: [{type: 'string'}],
+              of: [defineArrayMember({type: 'internationalizedArrayString'})],
               validation: (Rule) => Rule.required().min(1),
             }),
             defineField({
@@ -114,7 +108,7 @@ export default defineType({
           preview: {
             select: {title: 'country', subtitle: 'countryPreset', media: 'flag'},
             prepare: ({title, subtitle, media}) => ({
-              title: title || 'Marker',
+              title: localizedPreviewValue(title, 'Marker'),
               subtitle: subtitle ? `Preset: ${subtitle}` : undefined,
               media,
             }),
@@ -136,6 +130,8 @@ export default defineType({
   ],
   preview: {
     select: {title: 'heading'},
-    prepare: ({title}) => ({title: title || 'World map'}),
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'World map'),
+    }),
   },
 })

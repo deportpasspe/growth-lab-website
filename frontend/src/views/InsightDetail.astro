@@ -17,6 +17,8 @@ import {
   insightCoverUrl,
   type InsightItem,
 } from '../lib/insights'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
+import {indexDetailBreadcrumbs} from '../lib/seo/breadcrumbs'
 
 interface Props {
   locale: Locale
@@ -24,9 +26,12 @@ interface Props {
 }
 
 const {locale, slug} = Astro.props
+const perspectiveCookie = Astro.locals.perspectiveCookie
 
 const fixture = insightFixtureBySlug(locale, slug)
 
+let seo: PageSeo | undefined
+let alternateSlugs: Partial<Record<Locale, string>> | undefined
 let insight: {
   title: string
   excerpt?: string
@@ -39,7 +44,6 @@ let insight: {
   cover?: string | import('@sanity/image-url').SanityImageSource
   body?: PortableTextBlock[]
   related?: InsightItem[]
-  seo?: {metaTitle?: string; metaDescription?: string}
 } | null = fixture
   ? {
       title: fixture.title,
@@ -69,9 +73,12 @@ try {
     cover?: string | import('@sanity/image-url').SanityImageSource
     body?: PortableTextBlock[]
     related?: InsightItem[]
-    seo?: {metaTitle?: string; metaDescription?: string}
-  } | null>(insightBySlugQuery, {locale, slug})
+    seo?: PageSeo
+    alternateSlugs?: Partial<Record<Locale, string>>
+  } | null>(insightBySlugQuery, {locale, slug}, {perspectiveCookie})
   if (data) {
+    seo = data.seo
+    alternateSlugs = data.alternateSlugs
     insight = {
       title: data.seo?.metaTitle || data.title,
       excerpt: data.excerpt || data.seo?.metaDescription || '',
@@ -84,7 +91,6 @@ try {
       cover: data.cover,
       body: data.body,
       related: data.related,
-      seo: data.seo,
     }
   }
 } catch {
@@ -104,13 +110,38 @@ const related =
     ? insight.related
     : insightsFixtures(locale).filter((item) => item.slug !== slug).slice(0, 3)
 const contactHref = getLocalizedPath(locale, 'contact')
+
+const meta = resolvePageSeo({
+  seo,
+  title: insight.title,
+  description: insight.excerpt,
+  ogImageFallback: insight.cover,
+  origin: Astro.url.origin,
+})
 ---
 
 <Layout
   locale={locale}
-  title={insight.title}
-  description={insight.excerpt}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
   headerAppearance="overlay"
+  pageType="article"
+  ogType="article"
+  routeKey="insight"
+  alternateSlugs={alternateSlugs}
+  publishedTime={insight.publishedAt}
+  article={{
+    publishedAt: insight.publishedAt,
+    authorName: insight.author?.name,
+  }}
+  breadcrumbs={indexDetailBreadcrumbs(
+    locale,
+    'insights',
+    t(locale, 'nav.insights'),
+    meta.title,
+    Astro.url.pathname,
+  )}
 >
   <article class="bg-black px-6 pb-[88px] pt-28 text-white sm:px-[42px]">
     <div class="mx-auto max-w-[898px]">

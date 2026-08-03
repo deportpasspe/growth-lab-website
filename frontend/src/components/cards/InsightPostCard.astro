@@ -73,7 +73,9 @@ const imageClass = cover
           alt=""
           class:list={['absolute max-w-none object-cover', imageClass]}
           width="654"
-          height="420"
+          height="373"
+          loading="lazy"
+          decoding="async"
         />
         <span class="relative inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black">
           {badge}
@@ -108,7 +110,9 @@ const imageClass = cover
             imageClass,
           ]}
           width="441"
-          height="335"
+          height="252"
+          loading="lazy"
+          decoding="async"
         />
         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/95 transition-opacity duration-300 ease-[var(--ease-out)] group-hover:opacity-90" />
         <span class="relative inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black">

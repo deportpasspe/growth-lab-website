@@ -1,5 +1,12 @@
 import {BarChartIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {
+  localizedPortableTextField,
+  localizedSlugField,
+  localizedStringField,
+  localizedTextField,
+} from '../fields/localizedFields'
 
 export default defineType({
   name: 'caseStudy',
@@ -7,33 +14,16 @@ export default defineType({
   type: 'document',
   icon: BarChartIcon,
   fields: [
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
-    defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {source: 'title'},
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'industry', title: 'Industry', type: 'string'}),
-    defineField({name: 'service', title: 'Service', type: 'string'}),
-    defineField({name: 'summary', title: 'Summary', type: 'text', rows: 3}),
-    defineField({name: 'challengeHeadline', title: 'Challenge headline', type: 'string'}),
-    defineField({name: 'challenge', title: 'Challenge', type: 'text', rows: 4}),
-    defineField({name: 'interventionHeadline', title: 'Intervention headline', type: 'string'}),
-    defineField({name: 'intervention', title: 'Intervention', type: 'text', rows: 4}),
-    defineField({name: 'result', title: 'Result', type: 'text', rows: 4}),
+    localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
+    localizedSlugField,
+    localizedStringField('industry', 'Industry'),
+    localizedStringField('service', 'Service'),
+    localizedTextField('summary', 'Summary', {rows: 3}),
+    localizedStringField('challengeHeadline', 'Challenge headline'),
+    localizedTextField('challenge', 'Challenge', {rows: 4}),
+    localizedStringField('interventionHeadline', 'Intervention headline'),
+    localizedTextField('intervention', 'Intervention', {rows: 4}),
+    localizedTextField('result', 'Result', {rows: 4}),
     defineField({
       name: 'metrics',
       title: 'Metrics',
@@ -80,18 +70,14 @@ export default defineType({
       options: {hotspot: true},
       fields: [defineField({name: 'alt', type: 'string', title: 'Alt text'})],
     }),
-    defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'portableText',
-    }),
+    localizedPortableTextField('body', 'Body'),
     defineField({name: 'seo', title: 'SEO', type: 'seo'}),
   ],
   preview: {
-    select: {title: 'title', language: 'language', subtitle: 'industry'},
-    prepare: ({title, language, subtitle}) => ({
-      title: title || 'Case study',
-      subtitle: [language?.toUpperCase(), subtitle].filter(Boolean).join(' · '),
+    select: {title: 'title', industry: 'industry'},
+    prepare: ({title, industry}) => ({
+      title: localizedPreviewValue(title, 'Case study'),
+      subtitle: localizedPreviewValue(industry),
     }),
   },
 })

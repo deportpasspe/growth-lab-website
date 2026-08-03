@@ -1,11 +1,15 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {IconPickerInput} from '../../components/IconPickerInput'
+import {getCatalogPreviewPath, getIconPreviewUrl} from '../../lib/iconCatalog'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'metrics',
   title: 'Metrics',
   type: 'object',
   fields: [
-    defineField({name: 'title', title: 'Title', type: 'string'}),
+    localizedStringField('title', 'Title'),
     defineField({
       name: 'columns',
       title: 'Columns',
@@ -35,13 +39,15 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           fields: [
-            defineField({name: 'value', title: 'Value', type: 'string', validation: (Rule) => Rule.required()}),
-            defineField({name: 'label', title: 'Label', type: 'string', validation: (Rule) => Rule.required()}),
+            localizedStringField('value', 'Value', {validation: (Rule) => Rule.required()}),
+            localizedStringField('label', 'Label', {validation: (Rule) => Rule.required()}),
             defineField({
               name: 'icon',
               title: 'Icon',
               type: 'string',
+              components: {input: IconPickerInput},
               options: {
+                iconCatalog: 'metrics',
                 list: [
                   {title: 'Calendar', value: 'calendar'},
                   {title: 'Process', value: 'process'},
@@ -50,13 +56,26 @@ export default defineType({
               },
             }),
           ],
-          preview: {select: {title: 'value', subtitle: 'label'}},
+          preview: {
+            select: {title: 'value', subtitle: 'label', icon: 'icon'},
+            prepare: ({title, subtitle, icon}) => {
+              const previewPath =
+                typeof icon === 'string' ? getCatalogPreviewPath('metrics', icon) : undefined
+              return {
+                title: localizedPreviewValue(title, 'Metric'),
+                subtitle: localizedPreviewValue(subtitle),
+                media: previewPath ? getIconPreviewUrl(previewPath) : undefined,
+              }
+            },
+          },
         }),
       ],
     }),
   ],
   preview: {
     select: {title: 'title'},
-    prepare: ({title}) => ({title: title || 'Metrics'}),
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'Metrics'),
+    }),
   },
 })

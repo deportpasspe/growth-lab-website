@@ -1,5 +1,12 @@
 import {BookIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {
+  localizedPortableTextField,
+  localizedSlugField,
+  localizedStringField,
+  localizedTextField,
+} from '../fields/localizedFields'
 
 export default defineType({
   name: 'insight',
@@ -7,26 +14,9 @@ export default defineType({
   type: 'document',
   icon: BookIcon,
   fields: [
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
-    defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {source: 'title'},
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'excerpt', title: 'Excerpt', type: 'text', rows: 3}),
+    localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
+    localizedSlugField,
+    localizedTextField('excerpt', 'Excerpt', {rows: 3}),
     defineField({
       name: 'contentType',
       title: 'Content type',
@@ -81,11 +71,7 @@ export default defineType({
       options: {hotspot: true},
       fields: [defineField({name: 'alt', type: 'string', title: 'Alt text'})],
     }),
-    defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'portableText',
-    }),
+    localizedPortableTextField('body', 'Body'),
     defineField({
       name: 'related',
       title: 'Related insights',
@@ -95,10 +81,9 @@ export default defineType({
     defineField({name: 'seo', title: 'SEO', type: 'seo'}),
   ],
   preview: {
-    select: {title: 'title', language: 'language', media: 'cover'},
-    prepare: ({title, language, media}) => ({
-      title: title || 'Insight',
-      subtitle: language?.toUpperCase(),
+    select: {title: 'title', media: 'cover'},
+    prepare: ({title, media}) => ({
+      title: localizedPreviewValue(title, 'Insight'),
       media,
     }),
   },

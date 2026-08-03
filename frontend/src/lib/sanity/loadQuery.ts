@@ -1,9 +1,11 @@
 import {sanityClient} from 'sanity:client'
 
-const visualEditingEnabled =
-  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === 'true'
 const token = import.meta.env.SANITY_API_READ_TOKEN
 const projectId = import.meta.env.PUBLIC_SANITY_STUDIO_PROJECT_ID?.trim()
+
+export type LoadQueryOptions = {
+  perspectiveCookie?: string | null
+}
 
 function hasSanityConfig() {
   return Boolean(
@@ -15,21 +17,37 @@ function hasSanityConfig() {
 }
 
 /**
- * visualEditingEnabled=true: fetch draft content with stega encoding
- * visualEditingEnabled=false: fetch published content from CDN
- * Returns null when Sanity env is not configured (fixtures take over).
+ * When `perspectiveCookie` is set (draft mode), fetches draft content with stega.
+ * Otherwise fetches published content from the CDN.
  */
 export async function loadQuery<T>(
   query: string,
   params: Record<string, unknown> = {},
+  options: LoadQueryOptions = {},
 ): Promise<T | null> {
   if (!hasSanityConfig()) {
     return null
   }
 
+  const useDrafts = Boolean(options.perspectiveCookie)
+
+  if (useDrafts && !token) {
+    console.warn(
+      'Draft mode is active but SANITY_API_READ_TOKEN is missing; falling back to published content.',
+    )
+  }
+
+  const draftFetch = useDrafts && Boolean(token)
+
   return sanityClient.fetch<T>(query, params, {
-    perspective: visualEditingEnabled ? 'drafts' : 'published',
-    useCdn: !visualEditingEnabled,
-    ...(visualEditingEnabled && token ? {token, stega: true} : {}),
+    perspective: draftFetch ? 'drafts' : 'published',
+    useCdn: !draftFetch,
+    ...(draftFetch
+      ? {
+          token,
+          stega: true,
+          resultSourceMap: 'withKeyArraySelector' as const,
+        }
+      : {}),
   })
 }

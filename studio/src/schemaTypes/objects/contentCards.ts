@@ -1,4 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'contentCards',
@@ -22,14 +24,9 @@ export default defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string'}),
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'intro', title: 'Introduction', type: 'text', rows: 3}),
+    localizedStringField('eyebrow', 'Eyebrow'),
+    localizedStringField('heading', 'Heading', {validation: (Rule) => Rule.required()}),
+    localizedTextField('intro', 'Introduction'),
     defineField({
       name: 'cards',
       title: 'Cards',
@@ -59,5 +56,9 @@ export default defineType({
   ],
   preview: {
     select: {title: 'heading', subtitle: 'eyebrow'},
+    prepare: ({title, subtitle}) => ({
+      title: localizedPreviewValue(title, 'Content cards'),
+      subtitle: localizedPreviewValue(subtitle),
+    }),
   },
 })

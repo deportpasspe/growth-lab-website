@@ -1,28 +1,35 @@
 import {defineQuery} from 'groq'
 import {imageProjection, seoProjection} from '../fragments'
+import {localizedField} from '../locale'
+
+const titleField = localizedField('title')
+const excerptField = localizedField('excerpt')
 
 export const insightsListQuery = defineQuery(`
-  *[_type == "insight" && language == $locale && defined(slug.current)] | order(publishedAt desc) {
+  *[_type == "insight" && defined(slug[$locale].current)] | order(publishedAt desc) {
     _id,
-    title,
-    "slug": slug.current,
-    excerpt,
+    ${titleField},
+    "slug": slug[$locale].current,
+    ${excerptField},
     contentType,
     categories,
     publishedAt,
     readTimeMinutes,
     downloadUrl,
-    cover ${imageProjection},
-    language
+    cover ${imageProjection}
   }
 `)
 
 export const insightBySlugQuery = defineQuery(`
-  *[_type == "insight" && language == $locale && slug.current == $slug][0] {
+  *[_type == "insight" && slug[$locale].current == $slug][0] {
     _id,
-    title,
-    "slug": slug.current,
-    excerpt,
+    ${titleField},
+    "slug": slug[$locale].current,
+    "alternateSlugs": {
+      "es": slug.es.current,
+      "en": slug.en.current
+    },
+    ${excerptField},
     contentType,
     categories,
     publishedAt,
@@ -30,18 +37,17 @@ export const insightBySlugQuery = defineQuery(`
     downloadUrl,
     author,
     cover ${imageProjection},
-    body,
+    "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),
     related[]->{
       _id,
-      title,
-      "slug": slug.current,
-      excerpt,
+      ${titleField},
+      "slug": slug[$locale].current,
+      ${excerptField},
       contentType,
       categories,
       downloadUrl,
       cover ${imageProjection}
     },
-    language,
     seo ${seoProjection}
   }
 `)

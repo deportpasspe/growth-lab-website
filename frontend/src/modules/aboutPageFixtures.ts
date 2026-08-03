@@ -77,6 +77,7 @@ export function aboutFixtures(locale: Locale): PageSection[] {
       intro: isEn
         ? 'We have worked with organizations from different parts of the world'
         : 'Hemos trabajado con organizaciones de diferentes partes del mundo',
+      mapImage: '/assets/figma/about/map-dots.svg',
       markers: [
         {
           countryPreset: 'us',

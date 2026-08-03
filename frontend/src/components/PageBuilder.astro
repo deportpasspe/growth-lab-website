@@ -1,7 +1,7 @@
 ---
 import type {Locale} from '../i18n/routes'
 import type {PageSection} from '../modules/fixtures'
-import {resolveCta} from '../lib/links'
+import {resolveCta, resolveInternalHref} from '../lib/links'
 import Hero from '../modules/hero/Hero.astro'
 import LogoMarquee from '../modules/logo-marquee/LogoMarquee.astro'
 import Metrics from '../modules/metrics/Metrics.astro'
@@ -30,6 +30,11 @@ interface Props {
 }
 
 const {locale, sections} = Astro.props
+
+const serviceSplitSlugByPage: Record<string, Record<Locale, string>> = {
+  recruitmentPage: {es: 'reclutamiento-ejecutivo', en: 'executive-search'},
+  servicesIndexPage: {es: 'desarrollo-organizacional', en: 'organizational-development'},
+}
 ---
 
 {
@@ -59,20 +64,37 @@ const {locale, sections} = Astro.props
         )
       case 'metrics':
         return <Metrics title={section.title} columns={section.columns} items={section.items || []} />
-      case 'serviceSplit':
+      case 'serviceSplit': {
+        const cards = section.cards?.length
+          ? section.cards
+          : section.services?.map((service) => ({
+              title: service.title,
+              summary: service.summary,
+              page: undefined,
+              slug: service.slug,
+              href: service.href,
+            }))
         return (
           <ServiceSplit
             locale={locale}
             title={section.title}
             intro={section.intro}
-            services={(section.services || []).map((s) => ({
-              title: s.title,
-              summary: s.summary,
-              slug: s.slug,
-              href: s.href,
+            cardImages={section.cardImages}
+            services={(cards || []).map((card, index) => ({
+              title: card.title,
+              summary: card.summary,
+              slug:
+                card.page?._type && serviceSplitSlugByPage[card.page._type]
+                  ? serviceSplitSlugByPage[card.page._type][locale]
+                  : (card as {slug?: string}).slug ?? `card-${index}`,
+              href:
+                card.page && card.page._type
+                  ? resolveInternalHref(card.page, locale)
+                  : (card as {href?: string}).href,
             }))}
           />
         )
+      }
       case 'methodSteps':
         return (
           <MethodSteps
@@ -83,6 +105,7 @@ const {locale, sections} = Astro.props
             featuredTitle={section.featuredTitle}
             featuredDescription={section.featuredDescription}
             showCta={section.showCta}
+            diagramImage={section.diagramImage}
             steps={section.steps || []}
           />
         )
@@ -117,6 +140,7 @@ const {locale, sections} = Astro.props
               excerpt: i.excerpt,
               slug: i.slug,
               categories: i.categories,
+              cover: i.cover,
             }))}
           />
         )
@@ -163,6 +187,7 @@ const {locale, sections} = Astro.props
             heading={section.heading}
             body={section.body}
             decoration={section.decoration}
+            image={section.image}
           />
         )
       case 'serviceCatalog':
@@ -181,6 +206,7 @@ const {locale, sections} = Astro.props
       case 'processCards':
         return (
           <ProcessCards
+            id={section.id}
             heading={section.heading}
             layout={section.layout}
             steps={section.steps || []}

@@ -1,28 +1,37 @@
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
+import {PresetImageIconInput} from '../../components/PresetImageIconInput'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'contentCard',
   title: 'Content card',
   type: 'object',
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'description', title: 'Description', type: 'text', rows: 4}),
-    defineField({
-      name: 'emphasis',
-      title: 'Emphasized phrase',
+    localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
+    localizedTextField('description', 'Description'),
+    localizedStringField('emphasis', 'Emphasized phrase', {
       description: 'Optional exact phrase from the title to highlight.',
-      type: 'string',
     }),
     defineField({
       name: 'items',
       title: 'List items',
       type: 'array',
-      of: [{type: 'string'}],
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'contentCardItem',
+          fields: [
+            localizedStringField('text', 'Text', {validation: (Rule) => Rule.required()}),
+          ],
+          preview: {
+            select: {title: 'text'},
+            prepare: ({title}) => ({
+              title: localizedPreviewValue(title, 'Item'),
+            }),
+          },
+        }),
+      ],
     }),
     defineField({
       name: 'tone',
@@ -40,26 +49,18 @@ export default defineType({
     defineField({
       name: 'icon',
       title: 'Icon',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Arrow', value: 'arrow'},
-          {title: 'Calendar', value: 'calendar'},
-          {title: 'Process', value: 'process'},
-          {title: 'Market map', value: 'market'},
-          {title: 'Market map on brand surface', value: 'marketBrand'},
-          {title: 'Industry calendar', value: 'industryCalendar'},
-          {title: 'Industry planning', value: 'industryPlanning'},
-          {title: 'Industry finance', value: 'industryMoney'},
-          {title: 'Planning', value: 'planning'},
-          {title: 'Money', value: 'money'},
-          {title: 'Relationship', value: 'relationship'},
-        ],
-      },
+      type: 'image',
+      components: {input: PresetImageIconInput},
+      options: {iconCatalog: 'contentCard'},
     }),
     defineField({name: 'cta', title: 'Call to action', type: 'cta'}),
   ],
   preview: {
-    select: {title: 'title', subtitle: 'description'},
+    select: {title: 'title', subtitle: 'description', media: 'icon'},
+    prepare: ({title, subtitle, media}) => ({
+      title: localizedPreviewValue(title, 'Content card'),
+      subtitle: localizedPreviewValue(subtitle),
+      media,
+    }),
   },
 })

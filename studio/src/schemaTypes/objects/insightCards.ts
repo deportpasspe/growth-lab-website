@@ -1,12 +1,14 @@
 import {defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'insightCards',
   title: 'Insight cards',
   type: 'object',
   fields: [
-    defineField({name: 'title', title: 'Title', type: 'string'}),
-    defineField({name: 'intro', title: 'Intro', type: 'text', rows: 3}),
+    localizedStringField('title', 'Title'),
+    localizedTextField('intro', 'Intro'),
     defineField({
       name: 'insights',
       title: 'Insights',
@@ -16,6 +18,8 @@ export default defineType({
   ],
   preview: {
     select: {title: 'title'},
-    prepare: ({title}) => ({title: title || 'Insight cards'}),
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'Insight cards'),
+    }),
   },
 })

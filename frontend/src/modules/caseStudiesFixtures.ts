@@ -45,18 +45,22 @@ const esList: CaseStudyListItem[] = [
     slug: 'potencial-talento-banca',
     industry: 'Banca y servicios financieros',
     service: 'Potencial y mapeo de talento',
-    challenge: 'Alta dependencia de tres líderes clave sin planes de sucesión definidos.',
-    result: 'Dos posiciones de segunda línea cubiertas internamente en ocho meses.',
-    cover: '/assets/figma/home/case-two.webp',
+    challenge:
+      'Alta dependencia de tres líderes clave sin planes de sucesión definidos y riesgo real de pérdida de conocimiento crítico.',
+    result:
+      'Dos posiciones de segunda línea cubiertas internamente en los siguientes ocho meses. Plan de sucesión activo para el 100% de los roles críticos identificados.',
+    cover: '/assets/figma/services/case-potencial.jpg',
   },
   {
     title: 'Mandos medios con alta expertise técnica pero sin competencias de liderazgo.',
     slug: 'liderazgo-coaching-manufactura',
     industry: 'Industria y manufactura',
     service: 'Liderazgo y coaching',
-    challenge: 'Mandos medios con alta expertise técnica pero sin competencias de liderazgo.',
-    result: 'NPS interno del equipo subió 22 puntos en seis meses.',
-    cover: '/assets/figma/home/insight-three.webp',
+    challenge:
+      'Mandos medios con alta expertise técnica pero sin competencias de liderazgo para gestionar equipos en crecimiento.',
+    result:
+      'NPS interno del equipo subió 22 puntos en seis meses. Rotación en las áreas intervenidas redujo en un 30%.',
+    cover: '/assets/figma/services/case-liderazgo.jpg',
   },
 ]
 
@@ -99,22 +103,26 @@ const enList: CaseStudyListItem[] = [
     cover: '/assets/figma/home/case-one.webp',
   },
   {
-    title: 'High dependence on three key leaders with no succession plans defined.',
+    title: 'High dependence on three key leaders with no defined succession plans.',
     slug: 'talent-mapping-banking',
     industry: 'Banking and financial services',
     service: 'Talent mapping',
-    challenge: 'High dependence on three key leaders with no succession plans defined.',
-    result: 'Two second-line positions filled internally in eight months.',
-    cover: '/assets/figma/home/case-two.webp',
+    challenge:
+      'High dependence on three key leaders with no defined succession plans and real risk of losing critical knowledge.',
+    result:
+      'Two second-line positions filled internally within eight months. Active succession plan for 100% of identified critical roles.',
+    cover: '/assets/figma/services/case-potencial.jpg',
   },
   {
     title: 'Middle managers with strong technical expertise but no leadership competencies.',
     slug: 'leadership-coaching-manufacturing',
     industry: 'Industry and manufacturing',
     service: 'Leadership and coaching',
-    challenge: 'Middle managers with strong technical expertise but no leadership competencies.',
-    result: 'Team internal NPS rose 22 points in six months.',
-    cover: '/assets/figma/home/insight-three.webp',
+    challenge:
+      'Middle managers with strong technical expertise but no leadership competencies to manage growing teams.',
+    result:
+      'Team internal NPS rose 22 points in six months. Turnover in the intervened areas dropped by 30%.',
+    cover: '/assets/figma/services/case-liderazgo.jpg',
   },
 ]
 

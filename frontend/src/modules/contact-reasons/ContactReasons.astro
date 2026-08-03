@@ -1,41 +1,51 @@
 ---
 import type {Locale} from '../../i18n/routes'
 import {t} from '../../i18n'
-import {contactReasons} from '../contactPageFixtures'
+import {contactReasons, type ContactReasonTone} from '../contactPageFixtures'
+import {urlFor} from '../../lib/sanity/image'
+import type {ContactReason} from '../../lib/sanity/types'
+import ContactReasonCard from './ContactReasonCard.astro'
 
 interface Props {
   locale: Locale
+  heading?: string
+  reasons?: ContactReason[]
 }
 
-const {locale} = Astro.props
-const reasons = contactReasons(locale)
+const {locale, heading, reasons: cmsReasons} = Astro.props
+const fallbackReasons = contactReasons(locale)
+const reasons = cmsReasons?.length
+  ? cmsReasons.map((reason, index) => ({
+      tone: (reason.tone || fallbackReasons[index]?.tone || 'magenta') as ContactReasonTone,
+      title: reason.title || fallbackReasons[index]?.title || '',
+      description: reason.description || fallbackReasons[index]?.description || '',
+      image:
+        typeof reason.image === 'object' && reason.image
+          ? urlFor(reason.image).width(800).height(600).fit('crop').auto('format').url()
+          : fallbackReasons[index]?.image || '',
+    }))
+  : fallbackReasons
+const sectionHeading = heading || t(locale, 'contact.reasonsHeading')
 ---
 
-<section class="bg-surface px-6 py-16 sm:px-[42px] sm:py-[72px]">
+<section class="bg-black px-6 py-16 text-white sm:px-[42px] sm:py-[103px]">
   <div class="mx-auto max-w-[1356px]" data-reveal-group="110">
     <h2
-      class="m-0 max-w-[627px] text-[clamp(1.75rem,3vw,2.625rem)] uppercase leading-[1.05] text-navy"
+      class="m-0 max-w-[627px] font-display text-[clamp(2rem,2.9vw,2.625rem)] uppercase leading-normal text-white lg:text-[42px]"
       data-reveal="text"
     >
-      {t(locale, 'contact.reasonsHeading')}
+      {sectionHeading}
     </h2>
 
-    <div class="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <div class="mt-[47px] flex flex-col gap-4 lg:flex-row lg:items-stretch">
       {
         reasons.map((reason) => (
-          <article class="flex min-h-[305px] flex-col gap-6 bg-magenta p-6" data-reveal>
-            <img
-              src={reason.image}
-              alt=""
-              class="size-[150px] rounded-full object-cover"
-              width="150"
-              height="150"
-            />
-            <div class="flex flex-col gap-3">
-              <h3 class="m-0 text-[22px] leading-normal text-white">{reason.title}</h3>
-              <p class="m-0 text-base leading-normal text-white/75">{reason.description}</p>
-            </div>
-          </article>
+          <ContactReasonCard
+            image={reason.image}
+            title={reason.title}
+            description={reason.description}
+            tone={reason.tone}
+          />
         ))
       }
     </div>

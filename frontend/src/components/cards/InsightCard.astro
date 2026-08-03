@@ -30,7 +30,7 @@ const tags = categories?.length ? categories : category ? [category] : []
     )
   }
   <Heading as="h3" size="h3">{title}</Heading>
-  {excerpt && <p class="mt-3 text-navy-muted">{excerpt}</p>}
+  {excerpt && <p class="mt-3 text-white/75">{excerpt}</p>}
   <TextLink
     href={getLocalizedPath(locale, 'insight', slug)}
     class="mt-4 inline-flex text-sm"

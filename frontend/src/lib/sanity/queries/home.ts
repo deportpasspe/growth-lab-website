@@ -1,11 +1,13 @@
 import {defineQuery} from 'groq'
 import {pageBuilderProjection, seoProjection} from '../fragments'
+import {localizedField} from '../locale'
+
+const titleField = localizedField('title')
 
 export const homePageQuery = defineQuery(`
-  *[_type == "homePage" && language == $locale][0] {
+  *[_type == "homePage"][0] {
     _id,
-    title,
-    language,
+    ${titleField},
     seo ${seoProjection},
     pageBuilder[] ${pageBuilderProjection}
   }

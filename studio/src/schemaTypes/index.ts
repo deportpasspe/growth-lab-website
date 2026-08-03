@@ -7,6 +7,7 @@ import hero from './objects/hero'
 import logoMarquee from './objects/logoMarquee'
 import metrics from './objects/metrics'
 import serviceSplit from './objects/serviceSplit'
+import serviceSplitCard from './objects/serviceSplitCard'
 import methodSteps from './objects/methodSteps'
 import caseCards from './objects/caseCards'
 import insightCards from './objects/insightCards'
@@ -26,6 +27,11 @@ import aboutStory from './objects/aboutStory'
 import worldMap from './objects/worldMap'
 import teamCards from './objects/teamCards'
 import relatedServices from './objects/relatedServices'
+import contactReasonItem from './objects/contactReasonItem'
+import contactPathsCopy from './objects/contactPathsCopy'
+import newsletterSection from './objects/newsletterSection'
+import navGroup from './objects/navGroup'
+import contactChannelItem from './objects/contactChannelItem'
 
 import siteSettings from './documents/siteSettings'
 import homePage from './documents/homePage'
@@ -33,6 +39,8 @@ import aboutPage from './documents/aboutPage'
 import methodologyPage from './documents/methodologyPage'
 import recruitmentPage from './documents/recruitmentPage'
 import servicesIndexPage from './documents/servicesIndexPage'
+import insightsIndexPage from './documents/insightsIndexPage'
+import caseStudiesIndexPage from './documents/caseStudiesIndexPage'
 import contactPage from './documents/contactPage'
 import thankYouPage from './documents/thankYouPage'
 import legalPage from './documents/legalPage'
@@ -48,6 +56,8 @@ export const schemaTypes = [
   methodologyPage,
   recruitmentPage,
   servicesIndexPage,
+  insightsIndexPage,
+  caseStudiesIndexPage,
   contactPage,
   thankYouPage,
   legalPage,
@@ -63,6 +73,7 @@ export const schemaTypes = [
   hero,
   logoMarquee,
   metrics,
+  serviceSplitCard,
   serviceSplit,
   methodSteps,
   caseCards,
@@ -83,19 +94,10 @@ export const schemaTypes = [
   aboutStory,
   worldMap,
   teamCards,
+  contactReasonItem,
+  contactPathsCopy,
+  newsletterSection,
+  navGroup,
+  contactChannelItem,
 ]
 
-export const i18nSchemaTypes = [
-  'siteSettings',
-  'homePage',
-  'aboutPage',
-  'methodologyPage',
-  'recruitmentPage',
-  'servicesIndexPage',
-  'contactPage',
-  'thankYouPage',
-  'service',
-  'insight',
-  'caseStudy',
-  'legalPage',
-]

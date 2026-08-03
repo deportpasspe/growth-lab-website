@@ -1,17 +1,14 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'teamCards',
   title: 'Team cards',
   type: 'object',
   fields: [
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'intro', title: 'Introduction', type: 'text', rows: 3}),
+    localizedStringField('heading', 'Heading', {validation: (Rule) => Rule.required()}),
+    localizedTextField('intro', 'Introduction'),
     defineField({
       name: 'members',
       title: 'Team members',
@@ -20,25 +17,9 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           fields: [
-            defineField({
-              name: 'name',
-              title: 'Name',
-              type: 'string',
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: 'role',
-              title: 'Role',
-              type: 'string',
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: 'bio',
-              title: 'Bio',
-              type: 'text',
-              rows: 3,
-              validation: (Rule) => Rule.required(),
-            }),
+            localizedStringField('name', 'Name', {validation: (Rule) => Rule.required()}),
+            localizedStringField('role', 'Role', {validation: (Rule) => Rule.required()}),
+            localizedTextField('bio', 'Bio', {validation: (Rule) => Rule.required()}),
             defineField({
               name: 'photo',
               title: 'Photo',
@@ -56,6 +37,11 @@ export default defineType({
           ],
           preview: {
             select: {title: 'name', subtitle: 'role', media: 'photo'},
+            prepare: ({title, subtitle, media}) => ({
+              title: localizedPreviewValue(title, 'Team member'),
+              subtitle: localizedPreviewValue(subtitle),
+              media,
+            }),
           },
         }),
       ],
@@ -64,6 +50,8 @@ export default defineType({
   ],
   preview: {
     select: {title: 'heading'},
-    prepare: ({title}) => ({title: title || 'Team cards'}),
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'Team cards'),
+    }),
   },
 })

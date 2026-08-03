@@ -5,12 +5,16 @@ import PageBuilder from '../components/PageBuilder.astro'
 import {homeFixtures, type PageSection} from '../modules/fixtures'
 import {loadQuery} from '../lib/sanity/loadQuery'
 import {homePageQuery} from '../lib/sanity/queries/home'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
+import {singletonBreadcrumbs} from '../lib/seo/breadcrumbs'
+import {resolveHeroImage} from '../lib/images'
 
 interface Props {
   locale: Locale
 }
 
 const {locale} = Astro.props
+const perspectiveCookie = Astro.locals.perspectiveCookie
 
 let sections: PageSection[] = homeFixtures(locale)
 let title = locale === 'es' ? 'Inicio' : 'Home'
@@ -19,23 +23,44 @@ let description =
     ? 'Growth Lab — talento y desarrollo organizacional.'
     : 'Growth Lab — talent and organizational development.'
 
+let seo: PageSeo | undefined
+
 try {
   const data = await loadQuery<{
     title?: string
-    seo?: {metaTitle?: string; metaDescription?: string}
+    seo?: PageSeo
     pageBuilder?: PageSection[]
-  } | null>(homePageQuery, {locale})
+  } | null>(homePageQuery, {locale}, {perspectiveCookie})
 
   if (data?.pageBuilder?.length) {
     sections = data.pageBuilder
+    seo = data.seo
     title = data.seo?.metaTitle || data.title || title
     description = data.seo?.metaDescription || description
   }
 } catch {
   // CMS unavailable — fixtures
 }
+
+const meta = resolvePageSeo({seo, title, description, origin: Astro.url.origin})
+
+const heroSection = sections.find((section) => section._type === 'hero')
+const lcpImage = resolveHeroImage(
+  heroSection && 'image' in heroSection ? heroSection.image : undefined,
+  '/assets/figma/home/hero.webp',
+).lcpPreload
 ---
 
-<Layout locale={locale} title={title} description={description}>
+<Layout
+  locale={locale}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  lcpImage={lcpImage}
+  pageType="home"
+  includeGlobalSchema
+  routeKey="home"
+  breadcrumbs={singletonBreadcrumbs(locale, meta.title, Astro.url.pathname)}
+>
   <PageBuilder locale={locale} sections={sections} />
 </Layout>

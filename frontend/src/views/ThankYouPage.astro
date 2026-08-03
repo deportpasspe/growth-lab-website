@@ -4,8 +4,12 @@ import {getLocalizedPath} from '../i18n/routes'
 import Layout from '../layouts/Layout.astro'
 import ThankYouHero from '../modules/thank-you/ThankYouHero.astro'
 import CtaBanner from '../modules/cta-banner/CtaBanner.astro'
+import type {SanityImageSource} from '@sanity/image-url'
+import {getDraftModeProps} from '../lib/sanity/draft-mode'
 import {loadQuery} from '../lib/sanity/loadQuery'
 import {thankYouPageQuery} from '../lib/sanity/queries/pages'
+import {resolveCta} from '../lib/sanity/resolveLink'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
 import {t} from '../i18n'
 
 interface Props {
@@ -13,41 +17,80 @@ interface Props {
 }
 
 const {locale} = Astro.props
+const draft = getDraftModeProps(Astro.cookies)
+
 let heading = t(locale, 'thankYou.title')
 let message = t(locale, 'thankYou.message')
 let seoTitle = locale === 'es' ? 'Gracias' : 'Thank you'
 let seoDescription = message
+let ctaHeading = t(locale, 'thankYou.ctaHeading')
+let ctaSubheading = t(locale, 'thankYou.ctaSubheading')
+let cta = {label: t(locale, 'thankYou.bookMeeting'), href: getLocalizedPath(locale, 'contact')}
+let ctaVariant: 'default' | 'recruitment' | 'services' = 'recruitment'
+let heroImage: SanityImageSource | string | undefined
+let seo: PageSeo | undefined
 
 try {
   const data = await loadQuery<{
     title?: string
-    message?: string
-    seo?: {metaTitle?: string; metaDescription?: string}
-  } | null>(thankYouPageQuery, {locale})
+    heroHeading?: string
+    heroMessage?: string
+    heroImage?: SanityImageSource
+    cta?: {
+      variant?: string
+      heading?: string
+      subheading?: string
+      cta?: {label?: string; link?: unknown}
+      secondaryCta?: {label?: string; link?: unknown}
+    }
+    seo?: PageSeo
+  } | null>(thankYouPageQuery, {locale}, {perspectiveCookie: draft.perspectiveCookie})
+
   if (data) {
-    heading = data.title || heading
-    message = data.message || message
+    seo = data.seo
+    heading = data.heroHeading || data.title || heading
+    message = data.heroMessage || message
     seoTitle = data.seo?.metaTitle || data.title || seoTitle
     seoDescription = data.seo?.metaDescription || message
+    heroImage = data.heroImage
+
+    if (data.cta?.heading) {
+      ctaHeading = data.cta.heading
+      ctaSubheading = data.cta.subheading || ctaSubheading
+      if (data.cta.variant === 'services' || data.cta.variant === 'recruitment') {
+        ctaVariant = data.cta.variant
+      }
+      const primary = resolveCta(data.cta.cta, locale)
+      if (primary) cta = primary
+    }
   }
 } catch {
   // defaults
 }
 
-const contactHref = getLocalizedPath(locale, 'contact')
+const meta = resolvePageSeo({
+  seo,
+  title: seoTitle,
+  description: seoDescription,
+  ogImageFallback: heroImage,
+  origin: Astro.url.origin,
+})
 ---
 
 <Layout
   locale={locale}
-  title={seoTitle}
-  description={seoDescription}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
   headerAppearance="overlay"
+  noindex
+  routeKey="thankYou"
 >
-  <ThankYouHero locale={locale} heading={heading} message={message} />
+  <ThankYouHero locale={locale} heading={heading} message={message} image={heroImage} />
   <CtaBanner
-    variant="recruitment"
-    heading={t(locale, 'thankYou.ctaHeading')}
-    subheading={t(locale, 'thankYou.ctaSubheading')}
-    cta={{label: t(locale, 'thankYou.bookMeeting'), href: contactHref}}
+    variant={ctaVariant}
+    heading={ctaHeading}
+    subheading={ctaSubheading}
+    cta={cta}
   />
 </Layout>

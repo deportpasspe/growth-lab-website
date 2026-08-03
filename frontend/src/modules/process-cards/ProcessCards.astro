@@ -3,6 +3,7 @@ import ProcessCard, {type ProcessCardTone} from './ProcessCard.astro'
 import ProcessPathCard from './ProcessPathCard.astro'
 
 interface Props {
+  id?: string
   heading: string
   layout?:
     | 'accordionRow'
@@ -15,7 +16,7 @@ interface Props {
   steps: {title: string; description?: string}[]
 }
 
-const {heading, layout = 'accordionRow', steps} = Astro.props
+const {id, heading, layout = 'accordionRow', steps} = Astro.props
 
 const tones: ProcessCardTone[] = ['teal', 'magenta', 'cream', 'navy']
 const splitTones: ProcessCardTone[] = ['teal', 'navy', 'magenta', 'cream']
@@ -27,7 +28,7 @@ const isAccordionLayout =
   layout === 'accordionRow' || layout === 'accordionColumns' || layout === 'accordionSplit'
 ---
 
-<section class="relative overflow-hidden bg-black px-6 py-[72px] text-white sm:px-[42px] lg:py-[88px]">
+<section id={id} class="relative overflow-hidden bg-black px-6 py-[72px] text-white sm:px-[42px] lg:py-[88px]">
   <div
     class="pointer-events-none absolute inset-0"
     style="background-image:radial-gradient(ellipse 110% 120% at 100% 0%,rgba(139,24,88,0.9) 0%,rgba(139,24,88,0.55) 22%,rgba(139,24,88,0.22) 45%,rgba(139,24,88,0.06) 65%,rgba(139,24,88,0) 82%)"

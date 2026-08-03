@@ -5,12 +5,16 @@ import PageBuilder from '../components/PageBuilder.astro'
 import {recruitmentFixtures, type PageSection} from '../modules/fixtures'
 import {loadQuery} from '../lib/sanity/loadQuery'
 import {recruitmentPageQuery} from '../lib/sanity/queries/pages'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
+import {singletonBreadcrumbs} from '../lib/seo/breadcrumbs'
+import {extractFaqFromSections} from '../lib/seo/structuredData'
 
 interface Props {
   locale: Locale
 }
 
 const {locale} = Astro.props
+const perspectiveCookie = Astro.locals.perspectiveCookie
 
 let sections: PageSection[] = recruitmentFixtures(locale)
 let title = locale === 'es' ? 'Reclutamiento' : 'Recruitment'
@@ -19,24 +23,49 @@ let description =
     ? 'Procesos de reclutamiento y headhunting con confidencialidad y criterio.'
     : 'Recruitment and headhunting with confidentiality and judgment.'
 
+let seo: PageSeo | undefined
+
 try {
   const data = await loadQuery<{
     title?: string
     intro?: string
-    seo?: {metaTitle?: string; metaDescription?: string}
+    seo?: PageSeo
     pageBuilder?: PageSection[]
-  } | null>(recruitmentPageQuery, {locale})
+  } | null>(recruitmentPageQuery, {locale}, {perspectiveCookie})
 
   if (data?.pageBuilder?.length) {
     sections = data.pageBuilder
+    seo = data.seo
+    title = data.seo?.metaTitle || data.title || title
+    description = data.seo?.metaDescription || data.intro || description
+  } else if (data) {
+    seo = data.seo
     title = data.seo?.metaTitle || data.title || title
     description = data.seo?.metaDescription || data.intro || description
   }
 } catch {
   // CMS unavailable — fixtures
 }
+
+const heroImage = sections.find((section) => section._type === 'hero')?.image
+const meta = resolvePageSeo({
+  seo,
+  title,
+  description,
+  ogImageFallback: heroImage,
+  origin: Astro.url.origin,
+})
 ---
 
-<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+<Layout
+  locale={locale}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  headerAppearance="overlay"
+  routeKey="recruitment"
+  faqItems={extractFaqFromSections(sections)}
+  breadcrumbs={singletonBreadcrumbs(locale, meta.title, Astro.url.pathname)}
+>
   <PageBuilder locale={locale} sections={sections} />
 </Layout>

@@ -1,11 +1,13 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'logoMarquee',
   title: 'Logo marquee',
   type: 'object',
   fields: [
-    defineField({name: 'title', title: 'Title', type: 'string'}),
+    localizedStringField('title', 'Title'),
     defineField({
       name: 'logos',
       title: 'Logos',
@@ -14,7 +16,7 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           fields: [
-            defineField({name: 'name', title: 'Name', type: 'string', validation: (Rule) => Rule.required()}),
+            localizedStringField('name', 'Name', {validation: (Rule) => Rule.required()}),
             defineField({
               name: 'image',
               title: 'Image',
@@ -22,13 +24,21 @@ export default defineType({
               options: {hotspot: true},
             }),
           ],
-          preview: {select: {title: 'name', media: 'image'}},
+          preview: {
+            select: {title: 'name', media: 'image'},
+            prepare: ({title, media}) => ({
+              title: localizedPreviewValue(title, 'Logo'),
+              media,
+            }),
+          },
         }),
       ],
     }),
   ],
   preview: {
     select: {title: 'title'},
-    prepare: ({title}) => ({title: title || 'Logo marquee'}),
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'Logo marquee'),
+    }),
   },
 })

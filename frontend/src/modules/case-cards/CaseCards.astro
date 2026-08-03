@@ -57,7 +57,7 @@ const imageUrl = (source: ImageSource | undefined, fallback: string) =>
 <section
   class:list={[
     'overflow-hidden px-6 text-white sm:px-[42px]',
-    variant === 'featured' ? 'bg-black pb-[61px]' : 'bg-[#150e0e] py-[68px]',
+    variant === 'featured' ? 'bg-black pb-[61px]' : 'bg-black py-[68px]',
   ]}
 >
   <div class="mx-auto max-w-[1356px]">
@@ -113,6 +113,8 @@ const imageUrl = (source: ImageSource | undefined, fallback: string) =>
                   class="absolute inset-0 !h-full !w-full !max-w-none object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
                   width="668"
                   height="434"
+                  loading="lazy"
+                  decoding="async"
                 />
               ) : (
                 <picture>
@@ -125,6 +127,8 @@ const imageUrl = (source: ImageSource | undefined, fallback: string) =>
                     data-parallax="0.06"
                     width={images[index].width}
                     height={images[index].height}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </picture>
               )}

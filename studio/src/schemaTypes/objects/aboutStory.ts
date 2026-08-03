@@ -1,36 +1,16 @@
 import {defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'aboutStory',
   title: 'About story',
   type: 'object',
   fields: [
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'text',
-      rows: 6,
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'purposeTitle',
-      title: 'Purpose title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'purposeBody',
-      title: 'Purpose body',
-      type: 'text',
-      rows: 3,
-      validation: (Rule) => Rule.required(),
-    }),
+    localizedStringField('heading', 'Heading', {validation: (Rule) => Rule.required()}),
+    localizedTextField('body', 'Body', {validation: (Rule) => Rule.required()}),
+    localizedStringField('purposeTitle', 'Purpose title', {validation: (Rule) => Rule.required()}),
+    localizedTextField('purposeBody', 'Purpose body', {validation: (Rule) => Rule.required()}),
     defineField({
       name: 'image',
       title: 'Image',
@@ -41,6 +21,8 @@ export default defineType({
   ],
   preview: {
     select: {title: 'heading'},
-    prepare: ({title}) => ({title: title || 'About story'}),
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'About story'),
+    }),
   },
 })

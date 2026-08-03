@@ -1,4 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'serviceIncludes',
@@ -18,23 +20,15 @@ export default defineType({
         layout: 'radio',
       },
     }),
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      initialValue: 'Lo que incluye el proceso.',
-    }),
+    localizedStringField('heading', 'Heading'),
     defineField({
       name: 'items',
       title: 'Items',
       type: 'array',
-      of: [defineArrayMember({type: 'string'})],
+      of: [defineArrayMember({type: 'internationalizedArrayString'})],
       validation: (Rule) => Rule.min(1),
     }),
-    defineField({
-      name: 'secondaryHeading',
-      title: 'Secondary heading',
-      type: 'string',
+    localizedStringField('secondaryHeading', 'Secondary heading', {
       hidden: ({parent}) => parent?.layout !== 'dualColumns',
       validation: (Rule) =>
         Rule.custom((value, context) => {
@@ -49,7 +43,7 @@ export default defineType({
       name: 'secondaryItems',
       title: 'Secondary items',
       type: 'array',
-      of: [defineArrayMember({type: 'string'})],
+      of: [defineArrayMember({type: 'internationalizedArrayString'})],
       hidden: ({parent}) => parent?.layout !== 'dualColumns',
       validation: (Rule) =>
         Rule.custom((items, context) => {
@@ -71,6 +65,9 @@ export default defineType({
   ],
   preview: {
     select: {title: 'heading', layout: 'layout'},
-    prepare: ({title, layout}) => ({title: title || 'Service includes', subtitle: layout}),
+    prepare: ({title, layout}) => ({
+      title: localizedPreviewValue(title, 'Service includes'),
+      subtitle: layout,
+    }),
   },
 })

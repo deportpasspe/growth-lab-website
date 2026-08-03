@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@font-face {
+  font-family: "Questrial";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/questrial-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
+}
+
 @theme {
   /* Brand */
   --color-magenta: #8b1858;
@@ -49,8 +61,8 @@
 }
 
 html {
-  background-color: var(--color-surface);
-  color: var(--color-navy);
+  background-color: var(--color-black);
+  color: var(--color-white);
   font-family: var(--font-sans);
   font-size: var(--text-body);
   line-height: var(--leading-normal);
@@ -178,6 +190,93 @@ img {
   stroke: #515151;
   stroke-width: 2.5;
   stroke-miterlimit: 10;
+}
+
+.form-checkbox__box {
+  position: relative;
+  margin-top: 0.125rem;
+  display: inline-flex;
+  height: 1.25rem;
+  width: 1.25rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  border-width: 1px;
+  border-style: solid;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.form-checkbox__box--dark {
+  border-color: rgb(255 255 255 / 0.45);
+  background-color: rgb(255 255 255 / 0.04);
+}
+
+.form-checkbox__box--light {
+  border-color: var(--color-border);
+  background-color: var(--color-white);
+}
+
+.form-checkbox__box::after {
+  content: "";
+  height: 0.55rem;
+  width: 0.3rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  color: transparent;
+  transform: rotate(45deg) scale(0.6);
+  transform-origin: center;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.form-checkbox:hover .form-checkbox__box {
+  transform: translateY(-1px);
+}
+
+.form-checkbox:hover .form-checkbox__box--dark {
+  border-color: rgb(255 255 255 / 0.75);
+  background-color: rgb(255 255 255 / 0.08);
+}
+
+.form-checkbox:hover .form-checkbox__box--light {
+  border-color: var(--color-navy-tint);
+  box-shadow: 0 2px 10px rgb(6 26 59 / 0.08);
+}
+
+.form-checkbox__input:focus-visible + .form-checkbox__box {
+  outline: 2px solid var(--color-magenta);
+  outline-offset: 2px;
+}
+
+.form-checkbox__input:checked + .form-checkbox__box--dark {
+  border-color: var(--color-white);
+  background-color: var(--color-white);
+}
+
+.form-checkbox__input:checked + .form-checkbox__box--light {
+  border-color: var(--color-magenta);
+  background-color: var(--color-magenta);
+}
+
+.form-checkbox__input:checked + .form-checkbox__box--dark::after {
+  color: var(--color-black);
+  transform: rotate(45deg) scale(1);
+}
+
+.form-checkbox__input:checked + .form-checkbox__box--light::after {
+  color: var(--color-white);
+  transform: rotate(45deg) scale(1);
+}
+
+.form-control:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 @media (prefers-reduced-motion: reduce) {

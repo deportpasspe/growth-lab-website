@@ -1,16 +1,12 @@
 import {defineField, defineType} from 'sanity'
+import {localizedStringField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'cta',
   title: 'CTA',
   type: 'object',
   fields: [
-    defineField({
-      name: 'label',
-      title: 'Label',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
+    localizedStringField('label', 'Label', {validation: (Rule) => Rule.required()}),
     defineField({
       name: 'variant',
       title: 'Variant',

@@ -1,4 +1,6 @@
 import {defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'hero',
@@ -19,18 +21,15 @@ export default defineType({
           {title: 'About page', value: 'about'},
           {title: 'Methodology page', value: 'methodology'},
           {title: 'Insights index', value: 'insights'},
+          {title: 'Contact', value: 'contact'},
+          {title: 'Case studies index', value: 'caseStudies'},
         ],
         layout: 'radio',
       },
     }),
-    defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string'}),
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'subheading', title: 'Subheading', type: 'text', rows: 3}),
+    localizedStringField('eyebrow', 'Eyebrow'),
+    localizedStringField('heading', 'Heading', {validation: (Rule) => Rule.required()}),
+    localizedTextField('subheading', 'Subheading'),
     defineField({
       name: 'image',
       title: 'Image',
@@ -42,7 +41,11 @@ export default defineType({
     defineField({name: 'secondaryCta', title: 'Secondary CTA', type: 'cta'}),
   ],
   preview: {
-    select: {title: 'heading', subtitle: 'eyebrow'},
-    prepare: ({title, subtitle}) => ({title: title || 'Hero', subtitle: subtitle || 'Hero'}),
+    select: {title: 'heading', subtitle: 'eyebrow', media: 'image'},
+    prepare: ({title, subtitle, media}) => ({
+      title: localizedPreviewValue(title, 'Hero'),
+      subtitle: localizedPreviewValue(subtitle, 'Hero'),
+      media,
+    }),
   },
 })

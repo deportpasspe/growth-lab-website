@@ -2,6 +2,12 @@
 import {actions} from 'astro:actions'
 import type {Locale} from '../../i18n/routes'
 import {t} from '../../i18n'
+import {formErrorClass, formHeadingClass} from '../../lib/forms'
+import Button from '../../components/ui/Button.astro'
+import FormCheckbox from '../../components/ui/FormCheckbox.astro'
+import FormField from '../../components/ui/FormField.astro'
+import FormInput from '../../components/ui/FormInput.astro'
+import FormSelect from '../../components/ui/FormSelect.astro'
 
 interface Props {
   locale: Locale
@@ -12,10 +18,6 @@ interface Props {
 const {locale, title = t(locale, 'contact.pathsFormHeading'), interestOptions} = Astro.props
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined
 const result = Astro.getActionResult(actions.contact)
-
-const inputClass =
-  'h-11 w-full rounded-[4px] border border-white/35 bg-transparent px-4 text-base text-white outline-none placeholder:text-white/50 focus:border-white'
-const labelClass = 'text-lg leading-[22px] text-white'
 ---
 
 <form method="POST" action={actions.contact} data-contact-form class="grid gap-4">
@@ -26,66 +28,72 @@ const labelClass = 'text-lg leading-[22px] text-white'
     <input type="text" name="website" tabindex="-1" autocomplete="off" />
   </label>
 
-  <p class="m-0 text-2xl leading-normal text-white">{title}</p>
+  <p class={formHeadingClass('dark', 'text-2xl leading-normal')}>{title}</p>
 
-  <label class="grid gap-1">
-    <span class={labelClass}>{t(locale, 'form.name')}</span>
-    <input required name="name" type="text" autocomplete="name" placeholder={t(locale, 'form.name')} class={inputClass} />
-  </label>
+  <FormField tone="dark" label={t(locale, 'form.name')}>
+    <FormInput
+      tone="dark"
+      required
+      name="name"
+      type="text"
+      autocomplete="name"
+      placeholder={t(locale, 'form.name')}
+    />
+  </FormField>
 
-  <label class="grid gap-1">
-    <span class={labelClass}>{t(locale, 'form.email')}</span>
-    <input required name="email" type="email" autocomplete="email" placeholder={t(locale, 'form.email')} class={inputClass} />
-  </label>
+  <FormField tone="dark" label={t(locale, 'form.email')}>
+    <FormInput
+      tone="dark"
+      required
+      name="email"
+      type="email"
+      autocomplete="email"
+      placeholder={t(locale, 'form.email')}
+    />
+  </FormField>
 
-  <label class="grid gap-1">
-    <span class={labelClass}>{t(locale, 'form.company')}</span>
-    <input name="company" type="text" autocomplete="organization" placeholder={t(locale, 'form.company')} class={inputClass} />
-  </label>
+  <FormField tone="dark" label={t(locale, 'form.company')}>
+    <FormInput
+      tone="dark"
+      name="company"
+      type="text"
+      autocomplete="organization"
+      placeholder={t(locale, 'form.company')}
+    />
+  </FormField>
 
-  <label class="grid gap-1">
-    <span class={labelClass}>{t(locale, 'contact.form.role')}</span>
-    <input name="role" type="text" autocomplete="organization-title" placeholder={t(locale, 'contact.form.rolePlaceholder')} class={inputClass} />
-  </label>
+  <FormField tone="dark" label={t(locale, 'contact.form.role')}>
+    <FormInput
+      tone="dark"
+      name="role"
+      type="text"
+      autocomplete="organization-title"
+      placeholder={t(locale, 'contact.form.rolePlaceholder')}
+    />
+  </FormField>
 
-  <label class="grid gap-1">
-    <span class={labelClass}>{t(locale, 'contact.form.interest')}</span>
-    <div class="relative">
-      <select
-        name="interestArea"
-        class={`${inputClass} appearance-none pr-10`}
-        aria-label={t(locale, 'contact.form.interest')}
-      >
-        <option value="">{t(locale, 'contact.form.interestPlaceholder')}</option>
-        {interestOptions.map((option) => (
-          <option value={option.label}>{option.label}</option>
-        ))}
-      </select>
-      <img
-        src="/assets/figma/contact/chevron-down.svg"
-        alt=""
-        class="pointer-events-none absolute right-4 top-1/2 h-[6px] w-[11px] -translate-y-1/2"
-        width="11"
-        height="6"
-      />
-    </div>
-  </label>
+  <FormField tone="dark" label={t(locale, 'contact.form.interest')}>
+    <FormSelect name="interestArea" aria-label={t(locale, 'contact.form.interest')}>
+      <option value="">{t(locale, 'contact.form.interestPlaceholder')}</option>
+      {interestOptions.map((option) => (
+        <option value={option.label}>{option.label}</option>
+      ))}
+    </FormSelect>
+  </FormField>
 
-  <label class="grid gap-1">
-    <span class={labelClass}>{t(locale, 'contact.form.challenge')}</span>
-    <input
+  <FormField tone="dark" label={t(locale, 'contact.form.challenge')}>
+    <FormInput
+      tone="dark"
       required
       name="message"
       type="text"
       placeholder={t(locale, 'contact.form.challengePlaceholder')}
-      class={inputClass}
     />
-  </label>
+  </FormField>
 
-  <label class="flex items-start gap-2 text-sm leading-[22px] text-white/75">
-    <input required type="checkbox" name="consent" value="on" class="mt-0.5 size-[18px] shrink-0 border border-white/35 bg-transparent" />
-    <span>{t(locale, 'contact.form.consent')}</span>
-  </label>
+  <FormCheckbox tone="dark" required class="text-white/75">
+    {t(locale, 'contact.form.consent')}
+  </FormCheckbox>
 
   {
     turnstileSiteKey && (
@@ -95,18 +103,15 @@ const labelClass = 'text-lg leading-[22px] text-white'
 
   {
     result?.error && (
-      <p class="text-sm text-cream" role="alert">
+      <p class={formErrorClass('dark')} role="alert">
         {result.error.message || t(locale, 'errors.generic')}
       </p>
     )
   }
 
-  <button
-    type="submit"
-    class="flex h-11 w-[100px] items-center justify-center rounded-[2px] bg-white px-4 text-base text-black transition-opacity hover:opacity-90"
-  >
+  <Button type="submit" variant="primary" size="md" class="w-[100px]">
     {t(locale, 'contact.form.submit')}
-  </button>
+  </Button>
 </form>
 
 {

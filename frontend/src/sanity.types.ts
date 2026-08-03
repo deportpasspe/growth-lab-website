@@ -47,14 +47,79 @@ export type Photo = {
   _type: "image";
 };
 
+export type Slug1 = {
+  es?: Slug;
+  en?: Slug;
+};
+
+export type ContactChannelItem = {
+  _type: "contactChannelItem";
+  icon?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  title?: InternationalizedArrayString;
+  value?: string;
+  href?: string;
+};
+
+export type NavGroup = {
+  _type: "navGroup";
+  title?: InternationalizedArrayString;
+  items?: Array<{
+    label?: InternationalizedArrayString;
+    link?: Link;
+    _key: string;
+  }>;
+};
+
+export type NewsletterSection = {
+  _type: "newsletterSection";
+  heading?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
+};
+
+export type ContactPathsCopy = {
+  _type: "contactPathsCopy";
+  meetingTitle?: InternationalizedArrayString;
+  meetingEyebrow?: InternationalizedArrayString;
+  formTitle?: InternationalizedArrayString;
+  formEyebrow?: InternationalizedArrayString;
+  meetingImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
+export type ContactReasonItem = {
+  _type: "contactReasonItem";
+  tone?: "magenta" | "teal" | "navyDeep";
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  title?: InternationalizedArrayString;
+  description?: InternationalizedArrayText;
+};
+
 export type TeamCards = {
   _type: "teamCards";
-  heading?: string;
-  intro?: string;
+  heading?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
   members?: Array<{
-    name?: string;
-    role?: string;
-    bio?: string;
+    name?: InternationalizedArrayString;
+    role?: InternationalizedArrayString;
+    bio?: InternationalizedArrayText;
     photo?: Photo;
     linkedInUrl?: string;
     _key: string;
@@ -63,8 +128,8 @@ export type TeamCards = {
 
 export type WorldMap = {
   _type: "worldMap";
-  heading?: string;
-  intro?: string;
+  heading?: InternationalizedArrayString;
+  intro?: InternationalizedArrayString;
   mapImage?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -76,8 +141,12 @@ export type WorldMap = {
   markers?: Array<{
     countryPreset?:
       "us" | "mx" | "co" | "ec" | "br" | "uy" | "cl" | "es" | "it" | "custom";
-    country?: string;
-    organizations?: Array<string>;
+    country?: InternationalizedArrayString;
+    organizations?: Array<
+      {
+        _key: string;
+      } & InternationalizedArrayString
+    >;
     flag?: Flag;
     top?: number;
     left?: number;
@@ -88,10 +157,10 @@ export type WorldMap = {
 
 export type AboutStory = {
   _type: "aboutStory";
-  heading?: string;
-  body?: string;
-  purposeTitle?: string;
-  purposeBody?: string;
+  heading?: InternationalizedArrayString;
+  body?: InternationalizedArrayText;
+  purposeTitle?: InternationalizedArrayString;
+  purposeBody?: InternationalizedArrayText;
   image?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -104,10 +173,10 @@ export type AboutStory = {
 
 export type RelatedServices = {
   _type: "relatedServices";
-  heading?: string;
+  heading?: InternationalizedArrayString;
   items?: Array<{
-    title?: string;
-    description?: string;
+    title?: InternationalizedArrayString;
+    description?: InternationalizedArrayText;
     icon?: "calendar" | "planning" | "money";
     cta?: Cta;
     _key: string;
@@ -117,10 +186,18 @@ export type RelatedServices = {
 export type ServiceIncludes = {
   _type: "serviceIncludes";
   layout?: "dualColumns" | "splitImage";
-  heading?: string;
-  items?: Array<string>;
-  secondaryHeading?: string;
-  secondaryItems?: Array<string>;
+  heading?: InternationalizedArrayString;
+  items?: Array<
+    {
+      _key: string;
+    } & InternationalizedArrayString
+  >;
+  secondaryHeading?: InternationalizedArrayString;
+  secondaryItems?: Array<
+    {
+      _key: string;
+    } & InternationalizedArrayString
+  >;
   image?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -133,16 +210,23 @@ export type ServiceIncludes = {
 
 export type ProcessCards = {
   _type: "processCards";
-  heading?: string;
+  heading?: InternationalizedArrayString;
   layout?:
     | "accordionRow"
     | "accordionColumns"
     | "accordionSplit"
     | "dualPaths"
     | "threeMixed";
+  decorImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   steps?: Array<{
-    title?: string;
-    description?: string;
+    title?: InternationalizedArrayString;
+    description?: InternationalizedArrayText;
     _key: string;
   }>;
 };
@@ -158,12 +242,12 @@ export type ServiceCatalog = {
 
 export type ServiceCategory = {
   _type: "serviceCategory";
-  title?: string;
-  summary?: string;
+  title?: InternationalizedArrayString;
+  summary?: InternationalizedArrayText;
   cta?: Cta;
   items?: Array<{
-    title?: string;
-    description?: string;
+    title?: InternationalizedArrayString;
+    description?: InternationalizedArrayText;
     icon?: "calendar" | "planning" | "money";
     cta?: Cta;
     _type: "serviceCatalogItem";
@@ -174,18 +258,25 @@ export type ServiceCategory = {
 export type SplitStatement = {
   _type: "splitStatement";
   variant?: "default" | "methodIntro" | "successBanner";
-  eyebrow?: string;
-  heading?: string;
-  body?: string;
+  eyebrow?: InternationalizedArrayString;
+  heading?: InternationalizedArrayString;
+  body?: InternationalizedArrayText;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   decoration?: "magentaGlow";
 };
 
 export type ContentCards = {
   _type: "contentCards";
   variant?: "lists" | "deliverables" | "industries" | "values" | "principles";
-  eyebrow?: string;
-  heading?: string;
-  intro?: string;
+  eyebrow?: InternationalizedArrayString;
+  heading?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
   cards?: Array<
     {
       _key: string;
@@ -204,23 +295,22 @@ export type NarrativeCards = {
 
 export type ContentCard = {
   _type: "contentCard";
-  title?: string;
-  description?: string;
-  emphasis?: string;
-  items?: Array<string>;
+  title?: InternationalizedArrayString;
+  description?: InternationalizedArrayText;
+  emphasis?: InternationalizedArrayString;
+  items?: Array<
+    {
+      _key: string;
+    } & InternationalizedArrayString
+  >;
   tone?: "dark" | "teal" | "magenta";
-  icon?:
-    | "arrow"
-    | "calendar"
-    | "process"
-    | "market"
-    | "marketBrand"
-    | "industryCalendar"
-    | "industryPlanning"
-    | "industryMoney"
-    | "planning"
-    | "money"
-    | "relationship";
+  icon?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   cta?: Cta;
 };
 
@@ -289,23 +379,37 @@ export type PageBuilder = Array<
 
 export type ContactFormSection = {
   _type: "contactFormSection";
-  title?: string;
-  intro?: string;
+  title?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
 };
 
 export type CtaBanner = {
   _type: "ctaBanner";
   variant?: "default" | "recruitment" | "services";
-  heading?: string;
-  subheading?: string;
+  heading?: InternationalizedArrayString;
+  subheading?: InternationalizedArrayText;
   cta?: Cta;
   secondaryCta?: Cta;
+  decorLeft?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  decorRight?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
 };
 
 export type FaqSection = {
   _type: "faqSection";
   variant?: "default" | "roomy";
-  title?: string;
+  title?: InternationalizedArrayString;
   items?: Array<
     {
       _key: string;
@@ -322,8 +426,8 @@ export type InsightReference = {
 
 export type InsightCards = {
   _type: "insightCards";
-  title?: string;
-  intro?: string;
+  title?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
   insights?: Array<
     {
       _key: string;
@@ -342,8 +446,8 @@ export type CaseCards = {
   _type: "caseCards";
   variant?: "carousel" | "featured";
   showHeader?: boolean;
-  title?: string;
-  intro?: string;
+  title?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
   cases?: Array<
     {
       _key: string;
@@ -354,43 +458,72 @@ export type CaseCards = {
 export type MethodSteps = {
   _type: "methodSteps";
   layout?: "diagram" | "grid";
-  title?: string;
-  intro?: string;
-  featuredTitle?: string;
-  featuredDescription?: string;
+  title?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
+  featuredTitle?: InternationalizedArrayString;
+  featuredDescription?: InternationalizedArrayText;
+  diagramImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   showCta?: boolean;
   steps?: Array<{
-    title?: string;
-    description?: string;
+    title?: InternationalizedArrayString;
+    description?: InternationalizedArrayText;
     _key: string;
   }>;
 };
 
-export type ServiceReference = {
+export type ServiceSplit = {
+  _type: "serviceSplit";
+  title?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
+  cardImages?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  cards?: Array<
+    {
+      _key: string;
+    } & ServiceSplitCard
+  >;
+};
+
+export type RecruitmentPageReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "service";
+  [internalGroqTypeReferenceTo]?: "recruitmentPage";
 };
 
-export type ServiceSplit = {
-  _type: "serviceSplit";
-  title?: string;
-  intro?: string;
-  services?: Array<
-    {
-      _key: string;
-    } & ServiceReference
-  >;
+export type ServicesIndexPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "servicesIndexPage";
+};
+
+export type ServiceSplitCard = {
+  _type: "serviceSplitCard";
+  title?: InternationalizedArrayString;
+  summary?: InternationalizedArrayText;
+  page?: RecruitmentPageReference | ServicesIndexPageReference;
 };
 
 export type Metrics = {
   _type: "metrics";
-  title?: string;
+  title?: InternationalizedArrayString;
   columns?: 3 | 4;
   items?: Array<{
-    value?: string;
-    label?: string;
+    value?: InternationalizedArrayString;
+    label?: InternationalizedArrayString;
     icon?: "calendar" | "process" | "cost";
     _key: string;
   }>;
@@ -398,9 +531,9 @@ export type Metrics = {
 
 export type LogoMarquee = {
   _type: "logoMarquee";
-  title?: string;
+  title?: InternationalizedArrayString;
   logos?: Array<{
-    name?: string;
+    name?: InternationalizedArrayString;
     image?: ObjectImage;
     _key: string;
   }>;
@@ -415,10 +548,12 @@ export type Hero = {
     | "servicePage"
     | "about"
     | "methodology"
-    | "insights";
-  eyebrow?: string;
-  heading?: string;
-  subheading?: string;
+    | "insights"
+    | "contact"
+    | "caseStudies";
+  eyebrow?: InternationalizedArrayString;
+  heading?: InternationalizedArrayString;
+  subheading?: InternationalizedArrayText;
   image?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -433,8 +568,8 @@ export type Hero = {
 
 export type FaqItem = {
   _type: "faqItem";
-  question?: string;
-  answer?: string;
+  question?: InternationalizedArrayString;
+  answer?: InternationalizedArrayText;
 };
 
 export type PortableText = Array<
@@ -471,7 +606,7 @@ export type PortableText = Array<
 
 export type Cta = {
   _type: "cta";
-  label?: string;
+  label?: InternationalizedArrayString;
   variant?: "primary" | "secondary" | "ghost";
   link?: Link;
 };
@@ -497,18 +632,18 @@ export type MethodologyPageReference = {
   [internalGroqTypeReferenceTo]?: "methodologyPage";
 };
 
-export type RecruitmentPageReference = {
+export type InsightsIndexPageReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "recruitmentPage";
+  [internalGroqTypeReferenceTo]?: "insightsIndexPage";
 };
 
-export type ServicesIndexPageReference = {
+export type CaseStudiesIndexPageReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "servicesIndexPage";
+  [internalGroqTypeReferenceTo]?: "caseStudiesIndexPage";
 };
 
 export type ContactPageReference = {
@@ -525,6 +660,13 @@ export type ThankYouPageReference = {
   [internalGroqTypeReferenceTo]?: "thankYouPage";
 };
 
+export type ServiceReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "service";
+};
+
 export type LegalPageReference = {
   _ref: string;
   _type: "reference";
@@ -534,7 +676,7 @@ export type LegalPageReference = {
 
 export type Link = {
   _type: "link";
-  label?: string;
+  label?: InternationalizedArrayString;
   linkType?: "internal" | "external";
   internal?:
     | HomePageReference
@@ -542,6 +684,8 @@ export type Link = {
     | MethodologyPageReference
     | RecruitmentPageReference
     | ServicesIndexPageReference
+    | InsightsIndexPageReference
+    | CaseStudiesIndexPageReference
     | ContactPageReference
     | ThankYouPageReference
     | ServiceReference
@@ -554,8 +698,8 @@ export type Link = {
 
 export type Seo = {
   _type: "seo";
-  metaTitle?: string;
-  metaDescription?: string;
+  metaTitle?: InternationalizedArrayString;
+  metaDescription?: InternationalizedArrayText;
   ogImage?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -565,60 +709,114 @@ export type Seo = {
   };
 };
 
-export type SiteSettings = {
+export type LegalPage = {
   _id: string;
-  _type: "siteSettings";
+  _type: "legalPage";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  whatsapp?: string;
-  nav?: Array<{
-    label?: string;
-    link?: Link;
-    _key: string;
-  }>;
-  footer?: {
-    tagline?: string;
-    links?: Array<{
-      label?: string;
-      link?: Link;
-      _key: string;
-    }>;
-  };
-  defaultSeo?: Seo;
+  title?: InternationalizedArrayString;
+  slug?: Slug1;
+  body?: InternationalizedArrayPortableText;
+  seo?: Seo;
 };
 
-export type TranslationMetadata = {
-  _id: string;
-  _type: "translation.metadata";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  translations?: InternationalizedArrayReference;
-  schemaTypes?: Array<string>;
-};
-
-export type InternationalizedArrayReference = Array<
+export type InternationalizedArrayPortableText = Array<
   {
     _key: string;
-  } & InternationalizedArrayReferenceValue
+  } & InternationalizedArrayPortableTextValue
 >;
 
-export type InternationalizedArrayReferenceValue = {
-  _type: "internationalizedArrayReferenceValue";
-  value?:
-    | HomePageReference
-    | AboutPageReference
-    | MethodologyPageReference
-    | RecruitmentPageReference
-    | ServicesIndexPageReference
-    | ContactPageReference
-    | ThankYouPageReference
-    | LegalPageReference
-    | ServiceReference
-    | InsightReference
-    | CaseStudyReference;
+export type InternationalizedArrayString = Array<
+  {
+    _key: string;
+  } & InternationalizedArrayStringValue
+>;
+
+export type ThankYouPage = {
+  _id: string;
+  _type: "thankYouPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: InternationalizedArrayString;
+  heroHeading?: InternationalizedArrayString;
+  heroMessage?: InternationalizedArrayText;
+  heroImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  cta?: CtaBanner;
+  seo?: Seo;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
+export type InternationalizedArrayText = Array<
+  {
+    _key: string;
+  } & InternationalizedArrayTextValue
+>;
+
+export type ContactPage = {
+  _id: string;
+  _type: "contactPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: InternationalizedArrayString;
+  hero?: Hero;
+  paths?: ContactPathsCopy;
+  channelsHeading?: InternationalizedArrayString;
+  channels?: Array<
+    {
+      _key: string;
+    } & ContactChannelItem
+  >;
+  reasonsHeading?: InternationalizedArrayString;
+  reasons?: Array<
+    {
+      _key: string;
+    } & ContactReasonItem
+  >;
+  faq?: FaqSection;
+  interestOptions?: Array<{
+    value?: string;
+    label?: InternationalizedArrayString;
+    _key: string;
+  }>;
+  seo?: Seo;
+};
+
+export type CaseStudiesIndexPage = {
+  _id: string;
+  _type: "caseStudiesIndexPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  title?: string;
+  hero?: Hero;
+  bottomCta?: CtaBanner;
+  featuredCase?: CaseStudyReference;
+  seo?: Seo;
 };
 
 export type CaseStudy = {
@@ -627,17 +825,16 @@ export type CaseStudy = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title?: string;
-  slug?: Slug;
-  industry?: string;
-  service?: string;
-  summary?: string;
-  challengeHeadline?: string;
-  challenge?: string;
-  interventionHeadline?: string;
-  intervention?: string;
-  result?: string;
+  title?: InternationalizedArrayString;
+  slug?: Slug1;
+  industry?: InternationalizedArrayString;
+  service?: InternationalizedArrayString;
+  summary?: InternationalizedArrayText;
+  challengeHeadline?: InternationalizedArrayString;
+  challenge?: InternationalizedArrayText;
+  interventionHeadline?: InternationalizedArrayString;
+  intervention?: InternationalizedArrayText;
+  result?: InternationalizedArrayText;
   metrics?: Array<{
     label?: string;
     value?: string;
@@ -658,65 +855,7 @@ export type CaseStudy = {
     alt?: string;
     _type: "image";
   };
-  body?: PortableText;
-  seo?: Seo;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
-export type Insight = {
-  _id: string;
-  _type: "insight";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  contentType?: "article" | "guide";
-  author?: {
-    name?: string;
-    role?: string;
-  };
-  readTimeMinutes?: number;
-  downloadUrl?: string;
-  categories?: Array<string>;
-  publishedAt?: string;
-  cover?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  body?: PortableText;
-  related?: Array<
-    {
-      _key: string;
-    } & InsightReference
-  >;
+  body?: InternationalizedArrayPortableText;
   seo?: Seo;
 };
 
@@ -726,10 +865,11 @@ export type Service = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title?: string;
-  slug?: Slug;
-  summary?: string;
+  title?: InternationalizedArrayString;
+  slug?: Slug1;
+  summary?: InternationalizedArrayText;
+  showInNav?: boolean;
+  navOrder?: number;
   pageBuilder?: PageBuilder;
   hero?: {
     eyebrow?: string;
@@ -762,41 +902,59 @@ export type Service = {
   seo?: Seo;
 };
 
-export type LegalPage = {
+export type InsightsIndexPage = {
   _id: string;
-  _type: "legalPage";
+  _type: "insightsIndexPage";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title?: string;
-  slug?: Slug;
-  body?: PortableText;
+  title?: InternationalizedArrayString;
+  hero?: Hero;
+  newsletter?: NewsletterSection;
+  bottomCta?: CtaBanner;
+  featuredInsight?: InsightReference;
   seo?: Seo;
 };
 
-export type ThankYouPage = {
+export type Insight = {
   _id: string;
-  _type: "thankYouPage";
+  _type: "insight";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title?: string;
-  message?: string;
+  title?: InternationalizedArrayString;
+  slug?: Slug1;
+  excerpt?: InternationalizedArrayText;
+  contentType?: "article" | "guide";
+  author?: {
+    name?: string;
+    role?: string;
+  };
+  readTimeMinutes?: number;
+  downloadUrl?: string;
+  categories?: Array<string>;
+  publishedAt?: string;
+  cover?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  body?: InternationalizedArrayPortableText;
+  related?: Array<
+    {
+      _key: string;
+    } & InsightReference
+  >;
   seo?: Seo;
 };
 
-export type ContactPage = {
-  _id: string;
-  _type: "contactPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  title?: string;
-  intro?: string;
-  seo?: Seo;
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
 };
 
 export type ServicesIndexPage = {
@@ -805,9 +963,8 @@ export type ServicesIndexPage = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title?: string;
-  intro?: string;
+  title?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
   pageBuilder?: PageBuilder;
   seo?: Seo;
 };
@@ -818,9 +975,8 @@ export type RecruitmentPage = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title?: string;
-  intro?: string;
+  title?: InternationalizedArrayString;
+  intro?: InternationalizedArrayText;
   pageBuilder?: PageBuilder;
   seo?: Seo;
 };
@@ -831,8 +987,7 @@ export type MethodologyPage = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title?: string;
+  title?: InternationalizedArrayString;
   pageBuilder?: PageBuilder;
   seo?: Seo;
 };
@@ -843,8 +998,7 @@ export type AboutPage = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title?: string;
+  title?: InternationalizedArrayString;
   pageBuilder?: PageBuilder;
   seo?: Seo;
 };
@@ -855,10 +1009,204 @@ export type HomePage = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title?: string;
+  title?: InternationalizedArrayString;
   pageBuilder?: PageBuilder;
   seo?: Seo;
+};
+
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: InternationalizedArrayString;
+  whatsapp?: string;
+  nav?: Array<{
+    label?: string;
+    link?: Link;
+    _key: string;
+  }>;
+  navGroups?: Array<
+    {
+      _key: string;
+    } & NavGroup
+  >;
+  footer?: {
+    tagline?: InternationalizedArrayText;
+    links?: Array<{
+      label?: InternationalizedArrayString;
+      link?: Link;
+      _key: string;
+    }>;
+    socialLinks?: Array<{
+      label?: InternationalizedArrayString;
+      link?: Link;
+      _key: string;
+    }>;
+    contactInfo?: {
+      email?: string;
+      whatsappLabel?: InternationalizedArrayString;
+      address?: InternationalizedArrayText;
+    };
+    complaintsBookLink?: Link;
+  };
+  defaultSeo?: Seo;
+};
+
+export type SanityAssistInstructionTask = {
+  _type: "sanity.assist.instructionTask";
+  path?: string;
+  instructionKey?: string;
+  started?: string;
+  updated?: string;
+  info?: string;
+};
+
+export type SanityAssistTaskStatus = {
+  _type: "sanity.assist.task.status";
+  tasks?: Array<
+    {
+      _key: string;
+    } & SanityAssistInstructionTask
+  >;
+};
+
+export type SanityAssistSchemaTypeAnnotations = {
+  _type: "sanity.assist.schemaType.annotations";
+  title?: string;
+  fields?: Array<
+    {
+      _key: string;
+    } & SanityAssistSchemaTypeField
+  >;
+};
+
+export type SanityAssistOutputType = {
+  _type: "sanity.assist.output.type";
+  type?: string;
+};
+
+export type SanityAssistOutputField = {
+  _type: "sanity.assist.output.field";
+  path?: string;
+};
+
+export type AssistInstructionContextReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "assist.instruction.context";
+};
+
+export type SanityAssistInstructionContext = {
+  _type: "sanity.assist.instruction.context";
+  reference?: AssistInstructionContextReference;
+};
+
+export type AssistInstructionContext = {
+  _id: string;
+  _type: "assist.instruction.context";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  context?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
+export type SanityAssistInstructionUserInput = {
+  _type: "sanity.assist.instruction.userInput";
+  message?: string;
+  description?: string;
+};
+
+export type SanityAssistInstructionPrompt = Array<{
+  children?: Array<
+    | {
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }
+    | ({
+        _key: string;
+      } & SanityAssistInstructionFieldRef)
+    | ({
+        _key: string;
+      } & SanityAssistInstructionContext)
+    | ({
+        _key: string;
+      } & SanityAssistInstructionUserInput)
+  >;
+  style?: "normal";
+  listItem?: never;
+  markDefs?: null;
+  level?: number;
+  _type: "block";
+  _key: string;
+}>;
+
+export type SanityAssistInstructionFieldRef = {
+  _type: "sanity.assist.instruction.fieldRef";
+  path?: string;
+};
+
+export type SanityAssistInstruction = {
+  _type: "sanity.assist.instruction";
+  prompt?: SanityAssistInstructionPrompt;
+  icon?: string;
+  title?: string;
+  userId?: string;
+  createdById?: string;
+  output?: Array<
+    | ({
+        _key: string;
+      } & SanityAssistOutputField)
+    | ({
+        _key: string;
+      } & SanityAssistOutputType)
+  >;
+};
+
+export type SanityAssistSchemaTypeField = {
+  _type: "sanity.assist.schemaType.field";
+  path?: string;
+  instructions?: Array<
+    {
+      _key: string;
+    } & SanityAssistInstruction
+  >;
+};
+
+export type InternationalizedArrayPortableTextValue = {
+  _type: "internationalizedArrayPortableTextValue";
+  value?: PortableText;
+  language?: string;
+};
+
+export type InternationalizedArrayTextValue = {
+  _type: "internationalizedArrayTextValue";
+  value?: string;
+  language?: string;
+};
+
+export type InternationalizedArrayStringValue = {
+  _type: "internationalizedArrayStringValue";
+  value?: string;
+  language?: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -963,6 +1311,12 @@ export type AllSanitySchemaTypes =
   | ObjectImage
   | Flag
   | Photo
+  | Slug1
+  | ContactChannelItem
+  | NavGroup
+  | NewsletterSection
+  | ContactPathsCopy
+  | ContactReasonItem
   | TeamCards
   | WorldMap
   | AboutStory
@@ -984,8 +1338,10 @@ export type AllSanitySchemaTypes =
   | CaseStudyReference
   | CaseCards
   | MethodSteps
-  | ServiceReference
   | ServiceSplit
+  | RecruitmentPageReference
+  | ServicesIndexPageReference
+  | ServiceSplitCard
   | Metrics
   | LogoMarquee
   | Hero
@@ -995,31 +1351,50 @@ export type AllSanitySchemaTypes =
   | HomePageReference
   | AboutPageReference
   | MethodologyPageReference
-  | RecruitmentPageReference
-  | ServicesIndexPageReference
+  | InsightsIndexPageReference
+  | CaseStudiesIndexPageReference
   | ContactPageReference
   | ThankYouPageReference
+  | ServiceReference
   | LegalPageReference
   | Link
   | Seo
-  | SiteSettings
-  | TranslationMetadata
-  | InternationalizedArrayReference
-  | InternationalizedArrayReferenceValue
-  | CaseStudy
+  | LegalPage
+  | InternationalizedArrayPortableText
+  | InternationalizedArrayString
+  | ThankYouPage
   | SanityImageCrop
   | SanityImageHotspot
-  | Slug
-  | Insight
-  | Service
-  | LegalPage
-  | ThankYouPage
+  | InternationalizedArrayText
   | ContactPage
+  | CaseStudiesIndexPage
+  | CaseStudy
+  | Service
+  | InsightsIndexPage
+  | Insight
+  | Slug
   | ServicesIndexPage
   | RecruitmentPage
   | MethodologyPage
   | AboutPage
   | HomePage
+  | SiteSettings
+  | SanityAssistInstructionTask
+  | SanityAssistTaskStatus
+  | SanityAssistSchemaTypeAnnotations
+  | SanityAssistOutputType
+  | SanityAssistOutputField
+  | AssistInstructionContextReference
+  | SanityAssistInstructionContext
+  | AssistInstructionContext
+  | SanityAssistInstructionUserInput
+  | SanityAssistInstructionPrompt
+  | SanityAssistInstructionFieldRef
+  | SanityAssistInstruction
+  | SanityAssistSchemaTypeField
+  | InternationalizedArrayPortableTextValue
+  | InternationalizedArrayTextValue
+  | InternationalizedArrayStringValue
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -1031,11 +1406,11 @@ export type AllSanitySchemaTypes =
 
 // Source: ../frontend/src/lib/sanity/queries/caseStudy.ts
 // Variable: caseStudiesListQuery
-// Query: *[_type == "caseStudy" && language == $locale && defined(slug.current)] | order(title asc) {    _id,    title,    "slug": slug.current,    industry,    service,    summary,    challenge,    result,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  }
+// Query: *[_type == "caseStudy" && defined(slug[$locale].current)] | order(coalesce(title[language == $locale][0].value, title[language == "es"][0].value) asc) {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),    "service": coalesce(service[language == $locale][0].value, service[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }
 export type CaseStudiesListQueryResult = Array<{
   _id: string;
   title: string | null;
-  slug: string | null;
+  slug: Array<null> | null;
   industry: string | null;
   service: string | null;
   summary: string | null;
@@ -1052,16 +1427,15 @@ export type CaseStudiesListQueryResult = Array<{
     height: number | null;
     lqip: string | null;
   } | null;
-  language: string | null;
 }>;
 
 // Source: ../frontend/src/lib/sanity/queries/caseStudy.ts
 // Variable: caseStudyBySlugQuery
-// Query: *[_type == "caseStudy" && language == $locale && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    industry,    service,    summary,    challengeHeadline,    challenge,    interventionHeadline,    intervention,    result,    metrics[] {      label,      value,      icon    },    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    relatedService->{      _id,      title,      "slug": slug.current    },    relatedCases[]->{      _id,      title,      "slug": slug.current,      industry,      challenge,      cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}    },    body,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+// Query: *[_type == "caseStudy" && slug[$locale].current == $slug][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),    "service": coalesce(service[language == $locale][0].value, service[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    "challengeHeadline": coalesce(challengeHeadline[language == $locale][0].value, challengeHeadline[language == "es"][0].value),    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),    "interventionHeadline": coalesce(interventionHeadline[language == $locale][0].value, interventionHeadline[language == "es"][0].value),    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),    metrics[] {      "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),      "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),      icon    },    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    relatedService->{      _id,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      "slug": slug[$locale].current    },    relatedCases[]->{      _id,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      "slug": slug[$locale].current,      "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),      "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),      cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}    },    "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
 export type CaseStudyBySlugQueryResult = {
   _id: string;
   title: string | null;
-  slug: string | null;
+  slug: Array<null> | null;
   industry: string | null;
   service: string | null;
   summary: string | null;
@@ -1071,8 +1445,8 @@ export type CaseStudyBySlugQueryResult = {
   intervention: string | null;
   result: string | null;
   metrics: Array<{
-    label: string | null;
-    value: string | null;
+    label: null;
+    value: null;
     icon: "calendar" | "cost" | "process" | null;
   }> | null;
   cover: {
@@ -1089,12 +1463,12 @@ export type CaseStudyBySlugQueryResult = {
   relatedService: {
     _id: string;
     title: string | null;
-    slug: string | null;
+    slug: Array<null> | null;
   } | null;
   relatedCases: Array<{
     _id: string;
     title: string | null;
-    slug: string | null;
+    slug: Array<null> | null;
     industry: string | null;
     challenge: string | null;
     cover: {
@@ -1110,7 +1484,6 @@ export type CaseStudyBySlugQueryResult = {
     } | null;
   }> | null;
   body: PortableText | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -1129,11 +1502,10 @@ export type CaseStudyBySlugQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/home.ts
 // Variable: homePageQuery
-// Query: *[_type == "homePage" && language == $locale][0] {    _id,    title,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  services[]->{    _id,    title,    "slug": slug.current,    summary,    language  },  cases[]->{    _id,    title,    "slug": slug.current,    industry,    summary,    challenge,    intervention,    result,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  insights[]->{    _id,    title,    "slug": slug.current,    excerpt,    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  primaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  secondaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  categories[] {    _key,    title,    summary,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},    items[] {      _key,      title,      description,      icon,      cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}    }  },  steps[] {    title,    description  },  items[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  markers[] {    _key,    country,    countryPreset,    organizations,    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    name,    role,    bio,    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
+// Query: *[_type == "homePage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  cardImages[] {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  diagramImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  decorImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    icon {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  cards[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    page->{      _type,      "slug": slug[$locale].current    }  },  cases[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  insights[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  primaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  categories[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},    items[] {      _key,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),      icon,      cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}    }  },  steps[] {    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)  },  items[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  markers[] {    _key,    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),    countryPreset,    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
 export type HomePageQueryResult = {
   _id: string;
   title: string | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -1152,10 +1524,10 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "aboutStory";
-        heading?: string;
-        body?: string;
-        purposeTitle?: string;
-        purposeBody?: string;
+        heading: string | null;
+        body: string | null;
+        purposeTitle: string | null;
+        purposeBody: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -1167,9 +1539,18 @@ export type HomePageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1187,12 +1568,12 @@ export type HomePageQueryResult = {
         _type: "caseCards";
         variant?: "carousel" | "featured";
         showHeader?: boolean;
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         cases: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           industry: string | null;
           summary: string | null;
           challenge: string | null;
@@ -1209,12 +1590,22 @@ export type HomePageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         insights: null;
         primaryCta: null;
         secondaryCta: null;
@@ -1229,12 +1620,23 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "contactFormSection";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1252,101 +1654,28 @@ export type HomePageQueryResult = {
         _type: "contentCards";
         variant?:
           "deliverables" | "industries" | "lists" | "principles" | "values";
-        eyebrow?: string;
-        heading?: string;
-        intro?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        intro: string | null;
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        subheading: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1363,8 +1692,8 @@ export type HomePageQueryResult = {
         _key: string;
         _type: "ctaBanner";
         variant?: "default" | "recruitment" | "services";
-        heading?: string;
-        subheading?: string;
+        heading: string | null;
+        subheading: string | null;
         cta: {
           label: string | null;
           variant: "ghost" | "primary" | "secondary" | null;
@@ -1378,57 +1707,54 @@ export type HomePageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -1446,65 +1772,87 @@ export type HomePageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        decorLeft?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        decorRight?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        title: null;
+        intro: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1519,18 +1867,34 @@ export type HomePageQueryResult = {
         _key: string;
         _type: "faqSection";
         variant?: "default" | "roomy";
-        title?: string;
+        title: string | null;
         items: Array<{
           _key: string;
           _type: "faqItem";
-          question?: string;
-          answer?: string;
+          question: string | null;
+          answer: string | null;
+          title: null;
+          label: null;
+          value: null;
+          description: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1547,15 +1911,17 @@ export type HomePageQueryResult = {
         _type: "hero";
         variant?:
           | "about"
+          | "caseStudies"
+          | "contact"
           | "home"
           | "insights"
           | "methodology"
           | "recruitment"
           | "servicePage"
           | "services";
-        eyebrow?: string;
-        heading?: string;
-        subheading?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        subheading: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -1580,57 +1946,54 @@ export type HomePageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -1648,64 +2011,71 @@ export type HomePageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        title: null;
+        intro: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         cta: null;
@@ -1719,12 +2089,12 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "insightCards";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         insights: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           excerpt: string | null;
           categories: Array<string> | null;
           cover: {
@@ -1738,12 +2108,22 @@ export type HomePageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         primaryCta: null;
         secondaryCta: null;
@@ -1758,9 +2138,9 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "logoMarquee";
-        title?: string;
+        title: string | null;
         logos: Array<{
-          name: string | null;
+          name: InternationalizedArrayString | null;
           image: {
             asset?: SanityImageAssetReference;
             media?: unknown; // Unable to locate the referenced type "object.image.media" in schema
@@ -1772,9 +2152,21 @@ export type HomePageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1791,19 +2183,37 @@ export type HomePageQueryResult = {
         _key: string;
         _type: "methodSteps";
         layout?: "diagram" | "grid";
-        title?: string;
-        intro?: string;
-        featuredTitle?: string;
-        featuredDescription?: string;
+        title: string | null;
+        intro: string | null;
+        featuredTitle: string | null;
+        featuredDescription: string | null;
+        diagramImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         showCta?: boolean;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1818,19 +2228,35 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "metrics";
-        title?: string;
+        title: string | null;
         columns?: 3 | 4;
         items: Array<{
-          value?: string;
-          label?: string;
+          value: string | null;
+          label: string | null;
           icon?: "calendar" | "cost" | "process";
           _key: string;
+          title: null;
+          description: null;
+          question: null;
+          answer: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1847,96 +2273,26 @@ export type HomePageQueryResult = {
         _type: "narrativeCards";
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1952,21 +2308,42 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "processCards";
-        heading?: string;
+        heading: string | null;
         layout?:
           | "accordionColumns"
           | "accordionRow"
           | "accordionSplit"
           | "dualPaths"
           | "threeMixed";
+        decorImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -1981,10 +2358,10 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "relatedServices";
-        heading?: string;
+        heading: string | null;
         items: Array<{
-          title?: string;
-          description?: string;
+          title: string | null;
+          description: string | null;
           icon?: "calendar" | "money" | "planning";
           cta: {
             label: string | null;
@@ -1999,67 +2376,80 @@ export type HomePageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
           } | null;
           _key: string;
+          label: null;
+          value: null;
+          question: null;
+          answer: null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2091,57 +2481,54 @@ export type HomePageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
@@ -2164,67 +2551,77 @@ export type HomePageQueryResult = {
                   | {
                       _type: "aboutPage";
                       slug: null;
-                      language: string | null;
+                    }
+                  | {
+                      _type: "caseStudiesIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "caseStudy";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "contactPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "homePage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "insight";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
+                    }
+                  | {
+                      _type: "insightsIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "legalPage";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "methodologyPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "recruitmentPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "service";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "servicesIndexPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "thankYouPage";
                       slug: null;
-                      language: string | null;
                     }
                   | null;
               } | null;
             } | null;
           }> | null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2240,10 +2637,14 @@ export type HomePageQueryResult = {
         _key: string;
         _type: "serviceIncludes";
         layout?: "dualColumns" | "splitImage";
-        heading?: string;
-        items: Array<null> | null;
-        secondaryHeading?: string;
-        secondaryItems?: Array<string>;
+        heading: string | null;
+        items: Array<unknown> | null;
+        secondaryHeading?: InternationalizedArrayString;
+        secondaryItems?: Array<
+          {
+            _key: string;
+          } & InternationalizedArrayString
+        >;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -2255,9 +2656,21 @@ export type HomePageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2272,18 +2685,47 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "serviceSplit";
-        title?: string;
-        intro?: string;
-        services: Array<{
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          summary: string | null;
-          language: string | null;
+        title: string | null;
+        intro: string | null;
+        cardImages: Array<{
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
         }> | null;
+        cards: Array<{
+          _key: string;
+          title: string | null;
+          summary: string | null;
+          page:
+            | {
+                _type: "recruitmentPage";
+                slug: null;
+              }
+            | {
+                _type: "servicesIndexPage";
+                slug: null;
+              }
+            | null;
+        }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        cards: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2300,14 +2742,33 @@ export type HomePageQueryResult = {
         _key: string;
         _type: "splitStatement";
         variant?: "default" | "methodIntro" | "successBanner";
-        eyebrow?: string;
-        heading?: string;
-        body?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        body: string | null;
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         decoration?: "magentaGlow";
-        image: null;
+        title: null;
+        intro: null;
+        subheading: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2323,8 +2784,8 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "teamCards";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         members: Array<{
           _key: string;
           name: string | null;
@@ -2343,10 +2804,21 @@ export type HomePageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2361,8 +2833,8 @@ export type HomePageQueryResult = {
     | {
         _key: string;
         _type: "worldMap";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         mapImage: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -2389,7 +2861,7 @@ export type HomePageQueryResult = {
             | "us"
             | "uy"
             | null;
-          organizations: Array<string> | null;
+          organizations: null;
           top: number | null;
           left: number | null;
           active: boolean | null;
@@ -2404,10 +2876,21 @@ export type HomePageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2423,11 +2906,11 @@ export type HomePageQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/insight.ts
 // Variable: insightsListQuery
-// Query: *[_type == "insight" && language == $locale && defined(slug.current)] | order(publishedAt desc) {    _id,    title,    "slug": slug.current,    excerpt,    contentType,    categories,    publishedAt,    readTimeMinutes,    downloadUrl,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  }
+// Query: *[_type == "insight" && defined(slug[$locale].current)] | order(publishedAt desc) {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),    contentType,    categories,    publishedAt,    readTimeMinutes,    downloadUrl,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }
 export type InsightsListQueryResult = Array<{
   _id: string;
   title: string | null;
-  slug: string | null;
+  slug: Array<null> | null;
   excerpt: string | null;
   contentType: "article" | "guide" | null;
   categories: Array<string> | null;
@@ -2445,16 +2928,15 @@ export type InsightsListQueryResult = Array<{
     height: number | null;
     lqip: string | null;
   } | null;
-  language: string | null;
 }>;
 
 // Source: ../frontend/src/lib/sanity/queries/insight.ts
 // Variable: insightBySlugQuery
-// Query: *[_type == "insight" && language == $locale && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    excerpt,    contentType,    categories,    publishedAt,    readTimeMinutes,    downloadUrl,    author,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    body,    related[]->{      _id,      title,      "slug": slug.current,      excerpt,      contentType,      categories,      downloadUrl,      cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}    },    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+// Query: *[_type == "insight" && slug[$locale].current == $slug][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),    contentType,    categories,    publishedAt,    readTimeMinutes,    downloadUrl,    author,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),    related[]->{      _id,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      "slug": slug[$locale].current,      "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),      contentType,      categories,      downloadUrl,      cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}    },    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
 export type InsightBySlugQueryResult = {
   _id: string;
   title: string | null;
-  slug: string | null;
+  slug: Array<null> | null;
   excerpt: string | null;
   contentType: "article" | "guide" | null;
   categories: Array<string> | null;
@@ -2480,7 +2962,7 @@ export type InsightBySlugQueryResult = {
   related: Array<{
     _id: string;
     title: string | null;
-    slug: string | null;
+    slug: Array<null> | null;
     excerpt: string | null;
     contentType: "article" | "guide" | null;
     categories: Array<string> | null;
@@ -2497,7 +2979,6 @@ export type InsightBySlugQueryResult = {
       lqip: string | null;
     } | null;
   }> | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -2516,11 +2997,10 @@ export type InsightBySlugQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/pages.ts
 // Variable: aboutPageQuery
-// Query: *[_type == "aboutPage" && language == $locale][0] {    _id,    title,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  services[]->{    _id,    title,    "slug": slug.current,    summary,    language  },  cases[]->{    _id,    title,    "slug": slug.current,    industry,    summary,    challenge,    intervention,    result,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  insights[]->{    _id,    title,    "slug": slug.current,    excerpt,    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  primaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  secondaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  categories[] {    _key,    title,    summary,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},    items[] {      _key,      title,      description,      icon,      cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}    }  },  steps[] {    title,    description  },  items[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  markers[] {    _key,    country,    countryPreset,    organizations,    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    name,    role,    bio,    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
+// Query: *[_type == "aboutPage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  cardImages[] {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  diagramImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  decorImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    icon {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  cards[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    page->{      _type,      "slug": slug[$locale].current    }  },  cases[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  insights[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  primaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  categories[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},    items[] {      _key,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),      icon,      cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}    }  },  steps[] {    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)  },  items[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  markers[] {    _key,    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),    countryPreset,    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
 export type AboutPageQueryResult = {
   _id: string;
   title: string | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -2539,10 +3019,10 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "aboutStory";
-        heading?: string;
-        body?: string;
-        purposeTitle?: string;
-        purposeBody?: string;
+        heading: string | null;
+        body: string | null;
+        purposeTitle: string | null;
+        purposeBody: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -2554,9 +3034,18 @@ export type AboutPageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2574,12 +3063,12 @@ export type AboutPageQueryResult = {
         _type: "caseCards";
         variant?: "carousel" | "featured";
         showHeader?: boolean;
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         cases: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           industry: string | null;
           summary: string | null;
           challenge: string | null;
@@ -2596,12 +3085,22 @@ export type AboutPageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         insights: null;
         primaryCta: null;
         secondaryCta: null;
@@ -2616,12 +3115,23 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "contactFormSection";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2639,101 +3149,28 @@ export type AboutPageQueryResult = {
         _type: "contentCards";
         variant?:
           "deliverables" | "industries" | "lists" | "principles" | "values";
-        eyebrow?: string;
-        heading?: string;
-        intro?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        intro: string | null;
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        subheading: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2750,8 +3187,8 @@ export type AboutPageQueryResult = {
         _key: string;
         _type: "ctaBanner";
         variant?: "default" | "recruitment" | "services";
-        heading?: string;
-        subheading?: string;
+        heading: string | null;
+        subheading: string | null;
         cta: {
           label: string | null;
           variant: "ghost" | "primary" | "secondary" | null;
@@ -2765,57 +3202,54 @@ export type AboutPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -2833,65 +3267,87 @@ export type AboutPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        decorLeft?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        decorRight?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        title: null;
+        intro: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2906,18 +3362,34 @@ export type AboutPageQueryResult = {
         _key: string;
         _type: "faqSection";
         variant?: "default" | "roomy";
-        title?: string;
+        title: string | null;
         items: Array<{
           _key: string;
           _type: "faqItem";
-          question?: string;
-          answer?: string;
+          question: string | null;
+          answer: string | null;
+          title: null;
+          label: null;
+          value: null;
+          description: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -2934,15 +3406,17 @@ export type AboutPageQueryResult = {
         _type: "hero";
         variant?:
           | "about"
+          | "caseStudies"
+          | "contact"
           | "home"
           | "insights"
           | "methodology"
           | "recruitment"
           | "servicePage"
           | "services";
-        eyebrow?: string;
-        heading?: string;
-        subheading?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        subheading: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -2967,57 +3441,54 @@ export type AboutPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -3035,64 +3506,71 @@ export type AboutPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        title: null;
+        intro: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         cta: null;
@@ -3106,12 +3584,12 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "insightCards";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         insights: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           excerpt: string | null;
           categories: Array<string> | null;
           cover: {
@@ -3125,12 +3603,22 @@ export type AboutPageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         primaryCta: null;
         secondaryCta: null;
@@ -3145,9 +3633,9 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "logoMarquee";
-        title?: string;
+        title: string | null;
         logos: Array<{
-          name: string | null;
+          name: InternationalizedArrayString | null;
           image: {
             asset?: SanityImageAssetReference;
             media?: unknown; // Unable to locate the referenced type "object.image.media" in schema
@@ -3159,9 +3647,21 @@ export type AboutPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3178,19 +3678,37 @@ export type AboutPageQueryResult = {
         _key: string;
         _type: "methodSteps";
         layout?: "diagram" | "grid";
-        title?: string;
-        intro?: string;
-        featuredTitle?: string;
-        featuredDescription?: string;
+        title: string | null;
+        intro: string | null;
+        featuredTitle: string | null;
+        featuredDescription: string | null;
+        diagramImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         showCta?: boolean;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3205,19 +3723,35 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "metrics";
-        title?: string;
+        title: string | null;
         columns?: 3 | 4;
         items: Array<{
-          value?: string;
-          label?: string;
+          value: string | null;
+          label: string | null;
           icon?: "calendar" | "cost" | "process";
           _key: string;
+          title: null;
+          description: null;
+          question: null;
+          answer: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3234,96 +3768,26 @@ export type AboutPageQueryResult = {
         _type: "narrativeCards";
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3339,21 +3803,42 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "processCards";
-        heading?: string;
+        heading: string | null;
         layout?:
           | "accordionColumns"
           | "accordionRow"
           | "accordionSplit"
           | "dualPaths"
           | "threeMixed";
+        decorImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3368,10 +3853,10 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "relatedServices";
-        heading?: string;
+        heading: string | null;
         items: Array<{
-          title?: string;
-          description?: string;
+          title: string | null;
+          description: string | null;
           icon?: "calendar" | "money" | "planning";
           cta: {
             label: string | null;
@@ -3386,67 +3871,80 @@ export type AboutPageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
           } | null;
           _key: string;
+          label: null;
+          value: null;
+          question: null;
+          answer: null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3478,57 +3976,54 @@ export type AboutPageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
@@ -3551,67 +4046,77 @@ export type AboutPageQueryResult = {
                   | {
                       _type: "aboutPage";
                       slug: null;
-                      language: string | null;
+                    }
+                  | {
+                      _type: "caseStudiesIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "caseStudy";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "contactPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "homePage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "insight";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
+                    }
+                  | {
+                      _type: "insightsIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "legalPage";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "methodologyPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "recruitmentPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "service";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "servicesIndexPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "thankYouPage";
                       slug: null;
-                      language: string | null;
                     }
                   | null;
               } | null;
             } | null;
           }> | null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3627,10 +4132,14 @@ export type AboutPageQueryResult = {
         _key: string;
         _type: "serviceIncludes";
         layout?: "dualColumns" | "splitImage";
-        heading?: string;
-        items: Array<null> | null;
-        secondaryHeading?: string;
-        secondaryItems?: Array<string>;
+        heading: string | null;
+        items: Array<unknown> | null;
+        secondaryHeading?: InternationalizedArrayString;
+        secondaryItems?: Array<
+          {
+            _key: string;
+          } & InternationalizedArrayString
+        >;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -3642,9 +4151,21 @@ export type AboutPageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3659,18 +4180,47 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "serviceSplit";
-        title?: string;
-        intro?: string;
-        services: Array<{
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          summary: string | null;
-          language: string | null;
+        title: string | null;
+        intro: string | null;
+        cardImages: Array<{
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
         }> | null;
+        cards: Array<{
+          _key: string;
+          title: string | null;
+          summary: string | null;
+          page:
+            | {
+                _type: "recruitmentPage";
+                slug: null;
+              }
+            | {
+                _type: "servicesIndexPage";
+                slug: null;
+              }
+            | null;
+        }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        cards: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3687,14 +4237,33 @@ export type AboutPageQueryResult = {
         _key: string;
         _type: "splitStatement";
         variant?: "default" | "methodIntro" | "successBanner";
-        eyebrow?: string;
-        heading?: string;
-        body?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        body: string | null;
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         decoration?: "magentaGlow";
-        image: null;
+        title: null;
+        intro: null;
+        subheading: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3710,8 +4279,8 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "teamCards";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         members: Array<{
           _key: string;
           name: string | null;
@@ -3730,10 +4299,21 @@ export type AboutPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3748,8 +4328,8 @@ export type AboutPageQueryResult = {
     | {
         _key: string;
         _type: "worldMap";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         mapImage: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -3776,7 +4356,7 @@ export type AboutPageQueryResult = {
             | "us"
             | "uy"
             | null;
-          organizations: Array<string> | null;
+          organizations: null;
           top: number | null;
           left: number | null;
           active: boolean | null;
@@ -3791,10 +4371,21 @@ export type AboutPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3810,11 +4401,10 @@ export type AboutPageQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/pages.ts
 // Variable: methodologyPageQuery
-// Query: *[_type == "methodologyPage" && language == $locale][0] {    _id,    title,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  services[]->{    _id,    title,    "slug": slug.current,    summary,    language  },  cases[]->{    _id,    title,    "slug": slug.current,    industry,    summary,    challenge,    intervention,    result,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  insights[]->{    _id,    title,    "slug": slug.current,    excerpt,    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  primaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  secondaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  categories[] {    _key,    title,    summary,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},    items[] {      _key,      title,      description,      icon,      cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}    }  },  steps[] {    title,    description  },  items[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  markers[] {    _key,    country,    countryPreset,    organizations,    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    name,    role,    bio,    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
+// Query: *[_type == "methodologyPage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  cardImages[] {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  diagramImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  decorImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    icon {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  cards[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    page->{      _type,      "slug": slug[$locale].current    }  },  cases[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  insights[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  primaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  categories[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},    items[] {      _key,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),      icon,      cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}    }  },  steps[] {    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)  },  items[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  markers[] {    _key,    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),    countryPreset,    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
 export type MethodologyPageQueryResult = {
   _id: string;
   title: string | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -3833,10 +4423,10 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "aboutStory";
-        heading?: string;
-        body?: string;
-        purposeTitle?: string;
-        purposeBody?: string;
+        heading: string | null;
+        body: string | null;
+        purposeTitle: string | null;
+        purposeBody: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -3848,9 +4438,18 @@ export type MethodologyPageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3868,12 +4467,12 @@ export type MethodologyPageQueryResult = {
         _type: "caseCards";
         variant?: "carousel" | "featured";
         showHeader?: boolean;
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         cases: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           industry: string | null;
           summary: string | null;
           challenge: string | null;
@@ -3890,12 +4489,22 @@ export type MethodologyPageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         insights: null;
         primaryCta: null;
         secondaryCta: null;
@@ -3910,12 +4519,23 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "contactFormSection";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -3933,101 +4553,28 @@ export type MethodologyPageQueryResult = {
         _type: "contentCards";
         variant?:
           "deliverables" | "industries" | "lists" | "principles" | "values";
-        eyebrow?: string;
-        heading?: string;
-        intro?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        intro: string | null;
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        subheading: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4044,8 +4591,8 @@ export type MethodologyPageQueryResult = {
         _key: string;
         _type: "ctaBanner";
         variant?: "default" | "recruitment" | "services";
-        heading?: string;
-        subheading?: string;
+        heading: string | null;
+        subheading: string | null;
         cta: {
           label: string | null;
           variant: "ghost" | "primary" | "secondary" | null;
@@ -4059,57 +4606,54 @@ export type MethodologyPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -4127,65 +4671,87 @@ export type MethodologyPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        decorLeft?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        decorRight?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        title: null;
+        intro: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4200,18 +4766,34 @@ export type MethodologyPageQueryResult = {
         _key: string;
         _type: "faqSection";
         variant?: "default" | "roomy";
-        title?: string;
+        title: string | null;
         items: Array<{
           _key: string;
           _type: "faqItem";
-          question?: string;
-          answer?: string;
+          question: string | null;
+          answer: string | null;
+          title: null;
+          label: null;
+          value: null;
+          description: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4228,15 +4810,17 @@ export type MethodologyPageQueryResult = {
         _type: "hero";
         variant?:
           | "about"
+          | "caseStudies"
+          | "contact"
           | "home"
           | "insights"
           | "methodology"
           | "recruitment"
           | "servicePage"
           | "services";
-        eyebrow?: string;
-        heading?: string;
-        subheading?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        subheading: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -4261,57 +4845,54 @@ export type MethodologyPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -4329,64 +4910,71 @@ export type MethodologyPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        title: null;
+        intro: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         cta: null;
@@ -4400,12 +4988,12 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "insightCards";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         insights: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           excerpt: string | null;
           categories: Array<string> | null;
           cover: {
@@ -4419,12 +5007,22 @@ export type MethodologyPageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         primaryCta: null;
         secondaryCta: null;
@@ -4439,9 +5037,9 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "logoMarquee";
-        title?: string;
+        title: string | null;
         logos: Array<{
-          name: string | null;
+          name: InternationalizedArrayString | null;
           image: {
             asset?: SanityImageAssetReference;
             media?: unknown; // Unable to locate the referenced type "object.image.media" in schema
@@ -4453,9 +5051,21 @@ export type MethodologyPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4472,19 +5082,37 @@ export type MethodologyPageQueryResult = {
         _key: string;
         _type: "methodSteps";
         layout?: "diagram" | "grid";
-        title?: string;
-        intro?: string;
-        featuredTitle?: string;
-        featuredDescription?: string;
+        title: string | null;
+        intro: string | null;
+        featuredTitle: string | null;
+        featuredDescription: string | null;
+        diagramImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         showCta?: boolean;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4499,19 +5127,35 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "metrics";
-        title?: string;
+        title: string | null;
         columns?: 3 | 4;
         items: Array<{
-          value?: string;
-          label?: string;
+          value: string | null;
+          label: string | null;
           icon?: "calendar" | "cost" | "process";
           _key: string;
+          title: null;
+          description: null;
+          question: null;
+          answer: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4528,96 +5172,26 @@ export type MethodologyPageQueryResult = {
         _type: "narrativeCards";
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4633,21 +5207,42 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "processCards";
-        heading?: string;
+        heading: string | null;
         layout?:
           | "accordionColumns"
           | "accordionRow"
           | "accordionSplit"
           | "dualPaths"
           | "threeMixed";
+        decorImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4662,10 +5257,10 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "relatedServices";
-        heading?: string;
+        heading: string | null;
         items: Array<{
-          title?: string;
-          description?: string;
+          title: string | null;
+          description: string | null;
           icon?: "calendar" | "money" | "planning";
           cta: {
             label: string | null;
@@ -4680,67 +5275,80 @@ export type MethodologyPageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
           } | null;
           _key: string;
+          label: null;
+          value: null;
+          question: null;
+          answer: null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4772,57 +5380,54 @@ export type MethodologyPageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
@@ -4845,67 +5450,77 @@ export type MethodologyPageQueryResult = {
                   | {
                       _type: "aboutPage";
                       slug: null;
-                      language: string | null;
+                    }
+                  | {
+                      _type: "caseStudiesIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "caseStudy";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "contactPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "homePage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "insight";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
+                    }
+                  | {
+                      _type: "insightsIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "legalPage";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "methodologyPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "recruitmentPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "service";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "servicesIndexPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "thankYouPage";
                       slug: null;
-                      language: string | null;
                     }
                   | null;
               } | null;
             } | null;
           }> | null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4921,10 +5536,14 @@ export type MethodologyPageQueryResult = {
         _key: string;
         _type: "serviceIncludes";
         layout?: "dualColumns" | "splitImage";
-        heading?: string;
-        items: Array<null> | null;
-        secondaryHeading?: string;
-        secondaryItems?: Array<string>;
+        heading: string | null;
+        items: Array<unknown> | null;
+        secondaryHeading?: InternationalizedArrayString;
+        secondaryItems?: Array<
+          {
+            _key: string;
+          } & InternationalizedArrayString
+        >;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -4936,9 +5555,21 @@ export type MethodologyPageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4953,18 +5584,47 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "serviceSplit";
-        title?: string;
-        intro?: string;
-        services: Array<{
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          summary: string | null;
-          language: string | null;
+        title: string | null;
+        intro: string | null;
+        cardImages: Array<{
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
         }> | null;
+        cards: Array<{
+          _key: string;
+          title: string | null;
+          summary: string | null;
+          page:
+            | {
+                _type: "recruitmentPage";
+                slug: null;
+              }
+            | {
+                _type: "servicesIndexPage";
+                slug: null;
+              }
+            | null;
+        }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        cards: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -4981,14 +5641,33 @@ export type MethodologyPageQueryResult = {
         _key: string;
         _type: "splitStatement";
         variant?: "default" | "methodIntro" | "successBanner";
-        eyebrow?: string;
-        heading?: string;
-        body?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        body: string | null;
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         decoration?: "magentaGlow";
-        image: null;
+        title: null;
+        intro: null;
+        subheading: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5004,8 +5683,8 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "teamCards";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         members: Array<{
           _key: string;
           name: string | null;
@@ -5024,10 +5703,21 @@ export type MethodologyPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5042,8 +5732,8 @@ export type MethodologyPageQueryResult = {
     | {
         _key: string;
         _type: "worldMap";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         mapImage: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -5070,7 +5760,7 @@ export type MethodologyPageQueryResult = {
             | "us"
             | "uy"
             | null;
-          organizations: Array<string> | null;
+          organizations: null;
           top: number | null;
           left: number | null;
           active: boolean | null;
@@ -5085,10 +5775,21 @@ export type MethodologyPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5104,12 +5805,11 @@ export type MethodologyPageQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/pages.ts
 // Variable: recruitmentPageQuery
-// Query: *[_type == "recruitmentPage" && language == $locale][0] {    _id,    title,    intro,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  services[]->{    _id,    title,    "slug": slug.current,    summary,    language  },  cases[]->{    _id,    title,    "slug": slug.current,    industry,    summary,    challenge,    intervention,    result,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  insights[]->{    _id,    title,    "slug": slug.current,    excerpt,    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  primaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  secondaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  categories[] {    _key,    title,    summary,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},    items[] {      _key,      title,      description,      icon,      cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}    }  },  steps[] {    title,    description  },  items[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  markers[] {    _key,    country,    countryPreset,    organizations,    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    name,    role,    bio,    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
+// Query: *[_type == "recruitmentPage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  cardImages[] {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  diagramImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  decorImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    icon {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  cards[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    page->{      _type,      "slug": slug[$locale].current    }  },  cases[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  insights[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  primaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  categories[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},    items[] {      _key,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),      icon,      cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}    }  },  steps[] {    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)  },  items[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  markers[] {    _key,    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),    countryPreset,    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
 export type RecruitmentPageQueryResult = {
   _id: string;
   title: string | null;
   intro: string | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -5128,10 +5828,10 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "aboutStory";
-        heading?: string;
-        body?: string;
-        purposeTitle?: string;
-        purposeBody?: string;
+        heading: string | null;
+        body: string | null;
+        purposeTitle: string | null;
+        purposeBody: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -5143,9 +5843,18 @@ export type RecruitmentPageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5163,12 +5872,12 @@ export type RecruitmentPageQueryResult = {
         _type: "caseCards";
         variant?: "carousel" | "featured";
         showHeader?: boolean;
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         cases: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           industry: string | null;
           summary: string | null;
           challenge: string | null;
@@ -5185,12 +5894,22 @@ export type RecruitmentPageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         insights: null;
         primaryCta: null;
         secondaryCta: null;
@@ -5205,12 +5924,23 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "contactFormSection";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5228,101 +5958,28 @@ export type RecruitmentPageQueryResult = {
         _type: "contentCards";
         variant?:
           "deliverables" | "industries" | "lists" | "principles" | "values";
-        eyebrow?: string;
-        heading?: string;
-        intro?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        intro: string | null;
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        subheading: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5339,8 +5996,8 @@ export type RecruitmentPageQueryResult = {
         _key: string;
         _type: "ctaBanner";
         variant?: "default" | "recruitment" | "services";
-        heading?: string;
-        subheading?: string;
+        heading: string | null;
+        subheading: string | null;
         cta: {
           label: string | null;
           variant: "ghost" | "primary" | "secondary" | null;
@@ -5354,57 +6011,54 @@ export type RecruitmentPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -5422,65 +6076,87 @@ export type RecruitmentPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        decorLeft?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        decorRight?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        title: null;
+        intro: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5495,18 +6171,34 @@ export type RecruitmentPageQueryResult = {
         _key: string;
         _type: "faqSection";
         variant?: "default" | "roomy";
-        title?: string;
+        title: string | null;
         items: Array<{
           _key: string;
           _type: "faqItem";
-          question?: string;
-          answer?: string;
+          question: string | null;
+          answer: string | null;
+          title: null;
+          label: null;
+          value: null;
+          description: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5523,15 +6215,17 @@ export type RecruitmentPageQueryResult = {
         _type: "hero";
         variant?:
           | "about"
+          | "caseStudies"
+          | "contact"
           | "home"
           | "insights"
           | "methodology"
           | "recruitment"
           | "servicePage"
           | "services";
-        eyebrow?: string;
-        heading?: string;
-        subheading?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        subheading: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -5556,57 +6250,54 @@ export type RecruitmentPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -5624,64 +6315,71 @@ export type RecruitmentPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        title: null;
+        intro: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         cta: null;
@@ -5695,12 +6393,12 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "insightCards";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         insights: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           excerpt: string | null;
           categories: Array<string> | null;
           cover: {
@@ -5714,12 +6412,22 @@ export type RecruitmentPageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         primaryCta: null;
         secondaryCta: null;
@@ -5734,9 +6442,9 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "logoMarquee";
-        title?: string;
+        title: string | null;
         logos: Array<{
-          name: string | null;
+          name: InternationalizedArrayString | null;
           image: {
             asset?: SanityImageAssetReference;
             media?: unknown; // Unable to locate the referenced type "object.image.media" in schema
@@ -5748,9 +6456,21 @@ export type RecruitmentPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5767,19 +6487,37 @@ export type RecruitmentPageQueryResult = {
         _key: string;
         _type: "methodSteps";
         layout?: "diagram" | "grid";
-        title?: string;
-        intro?: string;
-        featuredTitle?: string;
-        featuredDescription?: string;
+        title: string | null;
+        intro: string | null;
+        featuredTitle: string | null;
+        featuredDescription: string | null;
+        diagramImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         showCta?: boolean;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5794,19 +6532,35 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "metrics";
-        title?: string;
+        title: string | null;
         columns?: 3 | 4;
         items: Array<{
-          value?: string;
-          label?: string;
+          value: string | null;
+          label: string | null;
           icon?: "calendar" | "cost" | "process";
           _key: string;
+          title: null;
+          description: null;
+          question: null;
+          answer: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5823,96 +6577,26 @@ export type RecruitmentPageQueryResult = {
         _type: "narrativeCards";
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5928,21 +6612,42 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "processCards";
-        heading?: string;
+        heading: string | null;
         layout?:
           | "accordionColumns"
           | "accordionRow"
           | "accordionSplit"
           | "dualPaths"
           | "threeMixed";
+        decorImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -5957,10 +6662,10 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "relatedServices";
-        heading?: string;
+        heading: string | null;
         items: Array<{
-          title?: string;
-          description?: string;
+          title: string | null;
+          description: string | null;
           icon?: "calendar" | "money" | "planning";
           cta: {
             label: string | null;
@@ -5975,67 +6680,80 @@ export type RecruitmentPageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
           } | null;
           _key: string;
+          label: null;
+          value: null;
+          question: null;
+          answer: null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6067,57 +6785,54 @@ export type RecruitmentPageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
@@ -6140,67 +6855,77 @@ export type RecruitmentPageQueryResult = {
                   | {
                       _type: "aboutPage";
                       slug: null;
-                      language: string | null;
+                    }
+                  | {
+                      _type: "caseStudiesIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "caseStudy";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "contactPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "homePage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "insight";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
+                    }
+                  | {
+                      _type: "insightsIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "legalPage";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "methodologyPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "recruitmentPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "service";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "servicesIndexPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "thankYouPage";
                       slug: null;
-                      language: string | null;
                     }
                   | null;
               } | null;
             } | null;
           }> | null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6216,10 +6941,14 @@ export type RecruitmentPageQueryResult = {
         _key: string;
         _type: "serviceIncludes";
         layout?: "dualColumns" | "splitImage";
-        heading?: string;
-        items: Array<null> | null;
-        secondaryHeading?: string;
-        secondaryItems?: Array<string>;
+        heading: string | null;
+        items: Array<unknown> | null;
+        secondaryHeading?: InternationalizedArrayString;
+        secondaryItems?: Array<
+          {
+            _key: string;
+          } & InternationalizedArrayString
+        >;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -6231,9 +6960,21 @@ export type RecruitmentPageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6248,18 +6989,47 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "serviceSplit";
-        title?: string;
-        intro?: string;
-        services: Array<{
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          summary: string | null;
-          language: string | null;
+        title: string | null;
+        intro: string | null;
+        cardImages: Array<{
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
         }> | null;
+        cards: Array<{
+          _key: string;
+          title: string | null;
+          summary: string | null;
+          page:
+            | {
+                _type: "recruitmentPage";
+                slug: null;
+              }
+            | {
+                _type: "servicesIndexPage";
+                slug: null;
+              }
+            | null;
+        }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        cards: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6276,14 +7046,33 @@ export type RecruitmentPageQueryResult = {
         _key: string;
         _type: "splitStatement";
         variant?: "default" | "methodIntro" | "successBanner";
-        eyebrow?: string;
-        heading?: string;
-        body?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        body: string | null;
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         decoration?: "magentaGlow";
-        image: null;
+        title: null;
+        intro: null;
+        subheading: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6299,8 +7088,8 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "teamCards";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         members: Array<{
           _key: string;
           name: string | null;
@@ -6319,10 +7108,21 @@ export type RecruitmentPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6337,8 +7137,8 @@ export type RecruitmentPageQueryResult = {
     | {
         _key: string;
         _type: "worldMap";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         mapImage: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -6365,7 +7165,7 @@ export type RecruitmentPageQueryResult = {
             | "us"
             | "uy"
             | null;
-          organizations: Array<string> | null;
+          organizations: null;
           top: number | null;
           left: number | null;
           active: boolean | null;
@@ -6380,10 +7180,21 @@ export type RecruitmentPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6399,12 +7210,11 @@ export type RecruitmentPageQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/pages.ts
 // Variable: servicesIndexPageQuery
-// Query: *[_type == "servicesIndexPage" && language == $locale][0] {    _id,    title,    intro,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  services[]->{    _id,    title,    "slug": slug.current,    summary,    language  },  cases[]->{    _id,    title,    "slug": slug.current,    industry,    summary,    challenge,    intervention,    result,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  insights[]->{    _id,    title,    "slug": slug.current,    excerpt,    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  primaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  secondaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  categories[] {    _key,    title,    summary,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},    items[] {      _key,      title,      description,      icon,      cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}    }  },  steps[] {    title,    description  },  items[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  markers[] {    _key,    country,    countryPreset,    organizations,    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    name,    role,    bio,    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
+// Query: *[_type == "servicesIndexPage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    pageBuilder[] {  _key,  _type,  ...,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  cardImages[] {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  diagramImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  decorImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    icon {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  cards[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    page->{      _type,      "slug": slug[$locale].current    }  },  cases[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  insights[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  primaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  categories[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},    items[] {      _key,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),      icon,      cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}    }  },  steps[] {    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)  },  items[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  markers[] {    _key,    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),    countryPreset,    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }}  }
 export type ServicesIndexPageQueryResult = {
   _id: string;
   title: string | null;
   intro: string | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -6423,10 +7233,10 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "aboutStory";
-        heading?: string;
-        body?: string;
-        purposeTitle?: string;
-        purposeBody?: string;
+        heading: string | null;
+        body: string | null;
+        purposeTitle: string | null;
+        purposeBody: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -6438,9 +7248,18 @@ export type ServicesIndexPageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6458,12 +7277,12 @@ export type ServicesIndexPageQueryResult = {
         _type: "caseCards";
         variant?: "carousel" | "featured";
         showHeader?: boolean;
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         cases: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           industry: string | null;
           summary: string | null;
           challenge: string | null;
@@ -6480,12 +7299,22 @@ export type ServicesIndexPageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         insights: null;
         primaryCta: null;
         secondaryCta: null;
@@ -6500,12 +7329,23 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "contactFormSection";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6523,101 +7363,28 @@ export type ServicesIndexPageQueryResult = {
         _type: "contentCards";
         variant?:
           "deliverables" | "industries" | "lists" | "principles" | "values";
-        eyebrow?: string;
-        heading?: string;
-        intro?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        intro: string | null;
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        subheading: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6634,8 +7401,8 @@ export type ServicesIndexPageQueryResult = {
         _key: string;
         _type: "ctaBanner";
         variant?: "default" | "recruitment" | "services";
-        heading?: string;
-        subheading?: string;
+        heading: string | null;
+        subheading: string | null;
         cta: {
           label: string | null;
           variant: "ghost" | "primary" | "secondary" | null;
@@ -6649,57 +7416,54 @@ export type ServicesIndexPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -6717,65 +7481,87 @@ export type ServicesIndexPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        decorLeft?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        decorRight?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        title: null;
+        intro: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6790,18 +7576,34 @@ export type ServicesIndexPageQueryResult = {
         _key: string;
         _type: "faqSection";
         variant?: "default" | "roomy";
-        title?: string;
+        title: string | null;
         items: Array<{
           _key: string;
           _type: "faqItem";
-          question?: string;
-          answer?: string;
+          question: string | null;
+          answer: string | null;
+          title: null;
+          label: null;
+          value: null;
+          description: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -6818,15 +7620,17 @@ export type ServicesIndexPageQueryResult = {
         _type: "hero";
         variant?:
           | "about"
+          | "caseStudies"
+          | "contact"
           | "home"
           | "insights"
           | "methodology"
           | "recruitment"
           | "servicePage"
           | "services";
-        eyebrow?: string;
-        heading?: string;
-        subheading?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        subheading: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -6851,57 +7655,54 @@ export type ServicesIndexPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -6919,64 +7720,71 @@ export type ServicesIndexPageQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        title: null;
+        intro: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         cta: null;
@@ -6990,12 +7798,12 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "insightCards";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         insights: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           excerpt: string | null;
           categories: Array<string> | null;
           cover: {
@@ -7009,12 +7817,22 @@ export type ServicesIndexPageQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         primaryCta: null;
         secondaryCta: null;
@@ -7029,9 +7847,9 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "logoMarquee";
-        title?: string;
+        title: string | null;
         logos: Array<{
-          name: string | null;
+          name: InternationalizedArrayString | null;
           image: {
             asset?: SanityImageAssetReference;
             media?: unknown; // Unable to locate the referenced type "object.image.media" in schema
@@ -7043,9 +7861,21 @@ export type ServicesIndexPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7062,19 +7892,37 @@ export type ServicesIndexPageQueryResult = {
         _key: string;
         _type: "methodSteps";
         layout?: "diagram" | "grid";
-        title?: string;
-        intro?: string;
-        featuredTitle?: string;
-        featuredDescription?: string;
+        title: string | null;
+        intro: string | null;
+        featuredTitle: string | null;
+        featuredDescription: string | null;
+        diagramImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         showCta?: boolean;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7089,19 +7937,35 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "metrics";
-        title?: string;
+        title: string | null;
         columns?: 3 | 4;
         items: Array<{
-          value?: string;
-          label?: string;
+          value: string | null;
+          label: string | null;
           icon?: "calendar" | "cost" | "process";
           _key: string;
+          title: null;
+          description: null;
+          question: null;
+          answer: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7118,96 +7982,26 @@ export type ServicesIndexPageQueryResult = {
         _type: "narrativeCards";
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7223,21 +8017,42 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "processCards";
-        heading?: string;
+        heading: string | null;
         layout?:
           | "accordionColumns"
           | "accordionRow"
           | "accordionSplit"
           | "dualPaths"
           | "threeMixed";
+        decorImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7252,10 +8067,10 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "relatedServices";
-        heading?: string;
+        heading: string | null;
         items: Array<{
-          title?: string;
-          description?: string;
+          title: string | null;
+          description: string | null;
           icon?: "calendar" | "money" | "planning";
           cta: {
             label: string | null;
@@ -7270,67 +8085,80 @@ export type ServicesIndexPageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
           } | null;
           _key: string;
+          label: null;
+          value: null;
+          question: null;
+          answer: null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7362,57 +8190,54 @@ export type ServicesIndexPageQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
@@ -7435,67 +8260,77 @@ export type ServicesIndexPageQueryResult = {
                   | {
                       _type: "aboutPage";
                       slug: null;
-                      language: string | null;
+                    }
+                  | {
+                      _type: "caseStudiesIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "caseStudy";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "contactPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "homePage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "insight";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
+                    }
+                  | {
+                      _type: "insightsIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "legalPage";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "methodologyPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "recruitmentPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "service";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "servicesIndexPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "thankYouPage";
                       slug: null;
-                      language: string | null;
                     }
                   | null;
               } | null;
             } | null;
           }> | null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7511,10 +8346,14 @@ export type ServicesIndexPageQueryResult = {
         _key: string;
         _type: "serviceIncludes";
         layout?: "dualColumns" | "splitImage";
-        heading?: string;
-        items: Array<null> | null;
-        secondaryHeading?: string;
-        secondaryItems?: Array<string>;
+        heading: string | null;
+        items: Array<unknown> | null;
+        secondaryHeading?: InternationalizedArrayString;
+        secondaryItems?: Array<
+          {
+            _key: string;
+          } & InternationalizedArrayString
+        >;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -7526,9 +8365,21 @@ export type ServicesIndexPageQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7543,18 +8394,47 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "serviceSplit";
-        title?: string;
-        intro?: string;
-        services: Array<{
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          summary: string | null;
-          language: string | null;
+        title: string | null;
+        intro: string | null;
+        cardImages: Array<{
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
         }> | null;
+        cards: Array<{
+          _key: string;
+          title: string | null;
+          summary: string | null;
+          page:
+            | {
+                _type: "recruitmentPage";
+                slug: null;
+              }
+            | {
+                _type: "servicesIndexPage";
+                slug: null;
+              }
+            | null;
+        }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        cards: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7571,14 +8451,33 @@ export type ServicesIndexPageQueryResult = {
         _key: string;
         _type: "splitStatement";
         variant?: "default" | "methodIntro" | "successBanner";
-        eyebrow?: string;
-        heading?: string;
-        body?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        body: string | null;
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         decoration?: "magentaGlow";
-        image: null;
+        title: null;
+        intro: null;
+        subheading: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7594,8 +8493,8 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "teamCards";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         members: Array<{
           _key: string;
           name: string | null;
@@ -7614,10 +8513,21 @@ export type ServicesIndexPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7632,8 +8542,8 @@ export type ServicesIndexPageQueryResult = {
     | {
         _key: string;
         _type: "worldMap";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         mapImage: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -7660,7 +8570,7 @@ export type ServicesIndexPageQueryResult = {
             | "us"
             | "uy"
             | null;
-          organizations: Array<string> | null;
+          organizations: null;
           top: number | null;
           left: number | null;
           active: boolean | null;
@@ -7675,10 +8585,21 @@ export type ServicesIndexPageQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7694,12 +8615,228 @@ export type ServicesIndexPageQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/pages.ts
 // Variable: contactPageQuery
-// Query: *[_type == "contactPage" && language == $locale][0] {    _id,    title,    intro,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+// Query: *[_type == "contactPage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    hero {  variant,  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  primaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}},    paths {  "meetingTitle": coalesce(meetingTitle[language == $locale][0].value, meetingTitle[language == "es"][0].value),  "meetingEyebrow": coalesce(meetingEyebrow[language == $locale][0].value, meetingEyebrow[language == "es"][0].value),  "formTitle": coalesce(formTitle[language == $locale][0].value, formTitle[language == "es"][0].value),  "formEyebrow": coalesce(formEyebrow[language == $locale][0].value, formEyebrow[language == "es"][0].value),  meetingImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    "channelsHeading": coalesce(channelsHeading[language == $locale][0].value, channelsHeading[language == "es"][0].value),    channels[] {  icon {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  value,  href},    "reasonsHeading": coalesce(reasonsHeading[language == $locale][0].value, reasonsHeading[language == "es"][0].value),    reasons[] {  tone,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    faq {  variant,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  items[] {    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value)  }},    interestOptions[] {      value,      "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value)    },    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
 export type ContactPageQueryResult = {
   _id: string;
   title: string | null;
-  intro: string | null;
-  language: string | null;
+  hero: {
+    variant:
+      | "about"
+      | "caseStudies"
+      | "contact"
+      | "home"
+      | "insights"
+      | "methodology"
+      | "recruitment"
+      | "servicePage"
+      | "services"
+      | null;
+    eyebrow: string | null;
+    heading: string | null;
+    subheading: string | null;
+    image: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+    primaryCta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+    secondaryCta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+  } | null;
+  paths: {
+    meetingTitle: string | null;
+    meetingEyebrow: string | null;
+    formTitle: string | null;
+    formEyebrow: string | null;
+    meetingImage: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  } | null;
+  channelsHeading: string | null;
+  channels: Array<{
+    icon: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+    title: string | null;
+    value: string | null;
+    href: string | null;
+  }> | null;
+  reasonsHeading: string | null;
+  reasons: Array<{
+    tone: "magenta" | "navyDeep" | "teal" | null;
+    title: string | null;
+    description: string | null;
+    image: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  }> | null;
+  faq: {
+    variant: "default" | "roomy" | null;
+    title: string | null;
+    items: Array<{
+      question: string | null;
+      answer: string | null;
+    }> | null;
+  } | null;
+  interestOptions: Array<{
+    value: string | null;
+    label: string | null;
+  }> | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -7718,12 +8855,892 @@ export type ContactPageQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/pages.ts
 // Variable: thankYouPageQuery
-// Query: *[_type == "thankYouPage" && language == $locale][0] {    _id,    title,    message,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+// Query: *[_type == "thankYouPage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "heroHeading": coalesce(heroHeading[language == $locale][0].value, heroHeading[language == "es"][0].value),    "heroMessage": coalesce(heroMessage[language == $locale][0].value, heroMessage[language == "es"][0].value),    heroImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    cta {  variant,  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  decorLeft {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  decorRight {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
 export type ThankYouPageQueryResult = {
   _id: string;
   title: string | null;
-  message: string | null;
-  language: string | null;
+  heroHeading: string | null;
+  heroMessage: string | null;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    width: number | null;
+    height: number | null;
+    lqip: string | null;
+  } | null;
+  cta: {
+    variant: "default" | "recruitment" | "services" | null;
+    heading: string | null;
+    subheading: string | null;
+    cta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+    secondaryCta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+    decorLeft: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+    decorRight: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  } | null;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    ogImage: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  } | null;
+} | null;
+
+// Source: ../frontend/src/lib/sanity/queries/pages.ts
+// Variable: insightsIndexPageQuery
+// Query: *[_type == "insightsIndexPage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    hero {  variant,  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  primaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}},    newsletter {  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value)},    bottomCta {  variant,  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  decorLeft {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  decorRight {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    featuredInsight->{  _id,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  "slug": slug[$locale].current,  "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),  contentType,  categories,  publishedAt,  readTimeMinutes,  downloadUrl,  cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+export type InsightsIndexPageQueryResult = {
+  _id: string;
+  title: string | null;
+  hero: {
+    variant:
+      | "about"
+      | "caseStudies"
+      | "contact"
+      | "home"
+      | "insights"
+      | "methodology"
+      | "recruitment"
+      | "servicePage"
+      | "services"
+      | null;
+    eyebrow: string | null;
+    heading: string | null;
+    subheading: string | null;
+    image: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+    primaryCta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+    secondaryCta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+  } | null;
+  newsletter: {
+    heading: string | null;
+    intro: string | null;
+  } | null;
+  bottomCta: {
+    variant: "default" | "recruitment" | "services" | null;
+    heading: string | null;
+    subheading: string | null;
+    cta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+    secondaryCta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+    decorLeft: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+    decorRight: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  } | null;
+  featuredInsight: {
+    _id: string;
+    title: string | null;
+    slug: Array<null> | null;
+    excerpt: string | null;
+    contentType: "article" | "guide" | null;
+    categories: Array<string> | null;
+    publishedAt: string | null;
+    readTimeMinutes: number | null;
+    downloadUrl: string | null;
+    cover: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  } | null;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    ogImage: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  } | null;
+} | null;
+
+// Source: ../frontend/src/lib/sanity/queries/pages.ts
+// Variable: caseStudiesIndexPageQuery
+// Query: *[_type == "caseStudiesIndexPage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    hero {  variant,  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  primaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}},    bottomCta {  variant,  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  decorLeft {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  decorRight {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    featuredCase->{  _id,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  "slug": slug[$locale].current,  "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),  "service": coalesce(service[language == $locale][0].value, service[language == "es"][0].value),  "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),  "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),  "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),  cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+export type CaseStudiesIndexPageQueryResult = {
+  _id: string;
+  title: null;
+  hero: {
+    variant:
+      | "about"
+      | "caseStudies"
+      | "contact"
+      | "home"
+      | "insights"
+      | "methodology"
+      | "recruitment"
+      | "servicePage"
+      | "services"
+      | null;
+    eyebrow: string | null;
+    heading: string | null;
+    subheading: string | null;
+    image: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+    primaryCta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+    secondaryCta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+  } | null;
+  bottomCta: {
+    variant: "default" | "recruitment" | "services" | null;
+    heading: string | null;
+    subheading: string | null;
+    cta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+    secondaryCta: {
+      label: string | null;
+      variant: "ghost" | "primary" | "secondary" | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    } | null;
+    decorLeft: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+    decorRight: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  } | null;
+  featuredCase: {
+    _id: string;
+    title: string | null;
+    slug: Array<null> | null;
+    industry: string | null;
+    service: string | null;
+    summary: string | null;
+    challenge: string | null;
+    result: string | null;
+    cover: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  } | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -7742,13 +9759,12 @@ export type ThankYouPageQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/pages.ts
 // Variable: legalPageBySlugQuery
-// Query: *[_type == "legalPage" && language == $locale && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    body,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+// Query: *[_type == "legalPage" && slug[$locale].current == $slug][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
 export type LegalPageBySlugQueryResult = {
   _id: string;
   title: string | null;
-  slug: string | null;
+  slug: Array<null> | null;
   body: PortableText | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -7767,12 +9783,11 @@ export type LegalPageBySlugQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/service.ts
 // Variable: servicesIndexQuery
-// Query: *[_type == "servicesIndexPage" && language == $locale][0] {    _id,    title,    intro,    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+// Query: *[_type == "servicesIndexPage"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
 export type ServicesIndexQueryResult = {
   _id: string;
   title: string | null;
   intro: string | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -7791,31 +9806,31 @@ export type ServicesIndexQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/service.ts
 // Variable: servicesListQuery
-// Query: *[_type == "service" && language == $locale && defined(slug.current)] | order(title asc) {    _id,    title,    "slug": slug.current,    summary,    language  }
+// Query: *[_type == "service" && defined(slug[$locale].current)] | order(navOrder asc, coalesce(title[language == $locale][0].value, title[language == "es"][0].value) asc) {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    navOrder  }
 export type ServicesListQueryResult = Array<{
   _id: string;
   title: string | null;
-  slug: string | null;
+  slug: Array<null> | null;
   summary: string | null;
-  language: string | null;
+  navOrder: number | null;
 }>;
 
 // Source: ../frontend/src/lib/sanity/queries/service.ts
 // Variable: serviceBySlugQuery
-// Query: *[_type == "service" && language == $locale && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    summary,    pageBuilder[] {  _key,  _type,  ...,  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  services[]->{    _id,    title,    "slug": slug.current,    summary,    language  },  cases[]->{    _id,    title,    "slug": slug.current,    industry,    summary,    challenge,    intervention,    result,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  insights[]->{    _id,    title,    "slug": slug.current,    excerpt,    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    language  },  primaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  secondaryCta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},  categories[] {    _key,    title,    summary,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}},    items[] {      _key,      title,      description,      icon,      cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}    }  },  steps[] {    title,    description  },  items[] {    ...,    cta {  label,  variant,  link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}}  },  markers[] {    _key,    country,    countryPreset,    organizations,    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    name,    role,    bio,    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }},    language,    seo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+// Query: *[_type == "service" && slug[$locale].current == $slug][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    pageBuilder[] {  _key,  _type,  ...,  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),  image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  cardImages[] {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  diagramImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  decorImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  logos[] {    name,    image {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  cards[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    icon {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  cards[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    page->{      _type,      "slug": slug[$locale].current    }  },  cases[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  insights[]->{    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),    categories,    cover {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  primaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  secondaryCta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},  categories[] {    _key,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}},    items[] {      _key,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),      icon,      cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}    }  },  steps[] {    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)  },  items[] {    ...,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),    cta {  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  variant,  link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}}  },  markers[] {    _key,    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),    countryPreset,    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),    top,    left,    active,    flag {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  },  mapImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  members[] {    _key,    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),    linkedInUrl,    photo {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}  }},    seo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
 export type ServiceBySlugQueryResult = {
   _id: string;
   title: string | null;
-  slug: string | null;
+  slug: Array<null> | null;
   summary: string | null;
   pageBuilder: Array<
     | {
         _key: string;
         _type: "aboutStory";
-        heading?: string;
-        body?: string;
-        purposeTitle?: string;
-        purposeBody?: string;
+        heading: string | null;
+        body: string | null;
+        purposeTitle: string | null;
+        purposeBody: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -7827,9 +9842,18 @@ export type ServiceBySlugQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7847,12 +9871,12 @@ export type ServiceBySlugQueryResult = {
         _type: "caseCards";
         variant?: "carousel" | "featured";
         showHeader?: boolean;
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         cases: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           industry: string | null;
           summary: string | null;
           challenge: string | null;
@@ -7869,12 +9893,22 @@ export type ServiceBySlugQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         insights: null;
         primaryCta: null;
         secondaryCta: null;
@@ -7889,12 +9923,23 @@ export type ServiceBySlugQueryResult = {
     | {
         _key: string;
         _type: "contactFormSection";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -7912,101 +9957,28 @@ export type ServiceBySlugQueryResult = {
         _type: "contentCards";
         variant?:
           "deliverables" | "industries" | "lists" | "principles" | "values";
-        eyebrow?: string;
-        heading?: string;
-        intro?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        intro: string | null;
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        subheading: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8023,8 +9995,8 @@ export type ServiceBySlugQueryResult = {
         _key: string;
         _type: "ctaBanner";
         variant?: "default" | "recruitment" | "services";
-        heading?: string;
-        subheading?: string;
+        heading: string | null;
+        subheading: string | null;
         cta: {
           label: string | null;
           variant: "ghost" | "primary" | "secondary" | null;
@@ -8038,57 +10010,54 @@ export type ServiceBySlugQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -8106,65 +10075,87 @@ export type ServiceBySlugQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        decorLeft?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        decorRight?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        title: null;
+        intro: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8179,18 +10170,34 @@ export type ServiceBySlugQueryResult = {
         _key: string;
         _type: "faqSection";
         variant?: "default" | "roomy";
-        title?: string;
+        title: string | null;
         items: Array<{
           _key: string;
           _type: "faqItem";
-          question?: string;
-          answer?: string;
+          question: string | null;
+          answer: string | null;
+          title: null;
+          label: null;
+          value: null;
+          description: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8207,15 +10214,17 @@ export type ServiceBySlugQueryResult = {
         _type: "hero";
         variant?:
           | "about"
+          | "caseStudies"
+          | "contact"
           | "home"
           | "insights"
           | "methodology"
           | "recruitment"
           | "servicePage"
           | "services";
-        eyebrow?: string;
-        heading?: string;
-        subheading?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        subheading: string | null;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -8240,57 +10249,54 @@ export type ServiceBySlugQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
@@ -8308,64 +10314,71 @@ export type ServiceBySlugQueryResult = {
               | {
                   _type: "aboutPage";
                   slug: null;
-                  language: string | null;
+                }
+              | {
+                  _type: "caseStudiesIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "caseStudy";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "contactPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "homePage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "insight";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
+                }
+              | {
+                  _type: "insightsIndexPage";
+                  slug: null;
                 }
               | {
                   _type: "legalPage";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "methodologyPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "recruitmentPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "service";
-                  slug: string | null;
-                  language: string | null;
+                  slug: Array<null> | null;
                 }
               | {
                   _type: "servicesIndexPage";
                   slug: null;
-                  language: string | null;
                 }
               | {
                   _type: "thankYouPage";
                   slug: null;
-                  language: string | null;
                 }
               | null;
           } | null;
         } | null;
+        title: null;
+        intro: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         cta: null;
@@ -8379,12 +10392,12 @@ export type ServiceBySlugQueryResult = {
     | {
         _key: string;
         _type: "insightCards";
-        title?: string;
-        intro?: string;
+        title: string | null;
+        intro: string | null;
         insights: Array<{
           _id: string;
           title: string | null;
-          slug: string | null;
+          slug: Array<null> | null;
           excerpt: string | null;
           categories: Array<string> | null;
           cover: {
@@ -8398,12 +10411,22 @@ export type ServiceBySlugQueryResult = {
             height: number | null;
             lqip: string | null;
           } | null;
-          language: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         primaryCta: null;
         secondaryCta: null;
@@ -8418,9 +10441,9 @@ export type ServiceBySlugQueryResult = {
     | {
         _key: string;
         _type: "logoMarquee";
-        title?: string;
+        title: string | null;
         logos: Array<{
-          name: string | null;
+          name: InternationalizedArrayString | null;
           image: {
             asset?: SanityImageAssetReference;
             media?: unknown; // Unable to locate the referenced type "object.image.media" in schema
@@ -8432,9 +10455,21 @@ export type ServiceBySlugQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8451,19 +10486,37 @@ export type ServiceBySlugQueryResult = {
         _key: string;
         _type: "methodSteps";
         layout?: "diagram" | "grid";
-        title?: string;
-        intro?: string;
-        featuredTitle?: string;
-        featuredDescription?: string;
+        title: string | null;
+        intro: string | null;
+        featuredTitle: string | null;
+        featuredDescription: string | null;
+        diagramImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         showCta?: boolean;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8478,19 +10531,35 @@ export type ServiceBySlugQueryResult = {
     | {
         _key: string;
         _type: "metrics";
-        title?: string;
+        title: string | null;
         columns?: 3 | 4;
         items: Array<{
-          value?: string;
-          label?: string;
+          value: string | null;
+          label: string | null;
           icon?: "calendar" | "cost" | "process";
           _key: string;
+          title: null;
+          description: null;
+          question: null;
+          answer: null;
           cta: null;
         }> | null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8507,96 +10576,26 @@ export type ServiceBySlugQueryResult = {
         _type: "narrativeCards";
         cards: Array<{
           _key: string;
-          _type: "contentCard";
-          title?: string;
-          description?: string;
-          emphasis?: string;
-          items?: Array<string>;
-          tone?: "dark" | "magenta" | "teal";
-          icon?:
-            | "arrow"
-            | "calendar"
-            | "industryCalendar"
-            | "industryMoney"
-            | "industryPlanning"
-            | "market"
-            | "marketBrand"
-            | "money"
-            | "planning"
-            | "process"
-            | "relationship";
-          cta: {
-            label: string | null;
-            variant: "ghost" | "primary" | "secondary" | null;
-            link: {
-              _type: "link";
-              label: string | null;
-              linkType: "external" | "internal" | null;
-              href: string | null;
-              openInNewTab: boolean | null;
-              internal:
-                | {
-                    _type: "aboutPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "contactPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "homePage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "insight";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "methodologyPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "recruitmentPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "service";
-                    slug: string | null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "servicesIndexPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | {
-                    _type: "thankYouPage";
-                    slug: null;
-                    language: string | null;
-                  }
-                | null;
-            } | null;
-          } | null;
+          title: string | null;
+          summary: null;
+          page: null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8612,21 +10611,42 @@ export type ServiceBySlugQueryResult = {
     | {
         _key: string;
         _type: "processCards";
-        heading?: string;
+        heading: string | null;
         layout?:
           | "accordionColumns"
           | "accordionRow"
           | "accordionSplit"
           | "dualPaths"
           | "threeMixed";
+        decorImage: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         steps: Array<{
           title: string | null;
           description: string | null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8641,10 +10661,10 @@ export type ServiceBySlugQueryResult = {
     | {
         _key: string;
         _type: "relatedServices";
-        heading?: string;
+        heading: string | null;
         items: Array<{
-          title?: string;
-          description?: string;
+          title: string | null;
+          description: string | null;
           icon?: "calendar" | "money" | "planning";
           cta: {
             label: string | null;
@@ -8659,67 +10679,80 @@ export type ServiceBySlugQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
           } | null;
           _key: string;
+          label: null;
+          value: null;
+          question: null;
+          answer: null;
         }> | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8751,57 +10784,54 @@ export type ServiceBySlugQueryResult = {
                 | {
                     _type: "aboutPage";
                     slug: null;
-                    language: string | null;
+                  }
+                | {
+                    _type: "caseStudiesIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "caseStudy";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "contactPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "homePage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "insight";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
+                  }
+                | {
+                    _type: "insightsIndexPage";
+                    slug: null;
                   }
                 | {
                     _type: "legalPage";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "methodologyPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "recruitmentPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "service";
-                    slug: string | null;
-                    language: string | null;
+                    slug: Array<null> | null;
                   }
                 | {
                     _type: "servicesIndexPage";
                     slug: null;
-                    language: string | null;
                   }
                 | {
                     _type: "thankYouPage";
                     slug: null;
-                    language: string | null;
                   }
                 | null;
             } | null;
@@ -8824,67 +10854,77 @@ export type ServiceBySlugQueryResult = {
                   | {
                       _type: "aboutPage";
                       slug: null;
-                      language: string | null;
+                    }
+                  | {
+                      _type: "caseStudiesIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "caseStudy";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "contactPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "homePage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "insight";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
+                    }
+                  | {
+                      _type: "insightsIndexPage";
+                      slug: null;
                     }
                   | {
                       _type: "legalPage";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "methodologyPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "recruitmentPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "service";
-                      slug: string | null;
-                      language: string | null;
+                      slug: Array<null> | null;
                     }
                   | {
                       _type: "servicesIndexPage";
                       slug: null;
-                      language: string | null;
                     }
                   | {
                       _type: "thankYouPage";
                       slug: null;
-                      language: string | null;
                     }
                   | null;
               } | null;
             } | null;
           }> | null;
         }> | null;
+        title: null;
+        intro: null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8900,10 +10940,14 @@ export type ServiceBySlugQueryResult = {
         _key: string;
         _type: "serviceIncludes";
         layout?: "dualColumns" | "splitImage";
-        heading?: string;
-        items: Array<null> | null;
-        secondaryHeading?: string;
-        secondaryItems?: Array<string>;
+        heading: string | null;
+        items: Array<unknown> | null;
+        secondaryHeading?: InternationalizedArrayString;
+        secondaryItems?: Array<
+          {
+            _key: string;
+          } & InternationalizedArrayString
+        >;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -8915,9 +10959,21 @@ export type ServiceBySlugQueryResult = {
           height: number | null;
           lqip: string | null;
         } | null;
+        title: null;
+        intro: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8932,18 +10988,47 @@ export type ServiceBySlugQueryResult = {
     | {
         _key: string;
         _type: "serviceSplit";
-        title?: string;
-        intro?: string;
-        services: Array<{
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          summary: string | null;
-          language: string | null;
+        title: string | null;
+        intro: string | null;
+        cardImages: Array<{
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
         }> | null;
+        cards: Array<{
+          _key: string;
+          title: string | null;
+          summary: string | null;
+          page:
+            | {
+                _type: "recruitmentPage";
+                slug: null;
+              }
+            | {
+                _type: "servicesIndexPage";
+                slug: null;
+              }
+            | null;
+        }> | null;
+        heading: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
-        cards: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8960,14 +11045,33 @@ export type ServiceBySlugQueryResult = {
         _key: string;
         _type: "splitStatement";
         variant?: "default" | "methodIntro" | "successBanner";
-        eyebrow?: string;
-        heading?: string;
-        body?: string;
+        eyebrow: string | null;
+        heading: string | null;
+        body: string | null;
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
         decoration?: "magentaGlow";
-        image: null;
+        title: null;
+        intro: null;
+        subheading: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -8983,8 +11087,8 @@ export type ServiceBySlugQueryResult = {
     | {
         _key: string;
         _type: "teamCards";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         members: Array<{
           _key: string;
           name: string | null;
@@ -9003,10 +11107,21 @@ export type ServiceBySlugQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -9021,8 +11136,8 @@ export type ServiceBySlugQueryResult = {
     | {
         _key: string;
         _type: "worldMap";
-        heading?: string;
-        intro?: string;
+        heading: string | null;
+        intro: string | null;
         mapImage: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -9049,7 +11164,7 @@ export type ServiceBySlugQueryResult = {
             | "us"
             | "uy"
             | null;
-          organizations: Array<string> | null;
+          organizations: null;
           top: number | null;
           left: number | null;
           active: boolean | null;
@@ -9064,10 +11179,21 @@ export type ServiceBySlugQueryResult = {
             lqip: string | null;
           } | null;
         }> | null;
+        title: null;
+        subheading: null;
+        eyebrow: null;
+        body: null;
+        description: null;
+        featuredTitle: null;
+        featuredDescription: null;
+        purposeTitle: null;
+        purposeBody: null;
         image: null;
+        cardImages: null;
+        diagramImage: null;
+        decorImage: null;
         logos: null;
         cards: null;
-        services: null;
         cases: null;
         insights: null;
         primaryCta: null;
@@ -9079,7 +11205,6 @@ export type ServiceBySlugQueryResult = {
         members: null;
       }
   > | null;
-  language: string | null;
   seo: {
     metaTitle: string | null;
     metaDescription: string | null;
@@ -9098,7 +11223,7 @@ export type ServiceBySlugQueryResult = {
 
 // Source: ../frontend/src/lib/sanity/queries/settings.ts
 // Variable: siteSettingsQuery
-// Query: *[_type == "siteSettings"][0] {    _id,    title,    whatsapp,    defaultSeo {  metaTitle,  metaDescription,  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    nav[] {      label,      link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}    },    footer {      tagline,      links[] {        label,        link {  _type,  label,  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug.current,    language  }}      }    }  }
+// Query: *[_type == "siteSettings"][0] {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    whatsapp,    defaultSeo {  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),  ogImage {  ...,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}},    navGroups[] {      _key,      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),      items[] {        _key,        "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),        link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}      }    },    footer {      "tagline": coalesce(tagline[language == $locale][0].value, tagline[language == "es"][0].value),      links[] {        _key,        "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),        link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}      },      socialLinks[] {        _key,        "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),        link {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}      },      contactInfo {        email,        "whatsappLabel": coalesce(whatsappLabel[language == $locale][0].value, whatsappLabel[language == "es"][0].value),        "address": coalesce(address[language == $locale][0].value, address[language == "es"][0].value)      },      complaintsBookLink {  _type,  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),  linkType,  href,  openInNewTab,  "internal": internal->{    _type,    "slug": slug[$locale].current  }}    }  }
 export type SiteSettingsQueryResult = {
   _id: string;
   title: string | null;
@@ -9117,76 +11242,11 @@ export type SiteSettingsQueryResult = {
       lqip: string | null;
     } | null;
   } | null;
-  nav: Array<{
-    label: string | null;
-    link: {
-      _type: "link";
-      label: string | null;
-      linkType: "external" | "internal" | null;
-      href: string | null;
-      openInNewTab: boolean | null;
-      internal:
-        | {
-            _type: "aboutPage";
-            slug: null;
-            language: string | null;
-          }
-        | {
-            _type: "caseStudy";
-            slug: string | null;
-            language: string | null;
-          }
-        | {
-            _type: "contactPage";
-            slug: null;
-            language: string | null;
-          }
-        | {
-            _type: "homePage";
-            slug: null;
-            language: string | null;
-          }
-        | {
-            _type: "insight";
-            slug: string | null;
-            language: string | null;
-          }
-        | {
-            _type: "legalPage";
-            slug: string | null;
-            language: string | null;
-          }
-        | {
-            _type: "methodologyPage";
-            slug: null;
-            language: string | null;
-          }
-        | {
-            _type: "recruitmentPage";
-            slug: null;
-            language: string | null;
-          }
-        | {
-            _type: "service";
-            slug: string | null;
-            language: string | null;
-          }
-        | {
-            _type: "servicesIndexPage";
-            slug: null;
-            language: string | null;
-          }
-        | {
-            _type: "thankYouPage";
-            slug: null;
-            language: string | null;
-          }
-        | null;
-    } | null;
-  }> | null;
-  footer: {
-    tagline: string | null;
-    links: Array<{
+  navGroups: Array<{
+    _key: string;
+    title: string | null;
+    items: Array<{
+      _key: string;
       label: string | null;
       link: {
         _type: "link";
@@ -9198,83 +11258,292 @@ export type SiteSettingsQueryResult = {
           | {
               _type: "aboutPage";
               slug: null;
-              language: string | null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
             }
           | {
               _type: "caseStudy";
-              slug: string | null;
-              language: string | null;
+              slug: Array<null> | null;
             }
           | {
               _type: "contactPage";
               slug: null;
-              language: string | null;
             }
           | {
               _type: "homePage";
               slug: null;
-              language: string | null;
             }
           | {
               _type: "insight";
-              slug: string | null;
-              language: string | null;
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
             }
           | {
               _type: "legalPage";
-              slug: string | null;
-              language: string | null;
+              slug: Array<null> | null;
             }
           | {
               _type: "methodologyPage";
               slug: null;
-              language: string | null;
             }
           | {
               _type: "recruitmentPage";
               slug: null;
-              language: string | null;
             }
           | {
               _type: "service";
-              slug: string | null;
-              language: string | null;
+              slug: Array<null> | null;
             }
           | {
               _type: "servicesIndexPage";
               slug: null;
-              language: string | null;
             }
           | {
               _type: "thankYouPage";
               slug: null;
-              language: string | null;
             }
           | null;
       } | null;
     }> | null;
+  }> | null;
+  footer: {
+    tagline: string | null;
+    links: Array<{
+      _key: string;
+      label: string | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    }> | null;
+    socialLinks: Array<{
+      _key: string;
+      label: string | null;
+      link: {
+        _type: "link";
+        label: string | null;
+        linkType: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+        internal:
+          | {
+              _type: "aboutPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudiesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "caseStudy";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "contactPage";
+              slug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+            }
+          | {
+              _type: "insight";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "insightsIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "legalPage";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "methodologyPage";
+              slug: null;
+            }
+          | {
+              _type: "recruitmentPage";
+              slug: null;
+            }
+          | {
+              _type: "service";
+              slug: Array<null> | null;
+            }
+          | {
+              _type: "servicesIndexPage";
+              slug: null;
+            }
+          | {
+              _type: "thankYouPage";
+              slug: null;
+            }
+          | null;
+      } | null;
+    }> | null;
+    contactInfo: {
+      email: string | null;
+      whatsappLabel: string | null;
+      address: string | null;
+    } | null;
+    complaintsBookLink: {
+      _type: "link";
+      label: string | null;
+      linkType: "external" | "internal" | null;
+      href: string | null;
+      openInNewTab: boolean | null;
+      internal:
+        | {
+            _type: "aboutPage";
+            slug: null;
+          }
+        | {
+            _type: "caseStudiesIndexPage";
+            slug: null;
+          }
+        | {
+            _type: "caseStudy";
+            slug: Array<null> | null;
+          }
+        | {
+            _type: "contactPage";
+            slug: null;
+          }
+        | {
+            _type: "homePage";
+            slug: null;
+          }
+        | {
+            _type: "insight";
+            slug: Array<null> | null;
+          }
+        | {
+            _type: "insightsIndexPage";
+            slug: null;
+          }
+        | {
+            _type: "legalPage";
+            slug: Array<null> | null;
+          }
+        | {
+            _type: "methodologyPage";
+            slug: null;
+          }
+        | {
+            _type: "recruitmentPage";
+            slug: null;
+          }
+        | {
+            _type: "service";
+            slug: Array<null> | null;
+          }
+        | {
+            _type: "servicesIndexPage";
+            slug: null;
+          }
+        | {
+            _type: "thankYouPage";
+            slug: null;
+          }
+        | null;
+    } | null;
   } | null;
 } | null;
+
+// Source: ../frontend/src/lib/sanity/queries/settings.ts
+// Variable: servicesNavQuery
+// Query: *[_type == "service" && showInNav == true && defined(slug[$locale].current)] | order(navOrder asc, coalesce(title[language == $locale][0].value, title[language == "es"][0].value) asc) {    _id,    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),    "slug": slug[$locale].current,    navOrder  }
+export type ServicesNavQueryResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: Array<null> | null;
+  navOrder: number | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_type == "caseStudy" && language == $locale && defined(slug.current)] | order(title asc) {\n    _id,\n    title,\n    "slug": slug.current,\n    industry,\n    service,\n    summary,\n    challenge,\n    result,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  }\n': CaseStudiesListQueryResult;
-    '\n  *[_type == "caseStudy" && language == $locale && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    industry,\n    service,\n    summary,\n    challengeHeadline,\n    challenge,\n    interventionHeadline,\n    intervention,\n    result,\n    metrics[] {\n      label,\n      value,\n      icon\n    },\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    relatedService->{\n      _id,\n      title,\n      "slug": slug.current\n    },\n    relatedCases[]->{\n      _id,\n      title,\n      "slug": slug.current,\n      industry,\n      challenge,\n      cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    },\n    body,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': CaseStudyBySlugQueryResult;
-    '\n  *[_type == "homePage" && language == $locale][0] {\n    _id,\n    title,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  services[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    language\n  },\n  cases[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    industry,\n    summary,\n    challenge,\n    intervention,\n    result,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  insights[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  primaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  secondaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  categories[] {\n    _key,\n    title,\n    summary,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n    items[] {\n      _key,\n      title,\n      description,\n      icon,\n      cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n    }\n  },\n  steps[] {\n    title,\n    description\n  },\n  items[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    country,\n    countryPreset,\n    organizations,\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    name,\n    role,\n    bio,\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': HomePageQueryResult;
-    '\n  *[_type == "insight" && language == $locale && defined(slug.current)] | order(publishedAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    contentType,\n    categories,\n    publishedAt,\n    readTimeMinutes,\n    downloadUrl,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  }\n': InsightsListQueryResult;
-    '\n  *[_type == "insight" && language == $locale && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    contentType,\n    categories,\n    publishedAt,\n    readTimeMinutes,\n    downloadUrl,\n    author,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    body,\n    related[]->{\n      _id,\n      title,\n      "slug": slug.current,\n      excerpt,\n      contentType,\n      categories,\n      downloadUrl,\n      cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    },\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': InsightBySlugQueryResult;
-    '\n  *[_type == "aboutPage" && language == $locale][0] {\n    _id,\n    title,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  services[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    language\n  },\n  cases[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    industry,\n    summary,\n    challenge,\n    intervention,\n    result,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  insights[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  primaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  secondaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  categories[] {\n    _key,\n    title,\n    summary,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n    items[] {\n      _key,\n      title,\n      description,\n      icon,\n      cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n    }\n  },\n  steps[] {\n    title,\n    description\n  },\n  items[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    country,\n    countryPreset,\n    organizations,\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    name,\n    role,\n    bio,\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': AboutPageQueryResult;
-    '\n  *[_type == "methodologyPage" && language == $locale][0] {\n    _id,\n    title,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  services[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    language\n  },\n  cases[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    industry,\n    summary,\n    challenge,\n    intervention,\n    result,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  insights[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  primaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  secondaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  categories[] {\n    _key,\n    title,\n    summary,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n    items[] {\n      _key,\n      title,\n      description,\n      icon,\n      cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n    }\n  },\n  steps[] {\n    title,\n    description\n  },\n  items[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    country,\n    countryPreset,\n    organizations,\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    name,\n    role,\n    bio,\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': MethodologyPageQueryResult;
-    '\n  *[_type == "recruitmentPage" && language == $locale][0] {\n    _id,\n    title,\n    intro,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  services[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    language\n  },\n  cases[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    industry,\n    summary,\n    challenge,\n    intervention,\n    result,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  insights[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  primaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  secondaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  categories[] {\n    _key,\n    title,\n    summary,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n    items[] {\n      _key,\n      title,\n      description,\n      icon,\n      cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n    }\n  },\n  steps[] {\n    title,\n    description\n  },\n  items[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    country,\n    countryPreset,\n    organizations,\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    name,\n    role,\n    bio,\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': RecruitmentPageQueryResult;
-    '\n  *[_type == "servicesIndexPage" && language == $locale][0] {\n    _id,\n    title,\n    intro,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  services[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    language\n  },\n  cases[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    industry,\n    summary,\n    challenge,\n    intervention,\n    result,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  insights[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  primaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  secondaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  categories[] {\n    _key,\n    title,\n    summary,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n    items[] {\n      _key,\n      title,\n      description,\n      icon,\n      cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n    }\n  },\n  steps[] {\n    title,\n    description\n  },\n  items[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    country,\n    countryPreset,\n    organizations,\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    name,\n    role,\n    bio,\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': ServicesIndexPageQueryResult;
-    '\n  *[_type == "contactPage" && language == $locale][0] {\n    _id,\n    title,\n    intro,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': ContactPageQueryResult;
-    '\n  *[_type == "thankYouPage" && language == $locale][0] {\n    _id,\n    title,\n    message,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': ThankYouPageQueryResult;
-    '\n  *[_type == "legalPage" && language == $locale && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    body,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': LegalPageBySlugQueryResult;
-    '\n  *[_type == "servicesIndexPage" && language == $locale][0] {\n    _id,\n    title,\n    intro,\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': ServicesIndexQueryResult;
-    '\n  *[_type == "service" && language == $locale && defined(slug.current)] | order(title asc) {\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    language\n  }\n': ServicesListQueryResult;
-    '\n  *[_type == "service" && language == $locale && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  services[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    language\n  },\n  cases[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    industry,\n    summary,\n    challenge,\n    intervention,\n    result,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  insights[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    language\n  },\n  primaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  secondaryCta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n  categories[] {\n    _key,\n    title,\n    summary,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n},\n    items[] {\n      _key,\n      title,\n      description,\n      icon,\n      cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n    }\n  },\n  steps[] {\n    title,\n    description\n  },\n  items[] {\n    ...,\n    cta {\n  label,\n  variant,\n  link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    country,\n    countryPreset,\n    organizations,\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    name,\n    role,\n    bio,\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n},\n    language,\n    seo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': ServiceBySlugQueryResult;
-    '\n  *[_type == "siteSettings"][0] {\n    _id,\n    title,\n    whatsapp,\n    defaultSeo {\n  metaTitle,\n  metaDescription,\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    nav[] {\n      label,\n      link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n    },\n    footer {\n      tagline,\n      links[] {\n        label,\n        link {\n  _type,\n  label,\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug.current,\n    language\n  }\n}\n      }\n    }\n  }\n': SiteSettingsQueryResult;
+    '\n  *[_type == "caseStudy" && defined(slug[$locale].current)] | order(coalesce(title[language == $locale][0].value, title[language == "es"][0].value) asc) {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n    "service": coalesce(service[language == $locale][0].value, service[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n': CaseStudiesListQueryResult;
+    '\n  *[_type == "caseStudy" && slug[$locale].current == $slug][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n    "service": coalesce(service[language == $locale][0].value, service[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    "challengeHeadline": coalesce(challengeHeadline[language == $locale][0].value, challengeHeadline[language == "es"][0].value),\n    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n    "interventionHeadline": coalesce(interventionHeadline[language == $locale][0].value, interventionHeadline[language == "es"][0].value),\n    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),\n    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),\n    metrics[] {\n      "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n      "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),\n      icon\n    },\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    relatedService->{\n      _id,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      "slug": slug[$locale].current\n    },\n    relatedCases[]->{\n      _id,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      "slug": slug[$locale].current,\n      "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n      "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n      cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    },\n    "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': CaseStudyBySlugQueryResult;
+    '\n  *[_type == "homePage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),\n  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),\n  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),\n  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),\n  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),\n  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  cardImages[] {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  diagramImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  decorImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    icon {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  cards[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    page->{\n      _type,\n      "slug": slug[$locale].current\n    }\n  },\n  cases[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),\n    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  insights[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  primaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  categories[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n    items[] {\n      _key,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n      icon,\n      cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n    }\n  },\n  steps[] {\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)\n  },\n  items[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),\n    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),\n    countryPreset,\n    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),\n    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),\n    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': HomePageQueryResult;
+    '\n  *[_type == "insight" && defined(slug[$locale].current)] | order(publishedAt desc) {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n    contentType,\n    categories,\n    publishedAt,\n    readTimeMinutes,\n    downloadUrl,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n': InsightsListQueryResult;
+    '\n  *[_type == "insight" && slug[$locale].current == $slug][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n    contentType,\n    categories,\n    publishedAt,\n    readTimeMinutes,\n    downloadUrl,\n    author,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),\n    related[]->{\n      _id,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      "slug": slug[$locale].current,\n      "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n      contentType,\n      categories,\n      downloadUrl,\n      cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    },\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': InsightBySlugQueryResult;
+    '\n  *[_type == "aboutPage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),\n  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),\n  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),\n  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),\n  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),\n  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  cardImages[] {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  diagramImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  decorImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    icon {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  cards[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    page->{\n      _type,\n      "slug": slug[$locale].current\n    }\n  },\n  cases[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),\n    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  insights[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  primaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  categories[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n    items[] {\n      _key,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n      icon,\n      cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n    }\n  },\n  steps[] {\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)\n  },\n  items[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),\n    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),\n    countryPreset,\n    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),\n    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),\n    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': AboutPageQueryResult;
+    '\n  *[_type == "methodologyPage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),\n  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),\n  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),\n  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),\n  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),\n  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  cardImages[] {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  diagramImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  decorImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    icon {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  cards[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    page->{\n      _type,\n      "slug": slug[$locale].current\n    }\n  },\n  cases[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),\n    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  insights[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  primaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  categories[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n    items[] {\n      _key,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n      icon,\n      cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n    }\n  },\n  steps[] {\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)\n  },\n  items[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),\n    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),\n    countryPreset,\n    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),\n    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),\n    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': MethodologyPageQueryResult;
+    '\n  *[_type == "recruitmentPage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),\n  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),\n  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),\n  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),\n  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),\n  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  cardImages[] {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  diagramImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  decorImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    icon {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  cards[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    page->{\n      _type,\n      "slug": slug[$locale].current\n    }\n  },\n  cases[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),\n    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  insights[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  primaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  categories[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n    items[] {\n      _key,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n      icon,\n      cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n    }\n  },\n  steps[] {\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)\n  },\n  items[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),\n    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),\n    countryPreset,\n    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),\n    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),\n    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': RecruitmentPageQueryResult;
+    '\n  *[_type == "servicesIndexPage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),\n  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),\n  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),\n  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),\n  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),\n  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  cardImages[] {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  diagramImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  decorImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    icon {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  cards[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    page->{\n      _type,\n      "slug": slug[$locale].current\n    }\n  },\n  cases[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),\n    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  insights[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  primaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  categories[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n    items[] {\n      _key,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n      icon,\n      cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n    }\n  },\n  steps[] {\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)\n  },\n  items[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),\n    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),\n    countryPreset,\n    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),\n    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),\n    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}\n  }\n': ServicesIndexPageQueryResult;
+    '\n  *[_type == "contactPage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    hero {\n  variant,\n  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  primaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n},\n    paths {\n  "meetingTitle": coalesce(meetingTitle[language == $locale][0].value, meetingTitle[language == "es"][0].value),\n  "meetingEyebrow": coalesce(meetingEyebrow[language == $locale][0].value, meetingEyebrow[language == "es"][0].value),\n  "formTitle": coalesce(formTitle[language == $locale][0].value, formTitle[language == "es"][0].value),\n  "formEyebrow": coalesce(formEyebrow[language == $locale][0].value, formEyebrow[language == "es"][0].value),\n  meetingImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    "channelsHeading": coalesce(channelsHeading[language == $locale][0].value, channelsHeading[language == "es"][0].value),\n    channels[] {\n  icon {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  value,\n  href\n},\n    "reasonsHeading": coalesce(reasonsHeading[language == $locale][0].value, reasonsHeading[language == "es"][0].value),\n    reasons[] {\n  tone,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    faq {\n  variant,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  items[] {\n    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),\n    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value)\n  }\n},\n    interestOptions[] {\n      value,\n      "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value)\n    },\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': ContactPageQueryResult;
+    '\n  *[_type == "thankYouPage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "heroHeading": coalesce(heroHeading[language == $locale][0].value, heroHeading[language == "es"][0].value),\n    "heroMessage": coalesce(heroMessage[language == $locale][0].value, heroMessage[language == "es"][0].value),\n    heroImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    cta {\n  variant,\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  decorLeft {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  decorRight {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': ThankYouPageQueryResult;
+    '\n  *[_type == "insightsIndexPage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    hero {\n  variant,\n  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  primaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n},\n    newsletter {\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value)\n},\n    bottomCta {\n  variant,\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  decorLeft {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  decorRight {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    featuredInsight->{\n  _id,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  "slug": slug[$locale].current,\n  "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n  contentType,\n  categories,\n  publishedAt,\n  readTimeMinutes,\n  downloadUrl,\n  cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': InsightsIndexPageQueryResult;
+    '\n  *[_type == "caseStudiesIndexPage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    hero {\n  variant,\n  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  primaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n},\n    bottomCta {\n  variant,\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  decorLeft {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  decorRight {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    featuredCase->{\n  _id,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  "slug": slug[$locale].current,\n  "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n  "service": coalesce(service[language == $locale][0].value, service[language == "es"][0].value),\n  "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n  "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n  "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),\n  cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': CaseStudiesIndexPageQueryResult;
+    '\n  *[_type == "legalPage" && slug[$locale].current == $slug][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': LegalPageBySlugQueryResult;
+    '\n  *[_type == "servicesIndexPage"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': ServicesIndexQueryResult;
+    '\n  *[_type == "service" && defined(slug[$locale].current)] | order(navOrder asc, coalesce(title[language == $locale][0].value, title[language == "es"][0].value) asc) {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    navOrder\n  }\n': ServicesListQueryResult;
+    '\n  *[_type == "service" && slug[$locale].current == $slug][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    pageBuilder[] {\n  _key,\n  _type,\n  ...,\n  "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n  "intro": coalesce(intro[language == $locale][0].value, intro[language == "es"][0].value),\n  "heading": coalesce(heading[language == $locale][0].value, heading[language == "es"][0].value),\n  "subheading": coalesce(subheading[language == $locale][0].value, subheading[language == "es"][0].value),\n  "eyebrow": coalesce(eyebrow[language == $locale][0].value, eyebrow[language == "es"][0].value),\n  "body": coalesce(body[language == $locale][0].value, body[language == "es"][0].value),\n  "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n  "featuredTitle": coalesce(featuredTitle[language == $locale][0].value, featuredTitle[language == "es"][0].value),\n  "featuredDescription": coalesce(featuredDescription[language == $locale][0].value, featuredDescription[language == "es"][0].value),\n  "purposeTitle": coalesce(purposeTitle[language == $locale][0].value, purposeTitle[language == "es"][0].value),\n  "purposeBody": coalesce(purposeBody[language == $locale][0].value, purposeBody[language == "es"][0].value),\n  image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  cardImages[] {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  diagramImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  decorImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  logos[] {\n    name,\n    image {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  cards[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    icon {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  cards[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    page->{\n      _type,\n      "slug": slug[$locale].current\n    }\n  },\n  cases[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "industry": coalesce(industry[language == $locale][0].value, industry[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    "challenge": coalesce(challenge[language == $locale][0].value, challenge[language == "es"][0].value),\n    "intervention": coalesce(intervention[language == $locale][0].value, intervention[language == "es"][0].value),\n    "result": coalesce(result[language == $locale][0].value, result[language == "es"][0].value),\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  insights[]->{\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    "excerpt": coalesce(excerpt[language == $locale][0].value, excerpt[language == "es"][0].value),\n    categories,\n    cover {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  primaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  secondaryCta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n  categories[] {\n    _key,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "summary": coalesce(summary[language == $locale][0].value, summary[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n},\n    items[] {\n      _key,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n      icon,\n      cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n    }\n  },\n  steps[] {\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value)\n  },\n  items[] {\n    ...,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n    "value": coalesce(value[language == $locale][0].value, value[language == "es"][0].value),\n    "description": coalesce(description[language == $locale][0].value, description[language == "es"][0].value),\n    "question": coalesce(question[language == $locale][0].value, question[language == "es"][0].value),\n    "answer": coalesce(answer[language == $locale][0].value, answer[language == "es"][0].value),\n    cta {\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  variant,\n  link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n}\n  },\n  markers[] {\n    _key,\n    "country": coalesce(country[language == $locale][0].value, country[language == "es"][0].value),\n    countryPreset,\n    "organizations": coalesce(organizations[language == $locale][0].value, organizations[language == "es"][0].value),\n    top,\n    left,\n    active,\n    flag {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  },\n  mapImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  members[] {\n    _key,\n    "name": coalesce(name[language == $locale][0].value, name[language == "es"][0].value),\n    "role": coalesce(role[language == $locale][0].value, role[language == "es"][0].value),\n    "bio": coalesce(bio[language == $locale][0].value, bio[language == "es"][0].value),\n    linkedInUrl,\n    photo {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n},\n    seo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n}\n  }\n': ServiceBySlugQueryResult;
+    '\n  *[_type == "siteSettings"][0] {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    whatsapp,\n    defaultSeo {\n  "metaTitle": coalesce(metaTitle[language == $locale][0].value, metaTitle[language == "es"][0].value),\n  "metaDescription": coalesce(metaDescription[language == $locale][0].value, metaDescription[language == "es"][0].value),\n  ogImage {\n  ...,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n},\n    navGroups[] {\n      _key,\n      "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n      items[] {\n        _key,\n        "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n        link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n      }\n    },\n    footer {\n      "tagline": coalesce(tagline[language == $locale][0].value, tagline[language == "es"][0].value),\n      links[] {\n        _key,\n        "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n        link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n      },\n      socialLinks[] {\n        _key,\n        "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n        link {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n      },\n      contactInfo {\n        email,\n        "whatsappLabel": coalesce(whatsappLabel[language == $locale][0].value, whatsappLabel[language == "es"][0].value),\n        "address": coalesce(address[language == $locale][0].value, address[language == "es"][0].value)\n      },\n      complaintsBookLink {\n  _type,\n  "label": coalesce(label[language == $locale][0].value, label[language == "es"][0].value),\n  linkType,\n  href,\n  openInNewTab,\n  "internal": internal->{\n    _type,\n    "slug": slug[$locale].current\n  }\n}\n    }\n  }\n': SiteSettingsQueryResult;
+    '\n  *[_type == "service" && showInNav == true && defined(slug[$locale].current)] | order(navOrder asc, coalesce(title[language == $locale][0].value, title[language == "es"][0].value) asc) {\n    _id,\n    "title": coalesce(title[language == $locale][0].value, title[language == "es"][0].value),\n    "slug": slug[$locale].current,\n    navOrder\n  }\n': ServicesNavQueryResult;
   }
 }

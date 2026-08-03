@@ -1,5 +1,7 @@
 import {CogIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'siteSettings',
@@ -7,12 +9,7 @@ export default defineType({
   type: 'document',
   icon: CogIcon,
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Site title',
-      type: 'string',
-      initialValue: 'Growth Lab',
-    }),
+    localizedStringField('title', 'Site title'),
     defineField({
       name: 'whatsapp',
       title: 'WhatsApp URL',
@@ -21,8 +18,9 @@ export default defineType({
     }),
     defineField({
       name: 'nav',
-      title: 'Navigation',
+      title: 'Navigation (legacy)',
       type: 'array',
+      hidden: true,
       of: [
         defineArrayMember({
           type: 'object',
@@ -35,11 +33,17 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'navGroups',
+      title: 'Navigation groups',
+      type: 'array',
+      of: [{type: 'navGroup'}],
+    }),
+    defineField({
       name: 'footer',
       title: 'Footer',
       type: 'object',
       fields: [
-        defineField({name: 'tagline', title: 'Tagline', type: 'text', rows: 2}),
+        localizedTextField('tagline', 'Tagline', {rows: 2}),
         defineField({
           name: 'links',
           title: 'Links',
@@ -48,12 +52,52 @@ export default defineType({
             defineArrayMember({
               type: 'object',
               fields: [
-                defineField({name: 'label', title: 'Label', type: 'string'}),
+                localizedStringField('label', 'Label'),
                 defineField({name: 'link', title: 'Link', type: 'link'}),
               ],
-              preview: {select: {title: 'label'}},
+              preview: {
+                select: {label: 'label'},
+                prepare: ({label}) => ({
+                  title: localizedPreviewValue(label, 'Link'),
+                }),
+              },
             }),
           ],
+        }),
+        defineField({
+          name: 'socialLinks',
+          title: 'Social links',
+          type: 'array',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              fields: [
+                localizedStringField('label', 'Label'),
+                defineField({name: 'link', title: 'Link', type: 'link'}),
+              ],
+              preview: {
+                select: {label: 'label'},
+                prepare: ({label}) => ({
+                  title: localizedPreviewValue(label, 'Social'),
+                }),
+              },
+            }),
+          ],
+        }),
+        defineField({
+          name: 'contactInfo',
+          title: 'Contact info',
+          type: 'object',
+          fields: [
+            defineField({name: 'email', title: 'Email', type: 'string'}),
+            localizedStringField('whatsappLabel', 'WhatsApp label'),
+            localizedTextField('address', 'Address', {rows: 2}),
+          ],
+        }),
+        defineField({
+          name: 'complaintsBookLink',
+          title: 'Complaints book link',
+          type: 'link',
         }),
       ],
     }),

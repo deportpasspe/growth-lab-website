@@ -216,4 +216,13 @@ reduceMotion.addEventListener('change', () => {
   else start()
 })
 
-start()
+function scheduleStart() {
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => start(), {timeout: 2000})
+    return
+  }
+
+  setTimeout(start, 1)
+}
+
+scheduleStart()

@@ -1,16 +1,12 @@
 import {defineField, defineType} from 'sanity'
+import {localizedStringField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'link',
   title: 'Link',
   type: 'object',
   fields: [
-    defineField({
-      name: 'label',
-      title: 'Label',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
+    localizedStringField('label', 'Label', {validation: (Rule) => Rule.required()}),
     defineField({
       name: 'linkType',
       title: 'Type',
@@ -35,6 +31,8 @@ export default defineType({
         {type: 'methodologyPage'},
         {type: 'recruitmentPage'},
         {type: 'servicesIndexPage'},
+        {type: 'insightsIndexPage'},
+        {type: 'caseStudiesIndexPage'},
         {type: 'contactPage'},
         {type: 'thankYouPage'},
         {type: 'service'},

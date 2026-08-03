@@ -1,5 +1,7 @@
 import {HomeIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'homePage',
@@ -7,18 +9,7 @@ export default defineType({
   type: 'document',
   icon: HomeIcon,
   fields: [
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
-    defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
+    localizedStringField('title', 'Title', {validation: (Rule) => Rule.required()}),
     defineField({
       name: 'pageBuilder',
       title: 'Page builder',
@@ -31,10 +22,9 @@ export default defineType({
     }),
   ],
   preview: {
-    select: {title: 'title', language: 'language'},
-    prepare: ({title, language}) => ({
-      title: title || 'Home',
-      subtitle: language?.toUpperCase(),
+    select: {title: 'title'},
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'Home'),
     }),
   },
 })

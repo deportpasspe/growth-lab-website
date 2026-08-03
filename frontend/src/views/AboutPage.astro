@@ -6,6 +6,9 @@ import {aboutFixtures} from '../modules/aboutPageFixtures'
 import type {PageSection} from '../modules/fixtures'
 import {loadQuery} from '../lib/sanity/loadQuery'
 import {aboutPageQuery} from '../lib/sanity/queries/pages'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
+import {singletonBreadcrumbs} from '../lib/seo/breadcrumbs'
+import {extractFaqFromSections} from '../lib/seo/structuredData'
 import {t} from '../i18n'
 
 interface Props {
@@ -13,6 +16,7 @@ interface Props {
 }
 
 const {locale} = Astro.props
+const perspectiveCookie = Astro.locals.perspectiveCookie
 let title = t(locale, 'nav.about')
 let description =
   locale === 'es'
@@ -20,13 +24,16 @@ let description =
     : 'Who we are and how we partner with organizations.'
 let sections: PageSection[] = aboutFixtures(locale)
 
+let seo: PageSeo | undefined
+
 try {
   const data = await loadQuery<{
     title?: string
-    seo?: {metaTitle?: string; metaDescription?: string}
+    seo?: PageSeo
     pageBuilder?: PageSection[]
-  } | null>(aboutPageQuery, {locale})
+  } | null>(aboutPageQuery, {locale}, {perspectiveCookie})
   if (data) {
+    seo = data.seo
     title = data.seo?.metaTitle || data.title || title
     description = data.seo?.metaDescription || description
     if (data.pageBuilder?.length) {
@@ -36,8 +43,26 @@ try {
 } catch {
   // CMS unavailable — fixtures
 }
+
+const heroImage = sections.find((section) => section._type === 'hero')?.image
+const meta = resolvePageSeo({
+  seo,
+  title,
+  description,
+  ogImageFallback: heroImage,
+  origin: Astro.url.origin,
+})
 ---
 
-<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+<Layout
+  locale={locale}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  headerAppearance="overlay"
+  routeKey="about"
+  faqItems={extractFaqFromSections(sections)}
+  breadcrumbs={singletonBreadcrumbs(locale, meta.title, Astro.url.pathname)}
+>
   <PageBuilder locale={locale} sections={sections} />
 </Layout>

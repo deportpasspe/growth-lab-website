@@ -10,6 +10,15 @@ export const SERVICE_SLUGS = {
   liderazgo: {es: 'liderazgo-y-coaching', en: 'leadership-and-coaching'},
 } as const
 
+/** Canonical service names (not hero headlines). */
+export const SERVICE_TITLES: Record<keyof typeof SERVICE_SLUGS, Record<Locale, string>> = {
+  clima: {es: 'Clima organizacional', en: 'Organizational climate'},
+  cultura: {es: 'Cultura organizacional', en: 'Organizational culture'},
+  gestion: {es: 'Gestión del desempeño', en: 'Performance management'},
+  potencial: {es: 'Potencial y mapeo de talento', en: 'Talent mapping'},
+  liderazgo: {es: 'Liderazgo y coaching', en: 'Leadership and coaching'},
+}
+
 type ServiceKey = keyof typeof SERVICE_SLUGS
 
 const slugToKey = new Map<string, ServiceKey>()
@@ -29,6 +38,7 @@ function sharedCtas(locale: Locale) {
     methodHref: getLocalizedPath(locale, 'methodology'),
     recruitmentHref: getLocalizedPath(locale, 'recruitment'),
     learnMethod: isEn ? 'Learn about the method' : 'Conocer el método',
+    learnProcess: isEn ? 'Learn about the process' : 'Conocer el proceso',
     bookMeeting: isEn ? 'Book a meeting' : 'Agenda una reunión',
     freeAssessment: isEn ? 'Request a free assessment' : 'Solicitar diagnóstico gratuito',
     whatsappHref: 'https://wa.me/',
@@ -45,14 +55,14 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         _type: 'hero',
         _key: 'hero',
         variant: 'servicePage',
-        eyebrow: isEn ? 'Organizational development' : 'Desarrollo organizacional',
+        eyebrow: isEn ? 'Organizational climate' : 'Clima organizacional',
         heading: isEn
-          ? 'If you do not know what is really happening in your organization, you cannot fix it.'
-          : 'Si no sabes qué está pasando realmente en tu organización, no puedes arreglarlo.',
+          ? 'What is not measured cannot be improved.'
+          : 'Lo que no se mide no se puede mejorar.',
         subheading: isEn
-          ? 'We measure climate with method and turn results into an action plan your team can execute.'
-          : 'Medimos el clima con método y convertimos los resultados en un plan de acción que tu equipo puede ejecutar.',
-        image: '/assets/figma/services/hero.webp',
+          ? 'Climate is your company\'s thermometer. We help you understand what is really happening and do something concrete with that information.'
+          : 'El clima es el termómetro de tu empresa. Nosotros te ayudamos a entender qué está pasando realmente y a hacer algo concreto con esa información.',
+        image: '/assets/figma/services/hero-clima.jpg',
         primaryCta: {label: ctas.learnMethod, href: ctas.methodHref},
         secondaryCta: {label: ctas.bookMeeting, href: ctas.contactHref},
       },
@@ -148,7 +158,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           result: isEn
             ? 'Turnover reduced to 14% in six months.'
             : 'Rotación redujo a 14% en seis meses.',
-          cover: '/assets/figma/services/includes-placeholder.webp',
+          cover: '/assets/figma/services/hero.webp',
         }],
       },
       {
@@ -246,14 +256,14 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         _type: 'hero',
         _key: 'hero',
         variant: 'servicePage',
-        eyebrow: isEn ? 'Organizational development' : 'Desarrollo organizacional',
+        eyebrow: isEn ? 'Organizational culture' : 'Cultura organizacional',
         heading: isEn
-          ? 'Every company has a culture. The question is whether it is the one it needs.'
-          : 'Toda empresa tiene una cultura. La pregunta es si es la que necesita.',
+          ? 'Culture is not what hangs framed on the wall.'
+          : 'La cultura no es lo que está en los valores enmarcados en la pared.',
         subheading: isEn
-          ? 'We close the gap between declared culture and lived culture so strategy can actually execute.'
-          : 'Cerramos la brecha entre la cultura declarada y la cultura vivida para que la estrategia pueda ejecutarse.',
-        image: '/assets/figma/services/hero.webp',
+          ? 'It is what happens when no one is watching. If that culture is not aligned with your strategy, no plan will work as it should.'
+          : 'Es lo que pasa cuando nadie está mirando. Si esa cultura no está alineada con tu estrategia, ningún plan va a funcionar como debería.',
+        image: '/assets/figma/services/hero-cultura.jpg',
         primaryCta: {label: ctas.learnMethod, href: ctas.methodHref},
         secondaryCta: {label: ctas.bookMeeting, href: ctas.contactHref},
       },
@@ -284,8 +294,8 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           {
             title: isEn ? 'Values and behaviors definition' : 'Definición de valores y comportamientos',
             description: isEn
-              ? 'We facilitate participatory processes to define values and translate them into observable behaviors leaders can model.'
-              : 'Facilitamos procesos participativos para definir valores y traducirlos en conductas observables que los líderes puedan modelar.',
+              ? 'We facilitate participatory processes to define or redefine organizational values and translate them into observable behaviors that leaders can model and collaborators can recognize.'
+              : 'Facilitamos procesos participativos para definir o redefinir los valores de la organización y traducirlos en conductas observables. Algo que los líderes puedan modelar y los colaboradores puedan reconocer.',
           },
           {
             title: isEn ? 'Culture and strategy alignment' : 'Alineación cultura y estrategia',
@@ -308,6 +318,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         items: isEn
           ? [
               'Quantitative and qualitative cultural diagnosis',
+              'Current culture report with findings and tensions',
               'Participatory values definition workshops',
               'Values translated into observable behaviors',
               'Transformation plan with milestones and owners',
@@ -315,12 +326,13 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
             ]
           : [
               'Diagnóstico cultural cuantitativo y cualitativo',
+              'Informe de cultura actual con hallazgos y tensiones',
               'Talleres participativos de definición de valores',
               'Valores traducidos en comportamientos observables',
               'Plan de transformación con hitos y responsables',
               'Acompañamiento a líderes como agentes de cambio',
             ],
-        image: '/assets/figma/services/includes/includes-cultura.webp',
+        image: '/assets/figma/services/includes/includes-cultura.jpg',
       },
       {
         _type: 'caseCards',
@@ -340,7 +352,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           result: isEn
             ? 'Conflicts between teams reduced by 40% in the first four months.'
             : 'Conflictos entre equipos reducidos en 40% en los primeros cuatro meses.',
-          cover: '/assets/figma/services/includes-placeholder.webp',
+          cover: '/assets/figma/services/hero.webp',
         }],
       },
       {
@@ -380,8 +392,8 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           ? 'Is your culture supporting your strategy?'
           : '¿Tu cultura está acompañando tu estrategia?',
         subheading: isEn
-          ? 'If there is a gap between what you declare and what people experience, we should talk.'
-          : 'Si hay brecha entre lo que declaras y lo que la gente vive, deberíamos conversar.',
+          ? 'If something is not working in your organization and you are not sure why, the answer is probably in the culture. Let\'s talk.'
+          : 'Si hay algo que no está funcionando en tu organización y no sabes bien por qué, probablemente la respuesta está en la cultura. Conversemos.',
         cta: {label: ctas.bookMeeting, href: ctas.contactHref},
         secondaryCta: {label: ctas.freeAssessment, href: ctas.whatsappHref},
       },
@@ -394,7 +406,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           ? [
               {
                 question: 'How long does a cultural transformation process take?',
-                answer: 'It depends on scope and starting point. Focused interventions can run three to six months; broader programs often extend twelve to eighteen months.',
+                answer: 'A full diagnosis takes six to eight weeks. A transformation process with support can extend between six months and a year. Visible first results usually appear within the first ninety days if leaders are committed.',
               },
               {
                 question: 'Where do you start when culture is severely deteriorated?',
@@ -412,7 +424,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           : [
               {
                 question: '¿Cuánto tiempo toma un proceso de transformación cultural?',
-                answer: 'Depende del alcance y el punto de partida. Intervenciones acotadas pueden durar tres a seis meses; programas más amplios suelen extenderse doce a dieciocho meses.',
+                answer: 'Un diagnóstico completo toma entre seis y ocho semanas. Un proceso de transformación con acompañamiento puede extenderse entre seis meses y un año. Los primeros resultados visibles suelen aparecer en los primeros noventa días si los líderes están comprometidos.',
               },
               {
                 question: '¿Por dónde se empieza cuando la cultura está muy deteriorada?',
@@ -434,16 +446,16 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         _type: 'hero',
         _key: 'hero',
         variant: 'servicePage',
-        eyebrow: isEn ? 'Organizational development' : 'Desarrollo organizacional',
+        eyebrow: isEn ? 'Performance management' : 'Gestión del desempeño',
         heading: isEn
-          ? 'A performance system nobody uses is not a system. It is bureaucracy.'
-          : 'Un sistema de desempeño que nadie usa no es un sistema, es burocracia.',
+          ? 'An evaluation nobody uses is not a process. It is bureaucracy.'
+          : 'Una evaluación que nadie usa no es un proceso. Es burocracia.',
         subheading: isEn
-          ? 'We design models leaders actually want to use because they connect individual performance to business strategy.'
-          : 'Diseñamos modelos que los líderes realmente quieren usar porque conectan el desempeño individual con la estrategia del negocio.',
-        image: '/assets/figma/services/hero.webp',
+          ? 'We design performance systems leaders actually want to use.'
+          : 'Diseñamos sistemas de desempeño que los líderes realmente quieren usar.',
+        image: '/assets/figma/services/hero-gestion.jpg',
         primaryCta: {label: ctas.learnMethod, href: ctas.methodHref},
-        secondaryCta: {label: ctas.bookMeeting, href: ctas.contactHref},
+        secondaryCta: {label: ctas.learnProcess, href: '#proceso'},
       },
       {
         _type: 'splitStatement',
@@ -458,6 +470,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
       {
         _type: 'processCards',
         _key: 'process',
+        id: 'proceso',
         heading: isEn
           ? 'A model designed for your organization, not any organization.'
           : 'Un modelo diseñado para tu organización, no para cualquier organización.',
@@ -470,28 +483,29 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
               : 'Construimos o rediseñamos tu sistema desde cero: ciclos, instrumentos de evaluación, escalas, calibraciones e integración con compensaciones y desarrollo.',
           },
           {
+            title: isEn ? 'Objective definition' : 'Definición de objetivos',
+            description: isEn
+              ? 'We cascade strategic business objectives to each area and person, with clear measurement criteria and alignment across teams.'
+              : 'Cascadeamos los objetivos estratégicos del negocio hasta cada área y colaborador, con criterios claros de medición y alineación entre equipos.',
+          },
+          {
             title: isEn ? 'End-to-end evaluation' : 'Evaluación end-to-end',
             description: isEn
-              ? 'We implement the full cycle: objective setting, evaluations, calibrations, feedback, and adoption tracking so the system actually gets used.'
-              : 'Implementamos el ciclo completo: definición de objetivos, evaluaciones, calibraciones, feedback y seguimiento de adopción para que el sistema realmente se use.',
+              ? 'We implement the full cycle: evaluations, calibrations, results delivery, and adoption tracking so the system actually gets used.'
+              : 'Implementamos el ciclo completo: evaluaciones, calibraciones, devolución de resultados y seguimiento de adopción para que el sistema realmente se use.',
           },
           {
-            title: isEn ? 'Feedback and calibration' : 'Feedback y calibración',
+            title: isEn ? 'Feedback culture' : 'Cultura de feedback',
             description: isEn
-              ? 'We train leaders to hold effective feedback conversations and facilitate calibration sessions so evaluations are fair, consistent, and actionable.'
-              : 'Capacitamos a los líderes para conversaciones de feedback efectivas y facilitamos sesiones de calibración para que las evaluaciones sean justas, consistentes y accionables.',
-          },
-          {
-            title: isEn ? 'Adoption and continuous improvement' : 'Adopción y mejora continua',
-            description: isEn
-              ? 'We track adoption metrics, identify friction points, and iterate the model so performance management becomes a habit, not a yearly formality.'
-              : 'Medimos la adopción, identificamos puntos de fricción e iteramos el modelo para que la gestión del desempeño sea un hábito, no un trámite anual.',
+              ? 'We train leaders and collaborators for effective feedback conversations and facilitate calibration sessions so evaluations are fair and actionable.'
+              : 'Capacitamos a líderes y colaboradores para conversaciones de feedback efectivas y facilitamos sesiones de calibración para evaluaciones justas y accionables.',
           },
         ],
       },
       {
         _type: 'serviceIncludes',
         _key: 'includes',
+        layout: 'splitImage',
         items: isEn
           ? [
               'Design or redesign of the performance management model',
@@ -509,7 +523,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
               'Consultoría en gestión de bajo desempeño y conversaciones difíciles',
               'Seguimiento del ciclo completo con métricas de adopción',
             ],
-        image: '/assets/figma/services/includes-placeholder.webp',
+        image: '/assets/figma/services/includes/includes-gestion.jpg',
       },
       {
         _type: 'caseCards',
@@ -518,18 +532,18 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         showHeader: false,
         cases: [{
           title: isEn ? 'Case study' : 'Caso de éxito',
-          industry: isEn ? 'Banking and finance' : 'Banca y finanzas',
+          industry: isEn ? 'Energy' : 'Energía',
           slug: isEn ? 'performance-management-energy' : 'gestion-desempeno-energia',
           challenge: isEn
-            ? 'Performance system with 45% adoption and unclear objectives across teams.'
-            : 'Sistema de desempeño con 45% de adopción y objetivos poco claros entre equipos.',
+            ? 'Annual evaluation system with low leader adoption and no connection to strategic company objectives.'
+            : 'Sistema de evaluación anual con baja adopción por parte de los líderes y sin conexión con los objetivos estratégicos de la empresa.',
           intervention: isEn
-            ? 'Model redesign, objective cascade workshops, and leader feedback training.'
-            : 'Rediseño del modelo, talleres de cascadeo de objetivos y entrenamiento en feedback para líderes.',
+            ? 'Performance model redesign with OKRs, feedback workshops, and full cycle support.'
+            : 'Rediseño del modelo de desempeño con OKRs, talleres de feedback y acompañamiento al ciclo completo.',
           result: isEn
-            ? 'System adoption rose from 45% to 91% in the first cycle. 80% of collaborators reported clarity on objectives.'
-            : 'Adopción del sistema subió de 45% a 91% en el primer ciclo. 80% de colaboradores reportó claridad sobre sus objetivos.',
-          cover: '/assets/figma/services/includes-placeholder.webp',
+            ? 'System adoption rose from 45% to 91% in the first cycle. 80% of collaborators reported clarity on objectives in the follow-up survey.'
+            : 'Adopción del sistema subió de 45% a 91% en el primer ciclo. 80% de colaboradores reportó claridad sobre sus objetivos en la encuesta de seguimiento.',
+          cover: '/assets/figma/services/case-gestion.jpg',
         }],
       },
       {
@@ -540,24 +554,24 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           {
             title: isEn ? 'Organizational climate' : 'Clima organizacional',
             description: isEn
-              ? 'When atmosphere issues block performance conversations.'
-              : 'Cuando problemas de ambiente bloquean conversaciones de desempeño.',
+              ? 'When you need to measure atmosphere before intervening on culture.'
+              : 'Cuando necesitas medir el ambiente antes de intervenir la cultura.',
             icon: 'calendar',
             href: serviceHref(locale, 'clima'),
           },
           {
             title: isEn ? 'Organizational culture' : 'Cultura organizacional',
             description: isEn
-              ? 'When behaviors need to align before the system can work.'
-              : 'Cuando los comportamientos deben alinearse antes de que el sistema funcione.',
-            icon: 'calendar',
+              ? 'When cultural behaviors need to show up in the evaluation system.'
+              : 'Cuando los comportamientos culturales necesitan reflejarse en el sistema de evaluación.',
+            icon: 'planning',
             href: serviceHref(locale, 'cultura'),
           },
           {
             title: isEn ? 'Leadership and coaching' : 'Liderazgo y coaching',
             description: isEn
-              ? 'When leaders need to learn how to give feedback.'
-              : 'Cuando los líderes necesitan aprender a dar feedback.',
+              ? 'When leaders are part of the problem.'
+              : 'Cuando los líderes son parte del problema.',
             icon: 'money',
             href: serviceHref(locale, 'liderazgo'),
           },
@@ -625,16 +639,16 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         _type: 'hero',
         _key: 'hero',
         variant: 'servicePage',
-        eyebrow: isEn ? 'Organizational development' : 'Desarrollo organizacional',
+        eyebrow: isEn ? 'Talent mapping' : 'Potencial y mapeo de talento',
         heading: isEn
-          ? 'Talent you cannot see does not develop. Sooner or later, it leaves.'
-          : 'El talento que no se ve, no se desarrolla. Y tarde o temprano se va.',
+          ? 'Do you know who your future leaders are?'
+          : '¿Sabes quiénes son los líderes del futuro en tu organización?',
         subheading: isEn
-          ? 'Do you know who your future leaders are — or are you finding out when it is already too late?'
-          : '¿Sabes quiénes son los líderes del futuro en tu organización? ¿O lo estás descubriendo cuando ya es tarde?',
-        image: '/assets/figma/services/hero.webp',
-        primaryCta: {label: ctas.learnMethod, href: ctas.methodHref},
-        secondaryCta: {label: ctas.bookMeeting, href: ctas.contactHref},
+          ? 'We help you see it before the problem shows up.'
+          : 'Nosotros te ayudamos a verlo antes de que el problema aparezca.',
+        image: '/assets/figma/services/hero-potencial.jpg',
+        primaryCta: {label: ctas.bookMeeting, href: ctas.contactHref},
+        secondaryCta: {label: ctas.learnProcess, href: '#proceso'},
       },
       {
         _type: 'splitStatement',
@@ -649,6 +663,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
       {
         _type: 'processCards',
         _key: 'process',
+        id: 'proceso',
         heading: isEn
           ? 'Four steps to map the talent you already have.'
           : 'Cuatro pasos para mapear el talento que ya tienes.',
@@ -657,20 +672,20 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           {
             title: isEn ? 'Potential assessment' : 'Evaluación de potencial',
             description: isEn
-              ? 'We apply learning agility models and structured competency interviews conducted by specialized consultants.'
-              : 'Aplicamos modelos basados en learning agility y entrevistas estructuradas por competencias conducidas por consultores especializados.',
+              ? 'We apply learning agility models to identify who has the greatest capacity to learn, adapt, and grow in new challenges. We complement this with structured competency interviews led by specialized consultants.'
+              : 'Aplicamos modelos basados en learning agility para identificar quiénes tienen mayor capacidad de aprender, adaptarse y crecer ante nuevos desafíos. Complementamos con entrevistas estructuradas por competencias conducidas por consultores especializados.',
           },
           {
             title: isEn ? 'Potential matrices' : 'Matrices de potencial',
             description: isEn
-              ? '9-Box Grid segmentation to map performance versus potential across your workforce.'
-              : 'Segmentación con 9-Box Grid para mapear desempeño versus potencial en tu fuerza laboral.',
+              ? '9-Box Grid segmentation to map performance versus potential across your workforce and prioritize development investments.'
+              : 'Segmentación con 9-Box Grid para mapear desempeño versus potencial en tu fuerza laboral y priorizar inversiones en desarrollo.',
           },
           {
             title: isEn ? 'Succession plans' : 'Planes de sucesión',
             description: isEn
-              ? 'Critical role identification and continuity risk analysis with actionable succession paths.'
-              : 'Identificación de roles críticos y análisis de riesgo de continuidad con rutas de sucesión accionables.',
+              ? 'We identify critical roles, analyze continuity risks, and design dynamic succession plans with bench strength prepared at each level.'
+              : 'Identificamos roles críticos, analizamos riesgos de continuidad y diseñamos planes de sucesión dinámicos con relevos preparados por nivel.',
           },
           {
             title: isEn ? 'High-potential support' : 'Acompañamiento a high potentials',
@@ -683,12 +698,14 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
       {
         _type: 'serviceIncludes',
         _key: 'includes',
+        layout: 'splitImage',
         items: isEn
           ? [
               'Potential assessments with learning agility models',
               'Structured competency interviews with individual feedback',
               '9-Box Grid matrix with strategic workforce segmentation',
               'Critical role identification and continuity risk analysis',
+              'Dynamic succession plans with bench strength prepared by level',
               'Individual 1:1 coaching for key talents',
             ]
           : [
@@ -696,9 +713,10 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
               'Entrevistas estructuradas por competencias con devolución individual',
               'Matriz 9-Box Grid con segmentación estratégica de la fuerza laboral',
               'Identificación de roles críticos y análisis de riesgo de continuidad',
+              'Planes de sucesión dinámicos con relevos preparados por nivel',
               'Coaching individual 1 a 1 para talentos clave',
             ],
-        image: '/assets/figma/services/includes-placeholder.webp',
+        image: '/assets/figma/services/includes/includes-potencial.jpg',
       },
       {
         _type: 'caseCards',
@@ -707,18 +725,18 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         showHeader: false,
         cases: [{
           title: isEn ? 'Case study' : 'Caso de éxito',
-          industry: isEn ? 'Energy' : 'Energía',
+          industry: isEn ? 'Banking and financial services' : 'Banca y servicios financieros',
           slug: isEn ? 'talent-mapping-banking' : 'potencial-talento-banca',
           challenge: isEn
-            ? 'No visibility on bench strength for critical leadership roles.'
-            : 'Sin visibilidad sobre la fuerza de relevo para roles de liderazgo críticos.',
+            ? 'High dependence on three key leaders with no defined succession plans and real risk of losing critical knowledge.'
+            : 'Alta dependencia de tres líderes clave sin planes de sucesión definidos y riesgo real de pérdida de conocimiento crítico.',
           intervention: isEn
-            ? 'Talent mapping with 9-Box Grid, high-potential identification, and executive coaching for top three successors.'
+            ? 'Talent mapping with 9-Box Grid, high-potential identification, and executive coaching program for the three priority successors.'
             : 'Mapeo de talento con 9-Box Grid, identificación de high potentials y programa de coaching ejecutivo para los tres relevos prioritarios.',
           result: isEn
-            ? 'Two second-line positions filled internally within eight months. Active succession plan for 100% of critical roles.'
+            ? 'Two second-line positions filled internally within eight months. Active succession plan for 100% of identified critical roles.'
             : 'Dos posiciones de segunda línea cubiertas internamente en los siguientes ocho meses. Plan de sucesión activo para el 100% de los roles críticos identificados.',
-          cover: '/assets/figma/services/includes-placeholder.webp',
+          cover: '/assets/figma/services/case-potencial.jpg',
         }],
       },
       {
@@ -731,16 +749,16 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           {
             title: isEn ? 'Leadership and coaching' : 'Liderazgo y coaching',
             description: isEn
-              ? 'To connect potential with concrete, measurable goals.'
-              : 'Para conectar el potencial con objetivos concretos y medibles.',
-            icon: 'money',
+              ? 'When leaders are part of the problem.'
+              : 'Cuando los líderes son parte del problema.',
+            icon: 'calendar',
             href: serviceHref(locale, 'liderazgo'),
           },
           {
             title: isEn ? 'Performance management' : 'Gestión del desempeño',
             description: isEn
-              ? 'When current performance data must inform potential decisions.'
-              : 'Cuando los datos de desempeño actual deben informar decisiones de potencial.',
+              ? 'To connect potential with concrete, measurable goals.'
+              : 'Para conectar el potencial con objetivos concretos y medibles.',
             icon: 'planning',
             href: serviceHref(locale, 'gestion'),
           },
@@ -749,7 +767,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
             description: isEn
               ? 'When internal talent is not enough and you need to look outside.'
               : 'Cuando el talento interno no alcanza y hay que buscar afuera.',
-            icon: 'calendar',
+            icon: 'money',
             href: ctas.recruitmentHref,
           },
         ],
@@ -762,8 +780,8 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           ? 'Do you know who your future leaders are?'
           : '¿Tienes claro quiénes son los líderes del futuro en tu organización?',
         subheading: isEn
-          ? 'If not, structured mapping is the first step. Let us talk about your situation.'
-          : 'Si no, un mapeo estructurado es el primer paso. Conversemos sobre tu situación.',
+          ? 'If the answer is no or not quite, it is time to work on it. Let us talk.'
+          : 'Si la respuesta es no o no del todo, es momento de trabajarlo. Conversemos.',
         cta: {label: ctas.bookMeeting, href: ctas.contactHref},
         secondaryCta: {label: ctas.freeAssessment, href: ctas.whatsappHref},
       },
@@ -776,7 +794,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           ? [
               {
                 question: 'What is the 9-Box Grid and what is it for?',
-                answer: 'It crosses current performance with future potential in a nine-quadrant matrix to segment collaborators and decide where to invest development.',
+                answer: 'It crosses current performance with future potential in a nine-quadrant matrix. It lets you segment collaborators strategically and make more objective decisions about who to invest in, who to develop, and who is ready for the next step.',
               },
               {
                 question: 'How is a person\'s potential evaluated?',
@@ -794,7 +812,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           : [
               {
                 question: '¿Qué es el 9-Box Grid y para qué sirve?',
-                answer: 'Es una herramienta que cruza el desempeño actual de una persona con su potencial futuro en una matriz de nueve cuadrantes. Permite segmentar estratégicamente a los colaboradores y tomar decisiones más objetivas sobre en quién invertir.',
+                answer: 'Es una herramienta que cruza el desempeño actual de una persona con su potencial futuro en una matriz de nueve cuadrantes. Permite segmentar estratégicamente a los colaboradores y tomar decisiones más objetivas sobre en quién invertir, a quién desarrollar y quién está listo para el siguiente paso.',
               },
               {
                 question: '¿Cómo se evalúa el potencial de una persona?',
@@ -816,30 +834,31 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         _type: 'hero',
         _key: 'hero',
         variant: 'servicePage',
-        eyebrow: isEn ? 'Organizational development' : 'Desarrollo organizacional',
+        eyebrow: isEn ? 'Leadership and coaching' : 'Liderazgo y coaching',
         heading: isEn
-          ? 'Leaders are not born. They are developed.'
-          : 'Los líderes no nacen, se desarrollan.',
+          ? 'A leader who does not develop does not stay the same. They fall behind.'
+          : 'Un líder que no se desarrolla no se queda igual. Retrocede.',
         subheading: isEn
-          ? 'No recipes. No theory that never reaches practice. Two paths to build the leadership your organization needs.'
-          : 'Sin recetas. Sin teoría que no aterriza. Dos caminos para construir el liderazgo que tu organización necesita.',
-        image: '/assets/figma/services/hero.webp',
-        primaryCta: {label: ctas.learnMethod, href: ctas.methodHref},
-        secondaryCta: {label: ctas.bookMeeting, href: ctas.contactHref},
+          ? 'We work with them to become the kind of leader their teams need.'
+          : 'Trabajamos con ellos para que se conviertan en el tipo de líder que sus equipos necesitan.',
+        image: '/assets/figma/services/hero-liderazgo.jpg',
+        primaryCta: {label: ctas.bookMeeting, href: ctas.contactHref},
+        secondaryCta: {label: ctas.learnProcess, href: '#proceso'},
       },
       {
         _type: 'splitStatement',
         _key: 'intro',
         heading: isEn
-          ? 'Leadership development fails when it stays in the classroom.'
-          : 'El desarrollo de liderazgo falla cuando se queda en el aula.',
+          ? 'The problem is not always the team. Sometimes it is whoever leads it.'
+          : 'El problema no siempre es el equipo. A veces es quien lo lidera.',
         body: isEn
-          ? 'Many organizations invest in leadership programs that generate enthusiasm in the workshop and disappear on Monday. The problem is not the content. It is that nobody translates it into daily practice. We work with experiential methodologies and structured coaching processes that connect insight with action.'
-          : 'Muchas organizaciones invierten en programas de liderazgo que generan entusiasmo en el taller y desaparecen el lunes. El problema no es el contenido. Es que nadie lo traduce en práctica diaria. Trabajamos con metodologías vivenciales y procesos de coaching estructurados que conectan la reflexión con la acción.',
+          ? 'Many organizations invest in processes, technology, and strategy, and forget to develop the people who must execute all of it. A leader without the right competencies creates demotivated teams, deteriorated climate, and costly turnover. We work with leaders at every level so their development has a direct impact on their teams\' results.'
+          : 'Muchas organizaciones invierten en procesos, en tecnología y en estrategia, y se olvidan de desarrollar a las personas que tienen que ejecutar todo eso. Un líder sin las competencias adecuadas genera equipos desmotivados, clima deteriorado y rotación que cuesta caro. Trabajamos con líderes en todos los niveles para que su desarrollo tenga impacto directo en los resultados de sus equipos.',
       },
       {
         _type: 'processCards',
         _key: 'process',
+        id: 'proceso',
         heading: isEn
           ? 'Two paths to develop the leadership your organization needs.'
           : 'Dos caminos para desarrollar el liderazgo que tu organización necesita.',
@@ -862,22 +881,25 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
       {
         _type: 'serviceIncludes',
         _key: 'includes',
+        layout: 'splitImage',
         items: isEn
           ? [
-              'Leadership workshops tailored by level and challenge',
-              'Experiential methodologies with practice and reflection',
-              'Individual GROW coaching processes for leaders',
-              'Competency-based feedback and development plans',
-              'Follow-up sessions to sustain behavioral change',
+              'Development needs diagnosis by leadership level',
+              'Tailored training workshops with experiential methodologies',
+              'Individual executive coaching with the GROW model',
+              'Follow-up sessions and progress measurement',
+              'Individual development plans for leaders in coaching',
+              'Soft skills workshops for leadership teams',
             ]
           : [
-              'Talleres de liderazgo diseñados a medida por nivel y desafío',
-              'Metodologías vivenciales con práctica y reflexión',
-              'Procesos de coaching individual GROW para líderes',
-              'Feedback por competencias y planes de desarrollo',
-              'Sesiones de seguimiento para sostener el cambio conductual',
+              'Diagnóstico de necesidades de desarrollo por nivel de liderazgo',
+              'Talleres formativos diseñados a medida con metodologías vivenciales',
+              'Coaching ejecutivo individual con metodología GROW',
+              'Sesiones de seguimiento y medición de avance',
+              'Planes de desarrollo individuales para líderes en proceso de coaching',
+              'Talleres de habilidades blandas para equipos de liderazgo',
             ],
-        image: '/assets/figma/services/includes-placeholder.webp',
+        image: '/assets/figma/services/includes/includes-liderazgo.jpg',
       },
       {
         _type: 'caseCards',
@@ -886,50 +908,50 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         showHeader: false,
         cases: [{
           title: isEn ? 'Case study' : 'Caso de éxito',
-          industry: isEn ? 'Financial services' : 'Servicios financieros',
+          industry: isEn ? 'Industry and manufacturing' : 'Industria y manufactura',
           slug: isEn ? 'leadership-coaching-manufacturing' : 'liderazgo-coaching-manufactura',
           challenge: isEn
-            ? 'Newly promoted managers struggling with team conversations and feedback.'
-            : 'Mandos medios recién promovidos con dificultades para conversaciones de equipo y feedback.',
+            ? 'Middle managers with strong technical expertise but no leadership competencies to manage growing teams.'
+            : 'Mandos medios con alta expertise técnica pero sin competencias de liderazgo para gestionar equipos en crecimiento.',
           intervention: isEn
-            ? 'Leadership workshop series plus six-month GROW coaching program for twelve managers.'
-            : 'Serie de talleres de liderazgo más programa de coaching GROW de seis meses para doce mandos medios.',
+            ? 'Experiential workshop program for middle managers plus individual coaching for the three leaders with the greatest operational impact.'
+            : 'Programa de talleres vivenciales para mandos medios más coaching individual para los tres líderes con mayor impacto en la operación.',
           result: isEn
-            ? '87% of participants reported greater confidence in difficult conversations. Team engagement scores rose 18 points in four months.'
-            : '87% de participantes reportó mayor confianza en conversaciones difíciles. Puntaje de engagement de equipos subió 18 puntos en cuatro meses.',
-          cover: '/assets/figma/services/includes-placeholder.webp',
+            ? 'Team internal NPS rose 22 points in six months. Turnover in the intervened areas dropped by 30%.'
+            : 'NPS interno del equipo subió 22 puntos en seis meses. Rotación en las áreas intervenidas redujo en un 30%.',
+          cover: '/assets/figma/services/case-liderazgo.jpg',
         }],
       },
       {
         _type: 'relatedServices',
         _key: 'related',
         heading: isEn
-          ? 'Leadership connects with the rest of the system.'
-          : 'El liderazgo conecta con el resto del sistema.',
+          ? 'Leadership impacts everything else.'
+          : 'El liderazgo impacta en todo lo demás.',
         items: [
           {
-            title: isEn ? 'Organizational culture' : 'Cultura organizacional',
+            title: isEn ? 'Organizational climate' : 'Clima organizacional',
             description: isEn
-              ? 'When leaders must model the behaviors the culture requires.'
-              : 'Cuando los líderes deben modelar los comportamientos que la cultura requiere.',
+              ? 'When leadership style is the root cause of poor climate.'
+              : 'Cuando el estilo de liderazgo es la causa raíz del mal clima.',
             icon: 'calendar',
-            href: serviceHref(locale, 'cultura'),
-          },
-          {
-            title: isEn ? 'Performance management' : 'Gestión del desempeño',
-            description: isEn
-              ? 'When leaders need tools to hold effective feedback conversations.'
-              : 'Cuando los líderes necesitan herramientas para conversaciones de feedback efectivas.',
-            icon: 'planning',
-            href: serviceHref(locale, 'gestion'),
+            href: serviceHref(locale, 'clima'),
           },
           {
             title: isEn ? 'Talent mapping' : 'Potencial y mapeo de talento',
             description: isEn
-              ? 'To connect leadership development with succession and high-potential plans.'
-              : 'Para conectar el desarrollo de liderazgo con planes de sucesión y high potentials.',
-            icon: 'money',
+              ? 'To identify future leaders before developing them.'
+              : 'Para identificar a los líderes del futuro antes de desarrollarlos.',
+            icon: 'planning',
             href: serviceHref(locale, 'potencial'),
+          },
+          {
+            title: isEn ? 'Performance management' : 'Gestión del desempeño',
+            description: isEn
+              ? 'When leaders need to learn how to hold effective performance conversations.'
+              : 'Cuando los líderes necesitan aprender a tener conversaciones de desempeño efectivas.',
+            icon: 'money',
+            href: serviceHref(locale, 'gestion'),
           },
         ],
       },
@@ -938,11 +960,11 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         _key: 'cta',
         variant: 'services',
         heading: isEn
-          ? 'Are your leaders ready for what comes next?'
-          : '¿Tus líderes están listos para lo que viene?',
+          ? 'Are your leaders developing their teams or just managing tasks?'
+          : '¿Tus líderes están desarrollando a sus equipos o solo gestionando tareas?',
         subheading: isEn
-          ? 'If development stays in the classroom, it will not change results. Let us talk about your situation.'
-          : 'Si el desarrollo se queda en el aula, no cambiará resultados. Conversemos sobre tu situación.',
+          ? 'If the answer gives you doubts, there is probably work to do. Let us talk about your situation.'
+          : 'Si la respuesta te genera dudas, probablemente hay trabajo por hacer. Conversemos sobre tu situación.',
         cta: {label: ctas.bookMeeting, href: ctas.contactHref},
         secondaryCta: {label: ctas.freeAssessment, href: ctas.whatsappHref},
       },
@@ -954,38 +976,38 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
         items: isEn
           ? [
               {
-                question: 'What is the difference between workshops and coaching?',
-                answer: 'Workshops build shared language and practice in groups. Coaching goes deeper with individual leaders on their specific challenges and commitments.',
+                question: 'What is the GROW model and why do you use it?',
+                answer: 'GROW is a coaching methodology that works through four dimensions: Goal (what the leader wants to achieve), Reality (the current situation and obstacles), Options (available alternatives), and Will (commitment to action). We use it because it is oriented toward concrete results, not endless introspection.',
               },
               {
-                question: 'What is the GROW coaching model?',
-                answer: 'Goal, Reality, Options, Will — a structured framework to clarify objectives, assess the current situation, explore alternatives, and commit to action.',
+                question: 'How many coaching sessions does a process include?',
+                answer: 'Typically between six and twelve sessions over three to six months, depending on scope and the leader\'s availability.',
               },
               {
-                question: 'How long does a coaching process take?',
-                answer: 'Typically six to twelve sessions over three to six months, depending on scope and leader availability.',
+                question: 'Are leadership workshops standard or tailored?',
+                answer: 'They are always tailored. We design content, exercises, and cases based on your organization\'s level, culture, and specific challenges.',
               },
               {
-                question: 'Can workshops and coaching be combined?',
-                answer: 'Yes. Many organizations start with workshops to align language and follow with coaching for leaders who need individualized support.',
+                question: 'Is executive coaching confidential?',
+                answer: 'Yes. Individual coaching sessions are confidential between the leader and the coach. We only share aggregate progress indicators agreed with the organization.',
               },
             ]
           : [
               {
-                question: '¿Cuál es la diferencia entre talleres y coaching?',
-                answer: 'Los talleres construyen lenguaje compartido y práctica en grupo. El coaching profundiza con líderes individuales en sus desafíos y compromisos específicos.',
+                question: '¿Qué es el modelo GROW y por qué lo usan?',
+                answer: 'GROW es una metodología de coaching que trabaja cuatro dimensiones: Goal (el objetivo que quiere alcanzar el líder), Reality (la situación actual y los obstáculos), Options (las alternativas disponibles) y Will (el compromiso con la acción). Lo usamos porque está orientado a resultados concretos, no a la introspección sin fin.',
               },
               {
-                question: '¿Qué es el modelo de coaching GROW?',
-                answer: 'Goal, Reality, Options, Will — un marco estructurado para clarificar objetivos, evaluar la situación actual, explorar alternativas y comprometerse con acciones.',
+                question: '¿Cuántas sesiones de coaching tiene un proceso?',
+                answer: 'Típicamente entre seis y doce sesiones en un periodo de tres a seis meses, según el alcance y la disponibilidad del líder.',
               },
               {
-                question: '¿Cuánto dura un proceso de coaching?',
-                answer: 'Típicamente entre seis y doce sesiones en tres a seis meses, según el alcance y la disponibilidad del líder.',
+                question: '¿Los talleres de liderazgo son estándar o se diseñan a medida?',
+                answer: 'Siempre se diseñan a medida. Construimos contenido, ejercicios y casos según el nivel, la cultura y los desafíos específicos de tu organización.',
               },
               {
-                question: '¿Se pueden combinar talleres y coaching?',
-                answer: 'Sí. Muchas organizaciones empiezan con talleres para alinear lenguaje y continúan con coaching para líderes que necesitan acompañamiento individual.',
+                question: '¿El coaching ejecutivo es confidencial?',
+                answer: 'Sí. Las sesiones de coaching individual son confidenciales entre el líder y el coach. Solo compartimos indicadores agregados de avance acordados con la organización.',
               },
             ],
       },
@@ -1002,12 +1024,20 @@ export function serviceFixtures(slug: string, locale: Locale): PageSection[] | n
 }
 
 export function serviceMeta(slug: string, locale: Locale): {title: string; description: string} | null {
+  const key = slugToKey.get(slug)
+  if (!key) return null
   const sections = serviceFixtures(slug, locale)
   if (!sections) return null
   const hero = sections.find((s) => s._type === 'hero')
   if (!hero || hero._type !== 'hero') return null
   return {
-    title: hero.heading,
+    title: SERVICE_TITLES[key][locale],
     description: hero.subheading || hero.heading,
   }
+}
+
+export function serviceAlternateSlugs(slug: string): Partial<Record<Locale, string>> | undefined {
+  const key = slugToKey.get(slug)
+  if (!key) return undefined
+  return {...SERVICE_SLUGS[key]}
 }

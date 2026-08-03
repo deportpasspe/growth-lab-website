@@ -1,4 +1,6 @@
 import {defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'splitStatement',
@@ -19,19 +21,15 @@ export default defineType({
         layout: 'radio',
       },
     }),
-    defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string'}),
+    localizedStringField('eyebrow', 'Eyebrow'),
+    localizedStringField('heading', 'Heading', {validation: (Rule) => Rule.required()}),
+    localizedTextField('body', 'Body', {validation: (Rule) => Rule.required()}),
     defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'text',
-      rows: 6,
-      validation: (Rule) => Rule.required(),
+      name: 'image',
+      title: 'Background image',
+      type: 'image',
+      options: {hotspot: true},
+      hidden: ({parent}) => parent?.variant !== 'successBanner',
     }),
     defineField({
       name: 'decoration',
@@ -43,5 +41,9 @@ export default defineType({
   ],
   preview: {
     select: {title: 'heading', subtitle: 'eyebrow'},
+    prepare: ({title, subtitle}) => ({
+      title: localizedPreviewValue(title, 'Split statement'),
+      subtitle: localizedPreviewValue(subtitle),
+    }),
   },
 })

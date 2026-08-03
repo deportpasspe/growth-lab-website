@@ -1,4 +1,6 @@
 import {defineField, defineType} from 'sanity'
+import {localizedPreviewValue} from '../../lib/localized'
+import {localizedStringField, localizedTextField} from '../fields/localizedFields'
 
 export default defineType({
   name: 'ctaBanner',
@@ -19,18 +21,17 @@ export default defineType({
         layout: 'radio',
       },
     }),
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({name: 'subheading', title: 'Subheading', type: 'text', rows: 3}),
+    localizedStringField('heading', 'Heading', {validation: (Rule) => Rule.required()}),
+    localizedTextField('subheading', 'Subheading'),
     defineField({name: 'cta', title: 'CTA', type: 'cta'}),
     defineField({name: 'secondaryCta', title: 'Secondary CTA', type: 'cta'}),
+    defineField({name: 'decorLeft', title: 'Left decoration', type: 'image'}),
+    defineField({name: 'decorRight', title: 'Right decoration', type: 'image'}),
   ],
   preview: {
     select: {title: 'heading'},
-    prepare: ({title}) => ({title: title || 'CTA banner'}),
+    prepare: ({title}) => ({
+      title: localizedPreviewValue(title, 'CTA banner'),
+    }),
   },
 })

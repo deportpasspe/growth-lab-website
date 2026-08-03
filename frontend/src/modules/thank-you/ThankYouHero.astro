@@ -1,17 +1,26 @@
 ---
 import type {Locale} from '../../i18n/routes'
 import {getLocalizedPath} from '../../i18n/routes'
+import type {SanityImageSource} from '@sanity/image-url'
 import BackLink from '../../components/ui/BackLink.astro'
+import {urlFor} from '../../lib/sanity/image'
 import {t} from '../../i18n'
 
 interface Props {
   locale: Locale
   heading: string
   message: string
+  image?: SanityImageSource | string
 }
 
-const {locale, heading, message} = Astro.props
+const {locale, heading, message, image} = Astro.props
 const backHref = getLocalizedPath(locale, 'contact')
+const heroSrc =
+  typeof image === 'string'
+    ? image
+    : image
+      ? urlFor(image).width(754).height(493).auto('format').url()
+      : '/assets/figma/thank-you/hero.jpg'
 ---
 
 <section class="bg-black px-6 pb-16 pt-28 text-white sm:px-[42px] lg:pb-[72px]">
@@ -35,7 +44,7 @@ const backHref = getLocalizedPath(locale, 'contact')
     </div>
     <div class="overflow-hidden rounded-[4px] lg:justify-self-end" data-reveal>
       <img
-        src="/assets/figma/thank-you/hero.jpg"
+        src={heroSrc}
         alt=""
         class="aspect-[754/493] w-full object-cover"
         width="754"

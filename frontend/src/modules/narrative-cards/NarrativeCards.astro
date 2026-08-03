@@ -1,5 +1,7 @@
 ---
 import type {ContentCard} from '../fixtures'
+import {urlFor} from '../../lib/sanity/image'
+import type {SanityImageSource} from '@sanity/image-url'
 
 interface Props {
   cards: ContentCard[]
@@ -7,7 +9,7 @@ interface Props {
 
 const {cards} = Astro.props
 
-const iconByName: Record<NonNullable<ContentCard['icon']>, string> = {
+const iconByName = {
   calendar: '/assets/figma/recruitment/narrative-calendar.svg',
   process: '/assets/figma/recruitment/narrative-calendar.svg',
   market: '/assets/figma/recruitment/deliverable-market.svg',
@@ -19,6 +21,22 @@ const iconByName: Record<NonNullable<ContentCard['icon']>, string> = {
   planning: '/assets/figma/about/value-planning.svg',
   money: '/assets/figma/about/value-money.svg',
   relationship: '/assets/figma/about/value-money.svg',
+} as const
+
+type EnumIcon = keyof typeof iconByName
+
+function isEnumIcon(icon: ContentCard['icon']): icon is EnumIcon {
+  return typeof icon === 'string' && icon in iconByName
+}
+
+function resolveIconSrc(icon: ContentCard['icon']): string | undefined {
+  if (!icon) return undefined
+  if (typeof icon === 'object') {
+    return urlFor(icon as SanityImageSource).width(54).height(54).fit('max').auto('format').url()
+  }
+  if (typeof icon === 'string' && icon.startsWith('/')) return icon
+  if (isEnumIcon(icon)) return iconByName[icon]
+  return undefined
 }
 ---
 
@@ -33,7 +51,7 @@ const iconByName: Record<NonNullable<ContentCard['icon']>, string> = {
           {card.icon && (
             <span class="flex h-[54px] w-[54px] items-center justify-center">
               <img
-                src={iconByName[card.icon]}
+                src={resolveIconSrc(card.icon)}
                 alt=""
                 class="h-[53.669px] w-[49.851px] max-w-none"
                 width="49.851"

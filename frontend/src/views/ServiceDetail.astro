@@ -2,10 +2,15 @@
 import type {Locale} from '../i18n/routes'
 import Layout from '../layouts/Layout.astro'
 import PageBuilder from '../components/PageBuilder.astro'
-import {serviceFixtures, serviceMeta} from '../modules/servicePageFixtures'
+import {serviceFixtures, serviceMeta, serviceAlternateSlugs} from '../modules/servicePageFixtures'
 import type {PageSection} from '../modules/fixtures'
+import {getDraftModeProps} from '../lib/sanity/draft-mode'
 import {loadQuery} from '../lib/sanity/loadQuery'
 import {serviceBySlugQuery} from '../lib/sanity/queries/service'
+import {resolvePageSeo, type PageSeo} from '../lib/seo/resolvePageSeo'
+import {indexDetailBreadcrumbs} from '../lib/seo/breadcrumbs'
+import {extractFaqFromSections} from '../lib/seo/structuredData'
+import {t} from '../i18n'
 
 interface Props {
   locale: Locale
@@ -13,34 +18,74 @@ interface Props {
 }
 
 const {locale, slug} = Astro.props
+const draft = getDraftModeProps(Astro.cookies)
 
 const fixtureMeta = serviceMeta(slug, locale)
 let sections: PageSection[] | null = serviceFixtures(slug, locale)
 let title = fixtureMeta?.title || slug
 let description = fixtureMeta?.description || ''
 
-if (!sections) {
-  return new Response(null, {status: 404, statusText: 'Not Found'})
-}
+let seo: PageSeo | undefined
+let alternateSlugs = serviceAlternateSlugs(slug)
 
 try {
   const data = await loadQuery<{
     title?: string
     summary?: string
-    seo?: {metaTitle?: string; metaDescription?: string}
+    seo?: PageSeo
     pageBuilder?: PageSection[]
-  } | null>(serviceBySlugQuery, {locale, slug})
+    alternateSlugs?: Partial<Record<Locale, string>>
+  } | null>(serviceBySlugQuery, {locale, slug}, {perspectiveCookie: draft.perspectiveCookie})
 
   if (data?.pageBuilder?.length) {
     sections = data.pageBuilder
+    seo = data.seo
+    title = data.seo?.metaTitle || data.title || title
+    description = data.seo?.metaDescription || data.summary || description
+  } else if (data) {
+    seo = data.seo
     title = data.seo?.metaTitle || data.title || title
     description = data.seo?.metaDescription || data.summary || description
   }
+
+  if (data?.alternateSlugs) alternateSlugs = data.alternateSlugs
 } catch {
-  // CMS unavailable — fixtures
+  // CMS unavailable — fixtures when present
 }
+
+if (!sections) {
+  return new Response(null, {status: 404, statusText: 'Not Found'})
+}
+
+const heroImage = sections.find((section) => section._type === 'hero')?.image
+const meta = resolvePageSeo({
+  seo,
+  title,
+  description,
+  ogImageFallback: heroImage,
+  origin: Astro.url.origin,
+})
+const faqItems = extractFaqFromSections(sections)
 ---
 
-<Layout locale={locale} title={title} description={description} headerAppearance="overlay">
+<Layout
+  locale={locale}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  headerAppearance="overlay"
+  pageType="service"
+  routeKey="service"
+  alternateSlugs={alternateSlugs}
+  service={{name: meta.title, description: meta.description}}
+  faqItems={faqItems}
+  breadcrumbs={indexDetailBreadcrumbs(
+    locale,
+    'services',
+    t(locale, 'nav.services'),
+    meta.title,
+    Astro.url.pathname,
+  )}
+>
   <PageBuilder locale={locale} sections={sections} />
 </Layout>
