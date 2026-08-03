@@ -3,6 +3,7 @@ import type {Locale} from '../../i18n/routes'
 import {getLocalizedPath} from '../../i18n/routes'
 import type {SanityImageSource} from '@sanity/image-url'
 import {t} from '../../i18n'
+import {cardMediaLinkClass, linkCtaClass} from '../../lib/interactionClasses'
 import {
   caseStudyCardHeadline,
   caseStudyCardOutcome,
@@ -53,7 +54,7 @@ const imageClass = cover
 >
   <a
     href={href}
-    class="relative block h-[335px] shrink-0 overflow-hidden p-6 no-underline"
+    class:list={[cardMediaLinkClass, 'h-[335px] p-6']}
     aria-label={headline}
   >
     <img
@@ -85,10 +86,7 @@ const imageClass = cover
       </a>
     </h3>
     {outcome && <p class="m-0 text-base leading-normal text-white/50">{outcome}</p>}
-    <a
-      href={href}
-      class="mt-auto w-fit border-b border-white py-0.5 text-base leading-none text-white no-underline transition-colors duration-300 ease-[var(--ease-out)] hover:border-magenta-soft hover:text-magenta-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta"
-    >
+    <a href={href} class:list={[linkCtaClass, 'mt-auto']}>
       {t(locale, 'cta.viewFullCase')}
     </a>
   </div>

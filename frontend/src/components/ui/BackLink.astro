@@ -1,4 +1,5 @@
 ---
+import {linkInlineClass} from '../../lib/interactionClasses'
 import type {Locale} from '../../i18n/routes'
 import {getLocalizedPath} from '../../i18n/routes'
 import {t} from '../../i18n'
@@ -15,12 +16,15 @@ const {locale, href = getLocalizedPath(locale, 'insights'), label = t(locale, 'i
 
 <a
   href={href}
-  class="inline-flex items-center gap-2.5 text-lg leading-[1.22] text-white no-underline transition-colors duration-300 hover:text-magenta-soft"
+  class:list={[
+    'group/back inline-flex items-center gap-2.5 text-lg leading-[1.22] text-white no-underline',
+    linkInlineClass,
+  ]}
 >
   <img
     src="/assets/figma/insights/icon-back.svg"
     alt=""
-    class="size-7 max-w-none"
+    class="size-7 max-w-none transition-transform duration-300 ease-[var(--ease-out)] group-hover/back:-translate-x-0.5"
     width="28"
     height="28"
   />

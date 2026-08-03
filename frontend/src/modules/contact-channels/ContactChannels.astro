@@ -2,6 +2,7 @@
 import type {Locale} from '../../i18n/routes'
 import {t} from '../../i18n'
 import {contactChannels} from '../contactPageFixtures'
+import {linkInlineClass} from '../../lib/interactionClasses'
 import type {ContactChannel} from '../../lib/sanity/types'
 import {urlFor} from '../../lib/sanity/image'
 import type {SanityImageSource} from '@sanity/image-url'
@@ -41,7 +42,7 @@ function channelIconSrc(icon: ContactChannel['icon']): string {
               <p class="m-0 text-[22px] leading-normal">{channel.title}</p>
               {
                 channel.href ? (
-                  <a href={channel.href} class="m-0 text-base leading-normal text-white/90 no-underline hover:underline">
+                  <a href={channel.href} class:list={['m-0 text-base leading-normal text-white/90', linkInlineClass]}>
                     {channel.value}
                   </a>
                 ) : (

@@ -1,5 +1,5 @@
 ---
-import {isLocale, resolveRoute} from '../../i18n/routes'
+import {getCanonicalRedirectPath, isLocale, resolveRoute} from '../../i18n/routes'
 import HomePage from '../../views/HomePage.astro'
 import ServicesIndex from '../../views/ServicesIndex.astro'
 import ServiceDetail from '../../views/ServiceDetail.astro'
@@ -25,6 +25,11 @@ const segments = (path || '')
   .split('/')
   .map((s) => s.trim())
   .filter(Boolean)
+
+const canonicalRedirect = getCanonicalRedirectPath(Astro.url.pathname, locale)
+if (canonicalRedirect && canonicalRedirect !== Astro.url.pathname) {
+  return Astro.redirect(canonicalRedirect, 301)
+}
 
 const route = resolveRoute(locale, segments)
 const privacySlug = locale === 'es' ? 'politica-de-privacidad' : 'privacy-policy'

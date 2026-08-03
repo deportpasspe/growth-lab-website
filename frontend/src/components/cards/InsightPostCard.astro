@@ -2,6 +2,7 @@
 import type {Locale} from '../../i18n/routes'
 import {getLocalizedPath} from '../../i18n/routes'
 import type {SanityImageSource} from '@sanity/image-url'
+import {cardMediaLinkClass, linkCtaClass} from '../../lib/interactionClasses'
 import {
   insightContentTypeLabel,
   insightCoverUrl,
@@ -71,7 +72,10 @@ const imageClass = cover
         <img
           src={imageSrc}
           alt=""
-          class:list={['absolute max-w-none object-cover', imageClass]}
+          class:list={[
+            'absolute max-w-none object-cover transition-[scale] duration-500 ease-[var(--ease-out)] group-hover:scale-[1.025]',
+            imageClass,
+          ]}
           width="654"
           height="373"
           loading="lazy"
@@ -86,7 +90,7 @@ const imageClass = cover
           <h2 class="m-0 text-[clamp(1.75rem,3vw,2.625rem)] leading-[1.05] text-white">{title}</h2>
           {excerpt && <p class="m-0 text-lg leading-normal text-white">{excerpt}</p>}
         </div>
-        <span class="w-fit border-b border-white py-0.5 text-base leading-none text-white transition-colors duration-300 group-hover:border-magenta-soft group-hover:text-magenta-soft">
+        <span class="w-fit border-b border-white py-0.5 text-base leading-none text-white transition-[color,border-color,transform] duration-300 ease-[var(--ease-out)] group-hover:border-magenta-soft group-hover:text-magenta-soft group-hover:-translate-y-px">
           {ctaLabel}
         </span>
       </div>
@@ -101,7 +105,12 @@ const imageClass = cover
       data-content-type={contentType}
       data-category={category}
     >
-      <div class="relative h-[335px] shrink-0 overflow-hidden p-6">
+      <a
+        href={href}
+        class:list={[cardMediaLinkClass, 'h-[335px] p-6']}
+        aria-label={title}
+        {...isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {}}
+      >
         <img
           src={imageSrc}
           alt=""
@@ -118,7 +127,7 @@ const imageClass = cover
         <span class="relative inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black">
           {badge}
         </span>
-      </div>
+      </a>
       <div class="flex flex-1 flex-col gap-4 p-6 backdrop-blur-[36px]">
         {category && <p class="m-0 text-base leading-normal text-white">{category}</p>}
         <h3 class="m-0 text-xl leading-[1.2]">
@@ -135,7 +144,7 @@ const imageClass = cover
         )}
         <a
           href={href}
-          class="mt-auto w-fit border-b border-white py-0.5 text-base leading-none text-white no-underline transition-colors duration-300 ease-[var(--ease-out)] hover:border-magenta-soft hover:text-magenta-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta"
+          class:list={[linkCtaClass, 'mt-auto']}
           {...isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {}}
         >
           {ctaLabel}

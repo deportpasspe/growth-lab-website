@@ -1,5 +1,6 @@
 ---
 import type {ContentCard} from '../fixtures'
+import {cardOutlineButtonClass} from '../../lib/interactionClasses'
 import {urlFor} from '../../lib/sanity/image'
 import type {SanityImageSource} from '@sanity/image-url'
 
@@ -76,10 +77,7 @@ function resolveIconSrc(icon: ContentCard['icon']): string | undefined {
             </p>
           )}
           {card.cta && (
-            <a
-              href={card.cta.href}
-              class="mt-4 inline-flex h-12 items-center rounded-[2px] border border-white px-4 text-base leading-none text-white no-underline transition-colors duration-300 hover:border-magenta hover:bg-magenta"
-            >
+            <a href={card.cta.href} class:list={['mt-4', cardOutlineButtonClass]}>
               {card.cta.label}
             </a>
           )}

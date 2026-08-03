@@ -50,7 +50,7 @@ const styles = toneStyles[tone]
 <button
   type="button"
   class:list={[
-    'group relative flex min-w-0 flex-col rounded-[4px] p-6 text-left transition-[border-color,box-shadow] duration-300',
+    'group relative flex min-w-0 flex-col rounded-[4px] p-6 text-left transition-[border-color,box-shadow,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.18)] active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta',
     styles.bg,
     styles.text,
     expanded && tone === 'teal' && 'border-2 border-[#447a82]',

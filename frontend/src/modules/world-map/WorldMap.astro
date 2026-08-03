@@ -82,7 +82,7 @@ const mapSrc =
 
                 <button
                   type="button"
-                  class="world-map-trigger relative block h-[52px] w-[35px] cursor-pointer border-0 bg-transparent p-0"
+                  class="world-map-trigger relative block h-[52px] w-[35px] cursor-pointer border-0 bg-transparent p-0 transition-transform duration-300 ease-[var(--ease-out)] hover:scale-110 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta"
                   aria-expanded={marker.active ? 'true' : 'false'}
                   aria-controls={`world-map-tooltip-${index}`}
                 >

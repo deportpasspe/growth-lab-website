@@ -13,7 +13,7 @@ const {href, class: className = '', external = false} = Astro.props
   class:list={[
     'relative w-fit text-magenta no-underline',
     'after:absolute after:bottom-[-0.2rem] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-100 after:bg-current',
-    'transition-colors duration-300 ease-[var(--ease-out)] hover:text-magenta-soft',
+    'transition-colors duration-300 ease-[var(--ease-out)] hover:text-magenta-soft active:opacity-80',
     'hover:after:scale-x-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta',
     'after:transition-transform after:duration-300 after:ease-[var(--ease-out)]',
     className,

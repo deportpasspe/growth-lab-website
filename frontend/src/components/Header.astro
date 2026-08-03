@@ -1,9 +1,10 @@
 ---
 import type {Locale} from '../i18n/routes'
-import {getLocalizedPath} from '../i18n/routes'
+import {getLocalizedPath, getPathAfterLocale} from '../i18n/routes'
 import {t} from '../i18n'
 import {resolveLinkHref} from '../lib/sanity/resolveLink'
 import type {NavService, SiteSettings} from '../lib/sanity/types'
+import {mobileNavLinkClass, mobileNavSubLinkClass} from '../lib/interactionClasses'
 import BrandLogo from './ui/BrandLogo.astro'
 import Button from './ui/Button.astro'
 import LocaleSwitch from './ui/LocaleSwitch.astro'
@@ -21,7 +22,7 @@ const {
   siteSettings = null,
   navServices = [],
 } = Astro.props
-const pathAfterLocale = Astro.url.pathname.replace(new RegExp(`^/${locale}/?`), '')
+const pathAfterLocale = getPathAfterLocale(Astro.url.pathname, locale)
 const isHome = pathAfterLocale === ''
 const isOverlay = appearance === 'overlay' || (appearance === 'auto' && isHome)
 
@@ -200,7 +201,7 @@ const pillLinkClass = [
         aria-expanded="false"
         aria-controls="mobile-nav-panel"
         aria-label={locale === 'es' ? 'Abrir menú' : 'Open menu'}
-        class="relative flex h-10 w-10 shrink-0 items-center justify-center min-[1180px]:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta"
+        class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-[2px] transition-[background-color,transform] duration-300 ease-[var(--ease-out)] hover:bg-white/10 active:scale-95 min-[1180px]:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta"
       >
         <span class="relative block h-[14px] w-5" aria-hidden="true">
           <span class="absolute left-0 top-0 h-[1.5px] w-full origin-center bg-white transition-transform duration-300 ease-[var(--ease-out)] group-data-[open=true]/mobile-nav:translate-y-[6.25px] group-data-[open=true]/mobile-nav:rotate-45"></span>
@@ -253,13 +254,13 @@ const pillLinkClass = [
     <div class="mobile-nav-panel__scroll h-full overflow-y-auto overscroll-y-contain">
       <nav class="flex flex-col gap-1 px-6 py-8 text-lg" aria-label="Mobile">
         {mainLinks.map((link) => (
-          <a href={getLocalizedPath(locale, link.key)} class="border-b border-white/10 py-4 text-white no-underline">
+          <a href={getLocalizedPath(locale, link.key)} class={mobileNavLinkClass}>
             {link.label}
           </a>
         ))}
 
         <details class="mobile-nav-details group/details border-b border-white/10 py-4">
-          <summary class="mobile-nav-details__summary flex cursor-pointer list-none items-center justify-between text-white marker:content-none [&::-webkit-details-marker]:hidden">
+          <summary class="mobile-nav-details__summary flex cursor-pointer list-none items-center justify-between text-white transition-[color,background-color] duration-300 ease-[var(--ease-out)] hover:bg-white/[0.03] marker:content-none [&::-webkit-details-marker]:hidden">
             {t(locale, 'nav.services')}
             <svg width="11" height="7" viewBox="0 0 11 7" fill="none" class="shrink-0 transition-transform duration-300 ease-[var(--ease-out)] group-open/details:-rotate-180" aria-hidden="true">
               <path d="M1 1L5.5 5.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
@@ -268,17 +269,17 @@ const pillLinkClass = [
           <div class="mt-4 flex flex-col gap-4 border-t border-white/10 pt-4 pl-2 text-base">
             <p class="m-0 text-white/50">{recruitmentGroup.title}</p>
             {recruitmentGroup.items.map((item) => (
-              <a href={item.href} class="text-white/80 no-underline hover:text-white">{item.label}</a>
+              <a href={item.href} class={mobileNavSubLinkClass}>{item.label}</a>
             ))}
             <p class="m-0 mt-2 text-white/50">{organizationalGroup.title}</p>
             {organizationalGroup.items.map((item) => (
-              <a href={item.href} class="text-white/80 no-underline hover:text-white">{item.label}</a>
+              <a href={item.href} class={mobileNavSubLinkClass}>{item.label}</a>
             ))}
           </div>
         </details>
 
         {trailingLinks.map((link) => (
-          <a href={getLocalizedPath(locale, link.key)} class="border-b border-white/10 py-4 text-white no-underline">
+          <a href={getLocalizedPath(locale, link.key)} class={mobileNavLinkClass}>
             {link.label}
           </a>
         ))}

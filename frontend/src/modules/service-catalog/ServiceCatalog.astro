@@ -1,5 +1,6 @@
 ---
 import type {ServiceCategory} from '../fixtures'
+import {linkUnderlineClass} from '../../lib/interactionClasses'
 import {urlFor} from '../../lib/sanity/image'
 import type {SanityImageSource} from '@sanity/image-url'
 
@@ -38,7 +39,7 @@ function resolveImageSrc(image: ServiceCategory['image']) {
             <label
               for={`${groupName}-${index}`}
               class:list={[
-                'flex min-w-0 cursor-pointer flex-col gap-2.5 rounded-[4px] p-6 sm:p-8 transition-[opacity,background-color,border-color] duration-300 ease-[var(--ease-out)]',
+                'flex min-w-0 cursor-pointer flex-col gap-2.5 rounded-[4px] p-6 sm:p-8 transition-[opacity,background-color,border-color,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5',
                 `service-catalog-label service-catalog-label-${index}`,
               ]}
               data-reveal
@@ -49,7 +50,7 @@ function resolveImageSrc(image: ServiceCategory['image']) {
                 category.cta && (
                   <a
                     href={category.cta.href}
-                    class="mt-2 w-fit text-base leading-none text-white underline transition-colors duration-300 hover:text-magenta-soft"
+                    class:list={['mt-2 text-base leading-none text-white', linkUnderlineClass]}
                     onclick="event.stopPropagation()"
                   >
                     {category.cta.label}
@@ -102,7 +103,7 @@ function resolveImageSrc(image: ServiceCategory['image']) {
                               item.cta && (
                                 <a
                                   href={item.cta.href}
-                                  class="w-fit text-base leading-none text-white underline transition-colors duration-300 hover:text-magenta-soft"
+                                  class:list={['text-base leading-none text-white', linkUnderlineClass]}
                                 >
                                   {item.cta.label}
                                 </a>
@@ -160,7 +161,7 @@ function resolveImageSrc(image: ServiceCategory['image']) {
                         category.cta && (
                           <a
                             href={category.cta.href}
-                            class="w-fit text-base leading-none text-white underline transition-colors duration-300 hover:text-magenta-soft"
+                            class:list={['text-base leading-none text-white', linkUnderlineClass]}
                           >
                             {category.cta.label}
                           </a>
