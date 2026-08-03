@@ -23,6 +23,7 @@ import {
   serviceMeta,
 } from '../../frontend/src/modules/servicePageFixtures'
 import {insightsFixtures} from '../../frontend/src/modules/insightsFixtures'
+import {privacyBodyEn, privacyBodyEs} from '../../frontend/src/modules/legalPageFixtures'
 import {
   caseStudiesFixtures,
   caseStudyFixtureBySlug,
@@ -457,42 +458,12 @@ async function main() {
     {
       title: t('es', 'footer.privacy'),
       slug: {_type: 'slug', current: 'politica-de-privacidad'},
-      body: [
-        {
-          _type: 'block',
-          _key: 'intro',
-          style: 'normal',
-          markDefs: [],
-          children: [
-            {
-              _type: 'span',
-              _key: 'intro-span',
-              text: 'Contenido legal inicial importado desde fixtures. Reemplaza este texto en Sanity.',
-              marks: [],
-            },
-          ],
-        },
-      ],
+      body: privacyBodyEs,
     },
     {
       title: t('en', 'footer.privacy'),
       slug: {_type: 'slug', current: 'privacy-policy'},
-      body: [
-        {
-          _type: 'block',
-          _key: 'intro',
-          style: 'normal',
-          markDefs: [],
-          children: [
-            {
-              _type: 'span',
-              _key: 'intro-span',
-              text: 'Initial legal content seeded from fixtures. Replace this text in Sanity.',
-              marks: [],
-            },
-          ],
-        },
-      ],
+      body: privacyBodyEn,
     },
     mergeLegalPageDoc,
   )
