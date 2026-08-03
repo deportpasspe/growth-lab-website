@@ -57,8 +57,8 @@ const bannerSrc =
           style="background:linear-gradient(208deg,rgba(0,0,0,0) 9.4%,rgb(0,0,0) 87.7%)"
           aria-hidden="true"
         />
-        <div class="relative flex flex-col items-start gap-8 px-6 py-12 sm:px-[113px] lg:flex-row lg:items-center lg:gap-[54px] lg:py-[103px]">
-          <h2 class="m-0 max-w-[479px] shrink-0 text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase">
+        <div class="relative flex flex-col items-start gap-8 px-6 py-12 sm:px-[113px] lg:flex-row lg:items-center lg:gap-[54px] lg:py-[103px]" data-reveal-group="120">
+          <h2 class="m-0 max-w-[479px] shrink-0 text-[clamp(2rem,3vw,2.625rem)] leading-[1.03] uppercase" data-reveal="text">
             {heading}
           </h2>
           <img
@@ -69,7 +69,7 @@ const bannerSrc =
             height="193"
           />
           <hr class="m-0 w-full border-0 border-t border-magenta lg:hidden" />
-          <p class="m-0 max-w-[543px] text-base leading-normal text-white lg:flex-1">{body}</p>
+          <p class="m-0 max-w-[543px] text-base leading-normal text-white lg:flex-1" data-reveal>{body}</p>
         </div>
       </div>
     </section>

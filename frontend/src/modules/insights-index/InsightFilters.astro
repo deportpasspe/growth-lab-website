@@ -20,8 +20,8 @@ const categories = Array.from(
 ---
 
 <section class="bg-black px-6 pb-2 pt-8 text-white sm:px-[42px]">
-  <div class="mx-auto grid max-w-[1356px] gap-6 md:grid-cols-2">
-    <label class="grid gap-3">
+  <div class="mx-auto grid max-w-[1356px] gap-6 md:grid-cols-2" data-reveal-group="100">
+    <label class="grid gap-3" data-reveal>
       <span class="text-lg leading-[1.22]">{t(locale, 'insights.filterType')}</span>
       <div class="relative">
         <select
@@ -45,7 +45,7 @@ const categories = Array.from(
       </div>
     </label>
 
-    <label class="grid gap-3">
+    <label class="grid gap-3" data-reveal>
       <span class="text-lg leading-[1.22]">{t(locale, 'insights.filterTopic')}</span>
       <div class="relative">
         <select

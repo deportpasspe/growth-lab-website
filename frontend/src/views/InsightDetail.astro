@@ -144,10 +144,12 @@ const meta = resolvePageSeo({
   )}
 >
   <article class="bg-black px-6 pb-[88px] pt-28 text-white sm:px-[42px]">
-    <div class="mx-auto max-w-[898px]">
-      <BackLink locale={locale} />
+    <div class="mx-auto max-w-[898px]" data-reveal-group="110">
+      <div data-reveal>
+        <BackLink locale={locale} />
+      </div>
 
-      <div class="mt-6 overflow-hidden rounded-[4px]">
+      <div class="mt-6 overflow-hidden rounded-[4px]" data-reveal>
         <img
           src={coverSrc}
           alt=""
@@ -157,7 +159,7 @@ const meta = resolvePageSeo({
         />
       </div>
 
-      <div class="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm leading-[1.57]">
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm leading-[1.57]" data-reveal>
         <div class="flex items-center gap-1">
           <img
             src="/assets/figma/insights/icon-tag.svg"
@@ -188,38 +190,39 @@ const meta = resolvePageSeo({
         }
       </div>
 
-      <h1 class="mt-6 text-[clamp(2rem,3vw,2.625rem)] uppercase leading-[1.05]">
+      <h1 class="mt-6 text-[clamp(2rem,3vw,2.625rem)] uppercase leading-[1.05]" data-reveal="text">
         {insight.title}
       </h1>
 
       {
         insight.author?.name && (
-          <p class="mt-4 text-2xl leading-[1.22]">(autor) {insight.author.name}</p>
+          <p class="mt-4 text-2xl leading-[1.22]" data-reveal>(autor) {insight.author.name}</p>
         )
       }
       {
         insight.author?.role && (
-          <p class="mt-1 text-lg leading-[1.22] text-white/50">{insight.author.role}</p>
+          <p class="mt-1 text-lg leading-[1.22] text-white/50" data-reveal>{insight.author.role}</p>
         )
       }
 
       {
         Array.isArray(insight.body) && insight.body.length > 0 ? (
-          <div class="prose prose-invert mt-10 max-w-none prose-headings:font-display prose-headings:text-xl prose-headings:font-normal prose-headings:uppercase prose-headings:leading-normal prose-p:text-base prose-p:leading-normal prose-li:text-base prose-li:leading-normal prose-strong:text-white">
+          <div class="prose prose-invert mt-10 max-w-none prose-headings:font-display prose-headings:text-xl prose-headings:font-normal prose-headings:uppercase prose-headings:leading-normal prose-p:text-base prose-p:leading-normal prose-li:text-base prose-li:leading-normal prose-strong:text-white" data-reveal>
             <PortableText value={insight.body} />
           </div>
         ) : insight.excerpt ? (
-          <p class="mt-10 text-base leading-normal">{insight.excerpt}</p>
+          <p class="mt-10 text-base leading-normal" data-reveal>{insight.excerpt}</p>
         ) : null
       }
     </div>
 
-    <div class="mx-auto mt-20 max-w-[1356px] border-t border-white/25 pt-10">
-      <h2 class="m-0 text-[32px] uppercase leading-none">{t(locale, 'insights.related')}</h2>
+    <div class="mx-auto mt-20 max-w-[1356px] border-t border-white/25 pt-10" data-reveal-group="120">
+      <h2 class="m-0 text-[32px] uppercase leading-none" data-reveal="text">{t(locale, 'insights.related')}</h2>
       <div class="mt-10 grid gap-4 md:grid-cols-3">
         {
           related.slice(0, 3).map((item, index) => (
-            <InsightPostCard
+            <div data-reveal>
+              <InsightPostCard
               locale={locale}
               title={item.title}
               excerpt={item.excerpt}
@@ -230,6 +233,7 @@ const meta = resolvePageSeo({
               cover={item.cover}
               imageIndex={index}
             />
+            </div>
           ))
         }
       </div>

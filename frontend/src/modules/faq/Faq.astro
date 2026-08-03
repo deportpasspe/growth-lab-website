@@ -6,6 +6,8 @@ interface Props {
 }
 
 const {variant = 'default', title, items} = Astro.props
+
+const faqEase = 'cubic-bezier(0.16, 1, 0.3, 1)'
 ---
 
 <section
@@ -21,21 +23,30 @@ const {variant = 'default', title, items} = Astro.props
         items.map((item, index) => (
           <details
             class:list={[
-              'group border-b transition-[background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white/[0.03] focus-within:bg-white/[0.03] group-open:border-magenta group-open:bg-white/[0.03]',
+              'faq-item group border-b transition-[background-color,border-color] duration-500 hover:bg-white/[0.03] focus-within:bg-white/[0.03] open:border-magenta open:bg-white/[0.03]',
               index === 0 ? 'border-b-2 border-magenta pt-0' : 'border-white/15',
             ]}
+            style={`--faq-ease: ${faqEase}`}
             open={index === 0}
             data-reveal
           >
-            <summary class="flex min-h-[106px] w-full cursor-pointer list-none items-center justify-between gap-4 px-4 py-7 text-xl marker:content-none transition-[background-color,color] duration-300 ease-[var(--ease-out)] hover:bg-white/[0.025] focus-visible:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-magenta [&::-webkit-details-marker]:hidden">
+            <summary class="faq-summary flex min-h-[106px] w-full cursor-pointer list-none items-center justify-between gap-4 px-4 py-7 text-xl marker:content-none [&::-webkit-details-marker]:hidden">
               <span>{item.question}</span>
-              <span class="relative h-6 w-6 shrink-0">
-                <img src="/assets/figma/home/chevron-down.svg" alt="" class="absolute inset-0 h-6 w-6 max-w-none transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-open:-rotate-90 group-open:opacity-0" width="24" height="24" />
-                <img src="/assets/figma/home/chevron-up.svg" alt="" class="absolute inset-0 h-6 w-6 max-w-none rotate-90 opacity-0 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-open:rotate-0 group-open:opacity-100" width="24" height="24" />
+              <span class="faq-chevron relative flex h-6 w-6 shrink-0 items-center justify-center">
+                <img
+                  src="/assets/figma/home/chevron-down.svg"
+                  alt=""
+                  class="h-6 w-6 max-w-none"
+                  width="24"
+                  height="24"
+                  aria-hidden="true"
+                />
               </span>
             </summary>
-            <div data-faq-content>
-              <p class="mb-8 mt-0 px-4 text-base leading-5 text-white/75">{item.answer}</p>
+            <div class="faq-panel grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-[var(--faq-ease)] group-open:grid-rows-[1fr]">
+              <div class="overflow-hidden">
+                <p class="faq-answer mb-8 mt-0 px-4 text-base leading-5 text-white/75">{item.answer}</p>
+              </div>
             </div>
           </details>
         ))
@@ -46,50 +57,78 @@ const {variant = 'default', title, items} = Astro.props
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-faq]').forEach((root) => {
-    const items = Array.from(root.querySelectorAll<HTMLDetailsElement>('details'))
-    const duration = 520
-    const easing = 'cubic-bezier(0.16, 1, 0.3, 1)'
-
-    const animate = (details: HTMLDetailsElement, open: boolean) => {
-      const summary = details.querySelector<HTMLElement>('summary')
-      if (!summary) return
-
-      details.getAnimations().forEach((animation) => animation.cancel())
-      const startHeight = details.offsetHeight
-
-      if (open) {
-        details.open = true
-      }
-
-      const endHeight = open ? details.offsetHeight : summary.offsetHeight
-      details.style.overflow = 'hidden'
-
-      const animation = details.animate(
-        {height: [`${startHeight}px`, `${endHeight}px`]},
-        {duration, easing},
-      )
-
-      animation.onfinish = () => {
-        if (!open) details.open = false
-        details.style.height = ''
-        details.style.overflow = ''
-      }
-    }
+    const items = Array.from(root.querySelectorAll<HTMLDetailsElement>('.faq-item'))
 
     items.forEach((details) => {
       const summary = details.querySelector('summary')
       summary?.addEventListener('click', (event) => {
         event.preventDefault()
-        const open = !details.open
+        const willOpen = !details.open
 
-        if (open) {
+        if (willOpen) {
           items.forEach((other) => {
-            if (other !== details && other.open) animate(other, false)
+            if (other !== details) other.open = false
           })
         }
 
-        animate(details, open)
+        details.open = willOpen
       })
     })
   })
 </script>
+
+<style>
+  .faq-summary {
+    transition: background-color 300ms var(--ease-out), color 300ms var(--ease-out);
+  }
+
+  .faq-summary:hover {
+    background-color: rgb(255 255 255 / 0.025);
+  }
+
+  .faq-summary:focus-visible {
+    background-color: rgb(255 255 255 / 0.04);
+    outline: 2px solid var(--color-magenta);
+    outline-offset: -2px;
+  }
+
+  .faq-chevron {
+    transition: transform 500ms var(--faq-ease, cubic-bezier(0.16, 1, 0.3, 1));
+    transform: rotate(0deg);
+  }
+
+  .faq-item[open] .faq-chevron {
+    transform: rotate(-180deg);
+  }
+
+  .faq-answer {
+    opacity: 0.65;
+    transform: translateY(-0.35rem);
+    transition:
+      opacity 420ms var(--faq-ease, cubic-bezier(0.16, 1, 0.3, 1)) 40ms,
+      transform 500ms var(--faq-ease, cubic-bezier(0.16, 1, 0.3, 1)) 40ms;
+  }
+
+  .faq-item[open] .faq-answer {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-panel,
+    .faq-chevron,
+    .faq-answer,
+    .faq-item {
+      transition: none;
+    }
+
+    .faq-answer {
+      opacity: 1;
+      transform: none;
+    }
+
+    .faq-item[open] .faq-chevron {
+      transform: rotate(-180deg);
+    }
+  }
+</style>

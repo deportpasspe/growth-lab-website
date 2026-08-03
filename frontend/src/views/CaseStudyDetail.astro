@@ -144,12 +144,13 @@ const meta = resolvePageSeo({
   {
     related.length > 0 && (
       <section class="bg-black px-6 pb-[88px] pt-10 text-white sm:px-[42px]">
-        <div class="mx-auto max-w-[1356px]">
-          <h2 class="m-0 mb-10 text-2xl leading-none text-white">{t(locale, 'caseStudies.relatedTitle')}</h2>
+        <div class="mx-auto max-w-[1356px]" data-reveal-group="120">
+          <h2 class="m-0 mb-10 text-2xl leading-none text-white" data-reveal="text">{t(locale, 'caseStudies.relatedTitle')}</h2>
           <div class="grid gap-4 lg:grid-cols-2">
             {
               related.slice(0, 2).map((item, index) => (
-                <CaseStudyRelatedCard
+                <div data-reveal>
+                  <CaseStudyRelatedCard
                   locale={locale}
                   title={item.title}
                   slug={item.slug}
@@ -158,6 +159,7 @@ const meta = resolvePageSeo({
                   cover={item.cover}
                   imageIndex={index + 1}
                 />
+                </div>
               ))
             }
           </div>

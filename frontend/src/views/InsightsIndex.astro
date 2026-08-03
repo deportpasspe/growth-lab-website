@@ -129,7 +129,7 @@ const [featured, ...gridItems] = insights
   {
     featured && (
       <section class="bg-black px-6 pb-10 pt-6 text-white sm:px-[42px]">
-        <div class="mx-auto max-w-[1356px]">
+        <div class="mx-auto max-w-[1356px]" data-reveal>
           <InsightPostCard
             locale={locale}
             title={featured.title}
@@ -149,10 +149,11 @@ const [featured, ...gridItems] = insights
   {
     gridItems.length > 0 && (
       <section class="bg-black px-6 pb-[88px] text-white sm:px-[42px]">
-        <div class="mx-auto grid max-w-[1356px] gap-4 md:grid-cols-3">
+        <div class="mx-auto grid max-w-[1356px] gap-4 md:grid-cols-3" data-reveal-group="130">
           {
             gridItems.map((item, index) => (
-              <InsightPostCard
+              <div data-reveal>
+                <InsightPostCard
                 locale={locale}
                 title={item.title}
                 excerpt={item.excerpt}
@@ -163,6 +164,7 @@ const [featured, ...gridItems] = insights
                 cover={item.cover}
                 imageIndex={index + 1}
               />
+              </div>
             ))
           }
         </div>

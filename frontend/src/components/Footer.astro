@@ -117,85 +117,8 @@ const socialIconClass =
   class="mt-auto overflow-hidden bg-black text-white"
   style="background-color:#000;background-image:radial-gradient(ellipse 110% 120% at 100% 0%,rgba(139,24,88,0.9) 0%,rgba(139,24,88,0.55) 22%,rgba(139,24,88,0.22) 45%,rgba(139,24,88,0.06) 65%,rgba(139,24,88,0) 82%)"
 >
-  <div class="relative mx-auto hidden h-[594px] w-full max-w-[1440px] min-[1440px]:block" data-reveal-group="130">
-    <div class="absolute left-[42.05px] top-[89px] w-[308px]" data-reveal>
-      <BrandLogo class="!h-[28.902px] !w-[212.66px]" />
-      <p class="m-0 mt-[19px] text-[18px] leading-normal">{tagline}</p>
-    </div>
-
-    <div class="absolute left-[42.05px] top-[198.78px] flex h-[22.44px] items-center gap-[16.32px]" aria-label="Social media" data-reveal>
-      {
-        socials.map((social) => {
-          const icon = (
-            <img
-              src={`/assets/figma/home/social-${social.id}.svg`}
-              alt={social.label}
-              class={socialIconClass}
-              width="22"
-              height="22"
-            />
-          )
-          return social.href ? (
-            <a
-              href={social.href}
-              class="group/social relative block h-[22.44px] w-[21.76px] shrink-0 overflow-hidden"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {icon}
-            </a>
-          ) : (
-            <span class="group/social relative block h-[22.44px] w-[21.76px] shrink-0 overflow-hidden">{icon}</span>
-          )
-        })
-      }
-    </div>
-
-    <div class="absolute left-[42.05px] top-[346px] flex w-[308px] flex-col gap-6 text-[16px] leading-normal" data-reveal>
-      <p class="m-0">{emailLine}</p>
-      <p class="m-0">{whatsappLine}</p>
-      <p class="m-0">{addressLine}</p>
-    </div>
-
-    <div class="absolute left-[440px] top-[89px] w-[189px]" data-reveal>
-      <h2 class="m-0 text-[20px] font-normal leading-normal">{t(locale, 'nav.recruitment')}</h2>
-      <div class="mt-9 flex flex-col gap-4 text-[16px] leading-normal text-white/50">
-        <a href={recruitmentLink.href} class={footerLinkClass}>{recruitmentLink.label}</a>
-      </div>
-    </div>
-
-    <div class="absolute left-[696.5px] top-[89px] w-[189px]" data-reveal>
-      <h2 class="m-0 text-[20px] font-normal leading-normal">{t(locale, 'nav.services')}</h2>
-      <div class="mt-9 flex flex-col gap-4 text-[16px] leading-normal text-white/50">
-        {serviceLinks.map((link) => <a href={link.href} class={footerLinkClass}>{link.label}</a>)}
-      </div>
-    </div>
-
-    <nav class="absolute left-[1025px] top-[89px] w-[173px]" aria-label="Footer" data-reveal>
-      <h2 class="m-0 text-[20px] font-normal leading-normal">{locale === 'es' ? 'Compañía' : 'Company'}</h2>
-      <div class="mt-9 flex flex-col gap-4 text-[16px] leading-normal text-white/50">
-        {companyLinks.map((link) => <a href={link.href} class={footerLinkClass}>{link.label}</a>)}
-      </div>
-    </nav>
-
-    <div class="absolute left-[440px] top-[394px] flex items-center gap-6" data-reveal>
-      <Button href={getLocalizedPath(locale, 'privacy')} variant="secondary" size="lg">
-        {t(locale, 'footer.privacy')}
-      </Button>
-      <Button href={complaintsHref} variant="secondary" size="lg">
-        {locale === 'es' ? 'Libro de reclamaciones' : 'Complaints book'}
-      </Button>
-    </div>
-
-    <div class="absolute bottom-0 left-[42.5px] flex h-[67px] w-[1355px] items-center border-t border-white/25 px-[10px]" data-reveal>
-      <p class="m-0 text-[16px] leading-normal text-white/50">
-        © {year} Growth Lab Consulting. {t(locale, 'footer.rights')}
-      </p>
-    </div>
-  </div>
-
-  <div class="mx-auto w-full max-w-[1280px] px-6 py-16 sm:px-[42px] min-[1440px]:hidden" data-reveal-group="120">
-    <div class="grid grid-cols-1 gap-12 sm:gap-y-10 md:grid-cols-2 md:items-start md:gap-x-10 md:gap-y-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.5fr)_minmax(0,0.95fr)] lg:gap-x-14">
+  <div class="mx-auto w-full max-w-[1280px] px-6 py-16 sm:px-[42px]" data-reveal-group="120">
+    <div class="grid grid-cols-1 gap-12 sm:gap-y-10 md:grid-cols-2 md:items-start md:gap-x-10 md:gap-y-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.5fr)_minmax(0,0.95fr)] lg:gap-x-14 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.5fr)_minmax(0,0.95fr)] xl:gap-x-14">
       <div data-reveal>
         <BrandLogo class="!h-[28.902px] !w-[212.66px]" />
         <p class="mb-0 mt-[19px] text-[18px]">{tagline}</p>
@@ -250,13 +173,16 @@ const socialIconClass =
       </nav>
     </div>
 
-    <div class="mt-12 grid gap-8 border-t border-white/15 pt-10 md:grid-cols-2 md:items-end md:gap-10" data-reveal-group="100">
-      <div class="flex flex-col gap-4 text-[16px]" data-reveal>
+    <div
+      class="mt-12 flex w-full flex-col gap-8 border-t border-white/15 pt-10 md:flex-row md:items-end md:justify-between md:gap-10"
+      data-reveal-group="100"
+    >
+      <div class="flex min-w-0 flex-col gap-4 text-[16px] md:max-w-[308px]" data-reveal>
         <p class="m-0">{emailLine}</p>
         <p class="m-0">{whatsappLine}</p>
         <p class="m-0">{addressLine}</p>
       </div>
-      <div class="flex flex-wrap gap-4 md:justify-end" data-reveal>
+      <div class="flex shrink-0 flex-wrap gap-4 md:ml-auto md:justify-end md:self-end lg:flex-nowrap" data-reveal>
         <Button href={getLocalizedPath(locale, 'privacy')} variant="secondary" size="lg">
           {t(locale, 'footer.privacy')}
         </Button>

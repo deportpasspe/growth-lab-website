@@ -26,21 +26,27 @@ const {
 } = Astro.props
 
 const isCompactHero =
-  variant === 'servicePage' ||
   variant === 'insights' ||
   variant === 'caseStudies' ||
   variant === 'caseStudyDetail' ||
   variant === 'contact'
 
-// servicePage heroes with 4–5 line headings need more vertical room than the 548px default.
-const servicePageHeroHeight =
+const homeHeroHeight = 'min-h-[720px] lg:h-[810px]'
+const heroContentShell = [
+  'relative z-10 mx-auto w-full px-6 sm:px-[42px]',
+  homeHeroHeight,
   variant === 'servicePage'
-    ? heading.length > 70
-      ? 'min-h-[660px] lg:min-h-[660px]'
-      : heading.length > 50
-        ? 'min-h-[604px] lg:min-h-[604px]'
-        : 'min-h-[548px] lg:min-h-[548px]'
-    : null
+    ? 'flex flex-col justify-end pb-16 pt-40 lg:justify-center lg:pb-16 lg:pt-28'
+    : 'flex flex-col justify-end pb-16 pt-40 lg:min-h-0 lg:h-full lg:block lg:pt-0',
+]
+const heroStackDesktop =
+  'justify-center pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-1/2 lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0'
+const heroStackClass = 'hero-stack flex w-full flex-col'
+const heroEyebrowClass = 'hero-stack__eyebrow m-0 text-2xl leading-[1.15] text-white'
+const heroHeadingClass =
+  'hero-stack__heading m-0 font-display uppercase leading-[1.08]'
+const heroSubheadingClass = 'hero-stack__subheading m-0 text-lg leading-[1.35] text-white'
+const heroActionsClass = 'hero-stack__actions flex flex-wrap gap-4'
 
 const heroFallback =
   variant === 'recruitment'
@@ -66,7 +72,7 @@ const heroImage = resolveHeroImage(image, heroFallback)
 const parallaxSpeed =
   variant === 'recruitment' || variant === 'about' || variant === 'methodology'
     ? '0.06'
-    : variant === 'services' || isCompactHero
+    : variant === 'services' || variant === 'servicePage' || isCompactHero
       ? '0.05'
       : '0.14'
 
@@ -78,6 +84,7 @@ const hasParallaxOverscan =
   variant === 'methodology' ||
   variant === 'home' ||
   variant === 'services' ||
+  variant === 'servicePage' ||
   isCompactHero
 
 const heroBgOverscanClass = !hasParallaxOverscan
@@ -88,18 +95,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
 ---
 
 <section
-  class:list={[
-    'relative isolate overflow-hidden bg-black text-white',
-    variant === 'recruitment' || variant === 'about' || variant === 'methodology'
-      ? 'min-h-[701px] lg:h-[701px]'
-      : variant === 'services'
-        ? 'min-h-[550px] lg:h-[550px]'
-        : variant === 'servicePage'
-          ? servicePageHeroHeight
-          : variant === 'insights' || variant === 'caseStudies' || variant === 'caseStudyDetail'
-            ? 'min-h-[548px] lg:h-[548px]'
-            : 'min-h-[720px] lg:h-[810px]',
-  ]}
+  class:list={['relative isolate overflow-hidden bg-black text-white', homeHeroHeight]}
 >
   <div class="hero-bg absolute inset-0 overflow-hidden" aria-hidden="true" data-parallax={parallaxSpeed}>
     <img
@@ -117,7 +113,8 @@ const heroBgOverscanClass = !hasParallaxOverscan
       decoding="async"
     />
   </div>
-  <div class="pointer-events-none absolute inset-0 bg-black/50"></div>
+  <div class="pointer-events-none absolute inset-0 bg-black/50" aria-hidden="true"></div>
+  <div class="hero-overlay pointer-events-none absolute inset-0" aria-hidden="true"></div>
   {
     variant === 'home' && (
       <img
@@ -131,63 +128,50 @@ const heroBgOverscanClass = !hasParallaxOverscan
     )
   }
 
-  <div
-    class:list={[
-      'relative z-10 mx-auto w-full px-6 sm:px-[42px]',
-      variant === 'recruitment' || variant === 'about' || variant === 'methodology'
-        ? 'min-h-[701px] lg:h-[701px]'
-        : variant === 'services'
-          ? 'min-h-[550px] lg:h-[550px]'
-          : variant === 'servicePage'
-            ? `flex flex-col justify-end pb-12 pt-28 lg:justify-center lg:pb-16 lg:pt-28 ${servicePageHeroHeight}`
-            : isCompactHero
-              ? 'flex min-h-[548px] flex-col justify-end pb-12 pt-28 lg:min-h-0 lg:h-full lg:justify-center lg:pb-16 lg:pt-0'
-              : 'flex min-h-[720px] flex-col justify-end pb-16 pt-40 lg:min-h-0 lg:h-full lg:block lg:pt-0',
-    ]}
-  >
+  <div class:list={heroContentShell}>
     {
       variant === 'services' ? (
         <div
-          class="flex min-h-[470px] w-full max-w-[648px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+38px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          class:list={[heroStackClass, heroStackDesktop, 'max-w-[648px]']}
           data-reveal-group="140"
           data-reveal-on="load"
         >
           <h1
-            class="m-0 max-w-[648px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            class:list={[heroHeadingClass, 'max-w-[648px] text-[clamp(2rem,4.25vw,3.25rem)]']}
             data-reveal="text"
           >
             {heading}
           </h1>
           {subheading && (
-            <p class="m-0 max-w-[529px] text-lg leading-[1.22] text-white" data-reveal>
+            <p class:list={[heroSubheadingClass, 'max-w-[529px]']} data-reveal>
               {subheading}
             </p>
           )}
         </div>
       ) : variant === 'servicePage' ? (
         <div
-          class="flex w-full max-w-[848px] flex-col gap-[19px]"
+          class:list={[heroStackClass, 'max-w-[848px]']}
           data-reveal-group="140"
           data-reveal-on="load"
         >
           {eyebrow && (
-            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+            <p class={heroEyebrowClass} data-reveal>
               {eyebrow}
             </p>
           )}
           <h1
-            class="m-0 max-w-[848px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            class:list={[heroHeadingClass, 'max-w-[848px] text-[clamp(2rem,4.25vw,3.25rem)]']}
             data-reveal="text"
           >
             {heading}
           </h1>
           {subheading && (
-            <p class="m-0 max-w-[672px] text-lg leading-[1.22] text-white" data-reveal>
+            <p class:list={[heroSubheadingClass, 'max-w-[672px]']} data-reveal>
               {subheading}
             </p>
           )}
           {(primaryCta || secondaryCta) && (
-            <div class="flex flex-wrap gap-4" data-reveal>
+            <div class={heroActionsClass} data-reveal>
               {primaryCta && (
                 <Button href={primaryCta.href} variant="secondary" size="lg">
                   {primaryCta.label}
@@ -203,45 +187,45 @@ const heroBgOverscanClass = !hasParallaxOverscan
         </div>
       ) : variant === 'insights' || variant === 'caseStudies' ? (
         <div
-          class="flex min-h-[468px] w-full max-w-[848px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+16px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          class:list={[heroStackClass, heroStackDesktop, 'max-w-[848px]']}
           data-reveal-group="140"
           data-reveal-on="load"
         >
           {eyebrow && (
-            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+            <p class={heroEyebrowClass} data-reveal>
               {eyebrow}
             </p>
           )}
           <h1
-            class="m-0 max-w-[848px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            class:list={[heroHeadingClass, 'max-w-[848px] text-[clamp(2rem,4.25vw,3.25rem)]']}
             data-reveal="text"
           >
             {heading}
           </h1>
           {subheading && (
-            <p class="m-0 max-w-[672px] text-lg leading-[1.22] text-white" data-reveal>
+            <p class:list={[heroSubheadingClass, 'max-w-[672px]']} data-reveal>
               {subheading}
             </p>
           )}
         </div>
       ) : variant === 'caseStudyDetail' ? (
         <div
-          class="flex min-h-[468px] w-full max-w-[634px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-1/2 lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          class:list={[heroStackClass, heroStackDesktop, 'max-w-[634px]']}
           data-reveal-group="140"
           data-reveal-on="load"
         >
           {pill && (
-            <span class="inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black" data-reveal>
+            <span class="hero-stack__pill inline-flex h-6 items-center rounded-full bg-[#d0dadd] px-3.5 text-sm leading-none text-black" data-reveal>
               {pill}
             </span>
           )}
           {subheading && (
-            <p class="m-0 text-lg leading-[1.22] text-white" data-reveal>
+            <p class:list={[heroSubheadingClass, 'max-w-[634px]']} data-reveal>
               {subheading}
             </p>
           )}
           <h1
-            class="m-0 max-w-[634px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            class:list={[heroHeadingClass, 'max-w-[634px] text-[clamp(2rem,4.25vw,3.25rem)]']}
             data-reveal="text"
           >
             {heading}
@@ -249,92 +233,92 @@ const heroBgOverscanClass = !hasParallaxOverscan
         </div>
       ) : variant === 'contact' ? (
         <div
-          class="flex min-h-[468px] w-full max-w-[683px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-1/2 lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          class:list={[heroStackClass, heroStackDesktop, 'max-w-[683px]']}
           data-reveal-group="140"
           data-reveal-on="load"
         >
           <h1
-            class="m-0 max-w-[683px] font-display text-[clamp(2rem,3.6vw,3.25rem)] uppercase leading-[1.05]"
+            class:list={[heroHeadingClass, 'max-w-[683px] text-[clamp(2rem,3.6vw,3.25rem)]']}
             data-reveal="text"
           >
             {heading}
           </h1>
           {subheading && (
-            <p class="m-0 max-w-[445px] text-lg leading-[1.22] text-white" data-reveal>
+            <p class:list={[heroSubheadingClass, 'max-w-[445px]']} data-reveal>
               {subheading}
             </p>
           )}
         </div>
       ) : variant === 'about' ? (
         <div
-          class="flex min-h-[621px] w-full max-w-[683px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+18px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          class:list={[heroStackClass, heroStackDesktop, 'max-w-[683px]']}
           data-reveal-group="140"
           data-reveal-on="load"
         >
           {eyebrow && (
-            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+            <p class={heroEyebrowClass} data-reveal>
               {eyebrow}
             </p>
           )}
           <h1
-            class="m-0 max-w-[589px] font-display text-[clamp(2rem,3.6vw,3.25rem)] uppercase leading-[1.05]"
+            class:list={[heroHeadingClass, 'max-w-[589px] text-[clamp(2rem,3.6vw,3.25rem)]']}
             data-reveal="text"
           >
             {heading}
           </h1>
           {subheading && (
-            <p class="m-0 max-w-[551px] text-lg leading-[1.22] text-white" data-reveal>
+            <p class:list={[heroSubheadingClass, 'max-w-[551px]']} data-reveal>
               {subheading}
             </p>
           )}
         </div>
       ) : variant === 'methodology' ? (
         <div
-          class="flex min-h-[621px] w-full max-w-[607px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+18px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          class:list={[heroStackClass, heroStackDesktop, 'max-w-[607px]']}
           data-reveal-group="140"
           data-reveal-on="load"
         >
           {eyebrow && (
-            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+            <p class={heroEyebrowClass} data-reveal>
               {eyebrow}
             </p>
           )}
           <h1
-            class="m-0 max-w-[607px] font-display text-[clamp(2rem,3.6vw,3.25rem)] uppercase leading-[1.05]"
+            class:list={[heroHeadingClass, 'max-w-[607px] text-[clamp(2rem,3.6vw,3.25rem)]']}
             data-reveal="text"
           >
             {heading}
           </h1>
           {subheading && (
-            <p class="m-0 max-w-[607px] text-lg leading-[1.22] text-white" data-reveal>
+            <p class:list={[heroSubheadingClass, 'max-w-[607px]']} data-reveal>
               {subheading}
             </p>
           )}
         </div>
       ) : variant === 'recruitment' ? (
         <div
-          class="flex min-h-[621px] w-full max-w-[670px] flex-col justify-center gap-[19px] pb-12 pt-28 lg:absolute lg:left-[42px] lg:top-[calc(50%+25px)] lg:min-h-0 lg:-translate-y-1/2 lg:justify-start lg:pb-0 lg:pt-0"
+          class:list={[heroStackClass, heroStackDesktop, 'max-w-[670px]']}
           data-reveal-group="140"
           data-reveal-on="load"
         >
           {eyebrow && (
-            <p class="m-0 text-2xl leading-none text-white" data-reveal>
+            <p class={heroEyebrowClass} data-reveal>
               {eyebrow}
             </p>
           )}
           <h1
-            class="m-0 max-w-[670px] font-display text-[clamp(2rem,4.25vw,3.25rem)] uppercase leading-[1.05]"
+            class:list={[heroHeadingClass, 'max-w-[670px] text-[clamp(2rem,4.25vw,3.25rem)]']}
             data-reveal="text"
           >
             {heading}
           </h1>
           {subheading && (
-            <p class="m-0 max-w-[529px] text-lg leading-[1.22] text-white" data-reveal>
+            <p class:list={[heroSubheadingClass, 'max-w-[529px]']} data-reveal>
               {subheading}
             </p>
           )}
           {(primaryCta || secondaryCta) && (
-            <div class="flex flex-wrap gap-4" data-reveal>
+            <div class={heroActionsClass} data-reveal>
               {primaryCta && (
                 <Button href={primaryCta.href} variant="secondary" size="lg">
                   {primaryCta.label}
@@ -349,15 +333,15 @@ const heroBgOverscanClass = !hasParallaxOverscan
           )}
         </div>
       ) : (
-        <div class="flex flex-col gap-10 lg:block" data-reveal-group="140" data-reveal-on="load">
+        <div class="hero-stack hero-stack--home flex flex-col gap-12 lg:block" data-reveal-group="140" data-reveal-on="load">
           <div class="lg:absolute lg:left-[42px] lg:top-[369px] lg:w-[523px]">
             {eyebrow && (
-              <p class="mb-4 text-sm uppercase tracking-widest text-white/70" data-reveal>
+              <p class="hero-stack__eyebrow mb-5 text-sm uppercase tracking-widest text-white/70" data-reveal>
                 {eyebrow}
               </p>
             )}
             <h1
-              class="m-0 max-w-[523px] font-display text-[clamp(2.5rem,3.62vw,3.25rem)] uppercase leading-[1.04]"
+              class:list={[heroHeadingClass, 'max-w-[523px] text-[clamp(2.5rem,3.62vw,3.25rem)] leading-[1.04]']}
               data-reveal="text"
             >
               {heading}
@@ -366,7 +350,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
 
           {subheading && (
             <p
-              class="m-0 max-w-[302px] text-base leading-[1.08] lg:absolute lg:right-[42px] lg:top-[451px] lg:text-lg"
+              class="hero-stack__subheading m-0 max-w-[302px] text-base leading-[1.35] lg:absolute lg:right-[42px] lg:top-[451px] lg:text-lg"
               data-reveal
             >
               {subheading}
@@ -374,7 +358,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
           )}
 
           {(primaryCta || secondaryCta) && (
-            <div class="flex flex-wrap gap-4 lg:absolute lg:left-[42px] lg:top-[595px]" data-reveal>
+            <div class="hero-stack__actions flex flex-wrap gap-4 lg:absolute lg:left-[42px] lg:top-[595px]" data-reveal>
               {primaryCta && (
                 <Button href={primaryCta.href} variant="primary" size="lg">
                   {primaryCta.label}
@@ -394,6 +378,53 @@ const heroBgOverscanClass = !hasParallaxOverscan
 </section>
 
 <style>
+  .hero-overlay {
+    background: linear-gradient(
+      90deg,
+      rgb(0 0 0 / 0.52) 0%,
+      rgb(0 0 0 / 0.36) 24%,
+      rgb(0 0 0 / 0.2) 50%,
+      rgb(0 0 0 / 0.08) 76%,
+      rgb(0 0 0 / 0) 100%
+    );
+  }
+
+  @keyframes hero-bg-zoom {
+    from {
+      transform: scale(1.1);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .hero-stack > * + * {
+    margin-top: 1.75rem;
+  }
+
+  .hero-stack__eyebrow + .hero-stack__heading,
+  .hero-stack__pill + .hero-stack__subheading,
+  .hero-stack__pill + .hero-stack__heading {
+    margin-top: 1.1875rem;
+  }
+
+  .hero-stack__heading + .hero-stack__subheading {
+    margin-top: 1.75rem;
+  }
+
+  .hero-stack__subheading + .hero-stack__heading {
+    margin-top: 1.75rem;
+  }
+
+  .hero-stack__subheading + .hero-stack__actions,
+  .hero-stack__heading + .hero-stack__actions {
+    margin-top: 2.25rem;
+  }
+
+  .hero-stack--home > * + * {
+    margin-top: 0;
+  }
+
   .hero-bg__image {
     position: absolute;
     inset: 0;
@@ -402,6 +433,16 @@ const heroBgOverscanClass = !hasParallaxOverscan
     max-width: none;
     object-fit: cover;
     object-position: center;
+    transform: scale(1.1);
+    transform-origin: center center;
+    animation: hero-bg-zoom 2.4s var(--ease-out) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg__image {
+      transform: none;
+      animation: none;
+    }
   }
 
   .hero-bg__image--bottom {

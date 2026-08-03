@@ -18,14 +18,17 @@ if (result && !result.error && result.data?.ok) {
 ---
 
 <section id="newsletter" class="bg-black px-6 py-[88px] text-white sm:px-[42px]">
-  <div class="mx-auto grid max-w-[1356px] gap-10 lg:grid-cols-[minmax(0,523px)_minmax(0,670px)] lg:items-center lg:justify-between lg:gap-8">
+  <div
+    class="mx-auto grid max-w-[1356px] gap-10 lg:grid-cols-[minmax(0,523px)_minmax(0,670px)] lg:items-center lg:justify-between lg:gap-8"
+    data-reveal-group="120"
+  >
     <div class="flex flex-col gap-4">
-      <h2 class="m-0 text-[clamp(2rem,3vw,2.625rem)] uppercase leading-[1.05]">
+      <h2 class="m-0 text-[clamp(2rem,3vw,2.625rem)] uppercase leading-[1.05]" data-reveal="text">
         {t(locale, 'insights.newsletterHeading')}
       </h2>
-      <p class="m-0 text-lg leading-[1.22]">{t(locale, 'insights.newsletterIntro')}</p>
+      <p class="m-0 text-lg leading-[1.22]" data-reveal>{t(locale, 'insights.newsletterIntro')}</p>
     </div>
-    <div class="bg-magenta p-6 sm:p-[42px]">
+    <div class="bg-magenta p-6 sm:p-[42px]" data-reveal>
       <InsightsLeadForm locale={locale} />
     </div>
   </div>

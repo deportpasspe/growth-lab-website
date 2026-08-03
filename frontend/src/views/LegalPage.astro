@@ -62,18 +62,18 @@ const meta = resolvePageSeo({
   breadcrumbs={singletonBreadcrumbs(locale, title, Astro.url.pathname)}
 >
   <section class="bg-black pb-16 pt-6 text-white sm:pb-24 sm:pt-[25px]">
-    <div class="mx-auto w-full max-w-[1280px] px-6 sm:px-[42px]">
-      <h1 class="m-0 text-center text-[clamp(1.5rem,4vw,2rem)] uppercase leading-normal">
+    <div class="mx-auto w-full max-w-[1280px] px-6 sm:px-[42px]" data-reveal-group="120">
+      <h1 class="m-0 text-center text-[clamp(1.5rem,4vw,2rem)] uppercase leading-normal" data-reveal="text">
         {title}
       </h1>
 
       {
         Array.isArray(body) && body.length > 0 ? (
-          <div class="legal-body mx-auto mt-10 max-w-[725px] sm:mt-[60px]">
+          <div class="legal-body mx-auto mt-10 max-w-[725px] sm:mt-[60px]" data-reveal>
             <PortableText value={body} />
           </div>
         ) : (
-          <p class="mx-auto mt-10 max-w-[725px] text-base text-white/50 sm:mt-[60px]">
+          <p class="mx-auto mt-10 max-w-[725px] text-base text-white/50 sm:mt-[60px]" data-reveal>
             {meta.description}
           </p>
         )

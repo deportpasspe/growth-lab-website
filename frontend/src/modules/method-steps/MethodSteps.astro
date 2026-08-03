@@ -105,18 +105,19 @@ const dots = [
         )}
       </header>
 
-      <div class="relative mx-auto mt-[72px] max-w-[1356px]" data-reveal>
+      <div class="relative mx-auto mt-[72px] max-w-[1356px]">
         <img
           src={diagramImageSrc}
           alt=""
           class="pointer-events-none absolute left-[3%] top-[36%] hidden h-auto w-[83%] max-w-none xl:block"
           width="1191"
           height="631"
+          data-reveal
         />
 
-        <div class="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-2 xl:grid-cols-3">
+        <div class="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-2 xl:grid-cols-3" data-reveal-group="100">
           {featuredTitle && (
-            <div class="h-full xl:col-start-1 xl:row-start-1">
+            <div class="h-full xl:col-start-1 xl:row-start-1" data-reveal>
               <MethodStepGridCard
                 variant="featured"
                 title={featuredTitle}
@@ -136,6 +137,7 @@ const dots = [
                 index === 5 && 'xl:col-start-1 xl:row-start-3',
                 index === 6 && 'xl:col-start-2 xl:row-start-3',
               ]}
+              data-reveal
             >
               <MethodStepGridCard
                 variant="step"
