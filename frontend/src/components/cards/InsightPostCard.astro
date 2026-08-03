@@ -94,7 +94,7 @@ const imageClass = cover
   ) : (
     <article
       class:list={[
-        'group flex min-h-[562px] flex-col overflow-hidden transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(139,24,88,0.2)] md:h-[562px]',
+        'group flex h-full min-h-[562px] flex-col overflow-hidden transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(139,24,88,0.2)]',
         className,
       ]}
       data-insight-card
@@ -119,11 +119,19 @@ const imageClass = cover
           {badge}
         </span>
       </div>
-      <div class="flex min-h-[227px] flex-1 flex-col gap-4 p-6 backdrop-blur-[36px]">
+      <div class="flex flex-1 flex-col gap-4 p-6 backdrop-blur-[36px]">
         {category && <p class="m-0 text-base leading-normal text-white">{category}</p>}
-        <h3 class="m-0 text-xl leading-[1.05] text-white">{title}</h3>
+        <h3 class="m-0 text-xl leading-[1.2]">
+          <a
+            href={href}
+            class="insight-card-title"
+            {...isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {}}
+          >
+            {title}
+          </a>
+        </h3>
         {excerpt && (
-          <p class="m-0 line-clamp-3 text-base leading-normal text-white/50">{excerpt}</p>
+          <p class="m-0 text-base leading-normal text-white/50">{excerpt}</p>
         )}
         <a
           href={href}
@@ -136,3 +144,26 @@ const imageClass = cover
     </article>
   )
 }
+
+<style>
+  .insight-card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    max-width: 100%;
+    color: #fff;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: color 300ms var(--ease-out);
+  }
+
+  .insight-card-title:hover {
+    color: var(--color-magenta-soft);
+  }
+
+  .insight-card-title:focus-visible {
+    outline: 2px solid var(--color-magenta);
+    outline-offset: 4px;
+  }
+</style>

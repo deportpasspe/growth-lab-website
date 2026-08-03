@@ -49,12 +49,13 @@ const imageClass = cover
 ---
 
 <article
-  class:list={[
-    'group flex min-h-[562px] flex-col overflow-hidden transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(139,24,88,0.2)] md:h-[562px]',
-    className,
-  ]}
+  class:list={['group flex h-full min-h-[562px] flex-col overflow-hidden', className]}
 >
-  <div class="relative h-[335px] shrink-0 overflow-hidden p-6">
+  <a
+    href={href}
+    class="relative block h-[335px] shrink-0 overflow-hidden p-6 no-underline"
+    aria-label={headline}
+  >
     <img
       src={imageSrc}
       alt=""
@@ -75,11 +76,15 @@ const imageClass = cover
         </span>
       )
     }
-  </div>
-  <div class="flex min-h-[227px] flex-1 flex-col gap-4 p-6 backdrop-blur-[36px]">
+  </a>
+  <div class="flex flex-1 flex-col gap-4 p-6 backdrop-blur-[36px]">
     {service && <p class="m-0 text-base leading-normal text-white">{service}</p>}
-    <h3 class="m-0 text-xl leading-[1.05] text-white">{headline}</h3>
-    {outcome && <p class="m-0 line-clamp-3 text-base leading-normal text-white/50">{outcome}</p>}
+    <h3 class="m-0 text-xl leading-[1.2]">
+      <a href={href} class="case-card-title">
+        {headline}
+      </a>
+    </h3>
+    {outcome && <p class="m-0 text-base leading-normal text-white/50">{outcome}</p>}
     <a
       href={href}
       class="mt-auto w-fit border-b border-white py-0.5 text-base leading-none text-white no-underline transition-colors duration-300 ease-[var(--ease-out)] hover:border-magenta-soft hover:text-magenta-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta"
@@ -88,3 +93,26 @@ const imageClass = cover
     </a>
   </div>
 </article>
+
+<style>
+  .case-card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    max-width: 100%;
+    color: #fff;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: color 300ms var(--ease-out);
+  }
+
+  .case-card-title:hover {
+    color: var(--color-magenta-soft);
+  }
+
+  .case-card-title:focus-visible {
+    outline: 2px solid var(--color-magenta);
+    outline-offset: 4px;
+  }
+</style>
