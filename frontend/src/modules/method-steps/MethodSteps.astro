@@ -31,30 +31,26 @@ const gridSteps = steps.slice(0, 7)
 
 const desktopNodes = [
   {
-    className: 'left-[6.4%] top-[11.2%] h-[261px] w-[261px]',
+    className: 'left-[5.8%] top-[9.5%] w-[20.5%]',
     circle: '/assets/figma/home/method-circle-primary.svg',
-    size: 261,
     showNumber: false,
     showDescription: true,
   },
   {
-    className: 'left-[31%] top-[58.5%] h-[242px] w-[242px]',
+    className: 'left-[30.4%] top-[56.8%] w-[19%]',
     circle: '/assets/figma/home/method-circle-secondary.svg',
-    size: 242,
     showNumber: true,
     showDescription: false,
   },
   {
-    className: 'left-[51.4%] top-[10%] h-[252px] w-[252px]',
+    className: 'left-[50.8%] top-[8.5%] w-[19.8%]',
     circle: '/assets/figma/home/method-circle-tertiary.svg',
-    size: 252,
     showNumber: true,
     showDescription: false,
   },
   {
-    className: 'left-[79.5%] top-[40.6%] h-[252px] w-[252px]',
+    className: 'left-[78.8%] top-[38.8%] w-[19.8%]',
     circle: '/assets/figma/home/method-circle-tertiary.svg',
-    size: 252,
     showNumber: true,
     showDescription: false,
   },
@@ -205,7 +201,7 @@ const dots = [
           return (
             <li
               class:list={[
-                'method-node group/node absolute flex items-center justify-center text-center transition-transform duration-300 ease-[var(--ease-out)] hover:-translate-y-1',
+                'method-node group/node absolute flex aspect-square items-center justify-center text-center transition-transform duration-300 ease-[var(--ease-out)] hover:-translate-y-1',
                 layout.className,
               ]}
               style={`--node-delay:${index * 0.65}s`}
@@ -214,25 +210,25 @@ const dots = [
                 src={layout.circle}
                 alt=""
                 class="absolute inset-0 !h-full !w-full !max-w-none transition-transform duration-500 ease-[var(--ease-out)] group-hover/node:scale-[1.03]"
-                width={layout.size}
-                height={layout.size}
+                width="280"
+                height="280"
               />
-              <div class="relative max-w-[205px] px-3">
+              <div class="relative z-10 flex h-full w-full flex-col items-center justify-center px-[12%] py-[10%] text-center">
                 {layout.showNumber && (
-                  <p class="m-0 text-[42px] leading-none">
+                  <p class="m-0 text-[clamp(1.75rem,3.2vw,2.625rem)] leading-none">
                     {String(index + 1).padStart(2, '0')}
                   </p>
                 )}
                 <h3
                   class:list={[
-                    'm-0 text-xl leading-[1.05] uppercase',
+                    'm-0 w-full text-balance text-[clamp(0.8125rem,1.05vw,1.25rem)] leading-[1.05] uppercase',
                     layout.showNumber ? 'mt-1' : '',
                   ]}
                 >
                   {step.title}
                 </h3>
                 {layout.showDescription && step.description && (
-                  <p class="mx-auto mb-0 mt-1 max-w-[184px] text-base leading-[1.15] text-white/75">
+                  <p class="mx-auto mb-0 mt-1 w-full max-w-[92%] text-balance text-[clamp(0.75rem,0.9vw,1rem)] leading-[1.15] text-white/75">
                     {step.description}
                   </p>
                 )}
