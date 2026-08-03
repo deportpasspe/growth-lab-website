@@ -155,27 +155,34 @@ img {
   }
 }
 
-.motion-ready [data-reveal] {
-  opacity: 0;
-}
-
-/* Hero copy is above the fold — keep it visible for Speed Index and LCP text. */
-.motion-ready .hero-stack [data-reveal],
-.motion-ready [data-reveal-on="load"] [data-reveal],
-.motion-ready [data-reveal-on="load"] {
+/* Always keep above-fold content visible — no JS required for Speed Index. */
+.hero-stack [data-reveal],
+[data-reveal-on="load"] [data-reveal],
+[data-reveal-on="load"],
+.site-header .header-item {
   opacity: 1;
 }
 
-.motion-ready .hero-stack [data-reveal].is-revealed,
-.motion-ready [data-reveal-on="load"] [data-reveal].is-revealed,
-.motion-ready [data-reveal-on="load"].is-revealed {
+.hero-stack [data-reveal].is-revealed,
+[data-reveal-on="load"] [data-reveal].is-revealed,
+[data-reveal-on="load"].is-revealed,
+.site-header .header-item.is-header-visible {
   animation: none;
+}
+
+/* Hide only off-screen reveals once JS marks them. */
+.motion-ready [data-reveal].reveal-pending {
+  opacity: 0;
+}
+
+.motion-ready [data-reveal].reveal-pending.is-revealed {
+  opacity: 1;
+  animation: reveal-rise var(--duration-reveal) var(--ease-reveal) var(--reveal-delay, 0ms)
+    backwards;
 }
 
 .motion-ready [data-reveal].is-revealed {
   opacity: 1;
-  animation: reveal-rise var(--duration-reveal) var(--ease-reveal) var(--reveal-delay, 0ms)
-    backwards;
 }
 
 /* Word masks take over once the runtime has split the text */

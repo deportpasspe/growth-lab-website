@@ -15,6 +15,8 @@ import {animateMetric, setupMetrics} from './metrics-motion'
 
 const MOTION_CLASS = 'motion-ready'
 const REVEALED_CLASS = 'is-revealed'
+const PENDING_CLASS = 'reveal-pending'
+const ABOVE_FOLD_RATIO = 0.92
 const DEFAULT_GROUP_STAGGER = 90
 const DEFAULT_PARALLAX_SPEED = 0.12
 const MAX_PARALLAX_PROGRESS = 1.5
@@ -64,11 +66,18 @@ function splitIntoWords(element: HTMLElement): number {
   return index
 }
 
+function isAboveFold(element: HTMLElement): boolean {
+  const rect = element.getBoundingClientRect()
+  return rect.top < window.innerHeight * ABOVE_FOLD_RATIO
+}
+
 function prepare(element: HTMLElement) {
+  if (element.classList.contains(REVEALED_CLASS)) return
   if (element.dataset.reveal !== 'text' || element.dataset.revealSplit !== undefined) return
 
-  if (element.closest('.hero-stack')) {
+  if (element.closest('.hero-stack') || isAboveFold(element)) {
     element.dataset.reveal = ''
+    element.classList.add(REVEALED_CLASS)
     return
   }
 
@@ -106,14 +115,30 @@ function collectTargets(): Map<Element, HTMLElement[]> {
   return targets
 }
 
+function markPending(members: HTMLElement[]) {
+  for (const element of members) {
+    if (element.classList.contains(REVEALED_CLASS)) continue
+    if (element.closest('.hero-stack') || element.closest('[data-reveal-on="load"]')) continue
+    if (isAboveFold(element)) {
+      element.classList.add(REVEALED_CLASS)
+      continue
+    }
+    element.classList.add(PENDING_CLASS)
+  }
+}
+
 function setupReveal() {
   const targets = collectTargets()
   if (!targets.size) return
 
-  for (const members of targets.values()) members.forEach(prepare)
+  for (const members of targets.values()) {
+    markPending(members)
+    members.forEach(prepare)
+  }
 
   const reveal = (trigger: Element) => {
     targets.get(trigger)?.forEach((element) => {
+      element.classList.remove(PENDING_CLASS)
       element.classList.add(REVEALED_CLASS)
       if (element.hasAttribute('data-metric')) animateMetric(element)
     })
@@ -131,8 +156,15 @@ function setupReveal() {
   )
 
   for (const trigger of targets.keys()) {
-    if ((trigger as HTMLElement).dataset.revealOn === 'load') {
-      requestAnimationFrame(() => reveal(trigger))
+    const triggerEl = trigger as HTMLElement
+
+    if (triggerEl.dataset.revealOn === 'load') {
+      reveal(trigger)
+      continue
+    }
+
+    if (isAboveFold(triggerEl)) {
+      reveal(trigger)
       continue
     }
 
@@ -141,6 +173,8 @@ function setupReveal() {
 }
 
 function setupParallax() {
+  if (window.matchMedia('(max-width: 1023px)').matches) return
+
   const items = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]')).map(
     (element) => ({
       element,
@@ -207,13 +241,13 @@ function start() {
     return
   }
 
-  document.documentElement.classList.add(MOTION_CLASS)
   if (initialized) return
 
   initialized = true
-  setupReveal()
 
   const runDeferred = () => {
+    document.documentElement.classList.add(MOTION_CLASS)
+    setupReveal()
     setupParallax()
     setupMetrics()
   }

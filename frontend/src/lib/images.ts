@@ -4,7 +4,7 @@ import type {SanityImageSource} from '@sanity/image-url'
 import {urlFor} from './sanity/image'
 
 const STATIC_IMAGE_EXT = /\.(avif|gif|jpe?g|png|webp)$/i
-const STATIC_HERO_WIDTHS = [640, 1024] as const
+const STATIC_HERO_WIDTHS = [480, 640, 1024] as const
 
 export function staticResponsiveUrl(path: string, width: number): string {
   return path.replace(STATIC_IMAGE_EXT, `-${width}.$1`)
@@ -26,7 +26,7 @@ export function staticSrcset(path: string, widths: number[] = [...STATIC_HERO_WI
   return entries.length ? entries.join(', ') : undefined
 }
 
-export function staticLcpPreloadUrl(path: string, width = 640): string {
+export function staticLcpPreloadUrl(path: string, width = 480): string {
   if (staticVariantExists(path, width)) {
     return staticResponsiveUrl(path, width)
   }

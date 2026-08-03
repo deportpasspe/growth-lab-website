@@ -108,6 +108,13 @@ const structuredData = buildPageStructuredData({
   article: pageType === 'article' ? article : undefined,
   service: pageType === 'service' ? service : undefined,
 })
+
+const lcpPreloadSrcset =
+  lcpImage && lcpImage.includes('-480.')
+    ? `${lcpImage} 480w, ${lcpImage.replace('-480.', '-640.')} 640w, ${lcpImage.replace('-480.', '-1024.')} 1024w`
+    : lcpImage && lcpImage.includes('-640.')
+      ? `${lcpImage} 640w, ${lcpImage.replace('-640.', '-1024.')} 1024w`
+      : undefined
 ---
 
 <!doctype html>
@@ -116,7 +123,17 @@ const structuredData = buildPageStructuredData({
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    {lcpImage && <link rel="preload" as="image" href={lcpImage} fetchpriority="high" />}
+    {lcpImage && (
+      <link
+        rel="preload"
+        as="image"
+        href={lcpImage}
+        fetchpriority="high"
+        {...(lcpPreloadSrcset
+          ? {imagesrcset: lcpPreloadSrcset, imagesizes: '(max-width: 480px) 100vw, (max-width: 640px) 100vw, 1024px'}
+          : {})}
+      />
+    )}
     <meta name="generator" content={Astro.generator} />
     <meta name="robots" content={robotsContent} />
 
@@ -146,22 +163,17 @@ const structuredData = buildPageStructuredData({
     {cleanDescription && <meta name="twitter:description" content={cleanDescription} />}
     {image && <meta name="twitter:image" content={image} />}
 
-    <link
-      rel="preload"
-      href="/fonts/questrial-latin.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-
     <title>{fullTitle}</title>
 
     <JsonLd data={structuredData} />
 
     <script is:inline>
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.classList.add('motion-ready')
         document.addEventListener('DOMContentLoaded', () => {
+          document.querySelectorAll('.header-item').forEach((element) => {
+            element.classList.add('is-header-visible')
+          })
+
           for (const trigger of document.querySelectorAll('[data-reveal-on="load"]')) {
             trigger.querySelectorAll('[data-reveal]').forEach((element) => {
               element.classList.add('is-revealed')

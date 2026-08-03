@@ -296,16 +296,6 @@ const pillLinkClass = [
 </header>
 
 <script>
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.header-item').forEach((el) => el.classList.add('is-header-visible'))
-  } else {
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        document.querySelectorAll('.header-item').forEach((el) => el.classList.add('is-header-visible'))
-      }, 100)
-    })
-  }
-
   const header = document.querySelector<HTMLElement>('[data-site-header]')
 
   if (header) {
@@ -537,27 +527,7 @@ const pillLinkClass = [
   }
 
   :global(html.motion-ready) .header-item {
-    opacity: 0;
-  }
-
-  :global(html.motion-ready) .header-item.is-header-visible {
-    animation: header-fade-up 520ms var(--ease-reveal) forwards;
-  }
-
-  :global(html.motion-ready) .header-item--logo.is-header-visible {
-    animation-name: header-slide-down;
-    animation-duration: 440ms;
-    animation-delay: 0ms;
-  }
-
-  :global(html.motion-ready) .header-item--link.is-header-visible {
-    animation-delay: calc(120ms + var(--header-i, 0) * 55ms);
-  }
-
-  :global(html.motion-ready) .header-item--controls.is-header-visible {
-    animation-name: header-fade-in;
-    animation-duration: 520ms;
-    animation-delay: 420ms;
+    opacity: 1;
   }
 
   [data-mobile-nav][data-open='true'] .mobile-nav-panel {

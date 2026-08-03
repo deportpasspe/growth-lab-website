@@ -97,10 +97,10 @@ const heroBgOverscanClass = !hasParallaxOverscan
 <section
   class:list={['relative isolate overflow-hidden bg-black text-white', homeHeroHeight]}
 >
-  <div class="hero-bg absolute inset-0 overflow-hidden" aria-hidden="true" data-parallax={parallaxSpeed}>
+  <div class="hero-bg absolute inset-0 overflow-hidden" aria-hidden="true" data-parallax={variant === 'home' ? undefined : parallaxSpeed}>
     <img
       src={heroImage.src}
-      {...heroImage.srcset ? {srcset: heroImage.srcset, sizes: '(max-width: 640px) 100vw, 1024px'} : {}}
+      {...heroImage.srcset ? {srcset: heroImage.srcset, sizes: '(max-width: 480px) 100vw, (max-width: 640px) 100vw, 1024px'} : {}}
       alt=""
       class:list={[
         'hero-bg__image',
@@ -124,6 +124,8 @@ const heroBgOverscanClass = !hasParallaxOverscan
         class="pointer-events-none absolute -left-[195px] -top-[235px] h-[783px] w-[779px] max-w-none opacity-70"
         width="779"
         height="783"
+        loading="lazy"
+        decoding="async"
         data-parallax="-0.22"
       />
     )
@@ -436,7 +438,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
     object-position: center;
   }
 
-  @media (prefers-reduced-motion: no-preference) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
     .hero-bg__image {
       animation: hero-bg-zoom 2.4s var(--ease-out) both;
     }
