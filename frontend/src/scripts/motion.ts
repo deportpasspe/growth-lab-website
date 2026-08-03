@@ -212,8 +212,17 @@ function start() {
 
   initialized = true
   setupReveal()
-  setupParallax()
-  setupMetrics()
+
+  const runDeferred = () => {
+    setupParallax()
+    setupMetrics()
+  }
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(runDeferred, {timeout: 2000})
+  } else {
+    setTimeout(runDeferred, 1)
+  }
 }
 
 reduceMotion.addEventListener('change', () => {
@@ -221,13 +230,4 @@ reduceMotion.addEventListener('change', () => {
   else start()
 })
 
-function scheduleStart() {
-  if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(() => start(), {timeout: 2000})
-    return
-  }
-
-  setTimeout(start, 1)
-}
-
-scheduleStart()
+start()

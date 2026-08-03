@@ -159,6 +159,19 @@ img {
   opacity: 0;
 }
 
+/* Hero copy is above the fold — keep it visible for Speed Index and LCP text. */
+.motion-ready .hero-stack [data-reveal],
+.motion-ready [data-reveal-on="load"] [data-reveal],
+.motion-ready [data-reveal-on="load"] {
+  opacity: 1;
+}
+
+.motion-ready .hero-stack [data-reveal].is-revealed,
+.motion-ready [data-reveal-on="load"] [data-reveal].is-revealed,
+.motion-ready [data-reveal-on="load"].is-revealed {
+  animation: none;
+}
+
 .motion-ready [data-reveal].is-revealed {
   opacity: 1;
   animation: reveal-rise var(--duration-reveal) var(--ease-reveal) var(--reveal-delay, 0ms)

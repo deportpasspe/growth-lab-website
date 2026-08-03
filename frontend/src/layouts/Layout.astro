@@ -161,6 +161,16 @@ const structuredData = buildPageStructuredData({
     <script is:inline>
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('motion-ready')
+        document.addEventListener('DOMContentLoaded', () => {
+          for (const trigger of document.querySelectorAll('[data-reveal-on="load"]')) {
+            trigger.querySelectorAll('[data-reveal]').forEach((element) => {
+              element.classList.add('is-revealed')
+            })
+            if (trigger.matches('[data-reveal]')) {
+              trigger.classList.add('is-revealed')
+            }
+          }
+        })
       }
     </script>
     <noscript>
