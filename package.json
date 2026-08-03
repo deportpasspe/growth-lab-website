@@ -18,6 +18,7 @@
     "validate:i18n": "tsx studio/scripts/validate-i18n-data.ts",
     "validate:audit": "tsx studio/scripts/audit-data.ts",
     "patch:seo": "tsx studio/scripts/patch-seo.ts",
+    "patch:legal": "tsx studio/scripts/patch-legal.ts",
     "validate:seo": "tsx studio/scripts/patch-seo.ts",
     "validate:images": "tsx studio/scripts/validate-images.ts"
   },

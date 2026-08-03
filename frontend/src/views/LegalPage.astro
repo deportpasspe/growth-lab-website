@@ -3,14 +3,12 @@ import type { Locale } from "../i18n/routes";
 import type { PortableTextBlock } from "@portabletext/types";
 import { PortableText } from "astro-portabletext";
 import Layout from "../layouts/Layout.astro";
-import Container from "../components/ui/Container.astro";
-import Section from "../components/ui/Section.astro";
-import Heading from "../components/ui/Heading.astro";
 import { loadQuery } from "../lib/sanity/loadQuery";
 import { legalPageBySlugQuery } from "../lib/sanity/queries/pages";
 import { resolvePageSeo, type PageSeo } from "../lib/seo/resolvePageSeo";
 import { singletonBreadcrumbs } from "../lib/seo/breadcrumbs";
 import { t } from "../i18n";
+import { legalPageFixture } from "../modules/legalPageFixtures";
 
 interface Props {
   locale: Locale;
@@ -22,13 +20,10 @@ const perspectiveCookie = Astro.locals.perspectiveCookie;
 
 const privacySlug = locale === "es" ? "politica-de-privacidad" : "privacy-policy";
 const resolvedSlug = slug || privacySlug;
+const fixture = legalPageFixture(locale, resolvedSlug);
 
-let title = t(locale, "footer.privacy");
-let description =
-  locale === "es"
-    ? "Esta es una página legal placeholder. El contenido completo se gestiona en Sanity."
-    : "This is a legal page placeholder. Full content is managed in Sanity.";
-let body: PortableTextBlock[] | null = null;
+let title = fixture?.title || t(locale, "footer.privacy");
+let body: PortableTextBlock[] | null = fixture?.body || null;
 let seo: PageSeo | undefined;
 
 try {
@@ -40,17 +35,20 @@ try {
   if (data) {
     seo = data.seo;
     title = data.seo?.metaTitle || data.title || title;
-    description = data.seo?.metaDescription || description;
-    body = data.body || null;
+    body = data.body?.length ? data.body : body;
   }
 } catch {
-  // placeholder
+  // fixtures fallback
 }
 
 const meta = resolvePageSeo({
   seo,
   title,
-  description,
+  description:
+    seo?.metaDescription ||
+    (locale === "es"
+      ? "Política de privacidad y tratamiento de datos personales de Growth Lab Consulting."
+      : "Privacy policy and personal data processing for Growth Lab Consulting."),
   origin: Astro.url.origin,
 });
 ---
@@ -61,20 +59,91 @@ const meta = resolvePageSeo({
   description={meta.description}
   image={meta.image}
   routeKey="privacy"
-  breadcrumbs={singletonBreadcrumbs(locale, meta.title, Astro.url.pathname)}
+  breadcrumbs={singletonBreadcrumbs(locale, title, Astro.url.pathname)}
 >
-  <Section>
-    <Container narrow>
-      <Heading as="h1">{title}</Heading>
+  <section class="bg-black pb-16 pt-6 text-white sm:pb-24 sm:pt-[25px]">
+    <div class="mx-auto w-full max-w-[1280px] px-6 sm:px-[42px]">
+      <h1 class="m-0 text-center text-[clamp(1.5rem,4vw,2rem)] uppercase leading-normal">
+        {title}
+      </h1>
+
       {
         Array.isArray(body) && body.length > 0 ? (
-          <div class="prose prose-invert mt-8 max-w-none">
+          <div class="legal-body mx-auto mt-10 max-w-[725px] sm:mt-[60px]">
             <PortableText value={body} />
           </div>
         ) : (
-          <p class="mt-6 text-white/75">{description}</p>
+          <p class="mx-auto mt-10 max-w-[725px] text-base text-white/50 sm:mt-[60px]">
+            {meta.description}
+          </p>
         )
       }
-    </Container>
-  </Section>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  .legal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .legal-body :global(h2),
+  .legal-body :global(h3) {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: normal;
+    color: #fff;
+  }
+
+  .legal-body :global(h2:not(:first-child)),
+  .legal-body :global(h3:not(:first-child)) {
+    margin-top: 21px;
+  }
+
+  .legal-body :global(p),
+  .legal-body :global(blockquote) {
+    margin: 0;
+    font-size: 1rem;
+    line-height: normal;
+    color: rgb(255 255 255 / 0.5);
+  }
+
+  .legal-body :global(blockquote) {
+    border-left: 2px solid rgb(255 255 255 / 0.25);
+    padding-left: 1rem;
+  }
+
+  .legal-body :global(a) {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .legal-body :global(a:hover) {
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  .legal-body :global(strong) {
+    font-weight: 400;
+    color: #fff;
+  }
+
+  .legal-body :global(ul),
+  .legal-body :global(ol) {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: rgb(255 255 255 / 0.5);
+    font-size: 1rem;
+    line-height: normal;
+  }
+
+  .legal-body :global(li) {
+    padding-left: 0.25rem;
+  }
+</style>
