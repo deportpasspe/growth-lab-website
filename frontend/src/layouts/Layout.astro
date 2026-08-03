@@ -146,11 +146,12 @@ const structuredData = buildPageStructuredData({
     {cleanDescription && <meta name="twitter:description" content={cleanDescription} />}
     {image && <meta name="twitter:image" content={image} />}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Questrial&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/questrial-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
 
     <title>{fullTitle}</title>
