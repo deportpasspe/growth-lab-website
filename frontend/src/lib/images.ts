@@ -1,18 +1,37 @@
+import {existsSync} from 'node:fs'
+import {join} from 'node:path'
 import type {SanityImageSource} from '@sanity/image-url'
 import {urlFor} from './sanity/image'
 
 const STATIC_IMAGE_EXT = /\.(avif|gif|jpe?g|png|webp)$/i
+const STATIC_HERO_WIDTHS = [640, 1024] as const
 
 export function staticResponsiveUrl(path: string, width: number): string {
-  return path.replace(STATIC_IMAGE_EXT, `-${width}$1`)
+  return path.replace(STATIC_IMAGE_EXT, `-${width}.$1`)
 }
 
-export function staticSrcset(path: string, widths: number[]): string {
-  return widths.map((width) => `${staticResponsiveUrl(path, width)} ${width}w`).join(', ')
+function staticVariantPath(path: string, width: number): string {
+  return join(process.cwd(), 'public', staticResponsiveUrl(path, width))
+}
+
+function staticVariantExists(path: string, width: number): boolean {
+  return existsSync(staticVariantPath(path, width))
+}
+
+export function staticSrcset(path: string, widths: number[] = [...STATIC_HERO_WIDTHS]): string | undefined {
+  const entries = widths
+    .filter((width) => staticVariantExists(path, width))
+    .map((width) => `${staticResponsiveUrl(path, width)} ${width}w`)
+
+  return entries.length ? entries.join(', ') : undefined
 }
 
 export function staticLcpPreloadUrl(path: string, width = 640): string {
-  return staticResponsiveUrl(path, width)
+  if (staticVariantExists(path, width)) {
+    return staticResponsiveUrl(path, width)
+  }
+
+  return path
 }
 
 export function sanityHeroSrcset(
@@ -38,9 +57,10 @@ export function sanityLcpPreloadUrl(source: SanityImageSource): string {
 
 export function resolveHeroImage(image: string | SanityImageSource | undefined, fallback: string) {
   if (typeof image === 'string') {
+    const srcset = staticSrcset(image)
     return {
       src: image,
-      srcset: staticSrcset(image, [640, 1024]),
+      srcset,
       lcpPreload: staticLcpPreloadUrl(image),
       width: 1024,
       height: 572,
@@ -57,9 +77,10 @@ export function resolveHeroImage(image: string | SanityImageSource | undefined, 
     }
   }
 
+  const srcset = staticSrcset(fallback)
   return {
     src: fallback,
-    srcset: staticSrcset(fallback, [640, 1024]),
+    srcset,
     lcpPreload: staticLcpPreloadUrl(fallback),
     width: 1024,
     height: 572,

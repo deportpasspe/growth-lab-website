@@ -195,7 +195,7 @@ const socialIconClass =
   </div>
 
   <div class="mx-auto w-full max-w-[1280px] px-6 py-16 sm:px-[42px] min-[1440px]:hidden" data-reveal-group="120">
-    <div class="grid gap-12 md:grid-cols-2 md:items-start md:gap-x-10 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.5fr)_minmax(0,0.95fr)] xl:gap-x-14">
+    <div class="grid grid-cols-1 gap-12 sm:gap-y-10 md:grid-cols-2 md:items-start md:gap-x-10 md:gap-y-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.5fr)_minmax(0,0.95fr)] lg:gap-x-14">
       <div data-reveal>
         <BrandLogo class="!h-[28.902px] !w-[212.66px]" />
         <p class="mb-0 mt-[19px] text-[18px]">{tagline}</p>
@@ -235,14 +235,14 @@ const socialIconClass =
         </div>
       </div>
 
-      <div class="md:col-span-2 xl:col-span-1" data-reveal>
+      <div data-reveal>
         <h2 class="m-0 text-[20px]">{t(locale, 'nav.services')}</h2>
         <div class="mt-7 flex flex-col gap-4 text-[16px] text-white/50">
           {serviceLinks.map((link) => <a href={link.href} class={footerLinkClass}>{link.label}</a>)}
         </div>
       </div>
 
-      <nav aria-label="Footer" class="md:col-span-2 xl:col-span-1" data-reveal>
+      <nav aria-label="Footer" data-reveal>
         <h2 class="m-0 text-[20px]">{locale === 'es' ? 'Compañía' : 'Company'}</h2>
         <div class="mt-7 flex flex-col gap-4 text-[16px] text-white/50">
           {companyLinks.map((link) => <a href={link.href} class={footerLinkClass}>{link.label}</a>)}

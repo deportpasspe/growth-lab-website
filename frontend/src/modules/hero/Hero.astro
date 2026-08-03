@@ -104,8 +104,7 @@ const heroBgOverscanClass = !hasParallaxOverscan
   <div class="hero-bg absolute inset-0 overflow-hidden" aria-hidden="true" data-parallax={parallaxSpeed}>
     <img
       src={heroImage.src}
-      srcset={heroImage.srcset}
-      sizes="100vw"
+      {...heroImage.srcset ? {srcset: heroImage.srcset, sizes: '100vw'} : {}}
       alt=""
       class:list={[
         'hero-bg__image',
