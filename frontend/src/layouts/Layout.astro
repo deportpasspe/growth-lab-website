@@ -193,6 +193,15 @@ const lcpPreloadSrcset =
         }
       </style>
     </noscript>
+    <script is:inline>
+      (function(k) {
+        let s = document.createElement('script');
+        s.defer = true;
+        s.src = "https://cdn.feedbucket.app/assets/feedbucket.js";
+        s.dataset.feedbucket = k;
+        document.head.appendChild(s);
+      })('ANX19CPyXtZ99cbN88nb');
+    </script>
   </head>
   <body class="flex min-h-screen flex-col font-sans antialiased">
     {draftMode && <VisualEditing enabled={draftMode} />}
