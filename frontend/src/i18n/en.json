@@ -100,7 +100,7 @@
     "channelsHeading": "You can also reach us directly.",
     "channels": {
       "emailTitle": "Email:",
-      "emailValue": "contacto@growthlab.pe",
+      "emailValue": "info@growthlab.com.pe",
       "whatsappTitle": "WhatsApp:",
       "whatsappValue": "+51 999 999 999",
       "whatsappHref": "https://wa.me/51999999999",
@@ -145,7 +145,7 @@
   },
   "caseStudies": {
     "heroEyebrow": "Case studies",
-    "heroHeading": "Results you can measure, not just describe.",
+    "heroHeading": "Results you measure, not promises.",
     "heroSubheading": "Every case starts from a real problem and ends with a concrete number. That is how we measure success.",
     "ctaHeading": "Does your organization face a similar challenge?",
     "ctaSubheading": "Tell us where you stand and let's see how we can help.",

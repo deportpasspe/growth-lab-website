@@ -9,9 +9,18 @@ interface Props {
   body: string
   decoration?: 'magentaGlow'
   image?: SanityImageSource | string
+  bodyAlign?: 'left' | 'right'
 }
 
-const {variant = 'default', eyebrow, heading, body, decoration, image} = Astro.props
+const {
+  variant = 'default',
+  eyebrow,
+  heading,
+  body,
+  decoration,
+  image,
+  bodyAlign = 'right',
+} = Astro.props
 
 const bannerSrc =
   typeof image === 'string'
@@ -34,7 +43,7 @@ const bannerSrc =
         >
           {heading}
         </h2>
-        <p class="m-0 text-lg leading-[1.22] text-white/75" data-reveal>
+        <p class="m-0 whitespace-pre-line text-lg leading-[1.22] text-white/75" data-reveal>
           {body}
         </p>
       </div>
@@ -95,7 +104,13 @@ const bannerSrc =
             {heading}
           </h2>
         </div>
-        <p class="m-0 text-lg leading-[1.22] text-white md:text-right" data-reveal>
+        <p
+          class:list={[
+            'm-0 whitespace-pre-line text-lg leading-[1.22] text-white',
+            bodyAlign === 'left' ? 'md:text-left' : 'md:text-right',
+          ]}
+          data-reveal
+        >
           {body}
         </p>
       </div>

@@ -26,46 +26,48 @@ export function aboutFixtures(locale: Locale): PageSection[] {
       _key: 'story',
       heading: isEn ? 'Why Growth Lab exists.' : 'Por qué existe Growth Lab.',
       body: isEn
-        ? 'We saw a market where talent consultancies did one of two things: sent CVs without criteria or delivered diagnostics nobody executed. We created Growth Lab to do something different — a boutique consultancy that understands the business before searching for a candidate, stays until something changes, and builds long-term relationships with the organizations that trust us.'
-        : 'Vimos un mercado donde las consultoras de talento hacían una de dos cosas: enviaban CVs sin criterio o entregaban diagnósticos que nadie ejecutaba. Creamos Growth Lab para hacer algo distinto. Una consultora boutique que entiende el negocio antes de buscar al candidato, que se queda hasta que algo cambia y que construye relaciones de largo plazo con las organizaciones que confían en nosotros.',
+        ? 'We saw a market where talent consultancies did one of two things: sent CVs without judgment or delivered diagnostics nobody executed. We created Growth Lab to do it differently. A boutique consultancy that understands your business before searching, stays until results show, and builds long-term relationships with the companies that trust us.'
+        : 'Vimos un mercado donde las consultoras de talento hacían una de dos cosas: mandaban CVs sin criterio o entregaban diagnósticos que nadie ejecutaba. Creamos Growth Lab para hacerlo distinto. Una consultora boutique que entiende tu negocio antes de buscar, que se queda hasta ver resultados y que construye relaciones de largo plazo con las empresas que confían en nosotros.',
       purposeTitle: isEn ? 'Our purpose.' : 'Nuestro propósito.',
       purposeBody: isEn
-        ? 'Empower organizational growth by connecting the right people with the right place.'
-        : 'Empoderar el crecimiento de las organizaciones conectando a las personas correctas con el lugar correcto.',
+        ? 'Grow organizations through the talent they truly need.'
+        : 'Hacer crecer organizaciones a través del talento que realmente necesitan.',
       image: '/assets/figma/about/story.webp',
     },
     {
       _type: 'contentCards',
       _key: 'values',
       variant: 'values',
-      heading: isEn ? 'How we behave.' : 'Cómo nos comportamos.',
+      heading: isEn ? 'How we work' : 'Así trabajamos',
       cards: [
         {
-          title: isEn ? 'Judgment before speed' : 'Criterio antes que velocidad',
+          title: isEn
+            ? 'Agility with judgment, before speed'
+            : 'Agilidad con criterio, antes que velocidad',
           description: isEn
-            ? 'We would rather take the time needed to recommend well than deliver fast and recommend poorly.'
-            : 'Preferimos tomarnos el tiempo necesario para recomendar bien antes que entregar rápido y recomendar mal.',
+            ? 'We move fast, but not blindly. Every step has a why, so we get it right the first time.'
+            : 'Nos movemos rápido, pero no a ciegas. Cada paso tiene un porqué, para acertar a la primera.',
           icon: 'calendar',
         },
         {
           title: isEn ? 'Diagnosis before solution' : 'Diagnóstico antes que solución',
           description: isEn
-            ? 'We propose nothing without understanding first. Every intervention starts from the organization’s reality.'
-            : 'No proponemos nada sin entender primero. Cada intervención parte de la realidad de la organización.',
+            ? 'We propose nothing without understanding first. The solution comes from your problem, not from a catalog.'
+            : 'No proponemos nada sin entender primero. La solución sale de tu problema, no de un catálogo.',
           icon: 'planning',
         },
         {
           title: isEn ? 'Real accountability' : 'Accountability real',
           description: isEn
-            ? 'If something does not work, we say so and fix it. We do not disappear when things get complicated.'
-            : 'Si algo no funciona, lo decimos y lo corregimos. No desaparecemos cuando las cosas se complican.',
+            ? 'If something does not work, we say so upfront and fix it. Problems are not hidden — they are solved.'
+            : 'Si algo no funciona, lo decimos de frente y lo corregimos. Los problemas no se esconden, se resuelven.',
           icon: 'money',
         },
         {
           title: isEn ? 'Long-term relationships' : 'Relaciones de largo plazo',
           description: isEn
-            ? 'We do not sell one-off projects. We build lasting bonds with the organizations we work with.'
-            : 'No vendemos proyectos sueltos. Construimos vínculos con las organizaciones que trabajan con nosotros.',
+            ? 'We are not looking for one-off projects. We want to be the partner you call every time your team grows.'
+            : 'No buscamos proyectos sueltos. Queremos ser el partner al que llamas cada vez que tu equipo crece.',
           icon: 'relationship',
         },
       ],
@@ -128,56 +130,6 @@ export function aboutFixtures(locale: Locale): PageSection[] {
           countryPreset: 'it',
           country: isEn ? 'Italy' : 'Italia',
           organizations: [isEn ? 'Organization 1' : 'Organización 1'],
-        },
-      ],
-    },
-    {
-      _type: 'teamCards',
-      _key: 'team',
-      heading: isEn ? 'The team behind every process.' : 'El equipo detrás de cada proceso.',
-      intro: isEn
-        ? 'Direct access to partners on every project. No intermediaries, no juniors executing what a senior sold.'
-        : 'Acceso directo a los socios en cada proyecto. Sin intermediarios, sin juniors ejecutando lo que un senior vendió.',
-      members: [
-        {
-          _key: 'member-1',
-          name: isEn ? 'First Last' : 'Nombre Apellido',
-          role: isEn ? 'Senior Partner' : 'Partner Senior',
-          bio: isEn
-            ? '15 years in executive search and organizational development. He has led processes for companies in financial services, retail, and technology across Latin America.'
-            : '15 años en búsqueda ejecutiva y desarrollo organizacional. Ha liderado procesos para empresas de servicios financieros, retail y tecnología en Latinoamérica.',
-          photo: '/assets/figma/about/team-member.webp',
-          linkedInUrl: 'https://www.linkedin.com/',
-        },
-        {
-          _key: 'member-2',
-          name: isEn ? 'First Last' : 'Nombre Apellido',
-          role: isEn ? 'Senior Partner' : 'Partner Senior',
-          bio: isEn
-            ? '15 years in executive search and organizational development. He has led processes for companies in financial services, retail, and technology across Latin America.'
-            : '15 años en búsqueda ejecutiva y desarrollo organizacional. Ha liderado procesos para empresas de servicios financieros, retail y tecnología en Latinoamérica.',
-          photo: '/assets/figma/about/team-member.webp',
-          linkedInUrl: 'https://www.linkedin.com/',
-        },
-        {
-          _key: 'member-3',
-          name: isEn ? 'First Last' : 'Nombre Apellido',
-          role: isEn ? 'Senior Partner' : 'Partner Senior',
-          bio: isEn
-            ? '15 years in executive search and organizational development. He has led processes for companies in financial services, retail, and technology across Latin America.'
-            : '15 años en búsqueda ejecutiva y desarrollo organizacional. Ha liderado procesos para empresas de servicios financieros, retail y tecnología en Latinoamérica.',
-          photo: '/assets/figma/about/team-member.webp',
-          linkedInUrl: 'https://www.linkedin.com/',
-        },
-        {
-          _key: 'member-4',
-          name: isEn ? 'First Last' : 'Nombre Apellido',
-          role: isEn ? 'Senior Partner' : 'Partner Senior',
-          bio: isEn
-            ? '15 years in executive search and organizational development. He has led processes for companies in financial services, retail, and technology across Latin America.'
-            : '15 años en búsqueda ejecutiva y desarrollo organizacional. Ha liderado procesos para empresas de servicios financieros, retail y tecnología en Latinoamérica.',
-          photo: '/assets/figma/about/team-member.webp',
-          linkedInUrl: 'https://www.linkedin.com/',
         },
       ],
     },

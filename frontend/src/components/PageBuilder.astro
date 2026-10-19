@@ -188,6 +188,7 @@ const serviceSplitSlugByPage: Record<string, Record<Locale, string>> = {
             body={section.body}
             decoration={section.decoration}
             image={section.image}
+            bodyAlign={'bodyAlign' in section ? section.bodyAlign : undefined}
           />
         )
       case 'serviceCatalog':

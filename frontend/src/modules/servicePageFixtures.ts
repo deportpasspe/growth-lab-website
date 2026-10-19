@@ -41,7 +41,6 @@ function sharedCtas(locale: Locale) {
     learnProcess: isEn ? 'Learn about the process' : 'Conocer el proceso',
     bookMeeting: isEn ? 'Book a meeting' : 'Agenda una reunión',
     freeAssessment: isEn ? 'Request a free assessment' : 'Solicitar diagnóstico gratuito',
-    whatsappHref: 'https://wa.me/',
   }
 }
 
@@ -205,7 +204,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           ? 'If you have doubts, it is probably time to measure it. Let us talk about your situation and see what makes sense.'
           : 'Si tienes dudas, probablemente ya es momento de medirlo. Conversemos sobre tu situación y veamos qué tiene sentido hacer.',
         cta: {label: ctas.bookMeeting, href: ctas.contactHref},
-        secondaryCta: {label: ctas.freeAssessment, href: ctas.whatsappHref},
+        secondaryCta: {label: ctas.freeAssessment, href: ctas.contactHref},
       },
       {
         _type: 'faqSection',
@@ -395,7 +394,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           ? 'If something is not working in your organization and you are not sure why, the answer is probably in the culture. Let\'s talk.'
           : 'Si hay algo que no está funcionando en tu organización y no sabes bien por qué, probablemente la respuesta está en la cultura. Conversemos.',
         cta: {label: ctas.bookMeeting, href: ctas.contactHref},
-        secondaryCta: {label: ctas.freeAssessment, href: ctas.whatsappHref},
+        secondaryCta: {label: ctas.freeAssessment, href: ctas.contactHref},
       },
       {
         _type: 'faqSection',
@@ -588,7 +587,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           ? 'If the answer is forms, it is time to change something. Let us talk about your situation.'
           : 'Si la respuesta es formularios, es momento de cambiar algo. Conversemos sobre tu situación.',
         cta: {label: ctas.bookMeeting, href: ctas.contactHref},
-        secondaryCta: {label: ctas.freeAssessment, href: ctas.whatsappHref},
+        secondaryCta: {label: ctas.freeAssessment, href: ctas.contactHref},
       },
       {
         _type: 'faqSection',
@@ -783,7 +782,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           ? 'If the answer is no or not quite, it is time to work on it. Let us talk.'
           : 'Si la respuesta es no o no del todo, es momento de trabajarlo. Conversemos.',
         cta: {label: ctas.bookMeeting, href: ctas.contactHref},
-        secondaryCta: {label: ctas.freeAssessment, href: ctas.whatsappHref},
+        secondaryCta: {label: ctas.freeAssessment, href: ctas.contactHref},
       },
       {
         _type: 'faqSection',
@@ -966,7 +965,7 @@ function buildSections(locale: Locale, key: ServiceKey): PageSection[] {
           ? 'If the answer gives you doubts, there is probably work to do. Let us talk about your situation.'
           : 'Si la respuesta te genera dudas, probablemente hay trabajo por hacer. Conversemos sobre tu situación.',
         cta: {label: ctas.bookMeeting, href: ctas.contactHref},
-        secondaryCta: {label: ctas.freeAssessment, href: ctas.whatsappHref},
+        secondaryCta: {label: ctas.freeAssessment, href: ctas.contactHref},
       },
       {
         _type: 'faqSection',

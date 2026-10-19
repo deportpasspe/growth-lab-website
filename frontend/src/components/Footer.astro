@@ -20,18 +20,23 @@ const defaultCompanyLinks = [
   {href: getLocalizedPath(locale, 'about'), label: t(locale, 'nav.about')},
   {href: getLocalizedPath(locale, 'methodology'), label: t(locale, 'nav.methodology')},
   {href: getLocalizedPath(locale, 'caseStudies'), label: t(locale, 'nav.caseStudies')},
-  {href: getLocalizedPath(locale, 'insights'), label: t(locale, 'nav.insights')},
   {href: getLocalizedPath(locale, 'contact'), label: t(locale, 'nav.contact')},
 ]
 
-const companyLinks = siteSettings?.footer?.links?.length
-  ? siteSettings.footer.links
-      .map((item) => ({
-        href: resolveLinkHref(item.link, locale),
-        label: item.label || item.link?.label || '',
-      }))
-      .filter((item) => item.href && item.label)
-  : defaultCompanyLinks
+const companyLinks = (
+  siteSettings?.footer?.links?.length
+    ? siteSettings.footer.links
+        .map((item) => ({
+          href: resolveLinkHref(item.link, locale),
+          label: item.label || item.link?.label || '',
+        }))
+        .filter((item) => item.href && item.label)
+    : defaultCompanyLinks
+).filter((item) => {
+  const href = item.href || ''
+  const label = (item.label || '').toLowerCase()
+  return !href.includes('/insights') && !label.includes('insight')
+})
 
 const fallbackServiceLabels =
   locale === 'es'
@@ -85,19 +90,12 @@ const socials = siteSettings?.footer?.socialLinks?.length
   : defaultSocials
 
 const contactInfo = siteSettings?.footer?.contactInfo
-const emailLine = contactInfo?.email
-  ? `Email: ${contactInfo.email}`
-  : locale === 'es'
-    ? 'Email:'
-    : 'Email:'
-const whatsappLine = contactInfo?.whatsappLabel
-  ? `WhatsApp: ${contactInfo.whatsappLabel}`
-  : 'WhatsApp:'
+const emailLine = 'Email: info@growthlab.com.pe'
 const addressLine = contactInfo?.address
   ? contactInfo.address
   : locale === 'es'
-    ? 'Dirección:'
-    : 'Address:'
+    ? 'Dirección: San Isidro, Lima, Perú'
+    : 'Address: San Isidro, Lima, Peru'
 
 const complaintsHref =
   resolveLinkHref(siteSettings?.footer?.complaintsBookLink, locale) || '#'
@@ -179,7 +177,6 @@ const socialIconClass =
     >
       <div class="flex min-w-0 flex-col gap-4 text-[16px] md:max-w-[308px]" data-reveal>
         <p class="m-0">{emailLine}</p>
-        <p class="m-0">{whatsappLine}</p>
         <p class="m-0">{addressLine}</p>
       </div>
       <div class="flex shrink-0 flex-wrap gap-4 md:ml-auto md:justify-end md:self-end lg:flex-nowrap" data-reveal>

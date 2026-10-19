@@ -9,7 +9,7 @@ const esList: CaseStudyListItem[] = [
     service: 'Reclutamiento ejecutivo',
     challenge:
       'Cubrir una Gerencia de Transformación Digital tras cuatro meses de búsqueda interna sin resultado.',
-    result: 'Proceso cerrado en 28 días. Candidato activo catorce meses después.',
+    result: 'Proceso cerrado en 28 días. Candidato activo doce meses después.',
     cover: '/assets/figma/home/case-one.webp',
   },
   {
@@ -18,7 +18,7 @@ const esList: CaseStudyListItem[] = [
     industry: 'Industria y manufactura',
     service: 'Clima organizacional',
     challenge: 'Rotación de mandos medios al 23% sin claridad sobre la causa raíz.',
-    result: 'Rotación redujo a 14% en seis meses.',
+    result: 'La rotación se redujo a 14% en menos de 6 meses',
     cover: '/assets/figma/home/case-two.webp',
   },
   {
@@ -27,7 +27,7 @@ const esList: CaseStudyListItem[] = [
     industry: 'Consumo masivo',
     service: 'Cultura organizacional',
     challenge: 'Fusión de dos unidades de negocio con culturas distintas y alta tensión interna.',
-    result: 'Conflictos entre equipos reducidos en 40% en los primeros cuatro meses.',
+    result: '40% menos conflictos entre equipos en 3 meses',
     cover: '/assets/figma/home/insight-three.webp',
   },
   {
@@ -72,7 +72,7 @@ const enList: CaseStudyListItem[] = [
     service: 'Executive recruitment',
     challenge:
       'Fill a Digital Transformation Manager role after four months of internal search with no result.',
-    result: 'Process closed in 28 days. Candidate still active fourteen months later.',
+    result: 'Process closed in 28 days. Candidate still active twelve months later.',
     cover: '/assets/figma/home/case-one.webp',
   },
   {
@@ -81,7 +81,7 @@ const enList: CaseStudyListItem[] = [
     industry: 'Industry and manufacturing',
     service: 'Organizational climate',
     challenge: 'Middle management turnover at 23% with no clarity on the root cause.',
-    result: 'Turnover dropped to 14% in six months.',
+    result: 'Turnover dropped to 14% in less than 6 months',
     cover: '/assets/figma/home/case-two.webp',
   },
   {
@@ -90,7 +90,7 @@ const enList: CaseStudyListItem[] = [
     industry: 'Consumer goods',
     service: 'Organizational culture',
     challenge: 'Merger of two business units with distinct cultures and high internal tension.',
-    result: 'Conflicts between teams reduced by 40% in the first four months.',
+    result: '40% fewer conflicts between teams in 3 months',
     cover: '/assets/figma/home/insight-three.webp',
   },
   {
@@ -136,7 +136,7 @@ const esDetail: CaseStudyDetail = {
   interventionHeadline: 'Primero entendimos la organización. Después salimos a buscar.',
   intervention:
     'Activamos el Growth Talent Method™. Antes de mapear el mercado dedicamos dos semanas a entender el momento de la organización, el estilo de liderazgo del equipo directivo y las competencias críticas del rol más allá del CV. Identificamos 47 perfiles pasivos en el mercado financiero y tecnológico peruano y los evaluamos en múltiples capas. Presentamos una terna con recomendación fundada.',
-  result: 'Proceso cerrado en 28 días. Candidato activo catorce meses después.',
+  result: 'Proceso cerrado en 28 días. Candidato activo doce meses después.',
   metrics: [
     {
       value: '28',
@@ -149,7 +149,7 @@ const esDetail: CaseStudyDetail = {
       icon: 'process',
     },
     {
-      value: '14',
+      value: '12',
       label: 'meses lleva el candidato activo en el rol',
       icon: 'cost',
     },
@@ -168,7 +168,7 @@ const enDetail: CaseStudyDetail = {
   interventionHeadline: 'First we understood the organization. Then we searched.',
   intervention:
     'We activated the Growth Talent Method™. Before mapping the market we spent two weeks understanding the organization’s moment, the executive team’s leadership style, and the role’s critical competencies beyond the CV. We identified 47 passive profiles in Peru’s financial and technology market and evaluated them across multiple layers. We presented a shortlist with a grounded recommendation.',
-  result: 'Process closed in 28 days. Candidate still active fourteen months later.',
+  result: 'Process closed in 28 days. Candidate still active twelve months later.',
   metrics: [
     {
       value: '28',
@@ -181,7 +181,7 @@ const enDetail: CaseStudyDetail = {
       icon: 'process',
     },
     {
-      value: '14',
+      value: '12',
       label: 'months the candidate has been active in the role',
       icon: 'cost',
     },

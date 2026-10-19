@@ -109,7 +109,7 @@ export type PageSection =
   | {_type: 'contactFormSection'; _key: string; title?: string; intro?: string}
   | {_type: 'narrativeCards'; _key: string; cards: ContentCard[]}
   | {_type: 'contentCards'; _key: string; variant?: 'lists' | 'deliverables' | 'industries' | 'values' | 'principles'; eyebrow?: string; heading: string; intro?: string; cards: ContentCard[]}
-  | {_type: 'splitStatement'; _key: string; variant?: 'default' | 'methodIntro' | 'successBanner'; eyebrow?: string; heading: string; body: string; decoration?: 'magentaGlow'; image?: ImageSource}
+  | {_type: 'splitStatement'; _key: string; variant?: 'default' | 'methodIntro' | 'successBanner'; eyebrow?: string; heading: string; body: string; decoration?: 'magentaGlow'; image?: ImageSource; bodyAlign?: 'left' | 'right'}
   | {_type: 'serviceCatalog'; _key: string; categories: ServiceCategory[]}
   | {
       _type: 'processCards'
@@ -138,15 +138,67 @@ export type PageSection =
     }
   | {_type: 'relatedServices'; _key: string; heading: string; items: {title: string; description?: string; icon?: 'calendar' | 'planning' | 'money'; href?: string; cta?: Cta}[]}
 
+const homeFaqEs = [
+  {
+    question: '¿Trabajan proyectos puntuales o acompañamiento continuo?',
+    answer:
+      'Ambos. En reclutamiento trabajamos por proceso, con entrega definida y garantía de incorporación. En desarrollo organizacional podemos hacer una intervención acotada o acompañar de forma continua. Lo definimos juntos según lo que necesita tu organización.',
+  },
+  {
+    question: '¿Cómo miden el éxito de un proceso?',
+    answer:
+      'Primero, nos aseguramos de cumplir en tiempo y cumplir las expectativas en calidad (filtro y entregables) de nuestros clientes. Segundo, que las organizaciones tomen la mejor decisión sobre talento a partir de toda la información que nuestra metodología les ofrece.',
+  },
+  {
+    question: '¿En qué sectores tienen experiencia?',
+    answer: 'Trabajamos en múltiples industrias y adaptamos cada proceso al contexto de la empresa.',
+  },
+  {
+    question: '¿Cómo impacta la inteligencia artificial en sus procesos de selección?',
+    answer:
+      'Usamos tecnología para acelerar el análisis, manteniendo el criterio humano donde realmente importa.',
+  },
+  {
+    question: '¿En qué zonas geográficas trabajan?',
+    answer: 'Trabajamos con organizaciones en todo el Perú (Lima y provincia) y Latinoamérica.',
+  },
+]
+
+const homeFaqEn = [
+  {
+    question: 'Do you work on one-off projects or ongoing engagements?',
+    answer:
+      'Both. Recruitment is delivered as a defined process with a placement guarantee. Organizational development can be a focused intervention or an ongoing engagement, depending on what your organization needs.',
+  },
+  {
+    question: 'How do you measure process success?',
+    answer:
+      'First, we make sure we meet timelines and quality expectations (screening and deliverables) for our clients. Second, that organizations make the best talent decision from all the information our methodology provides.',
+  },
+  {
+    question: 'Which sectors do you know best?',
+    answer: 'We work across industries and adapt each process to the company context.',
+  },
+  {
+    question: 'How does AI affect your selection process?',
+    answer:
+      'We use technology to accelerate analysis, while keeping human judgment where it matters.',
+  },
+  {
+    question: 'Which geographic areas do you work in?',
+    answer: 'We work with organizations across Peru (Lima and the provinces) and Latin America.',
+  },
+]
+
 export function homeFixtures(locale: Locale): PageSection[] {
   if (locale === 'en') {
     return [
       {
         _type: 'hero',
         _key: 'hero',
-        heading: 'Strategy with measurable results.',
+        heading: 'Real growth, through talent',
         subheading:
-          'We help companies find, develop, and retain talent—with methodology, judgment, and real partnership.',
+          'We help companies make talent decisions that drive high business impact — through our Growth Talent Method and personalized service.',
         image: '/assets/figma/home/hero.webp',
         primaryCta: {label: 'Book a meeting', href: '/en/contact'},
         secondaryCta: {label: 'View case studies', href: '/en/case-studies'},
@@ -169,36 +221,38 @@ export function homeFixtures(locale: Locale): PageSection[] {
         _key: 'metrics',
         items: [
           {value: '7 days', label: 'Average shortlist delivery', icon: 'calendar'},
-          {value: '+30', label: 'Completed searches', icon: 'process'},
-          {value: '−15%', label: 'Cost reduction', icon: 'cost'},
+          {value: '+15 years', label: 'Experience in Peru and Latam', icon: 'process'},
+          {
+            value: '+500 companies',
+            label: 'Have trusted us with a 9.8/10 satisfaction score',
+            icon: 'cost',
+          },
         ],
       },
       {
         _type: 'serviceSplit',
         _key: 'services',
         title: 'Two ways to grow through talent',
-        intro: 'We help companies find, develop, and retain it—with methodology, judgment, and real partnership.',
+        intro:
+          'Whatever talent need you have, we cover it with the same network of experts and a first-class methodology.',
         cardImages: [
           '/assets/figma/home/service-organization.webp',
           '/assets/figma/home/service-recruitment.webp',
         ],
         services: [
           {
-            title: 'Executive search',
-            summary: 'Confidential searches for leadership roles with calibrated judgment.',
+            title: 'Headhunting / Executive Recruitment',
+            summary:
+              'Search for C-level, top management, middle management, and entry-level roles — all under a methodology adapted to each company’s need.',
             slug: 'executive-search',
             href: getLocalizedPath('en', 'recruitment'),
           },
           {
-            title: 'Organizational development',
-            summary: 'Structures, rituals, and capability plans aligned to strategy.',
+            title: 'Talent Solutions',
+            summary:
+              'When the problem is not bringing talent from outside, but understanding, evaluating, and developing what is already inside. We cover: organizational climate, culture, performance, potential, leadership, and coaching.',
             slug: 'organizational-development',
             href: getLocalizedPath('en', 'services'),
-          },
-          {
-            title: 'Assessment & succession',
-            summary: 'Clear maps of potential, readiness, and development bets.',
-            slug: 'assessment-succession',
           },
         ],
       },
@@ -206,7 +260,8 @@ export function homeFixtures(locale: Locale): PageSection[] {
         _type: 'methodSteps',
         _key: 'method',
         title: 'A method. Not intuition.',
-        intro: '50% of executive hires without a structured methodology fail within the first 18 months. We designed our process so it does not happen to your company.',
+        intro:
+          '50% of executive hires without a structured methodology fail within the first 18 months. We designed our process so it does not happen to your company.',
         steps: [
           {
             title: 'Diagnose',
@@ -217,12 +272,12 @@ export function homeFixtures(locale: Locale): PageSection[] {
             description: 'We co-create the search brief or OD intervention with stakeholders.',
           },
           {
-            title: 'Deliver',
-            description: 'We execute with rigor, feedback loops, and transparent trade-offs.',
+            title: 'Evidence- and data-backed recommendations',
+            description: 'We present evidence and a clear recommendation.',
           },
           {
-            title: 'Embed',
-            description: 'We leave behind practices the team can own after we step back.',
+            title: 'END-TO-END support',
+            description: 'We support onboarding and landing.',
           },
         ],
       },
@@ -235,7 +290,7 @@ export function homeFixtures(locale: Locale): PageSection[] {
           {
             title: 'Rebuilding a commercial leadership bench',
             summary: 'Three critical hires and a succession map for a regional retailer.',
-            industry: 'Retail',
+            industry: 'Banking',
             slug: 'talent-mapping-banking',
           },
           {
@@ -247,49 +302,18 @@ export function homeFixtures(locale: Locale): PageSection[] {
         ],
       },
       {
-        _type: 'insightCards',
-        _key: 'insights',
-        title: 'Insights',
-        intro: 'Actionable ideas for HR teams and leaders who want to make better decisions about their people.',
-        insights: [
-          {
-            title: 'What “culture fit” usually gets wrong',
-            excerpt: 'Hiring for sameness is not the same as hiring for contribution.',
-            slug: 'culture-fit-gets-wrong',
-            categories: ['Talent'],
-          },
-          {
-            title: 'Succession without the theater',
-            excerpt: 'Practical signals that someone is ready for the next seat.',
-            slug: 'succession-without-theater',
-            categories: ['Leadership'],
-          },
-          {
-            title: 'From diagnosis to action without losing momentum',
-            excerpt: 'Why climate assessments often stall and how to turn findings into visible action.',
-            slug: 'organizational-climate-diagnosis-action',
-            categories: ['Webinars'],
-          },
-        ],
-      },
-      {
         _type: 'ctaBanner',
         _key: 'cta',
-        heading: 'Does your organization need talent?',
-        subheading: 'Tell us where you are. No commitment—just a conversation to see whether we can help.',
+        heading: 'Want to find the talent that best fits your organization?',
+        subheading:
+          'Let’s schedule a free meeting to understand your current situation and decide together whether we can help.',
         cta: {label: 'Book a meeting', href: '/en/contact'},
       },
       {
         _type: 'faqSection',
         _key: 'faq',
         title: 'Frequently asked questions',
-        items: [
-          {question: 'Do you work on one-off projects or ongoing engagements?', answer: 'Both. We define the right format together based on what your organization needs.'},
-          {question: 'How do you measure process success?', answer: 'We agree on clear operational and business indicators before starting.'},
-          {question: 'Which sectors do you know best?', answer: 'We work across industries and adapt each process to the company context.'},
-          {question: 'How does AI affect your selection process?', answer: 'We use technology to accelerate analysis, while keeping human judgment where it matters.'},
-          {question: 'Do you work with companies outside Lima?', answer: 'Yes. We support organizations throughout Peru and across Latin America.'},
-        ],
+        items: homeFaqEn,
       },
     ]
   }
@@ -298,9 +322,9 @@ export function homeFixtures(locale: Locale): PageSection[] {
     {
       _type: 'hero',
       _key: 'hero',
-      heading: 'Estrategia con resultados medibles.',
+      heading: 'Crecimiento real, a través del talento',
       subheading:
-        'Ayudamos a las empresas a encontrarlo, desarrollarlo y retenerlo — con metodología, criterio y acompañamiento real.',
+        'Ayudamos a empresas a que tomen las decisiones de talento que generen un alto impacto en el negocio - a través de nuestro "Growth Talent Method" y un servicio personalizado.',
       image: '/assets/figma/home/hero.webp',
       primaryCta: {label: 'Agenda una reunión', href: '/es/contacto'},
       secondaryCta: {label: 'Ver casos de éxito', href: '/es/casos-de-exito'},
@@ -323,37 +347,38 @@ export function homeFixtures(locale: Locale): PageSection[] {
       _key: 'metrics',
       items: [
         {value: '7 días', label: 'Entrega promedio de shortlist', icon: 'calendar'},
-        {value: '+30', label: 'Procesos cerrados', icon: 'process'},
-        {value: '−15%', label: 'Reducción de costos', icon: 'cost'},
+        {value: '+15 años', label: 'Experiencia en Perú y Latam', icon: 'process'},
+        {
+          value: '+500 empresas',
+          label: 'Han confiado en nosotros con un score del 9.8/10 de satisfacción',
+          icon: 'cost',
+        },
       ],
     },
     {
       _type: 'serviceSplit',
       _key: 'services',
       title: 'Dos maneras de crecer a través del talento',
-      intro: 'Ayudamos a las empresas a encontrarlo, desarrollarlo y retenerlo — con metodología, criterio y acompañamiento real.',
+      intro:
+        'La necesidad de talento que tengas, la cubrimos con la misma red de expertos y una metodología de primer nivel.',
       cardImages: [
         '/assets/figma/home/service-organization.webp',
         '/assets/figma/home/service-recruitment.webp',
       ],
       services: [
         {
-          title: 'Reclutamiento ejecutivo',
+          title: 'Headhunting / Reclutamiento Ejecutivo',
           summary:
-            'Encontramos al candidato que tu organización necesita — no al que está disponible. Nuestro proceso parte por entender tu empresa antes de salir a buscar.',
+            'Búsqueda de posiciones C-level, top management, middle management y entry level — todo bajo una metodología adaptada a la necesidad de cada empresa.',
           slug: 'reclutamiento-ejecutivo',
           href: getLocalizedPath('es', 'recruitment'),
         },
         {
-          title: 'Desarrollo organizacional: clima, cultura, desempeño, potencial y liderazgo.',
-          summary: 'Intervenimos donde el equipo necesita crecer para que la estrategia pueda ejecutarse.',
+          title: 'Talent Solutions',
+          summary:
+            'Cuando el problema no es traer talento de afuera, sino entender, evaluar y desarrollar el que ya está adentro. Cubrimos: Clima organizacional, cultura, desempeño, potencial, liderazgo y coaching.',
           slug: 'desarrollo-organizacional',
           href: getLocalizedPath('es', 'services'),
-        },
-        {
-          title: 'Assessment y sucesión',
-          summary: 'Mapas claros de potencial, preparación y apuestas de desarrollo.',
-          slug: 'assessment-sucesion',
         },
       ],
     },
@@ -361,22 +386,24 @@ export function homeFixtures(locale: Locale): PageSection[] {
       _type: 'methodSteps',
       _key: 'method',
       title: 'Un método. No intuición.',
-      intro: 'El 50% de las contrataciones ejecutivas sin metodología estructurada fracasa en los primeros 18 meses. Nosotros lo sabemos y diseñamos nuestro proceso para que eso no le pase a tu empresa.',
+      intro:
+        'El 50% de las contrataciones ejecutivas sin metodología estructurada fracasa en los primeros 18 meses. Nosotros lo sabemos y diseñamos nuestro proceso para que eso no le pase a tu empresa.',
       steps: [
         {
           title: 'Diagnóstico exhaustivo',
-          description: 'Antes de buscar un candidato, entendemos tu empresa: el momento del negocio, la cultura, el liderazgo y los retos reales del rol.',
+          description:
+            'Antes de buscar un candidato, entendemos tu empresa: el momento del negocio, la cultura, el liderazgo y los retos reales del rol.',
         },
         {
           title: 'Evaluación en múltiples capas',
           description: 'Evaluamos experiencia, capacidades y ajuste al contexto.',
         },
         {
-          title: 'Recomendaciones con criterio',
+          title: 'Recomendaciones con evidencia y data',
           description: 'Presentamos evidencia y una recomendación clara.',
         },
         {
-          title: 'Seguimiento real',
+          title: 'Acompañamiento END-TO-END',
           description: 'Acompañamos la incorporación y el aterrizaje.',
         },
       ],
@@ -391,7 +418,7 @@ export function homeFixtures(locale: Locale): PageSection[] {
           title: 'Reconstruir la banca comercial de liderazgo',
           summary:
             'Tres contrataciones críticas y un mapa de sucesión para un retailer regional.',
-          industry: 'Retail',
+          industry: 'Banca',
           slug: 'potencial-talento-banca',
         },
         {
@@ -404,60 +431,24 @@ export function homeFixtures(locale: Locale): PageSection[] {
       ],
     },
     {
-      _type: 'insightCards',
-      _key: 'insights',
-      title: 'Insights',
-      intro: 'Ideas accionables para equipos de RRHH y líderes que quieren tomar mejores decisiones sobre su gente.',
-      insights: [
-        {
-          title: 'Lo que suele equivocarse el “culture fit”',
-          excerpt: 'Contratar por semejanza no es lo mismo que contratar por contribución.',
-          slug: 'culture-fit-equivocado',
-          categories: ['Talento'],
-        },
-        {
-          title: 'Sucesión sin teatro',
-          excerpt: 'Señales prácticas de que alguien está listo para el siguiente asiento.',
-          slug: 'sucesion-sin-teatro',
-          categories: ['Liderazgo'],
-        },
-        {
-          title: 'Cómo pasar del diagnóstico a la acción sin perder el impulso',
-          excerpt: 'Los diagnósticos de clima suelen terminar en presentaciones que nadie ejecuta. Aquí explicamos por qué pasa y cómo evitarlo.',
-          slug: 'clima-organizacional-diagnostico-accion',
-          categories: ['Webinars'],
-        },
-      ],
-    },
-    {
       _type: 'ctaBanner',
       _key: 'cta',
-      heading: '¿Tu organización necesita talentos?',
+      heading: '¿Quieres encontrar al talento que haga mejor fit con tu organización?',
       subheading:
-        'Cuéntanos dónde estás parado. Sin compromisos, solo una conversación para ver si podemos ayudarte.',
+        'Agendemos una reunión gratuita para conocer tu situación actual y definir juntos si podemos ayudarte',
       cta: {label: 'Agenda una reunión', href: '/es/contacto'},
     },
     {
       _type: 'faqSection',
       _key: 'faq',
       title: 'Preguntas frecuentes',
-      items: [
-        {
-          question: '¿Trabajan proyectos puntuales o acompañamiento continuo?',
-          answer: 'Ambos. En reclutamiento trabajamos por proceso, con entrega definida y garantía de incorporación. En desarrollo organizacional podemos hacer una intervención acotada o acompañar de forma continua. Lo definimos juntos según lo que necesita tu organización.',
-        },
-        {question: '¿Cómo miden el éxito de un proceso?', answer: 'Definimos indicadores operativos y de negocio claros antes de comenzar.'},
-        {question: '¿En qué sectores tienen experiencia?', answer: 'Trabajamos en múltiples industrias y adaptamos cada proceso al contexto de la empresa.'},
-        {question: '¿Cómo impacta la inteligencia artificial en sus procesos de selección?', answer: 'Usamos tecnología para acelerar el análisis, manteniendo el criterio humano donde realmente importa.'},
-        {question: '¿Trabajan con empresas fuera de Lima?', answer: 'Sí. Acompañamos organizaciones en todo el Perú y Latinoamérica.'},
-      ],
+      items: homeFaqEs,
     },
   ]
 }
 
 export function servicesFixtures(locale: Locale): PageSection[] {
   const isEn = locale === 'en'
-  const servicesHref = isEn ? '/en/services' : '/es/servicios'
   const recruitmentHref = isEn ? '/en/recruitment' : '/es/reclutamiento'
   const contactHref = isEn ? '/en/contact' : '/es/contacto'
   const learnMore = isEn ? 'Learn more' : 'Saber más'
@@ -468,11 +459,11 @@ export function servicesFixtures(locale: Locale): PageSection[] {
       _key: 'hero',
       variant: 'services',
       heading: isEn
-        ? 'Talent is not an HR problem. It is a business problem.'
-        : 'El talento no es un problema de HR. Es un problema de negocio.',
+        ? 'Talent is not only HR’s responsibility. It is one of the most important business decisions.'
+        : 'El talento no es sólo responsabilidad de HR. Es una de las decisiones más importantes del negocio.',
       subheading: isEn
-        ? 'We work across both dimensions of talent: finding it and developing it.'
-        : 'Trabajamos en las dos dimensiones del talento: encontrarlo y desarrollarlo.',
+        ? 'We help organizations attract, develop, and strengthen the talent that drives their results.'
+        : 'Ayudamos a las organizaciones a atraer, desarrollar y potenciar el talento que impulsa sus resultados.',
       image: '/assets/figma/services/hero.webp',
     },
     {
@@ -481,7 +472,7 @@ export function servicesFixtures(locale: Locale): PageSection[] {
       categories: [
         {
           _key: 'organizational-development',
-          title: isEn ? 'Organizational development' : 'Desarrollo organizacional',
+          title: 'Talent Solutions',
           summary: isEn
             ? 'Five dimensions that help your team execute the business strategy.'
             : 'Cinco dimensiones para que tu equipo pueda ejecutar la estrategia del negocio.',
@@ -490,8 +481,8 @@ export function servicesFixtures(locale: Locale): PageSection[] {
               _key: 'climate',
               title: isEn ? 'Organizational climate' : 'Clima organizacional',
               description: isEn
-                ? 'If you do not know what is really happening in your organization, you cannot fix it.'
-                : 'Si no sabes qué está pasando realmente en tu organización, no puedes arreglarlo.',
+                ? 'You cannot improve what you do not understand. Identify what is impacting engagement, productivity, and your teams’ experience.'
+                : 'No puedes mejorar lo que no entiendes. Identifica qué está impactando el compromiso, la productividad y la experiencia de tus equipos.',
               icon: 'calendar',
               cta: {label: learnMore, href: getLocalizedPath(locale, 'service', locale === 'en' ? 'organizational-climate' : 'clima-organizacional')},
             },
@@ -499,8 +490,8 @@ export function servicesFixtures(locale: Locale): PageSection[] {
               _key: 'culture',
               title: isEn ? 'Organizational culture' : 'Cultura organizacional',
               description: isEn
-                ? 'Every company has a culture. The question is whether it is the one needed to execute its strategy.'
-                : 'Toda empresa tiene una cultura. La pregunta es si es la que necesita para ejecutar su estrategia.',
+                ? 'Culture is not a speech. It is how strategy gets executed. Understand whether your culture is driving or limiting business results.'
+                : 'La cultura no es un discurso. Es la forma en que se ejecuta la estrategia. Entiende si tu cultura está impulsando o limitando los resultados del negocio.',
               icon: 'calendar',
               cta: {label: learnMore, href: getLocalizedPath(locale, 'service', locale === 'en' ? 'organizational-culture' : 'cultura-organizacional')},
             },
@@ -508,17 +499,17 @@ export function servicesFixtures(locale: Locale): PageSection[] {
               _key: 'performance',
               title: isEn ? 'Performance management' : 'Gestión del desempeño',
               description: isEn
-                ? 'A performance system that nobody uses is not a system; it is bureaucracy.'
-                : 'Un sistema de desempeño que nadie usa no es un sistema, es burocracia.',
+                ? 'A performance system nobody uses does not drive results. Align goals, conversations, and metrics to strengthen execution.'
+                : 'Un sistema de desempeño que nadie usa no genera resultados. Alinea objetivos, conversaciones y métricas para fortalecer la ejecución.',
               icon: 'planning',
               cta: {label: learnMore, href: getLocalizedPath(locale, 'service', locale === 'en' ? 'performance-management' : 'gestion-del-desempeno')},
             },
             {
               _key: 'potential',
-              title: isEn ? 'Potential and talent mapping' : 'Potencial y mapeo de talento',
+              title: isEn ? 'Potential and talent mapping' : 'Potencial y mapeo del talento',
               description: isEn
-                ? 'Do you know who the future leaders in your organization are, or are you finding out when it is already too late?'
-                : '¿Sabes quiénes son los líderes del futuro en tu organización? ¿O lo estás descubriendo cuando ya es tarde?',
+                ? 'Critical talent is not always the most visible. Identify the people with the greatest potential to lead future growth.'
+                : 'El talento crítico no siempre es el más visible. Identifica a las personas con mayor potencial para liderar el crecimiento futuro.',
               icon: 'calendar',
               cta: {label: learnMore, href: getLocalizedPath(locale, 'service', locale === 'en' ? 'talent-mapping' : 'potencial-y-mapeo-de-talento')},
             },
@@ -526,8 +517,8 @@ export function servicesFixtures(locale: Locale): PageSection[] {
               _key: 'leadership',
               title: isEn ? 'Leadership and coaching' : 'Liderazgo y coaching',
               description: isEn
-                ? 'Leaders are not born; they are developed. No recipes. No theory that never reaches practice.'
-                : 'Los líderes no nacen, se desarrollan. Sin recetas. Sin teoría que no aterriza.',
+                ? 'Leaders are neither born nor improvised. Develop the capabilities your organization needs to grow sustainably.'
+                : 'Los líderes no nacen ni se improvisan. Desarrolla las capacidades que tu organización necesita para crecer de forma sostenible.',
               icon: 'planning',
               cta: {label: learnMore, href: getLocalizedPath(locale, 'service', locale === 'en' ? 'leadership-and-coaching' : 'liderazgo-y-coaching')},
             },
@@ -537,8 +528,8 @@ export function servicesFixtures(locale: Locale): PageSection[] {
           _key: 'executive-recruitment',
           title: isEn ? 'Executive recruitment' : 'Reclutamiento ejecutivo',
           summary: isEn
-            ? 'The right candidate is not on a job board. They are working. We find them.'
-            : 'El candidato correcto no está en un portal. Está trabajando. Nosotros lo encontramos.',
+            ? 'The right candidate does not arrive alone. You have to find them. We take care of that.'
+            : 'El candidato correcto no llega solo. Hay que encontrarlo. Nosotros nos encargamos de eso.',
           image: '/assets/figma/services/catalog-recruitment.jpg',
           bodyLines: isEn
             ? [
@@ -563,8 +554,8 @@ export function servicesFixtures(locale: Locale): PageSection[] {
         ? 'One consulting firm. The entire talent cycle'
         : 'Una sola consultora. Todo el ciclo del talento',
       body: isEn
-        ? 'Most consulting firms do one thing: either recruit or develop. We do both. Finding the right candidate and developing the team you already have are two sides of the same problem.'
-        : 'La mayoría de las consultoras hacen una cosa: o reclutan o desarrollan. Nosotros hacemos las dos. Porque encontrar al candidato correcto y desarrollar el equipo que ya tienes son dos caras del mismo problema.',
+        ? 'We see talent as the main driver to accelerate results, strengthen cultures, and execute business strategy.\n\nThat is why every recommendation, diagnosis, or intervention is designed to achieve the highest engagement and the lowest possible turnover.'
+        : 'Entendemos el talento como el elemento principal para acelerar resultados, fortalecer culturas y ejecutar la estrategia del negocio.\n\nPor eso cada recomendación, diagnóstico o intervención está diseñada para lograr el mayor engagement y menor rotación posible.',
     },
     {
       _type: 'contentCards',
@@ -579,41 +570,49 @@ export function servicesFixtures(locale: Locale): PageSection[] {
           _key: 'banking',
           title: isEn ? 'Banking and finance' : 'Banca y finanzas',
           description: isEn
-            ? 'Executive talent and organizational development for an industry where cultural fit is everything.'
-            : 'Talento ejecutivo y desarrollo organizacional para un sector donde el fit cultural lo es todo.',
+            ? 'Leaders who combine technical rigor, commercial vision, and cultural fit, in a regulated sector where every hire counts.'
+            : 'Líderes que combinan rigor técnico, visión comercial y fit cultural, en un sector regulado donde cada contratación pesa.',
           icon: 'industryCalendar',
         },
         {
           _key: 'energy',
-          title: isEn ? 'Energy' : 'Energía',
+          title: isEn ? 'Energy and Mining' : 'Energía y Minería',
           description: isEn
-            ? 'Selection and development for highly demanding organizations in constant transformation.'
-            : 'Selección y desarrollo para organizaciones de alta exigencia y transformación constante.',
+            ? 'Executive and technical talent for high-demand operations, long-term projects, and environments where safety is non-negotiable.'
+            : 'Talento ejecutivo y técnico para operaciones de alta exigencia, proyectos de largo plazo y entornos donde la seguridad no se negocia.',
           icon: 'industryPlanning',
         },
         {
           _key: 'agribusiness',
           title: isEn ? 'Agribusiness' : 'Agroindustria',
           description: isEn
-            ? 'Senior talent and HR structures for companies scaling rapidly.'
-            : 'Talento senior y estructuras de RRHH para empresas que escalan con rapidez.',
+            ? 'Senior talent and HR structures for export companies that grow fast and need to scale without losing control.'
+            : 'Talento senior y estructuras de RRHH para empresas exportadoras que crecen rápido y necesitan escalar sin perder control.',
           icon: 'industryMoney',
         },
         {
           _key: 'manufacturing',
           title: isEn ? 'Industry and manufacturing' : 'Industria y manufactura',
           description: isEn
-            ? 'Recruitment, climate, and performance for companies with complex structures and distributed teams.'
-            : 'Reclutamiento, clima y desempeño para empresas con estructuras complejas y equipos distribuidos.',
+            ? 'Recruitment, climate, and performance for organizations with plants, shifts, and teams distributed across multiple sites.'
+            : 'Reclutamiento, clima y desempeño para organizaciones con plantas, turnos y equipos distribuidos en varias sedes.',
           icon: 'industryCalendar',
         },
         {
           _key: 'consumer',
           title: isEn ? 'Consumer goods' : 'Consumo masivo',
           description: isEn
-            ? 'Teams that perform in high-volume, highly competitive organizations.'
-            : 'Equipos que rinden en organizaciones de alto volumen y alta competencia.',
+            ? 'Commercial and marketing executives who sustain results in high-volume, intensely competitive markets.'
+            : 'Ejecutivos comerciales y de marketing que sostienen resultados en mercados de alto volumen y competencia intensa.',
           icon: 'industryMoney',
+        },
+        {
+          _key: 'construction',
+          title: isEn ? 'Construction' : 'Construcción',
+          description: isEn
+            ? 'Project managers and site leaders who deliver on time, within budget, and with teams that change at every stage.'
+            : 'Gerentes de proyecto y líderes de obra que entregan a tiempo, dentro del presupuesto y con equipos que cambian en cada etapa.',
+          icon: 'industryPlanning',
         },
       ],
     },
@@ -621,14 +620,16 @@ export function servicesFixtures(locale: Locale): PageSection[] {
       _type: 'ctaBanner',
       _key: 'cta',
       variant: 'services',
-      heading: isEn ? 'Not sure where to start?' : '¿No sabes por dónde empezar?',
+      heading: isEn
+        ? 'Want to find the talent that best fits your organization?'
+        : '¿Quieres encontrar al talento que haga mejor fit con tu organización?',
       subheading: isEn
-        ? 'You do not need to have everything figured out before talking to us. Tell us the challenge and we will recommend what makes the most sense for your organization, with no commitment.'
-        : 'No hace falta tener todo claro antes de hablar con nosotros. Cuéntanos el reto y te decimos qué tiene más sentido para tu organización, sin compromisos.',
+        ? 'Let’s schedule a free meeting to understand your current situation and decide together whether we can help.'
+        : 'Agendemos una reunión gratuita para conocer tu situación actual y definir juntos si podemos ayudarte',
       cta: {label: isEn ? 'Book a meeting' : 'Agenda una reunión', href: contactHref},
       secondaryCta: {
         label: isEn ? 'Request a free assessment' : 'Solicitar diagnóstico gratuito',
-        href: 'https://wa.me/',
+        href: contactHref,
       },
     },
     {
@@ -636,42 +637,7 @@ export function servicesFixtures(locale: Locale): PageSection[] {
       _key: 'faq',
       variant: 'roomy',
       title: isEn ? 'Frequently asked questions' : 'Preguntas frecuentes',
-      items: [
-        {
-          question: isEn
-            ? 'Do you work on one-off projects or ongoing engagements?'
-            : '¿Trabajan proyectos puntuales o acompañamiento continuo?',
-          answer: isEn
-            ? 'Both. Recruitment is delivered as a defined process with a placement guarantee. Organizational development can be a focused intervention or an ongoing engagement, depending on what your organization needs.'
-            : 'Ambos. En reclutamiento trabajamos por proceso, con entrega definida y garantía de incorporación. En desarrollo organizacional podemos hacer una intervención acotada o acompañar de forma continua. Lo definimos juntos según lo que necesita tu organización.',
-        },
-        {
-          question: isEn ? 'How do you measure the success of a process?' : '¿Cómo miden el éxito de un proceso?',
-          answer: isEn
-            ? 'We define clear operational and business indicators before starting.'
-            : 'Definimos indicadores operativos y de negocio claros antes de comenzar.',
-        },
-        {
-          question: isEn ? 'Which industries do you have experience in?' : '¿En qué sectores tienen experiencia?',
-          answer: isEn
-            ? 'We work across multiple industries and adapt every process to the company context.'
-            : 'Trabajamos en múltiples industrias y adaptamos cada proceso al contexto de la empresa.',
-        },
-        {
-          question: isEn
-            ? 'How does artificial intelligence affect your selection processes?'
-            : '¿Cómo impacta la inteligencia artificial en sus procesos de selección?',
-          answer: isEn
-            ? 'We use technology to accelerate analysis while keeping human judgment where it matters.'
-            : 'Usamos tecnología para acelerar el análisis, manteniendo el criterio humano donde realmente importa.',
-        },
-        {
-          question: isEn ? 'Do you work with companies outside Lima?' : '¿Trabajan con empresas fuera de Lima?',
-          answer: isEn
-            ? 'Yes. We support organizations throughout Peru and Latin America.'
-            : 'Sí. Acompañamos organizaciones en todo el Perú y Latinoamérica.',
-        },
-      ],
+      items: isEn ? homeFaqEn : homeFaqEs,
     },
   ]
 }
@@ -688,11 +654,11 @@ export function recruitmentFixtures(locale: Locale): PageSection[] {
       variant: 'recruitment',
       eyebrow: isEn ? 'Executive recruitment' : 'Reclutamiento ejecutivo',
       heading: isEn
-        ? 'The right candidate is not looking for a job. They are working.'
-        : 'El candidato correcto no está buscando trabajo. Está trabajando.',
+        ? 'The right candidate does not arrive alone. The right method is required to find and hire them.'
+        : 'El candidato correcto no llega solo. Se requiere del método correcto para encontrarlo y contratarlo.',
       subheading: isEn
-        ? 'Posting a job is not enough. We access the passive talent market with method and judgment.'
-        : 'Por eso no alcanza con publicar un aviso. Nosotros accedemos al mercado de talento pasivo con método y criterio.',
+        ? 'That is why posting a job and waiting is not enough. We go find them where they are: performing today at another company or actively searching.'
+        : 'Por eso no basta con publicar un aviso y esperar. Salimos a buscarlo donde esté: rindiendo hoy en otra empresa o en búsqueda activa.',
       image: '/assets/figma/recruitment/hero.webp',
       primaryCta: {label: isEn ? 'Learn about the method' : 'Conocer el método', href: methodHref},
       secondaryCta: {label: isEn ? 'Book a meeting' : 'Agenda una reunión', href: contactHref},
@@ -709,17 +675,17 @@ export function recruitmentFixtures(locale: Locale): PageSection[] {
             ? '50% of executive hires fail within the first 18 months.'
             : 'El 50% de las contrataciones ejecutivas fracasa en los primeros 18 meses.',
           description: isEn
-            ? 'Not because the candidate is bad, but because the process was. The search started without diagnosis, evaluation relied on one interview, and the final decision was based on intuition. We designed our process so that does not happen to your organization.'
-            : 'No porque el candidato sea malo. Sino porque el proceso fue malo. Se buscó sin diagnosticar, se evaluó con una sola entrevista y se eligió por intuición. Nosotros diseñamos nuestro proceso para que eso no le pase a tu organización.',
+            ? 'Not because the candidate is bad, but because the process was: the search started without diagnosis, evaluation relied on one interview, and the final decision was based on intuition. We designed our method so that does not happen to your company.'
+            : 'No porque el candidato sea malo, sino porque el proceso lo fue: se buscó sin diagnóstico, se evaluó con una sola entrevista y se eligió por intuición. Diseñamos nuestro método para que eso no le pase a tu empresa.',
         },
         {
           _key: 'method',
           icon: 'process',
-          emphasis: isEn ? 'not to fail.' : 'para no fallar.',
-          title: isEn ? 'A method built not to fail.' : 'Un método construido para no fallar.',
+          emphasis: isEn ? 'to get it right.' : 'para acertar.',
+          title: isEn ? 'A method built to get it right' : 'Un método construido para acertar',
           description: isEn
-            ? 'Behind every search is the Growth Talent Method™, our proprietary seven-phase process. It goes from understanding your company to supporting the first ninety days of the hired candidate.'
-            : 'Detrás de cada búsqueda está el Growth Talent Method™, nuestro proceso propietario de siete fases. Va desde entender tu empresa hasta acompañar los primeros noventa días del candidato incorporado.',
+            ? 'Behind every search is the Growth Talent Method™: seven phases, from understanding your business to supporting the new executive’s first 90 days.'
+            : 'Detrás de cada búsqueda está el Growth Talent Method™: siete fases, desde entender tu negocio hasta acompañar los primeros 90 días del nuevo ejecutivo.',
           cta: {label: isEn ? 'Book a meeting' : 'Agenda una reunión', href: contactHref},
         },
       ],
@@ -749,8 +715,8 @@ export function recruitmentFixtures(locale: Locale): PageSection[] {
           tone: 'magenta',
           icon: 'arrow',
           items: isEn
-            ? ['Banking and finance', 'Energy', 'Agribusiness', 'Consumer goods', 'Industry and manufacturing']
-            : ['Banca y finanzas', 'Energía', 'Agroindustria', 'Consumo masivo', 'Industria y manufactura'],
+            ? ['Banking and finance', 'Energy and mining', 'Agribusiness', 'Consumer goods', 'Industry and manufacturing', 'Construction']
+            : ['Banca y finanzas', 'Energía y minería', 'Agroindustria', 'Consumo masivo', 'Industria y manufactura', 'Construcción'],
         },
       ],
     },
@@ -761,16 +727,58 @@ export function recruitmentFixtures(locale: Locale): PageSection[] {
       eyebrow: isEn ? 'What the process includes' : 'Lo que incluye el proceso',
       heading: isEn ? 'Seven deliverables. One for each phase.' : 'Siete entregables. Uno por cada fase.',
       intro: isEn
-        ? 'Each stage of the process has a supporting document. Because transparency is not a stated value. It is a practice.'
-        : 'Cada etapa del proceso tiene un documento de respaldo. Porque la transparencia no es un valor declarado. Es una práctica.',
+        ? 'Each phase has a supporting document. Because transparency is not declared — it is demonstrated.'
+        : 'Cada fase tiene un documento de respaldo. Porque la transparencia no se declara, se demuestra.',
       cards: [
-        {title: 'Business Brief™', description: isEn ? 'diagnosis of your organization and the role' : 'diagnóstico de tu organización y del rol', icon: 'calendar'},
-        {title: 'Role Scorecard™', description: isEn ? 'profile with objective, measurable criteria' : 'perfil con criterios objetivos y medibles', icon: 'process'},
-        {title: 'Talent Market Map™', description: isEn ? 'map of the relevant talent market' : 'mapa del mercado de talento relevante', icon: 'marketBrand'},
-        {title: 'Candidate Assessment Report™', description: isEn ? 'individual candidate assessment' : 'evaluación individual por candidato', icon: 'market'},
-        {title: 'Reference Intelligence Report™', description: isEn ? 'structured reference report' : 'informe de referencias estructurado', icon: 'calendar'},
-        {title: 'Consultive Candidate Report™', description: isEn ? 'evidence-based shortlist recommendation' : 'recomendación fundada de la terna', icon: 'process'},
-        {title: '30-60-90 Day Pulse™', description: isEn ? 'post-hire follow-up' : 'seguimiento post-incorporación', icon: 'market'},
+        {
+          title: 'Business Brief™',
+          description: isEn
+            ? 'Diagnosis of your organization and what the role truly needs.'
+            : 'Diagnóstico de tu organización y de lo que el rol realmente necesita.',
+          icon: 'calendar',
+        },
+        {
+          title: 'Role Scorecard™',
+          description: isEn
+            ? 'Profile translated into objective, measurable criteria.'
+            : 'Perfil traducido en criterios objetivos y medibles.',
+          icon: 'process',
+        },
+        {
+          title: 'Talent Market Map™',
+          description: isEn
+            ? 'Map of available talent in the market for your search.'
+            : 'Mapa del talento disponible en el mercado para tu búsqueda.',
+          icon: 'marketBrand',
+        },
+        {
+          title: 'Candidate Assessment Report™',
+          description: isEn
+            ? 'Detailed evaluation of each finalist across three layers.'
+            : 'Evaluación detallada de cada finalista en tres capas.',
+          icon: 'market',
+        },
+        {
+          title: 'Reference Intelligence Report™',
+          description: isEn
+            ? 'Structured references validated with people who worked with the candidate.'
+            : 'Referencias estructuradas y validadas con quienes trabajaron con el candidato.',
+          icon: 'calendar',
+        },
+        {
+          title: 'Advisory Shortlist Report™',
+          description: isEn
+            ? 'The final shortlist with our grounded recommendation.'
+            : 'La terna final con nuestra recomendación fundamentada.',
+          icon: 'process',
+        },
+        {
+          title: '30-60-90 Day Pulse™',
+          description: isEn
+            ? 'Follow-up of the new executive in their first 90 days.'
+            : 'Seguimiento del nuevo ejecutivo en sus primeros 90 días.',
+          icon: 'market',
+        },
       ],
     },
     {
@@ -779,48 +787,33 @@ export function recruitmentFixtures(locale: Locale): PageSection[] {
       eyebrow: isEn ? 'Our guarantees' : 'Nuestras garantías',
       heading: isEn ? 'We only charge when the process works.' : 'Solo cobramos cuando el proceso funciona.',
       body: isEn
-        ? 'We work 100% on success. We only invoice once the candidate has joined. We provide a replacement guarantee of up to 12 months depending on role level and support onboarding with our 30-60-90 Day Pulse™. If the candidate does not complete the guarantee period, we restart the search at no additional cost.'
-        : 'Trabajamos 100% al éxito. Facturamos únicamente cuando el candidato ha sido incorporado. Otorgamos una garantía de reemplazo de hasta 12 meses según el nivel del rol y acompañamos el ingreso con nuestro 30-60-90 Day Pulse™. Si el candidato no supera el período de garantía, reiniciamos la búsqueda sin costo adicional.',
+        ? 'We work 100% on success: we only invoice when the chosen candidate signs the offer letter. We provide a replacement guarantee of up to 12 months depending on role level and support onboarding with our 30-60-90 Day Pulse™. If the person does not complete the guarantee period, we restart the search at no additional cost.'
+        : 'Trabajamos 100% al éxito: solo facturamos cuando el candidato elegido firma carta oferta. Damos una garantía de reemplazo de hasta 12 meses según el nivel del rol y acompañamos su ingreso con nuestro 30-60-90 Day Pulse™. Si la persona no supera el período de garantía, reiniciamos la búsqueda sin costo adicional.',
       decoration: 'magentaGlow',
-    },
-    {
-      _type: 'caseCards',
-      _key: 'case',
-      variant: 'featured',
-      showHeader: false,
-      cases: [{
-        title: isEn ? 'Overstock at 22% in the plant.' : 'Sobreinventario 22% en planta.',
-        challenge: isEn ? 'Challenge' : 'Reto',
-        intervention: 'S&OP + parametrización MRP + tablero OEE.',
-        result: isEn ? 'Inventory −15% | Service level +6 p.p.' : 'Inventario −15% | Nivel de servicio +6 p.p.',
-        industry: isEn ? 'Guides' : 'Guías',
-        slug: isEn ? 'executive-recruitment-banking' : 'reclutamiento-ejecutivo-banca',
-        cover: '/assets/figma/recruitment/case.webp',
-      }],
+      bodyAlign: 'left',
     },
     {
       _type: 'ctaBanner',
       _key: 'cta',
       variant: 'recruitment',
-      heading: isEn ? 'Do you have a critical role to fill?' : '¿Tienes un rol crítico por cubrir?',
+      heading: isEn
+        ? 'Want to find the talent that best fits your organization?'
+        : '¿Quieres encontrar al talento que haga mejor fit con tu organización?',
       subheading: isEn
-        ? 'Tell us about the profile and context. No commitment, just a conversation to see if we can help.'
-        : 'Cuéntanos el perfil y el contexto. Sin compromisos, solo una conversación para ver si podemos ayudarte.',
+        ? 'Let’s schedule a free meeting to understand your current situation and decide together whether we can help.'
+        : 'Agendemos una reunión gratuita para conocer tu situación actual y definir juntos si podemos ayudarte',
       cta: {label: isEn ? 'Book a meeting' : 'Agenda una reunión', href: contactHref},
-      secondaryCta: {label: isEn ? 'Request proposal' : 'Solicitar propuesta', href: 'https://wa.me/'},
+      secondaryCta: {
+        label: isEn ? 'Request proposal' : 'Solicitar propuesta',
+        href: contactHref,
+      },
     },
     {
       _type: 'faqSection',
       _key: 'faq',
       variant: 'roomy',
       title: isEn ? 'Frequently asked questions' : 'Preguntas frecuentes',
-      items: [
-        {question: isEn ? 'How long does an executive search process take?' : '¿Cuánto tiempo toma un proceso de búsqueda ejecutiva?', answer: isEn ? 'It depends on the level and complexity of the profile. On average, we deliver a qualified shortlist within seven business days from kick-off. The full process through hiring takes between three and six weeks.' : 'Depende del nivel y la complejidad del perfil. En promedio entregamos un shortlist calificado en siete días hábiles desde el kick-off. El proceso completo hasta la incorporación varía entre tres y seis semanas.'},
-        {question: isEn ? 'What happens if the hired candidate does not work out?' : '¿Qué pasa si el candidato incorporado no funciona?', answer: isEn ? 'We provide a replacement guarantee of up to 12 months depending on role level. If the candidate does not complete the guarantee period, we restart the search at no additional cost.' : 'Otorgamos una garantía de reemplazo de hasta 12 meses según el nivel del rol. Si el candidato no supera el período de garantía, reiniciamos la búsqueda sin costo adicional.'},
-        {question: isEn ? 'Do you work on confidential searches?' : '¿Trabajan con búsquedas confidenciales?', answer: isEn ? 'Yes. Confidentiality is part of our standard process from day one.' : 'Sí. La confidencialidad es parte de nuestro proceso estándar desde el primer día.'},
-        {question: isEn ? 'How do you use artificial intelligence in the process?' : '¿Cómo usan la inteligencia artificial en el proceso?', answer: isEn ? 'We use technology to accelerate analysis while keeping human judgment where it matters.' : 'Usamos tecnología para acelerar el análisis, manteniendo el criterio humano donde realmente importa.'},
-        {question: isEn ? 'Do you work on searches outside Lima?' : '¿Trabajan con búsquedas fuera de Lima?', answer: isEn ? 'Yes. We support organizations throughout Peru and Latin America.' : 'Sí. Acompañamos organizaciones en todo el Perú y Latinoamérica.'},
-      ],
+      items: isEn ? homeFaqEn : homeFaqEs,
     },
   ]
 }
@@ -835,10 +828,10 @@ export function methodologyFixtures(locale: Locale): PageSection[] {
       _key: 'hero',
       variant: 'methodology',
       eyebrow: isEn ? 'Methodology' : 'Metodología',
-      heading: isEn ? 'Talent with judgment.' : 'Talento con criterio.',
+      heading: isEn ? 'Talent decisions, not bets.' : 'Decisiones de talento, no apuestas.',
       subheading: isEn
-        ? 'Behind every decision we make is a process. Because judgment without method is just intuition.'
-        : 'Detrás de cada decisión que tomamos hay un proceso. Porque el criterio sin método es solo intuición.',
+        ? 'The best talent decisions do not happen by chance or intuition. They happen when you combine experience, methodology, and data.'
+        : 'Las mejores decisiones de talento no ocurren por casualidad o intuición. Ocurren cuando combinas experiencia, metodología y data.',
       image: '/assets/figma/methodology/hero.webp',
     },
     {
@@ -849,59 +842,59 @@ export function methodologyFixtures(locale: Locale): PageSection[] {
         ? '50% of executive hires fail within the first 18 months.'
         : 'El 50% de las contrataciones ejecutivas fracasa en los primeros 18 meses.',
       body: isEn
-        ? 'Not because the candidate is bad, but because the process was. The search started without diagnosis, evaluation relied on one interview, and the final decision was based on intuition. In organizational development the same thing happens: climate is measured, a presentation is delivered, and nothing gets executed. We designed our processes so that does not happen to your organization.'
-        : 'No porque el candidato sea malo. Sino porque el proceso fue malo. Se buscó sin diagnosticar, se evaluó con una sola entrevista y se eligió por intuición. En desarrollo organizacional pasa lo mismo: se mide el clima, se entrega una presentación y nadie ejecuta nada. Nosotros diseñamos nuestros procesos para que eso no le pase a tu organización.',
+        ? 'Not because that person lacked talent or adaptability, but because the selection process was not the right one. Hiring decisions are often made with insufficient information.\n\nWe help our clients hire with greater clarity, stronger evidence, and lower risk.'
+        : 'No porque a esa persona le haya faltado talento o adaptabilidad; sino porque el proceso de selección no fue el correcto. Las decisiones de contratación suelen tomarse con información insuficiente.\n\nAyudamos a nuestros clientes a contratar con mayor claridad, mejor sustento y asumir un menor riesgo.',
     },
     {
       _type: 'methodSteps',
       _key: 'growth-talent-method',
       layout: 'grid',
       diagramImage: '/assets/figma/methodology/grid-path.svg',
-      title: isEn ? 'Two methodologies. One principle.' : 'Dos metodologías. Un mismo principio.',
+      title: isEn ? 'One methodology. Two approaches.' : 'Una misma metodología. Dos enfoques.',
       intro: isEn
         ? 'At Growth Lab we work on two dimensions of talent: finding it and developing it. Each has its own method, but both start from the same place: understand first, act second.'
         : 'En Growth Lab trabajamos dos dimensiones del talento: encontrarlo y desarrollarlo. Cada una tiene su propio método, pero las dos parten del mismo lugar: entender primero, actuar después.',
       featuredTitle: 'Growth Talent Method™',
       featuredDescription: isEn
-        ? 'Our proprietary executive search process. Seven phases from understanding your company to supporting the first ninety days of the hired candidate. Built on the best global recruitment methodologies and adapted to the Peruvian market.'
-        : 'Nuestro proceso propietario de búsqueda ejecutiva. Siete fases que van desde entender tu empresa hasta acompañar los primeros noventa días del candidato incorporado. Construido sobre las mejores metodologías globales de reclutamiento y adaptado a la realidad del mercado peruano.',
+        ? 'This is how we find the talent your company needs. Seven phases, from understanding your business to supporting the new leader’s first 90 days. Built on the best global methodologies and adapted to the Peruvian and Latin American market.'
+        : 'Así encontramos el talento que tu empresa necesita. Siete fases, desde entender tu negocio hasta acompañar los primeros 90 días del nuevo líder. Basado en las mejores metodologías globales y adaptado al mercado peruano y latinoamericano.',
       showCta: false,
       steps: [
         {
           title: 'Business Diagnostic™',
           description: isEn
-            ? 'We understand your organization before we start searching.'
-            : 'Entendemos tu organización antes de salir a buscar.',
+            ? 'Before searching, we understand your business, culture, and what the role truly needs.'
+            : 'Antes de buscar, entendemos tu negocio, tu cultura y lo que el rol realmente necesita.',
         },
         {
           title: 'Role Scorecard™',
           description: isEn
-            ? 'We translate the profile into objective, measurable criteria.'
-            : 'Traducimos el perfil en criterios objetivos y medibles.',
+            ? 'We turn the profile into objective, measurable criteria. Everyone evaluates with the same standard.'
+            : 'Convertimos el perfil en criterios objetivos y medibles. Todos evalúan con la misma vara.',
         },
         {
-          title: 'Talent Intelligence Hunting™',
+          title: 'Talent Hunting™',
           description: isEn
-            ? 'We actively map the market. We do not wait for candidates to apply.'
-            : 'Mapeamos activamente el mercado. No esperamos que los candidatos apliquen.',
+            ? 'We map the market and go find them. The best talent is almost never applying.'
+            : 'Mapeamos el mercado y salimos a buscar. El mejor talento casi nunca está postulando.',
         },
         {
-          title: 'Talent Intelligence Hunting™',
+          title: '3-Layer Assessment™',
           description: isEn
-            ? 'We evaluate in three layers: structured interview, psychometrics, and situational business case.'
-            : 'Evaluamos en tres capas: entrevista estructurada, psicometría y business case situacional.',
+            ? 'We evaluate in three layers: structured interview, psychometrics, and a role business case.'
+            : 'Evaluamos en tres capas: entrevista estructurada, psicometría y un business case del rol.',
         },
         {
           title: 'Reference Intelligence™',
           description: isEn
-            ? 'References are not a formality. They are a source of truth.'
-            : 'Las referencias no son un trámite. Son una fuente de verdad.',
+            ? 'References are not a formality. We validate with people who truly worked with the candidate.'
+            : 'Las referencias no son un trámite. Validamos con quienes realmente trabajaron con el candidato.',
         },
         {
-          title: 'Consultive Presentation™',
+          title: 'Advisory Shortlist™',
           description: isEn
-            ? 'We do not send a list of CVs. We recommend with grounded judgment.'
-            : 'No mandamos una lista de CVs. Recomendamos con criterio fundado.',
+            ? 'We do not send a list of CVs. We present a shortlist with a grounded recommendation.'
+            : 'No te mandamos una lista de CVs. Te presentamos una terna con una recomendación fundamentada.',
         },
         {
           title: 'Onboarding Intelligence™',
@@ -916,28 +909,28 @@ export function methodologyFixtures(locale: Locale): PageSection[] {
       _key: 'principles',
       variant: 'principles',
       heading: isEn
-        ? 'Our organizational development approach.'
-        : 'Nuestro enfoque de desarrollo organizacional.',
+        ? 'Organizational development you can feel.'
+        : 'Desarrollo organizacional que se nota.',
       cards: [
         {
           title: isEn ? 'Data-driven, not perception-based' : 'Basado en datos, no en percepciones',
           description: isEn
-            ? 'Before we intervene, we measure. Every process starts with a real diagnosis.'
-            : 'Antes de intervenir, medimos. Cada proceso parte de un diagnóstico real.',
+            ? 'Before we intervene, we measure. Every process starts from a real diagnosis of your organization.'
+            : 'Antes de intervenir, medimos. Cada proceso parte de un diagnóstico real de tu organización.',
           icon: 'industryCalendar',
         },
         {
           title: isEn ? 'Tailored, not canned' : 'Diseñado a medida, no enlatado',
           description: isEn
-            ? 'Each intervention is designed for the organization’s reality and moment.'
-            : 'Cada intervención se diseña según la realidad y el momento de la organización.',
+            ? 'Every intervention responds to your company’s reality, culture, and moment.'
+            : 'Cada intervención responde a la realidad, la cultura y el momento de tu empresa.',
           icon: 'industryPlanning',
         },
         {
           title: isEn ? 'Support until results' : 'Acompañamiento hasta el resultado',
           description: isEn
-            ? 'We do not deliver reports and leave. We stay until something changes.'
-            : 'No entregamos informes y nos vamos. Nos quedamos hasta que algo cambia.',
+            ? 'We do not deliver a report and disappear. We stay until the change is noticeable.'
+            : 'No entregamos un informe y desaparecemos. Nos quedamos hasta que el cambio se nota.',
           icon: 'industryMoney',
         },
       ],
@@ -948,10 +941,20 @@ export function methodologyFixtures(locale: Locale): PageSection[] {
       title: isEn ? 'The numbers that back our method.' : 'Los números que respaldan nuestro método.',
       columns: 4,
       items: [
-        {value: '+300', label: isEn ? 'closed processes' : 'procesos cerrados', icon: 'calendar'},
-        {value: '0%', label: isEn ? 'cancellation rate' : 'tasa de cancelación', icon: 'process'},
-        {value: isEn ? '7 days' : '7 días', label: isEn ? 'average shortlist delivery' : 'promedio de entrega de shortlist', icon: 'cost'},
-        {value: '+30', label: isEn ? 'organizations served' : 'organizaciones atendidas', icon: 'cost'},
+        {value: '750', label: isEn ? 'closed processes' : 'procesos cerrados', icon: 'calendar'},
+        {
+          value: '9.8/10',
+          label: isEn ? 'satisfaction with our service.' : 'de satisfacción sobre nuestro servicio.',
+          icon: 'process',
+        },
+        {value: isEn ? '+15 years' : '+15 años', label: isEn ? 'Experience in Peru and Latam' : 'Experiencia en Perú y Latam', icon: 'cost'},
+        {
+          value: isEn ? '+500 companies' : '+500 empresas',
+          label: isEn
+            ? 'Have trusted us with a 9.8/10 satisfaction score'
+            : 'Han confiado en nosotros con un score del 9.8/10 de satisfacción',
+          icon: 'cost',
+        },
       ],
     },
     {
@@ -963,23 +966,23 @@ export function methodologyFixtures(locale: Locale): PageSection[] {
         ? 'We trust our process. That is why we work on success.'
         : 'Confiamos en nuestro proceso. Por eso trabajamos al éxito.',
       body: isEn
-        ? 'We only invoice once the candidate has been selected and onboarded. We offer flexible cultural-fit guarantees and support the first ninety days. If something does not work within the guarantee period, we restart the search at no additional cost.'
-        : 'Facturamos únicamente cuando el candidato ha sido seleccionado e incorporado. Ofrecemos garantías flexibles de fit cultural y acompañamos los primeros noventa días. Si algo no funciona dentro del período de garantía, reiniciamos la búsqueda sin costo adicional.',
+        ? 'We only invoice when the chosen candidate signs the offer letter. And if within the guarantee period the person is not a fit, we restart the search at no additional cost.'
+        : 'Solo facturamos cuando el candidato elegido firma la carta oferta. Y si dentro del período de garantía la persona no encaja, reiniciamos la búsqueda sin costo adicional.',
     },
     {
       _type: 'ctaBanner',
       _key: 'cta',
       variant: 'recruitment',
       heading: isEn
-        ? 'Want to understand how we work before starting?'
-        : '¿Quieres entender cómo trabajamos antes de arrancar?',
+        ? 'Want to better understand how we work?'
+        : '¿Quieres entender mejor cómo trabajamos?',
       subheading: isEn
         ? 'A thirty-minute conversation is enough to explain the process and see if it makes sense for your organization.'
         : 'Una conversación de treinta minutos es suficiente para explicarte el proceso y ver si tiene sentido para tu organización.',
       cta: {label: isEn ? 'Book a meeting' : 'Agenda una reunión', href: contactHref},
       secondaryCta: {
         label: isEn ? 'Request a free diagnosis' : 'Solicitar diagnóstico gratuito',
-        href: 'https://wa.me/',
+        href: contactHref,
       },
     },
     {

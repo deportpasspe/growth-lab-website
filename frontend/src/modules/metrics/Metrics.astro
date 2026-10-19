@@ -36,7 +36,7 @@ const cardHeightClass = compact ? 'min-h-[366px]' : 'min-h-[320px] md:min-h-[364
   }
   <div
     class:list={[
-      'mx-auto grid max-w-[1356px] gap-4',
+      'mx-auto grid max-w-[1356px] items-stretch gap-4',
       columns === 4 ? 'sm:grid-cols-2 xl:grid-cols-4' : 'md:grid-cols-3',
     ]}
     data-reveal-group="120"
@@ -45,13 +45,13 @@ const cardHeightClass = compact ? 'min-h-[366px]' : 'min-h-[320px] md:min-h-[364
       items.map((item) => (
         <article
           class:list={[
-            'flex flex-col justify-between bg-[#150e0e] p-[42px]',
+            'flex h-full flex-col bg-[#150e0e] p-[42px]',
             compact ? 'min-h-[366px]' : cardHeightClass,
           ]}
           data-reveal
           data-metric
         >
-          <div class="flex flex-col gap-4">
+          <div class="flex min-h-[9.5rem] flex-1 flex-col gap-4 md:min-h-[10.5rem]">
             {item.icon && <StatIcon icon={item.icon} />}
             <p
               class="m-0 font-display text-[clamp(2.75rem,3.9vw,3.5rem)] leading-none uppercase tabular-nums md:text-[3.5rem]"

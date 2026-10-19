@@ -31,7 +31,6 @@ const trailingLinks = [
   {key: 'methodology' as const, label: t(locale, 'nav.methodology')},
   {key: 'caseStudies' as const, label: t(locale, 'nav.caseStudies')},
   {key: 'about' as const, label: t(locale, 'nav.about')},
-  {key: 'insights' as const, label: t(locale, 'nav.insights')},
 ]
 
 const servicesHref = getLocalizedPath(locale, 'services')
@@ -67,39 +66,35 @@ const organizationalFromServices = navServices.length
     }))
   : []
 
-const organizationalGroup = cmsOrganizationalGroup?.title
-  ? {
-      title: cmsOrganizationalGroup.title,
-      items: (cmsOrganizationalGroup.items || [])
+const organizationalGroup = {
+  title: 'Talent Solutions',
+  items: cmsOrganizationalGroup?.title
+    ? (cmsOrganizationalGroup.items || [])
         .map((item) => ({
           label: item.label || '',
           href: resolveLinkHref(item.link, locale) || servicesHref,
         }))
-        .filter((item) => item.label),
-    }
-  : {
-      title: locale === 'es' ? 'Desarrollo organizacional' : 'Organizational development',
-      items:
-        organizationalFromServices.length > 0
-          ? organizationalFromServices
-          : (
-              locale === 'es'
-                ? [
-                    'Clima organizacional',
-                    'Gestión del desempeño',
-                    'Liderazgo y coaching',
-                    'Cultura organizacional',
-                    'Potencial y mapeo de talento',
-                  ]
-                : [
-                    'Organizational climate',
-                    'Performance management',
-                    'Leadership and coaching',
-                    'Organizational culture',
-                    'Talent and potential mapping',
-                  ]
-            ).map((label) => ({label, href: servicesHref})),
-    }
+        .filter((item) => item.label)
+    : organizationalFromServices.length > 0
+      ? organizationalFromServices
+      : (
+          locale === 'es'
+            ? [
+                'Clima organizacional',
+                'Gestión del desempeño',
+                'Liderazgo y coaching',
+                'Cultura organizacional',
+                'Potencial y mapeo de talento',
+              ]
+            : [
+                'Organizational climate',
+                'Performance management',
+                'Leadership and coaching',
+                'Organizational culture',
+                'Talent and potential mapping',
+              ]
+        ).map((label) => ({label, href: servicesHref})),
+}
 
 const navLinkClass = [
   'relative flex items-center self-stretch border-b border-transparent px-0.5 py-0.5 text-base leading-none no-underline transition-colors duration-300 ease-[var(--ease-out)]',

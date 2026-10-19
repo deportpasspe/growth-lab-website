@@ -53,7 +53,9 @@ const brandPrimary = variant === 'recruitment' || variant === 'services' || vari
             size="lg"
             external={secondaryCta.href.startsWith('http')}
           >
-            <img src="/assets/figma/home/whatsapp.svg" alt="" class="h-6 w-6 max-w-none" width="24" height="24" />
+            {secondaryCta.href.includes('wa.me') && (
+              <img src="/assets/figma/home/whatsapp.svg" alt="" class="h-6 w-6 max-w-none" width="24" height="24" />
+            )}
             {secondaryCta.label}
           </Button>
         )

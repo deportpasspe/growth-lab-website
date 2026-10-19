@@ -39,18 +39,6 @@ export function contactChannels(locale: Locale) {
       href: `mailto:${t(locale, 'contact.channels.emailValue')}`,
     },
     {
-      icon: '/assets/figma/contact/icon-whatsapp.svg',
-      title: t(locale, 'contact.channels.whatsappTitle'),
-      value: t(locale, 'contact.channels.whatsappValue'),
-      href: t(locale, 'contact.channels.whatsappHref'),
-    },
-    {
-      icon: '/assets/figma/contact/icon-linkedin.svg',
-      title: t(locale, 'contact.channels.linkedinTitle'),
-      value: t(locale, 'contact.channels.linkedinValue'),
-      href: t(locale, 'contact.channels.linkedinHref'),
-    },
-    {
       icon: '/assets/figma/contact/icon-address.svg',
       title: t(locale, 'contact.channels.addressTitle'),
       value: t(locale, 'contact.channels.addressValue'),

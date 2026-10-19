@@ -14,7 +14,28 @@ interface Props {
 }
 
 const {locale, heading, channels: cmsChannels} = Astro.props
-const channels = cmsChannels?.length ? cmsChannels : contactChannels(locale)
+const contactEmail = t(locale, 'contact.channels.emailValue')
+const allowedChannels = (cmsChannels?.length ? cmsChannels : contactChannels(locale))
+  .filter((channel) => {
+    const title = (channel.title || '').toLowerCase()
+    const href = (channel.href || '').toLowerCase()
+    const isWhatsapp = title.includes('whatsapp') || href.includes('wa.me')
+    const isLinkedin = title.includes('linkedin') || href.includes('linkedin.com')
+    return !isWhatsapp && !isLinkedin
+  })
+  .map((channel) => {
+    const title = (channel.title || '').toLowerCase()
+    const href = (channel.href || '').toLowerCase()
+    if (title.includes('email') || title.includes('correo') || href.startsWith('mailto:')) {
+      return {
+        ...channel,
+        value: contactEmail,
+        href: `mailto:${contactEmail}`,
+      }
+    }
+    return channel
+  })
+const channels = allowedChannels.length ? allowedChannels : contactChannels(locale)
 const sectionHeading = heading || t(locale, 'contact.channelsHeading')
 
 function channelIconSrc(icon: ContactChannel['icon']): string {
@@ -30,7 +51,7 @@ function channelIconSrc(icon: ContactChannel['icon']): string {
       {sectionHeading}
     </h2>
 
-    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-2">
       {
         channels.map((channel) => (
           <article
