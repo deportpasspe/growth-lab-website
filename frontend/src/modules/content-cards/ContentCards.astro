@@ -229,59 +229,31 @@ const interactiveCardGhostClass =
           ))}
         </div>
       ) : variant === 'industries' ? (
-        <div class="mt-[52px]" data-reveal-group="80">
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {cards.slice(0, 3).map((card) => (
-              <article class:list={[interactiveCardGhostClass, 'min-h-[226px]']} data-reveal>
-                {card.icon && (
-                  <span class="flex h-[54px] w-[54px] items-center justify-center transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.04] group-focus-within:scale-[1.04]">
-                    <img
-                      src={resolveIconSrc(card.icon)}
-                      alt=""
-                      class="max-w-none transition-opacity duration-300 ease-[var(--ease-out)]"
-                      width={resolveIconSize(card.icon).width}
-                      height={resolveIconSize(card.icon).height}
-                      style={`width:${resolveIconSize(card.icon).width}px;height:${resolveIconSize(card.icon).height}px`}
-                    />
-                  </span>
+        <div class="mt-[52px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group="80">
+          {cards.map((card) => (
+            <article class:list={[interactiveCardGhostClass, 'min-h-[226px]']} data-reveal>
+              {card.icon && (
+                <span class="flex h-[54px] w-[54px] items-center justify-center transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.04] group-focus-within:scale-[1.04]">
+                  <img
+                    src={resolveIconSrc(card.icon)}
+                    alt=""
+                    class="max-w-none transition-opacity duration-300 ease-[var(--ease-out)]"
+                    width={resolveIconSize(card.icon).width}
+                    height={resolveIconSize(card.icon).height}
+                    style={`width:${resolveIconSize(card.icon).width}px;height:${resolveIconSize(card.icon).height}px`}
+                  />
+                </span>
+              )}
+              <div>
+                <h3 class="m-0 text-[22px] leading-[1.05]">{card.title}</h3>
+                {card.description && (
+                  <p class="m-0 mt-2.5 text-base leading-[20px] text-white/75 transition-colors duration-300 ease-[var(--ease-out)] group-hover:text-white/90 group-focus-within:text-white/90">
+                    {card.description}
+                  </p>
                 )}
-                <div>
-                  <h3 class="m-0 text-[22px] leading-[1.05]">{card.title}</h3>
-                  {card.description && (
-                    <p class="m-0 mt-2.5 text-base leading-[20px] text-white/75 transition-colors duration-300 ease-[var(--ease-out)] group-hover:text-white/90 group-focus-within:text-white/90">
-                      {card.description}
-                    </p>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-          <div class="mx-auto mt-4 grid w-full max-w-[898px] grid-cols-1 gap-4 sm:grid-cols-2">
-            {cards.slice(3).map((card) => (
-              <article class:list={[interactiveCardGhostClass, 'min-h-[207px]']} data-reveal>
-                {card.icon && (
-                  <span class="flex h-[54px] w-[54px] items-center justify-center transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.04] group-focus-within:scale-[1.04]">
-                    <img
-                      src={resolveIconSrc(card.icon)}
-                      alt=""
-                      class="max-w-none transition-opacity duration-300 ease-[var(--ease-out)]"
-                      width={resolveIconSize(card.icon).width}
-                      height={resolveIconSize(card.icon).height}
-                      style={`width:${resolveIconSize(card.icon).width}px;height:${resolveIconSize(card.icon).height}px`}
-                    />
-                  </span>
-                )}
-                <div>
-                  <h3 class="m-0 text-[22px] leading-[1.05]">{card.title}</h3>
-                  {card.description && (
-                    <p class="m-0 mt-2.5 text-base leading-[20px] text-white/75 transition-colors duration-300 ease-[var(--ease-out)] group-hover:text-white/90 group-focus-within:text-white/90">
-                      {card.description}
-                    </p>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
+              </div>
+            </article>
+          ))}
         </div>
       ) : (
         <div class="mt-[52px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12" data-reveal-group="80">

@@ -3,6 +3,7 @@ import type {Locale} from '../i18n/routes'
 import {getLocalizedPath} from '../i18n/routes'
 import {t} from '../i18n'
 import {resolveLinkHref} from '../lib/sanity/resolveLink'
+import {talentSolutionNav} from '../lib/talentNav'
 import type {NavService, SiteSettings} from '../lib/sanity/types'
 import BrandLogo from './ui/BrandLogo.astro'
 import Button from './ui/Button.astro'
@@ -38,24 +39,6 @@ const companyLinks = (
   return !href.includes('/insights') && !label.includes('insight')
 })
 
-const fallbackServiceLabels =
-  locale === 'es'
-    ? [
-        'Clima organizacional',
-        'Cultura organizacional',
-        'Gestión del desempeño',
-        'Potencial y mapeo de talento',
-        'Liderazgo y coaching',
-      ]
-    : [
-        'Organizational climate',
-        'Organizational culture',
-        'Performance management',
-        'Talent mapping',
-        'Leadership and coaching',
-      ]
-
-const servicesHref = getLocalizedPath(locale, 'services')
 const recruitmentHref = getLocalizedPath(locale, 'recruitment')
 const recruitmentLink = {
   label: t(locale, 'contact.form.interestExecutive'),
@@ -66,7 +49,7 @@ const serviceLinks = navServices.length
       label: service.title,
       href: getLocalizedPath(locale, 'service', service.slug),
     }))
-  : fallbackServiceLabels.map((label) => ({label, href: servicesHref}))
+  : talentSolutionNav(locale)
 
 const tagline = siteSettings?.footer?.tagline || 'Impact that lasts. Growth that matters.'
 

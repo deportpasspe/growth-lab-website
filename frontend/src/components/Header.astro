@@ -3,6 +3,7 @@ import type {Locale} from '../i18n/routes'
 import {getLocalizedPath, getPathAfterLocale} from '../i18n/routes'
 import {t} from '../i18n'
 import {resolveLinkHref} from '../lib/sanity/resolveLink'
+import {talentSolutionNav} from '../lib/talentNav'
 import type {NavService, SiteSettings} from '../lib/sanity/types'
 import {mobileNavLinkClass, mobileNavSubLinkClass} from '../lib/interactionClasses'
 import BrandLogo from './ui/BrandLogo.astro'
@@ -77,23 +78,7 @@ const organizationalGroup = {
         .filter((item) => item.label)
     : organizationalFromServices.length > 0
       ? organizationalFromServices
-      : (
-          locale === 'es'
-            ? [
-                'Clima organizacional',
-                'Gestión del desempeño',
-                'Liderazgo y coaching',
-                'Cultura organizacional',
-                'Potencial y mapeo de talento',
-              ]
-            : [
-                'Organizational climate',
-                'Performance management',
-                'Leadership and coaching',
-                'Organizational culture',
-                'Talent and potential mapping',
-              ]
-        ).map((label) => ({label, href: servicesHref})),
+      : talentSolutionNav(locale),
 }
 
 const navLinkClass = [

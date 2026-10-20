@@ -951,8 +951,8 @@ export function methodologyFixtures(locale: Locale): PageSection[] {
         {
           value: isEn ? '+500 companies' : '+500 empresas',
           label: isEn
-            ? 'Have trusted us with a 9.8/10 satisfaction score'
-            : 'Han confiado en nosotros con un score del 9.8/10 de satisfacción',
+            ? '9.8/10 satisfaction score from companies that trust us'
+            : 'Score 9.8/10 de satisfacción de quienes confían en nosotros',
           icon: 'cost',
         },
       ],
