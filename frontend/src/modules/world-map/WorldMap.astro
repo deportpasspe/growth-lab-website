@@ -55,11 +55,13 @@ const mapSrc =
                   id={`world-map-tooltip-${index}`}
                   class:list={[
                     'world-map-tooltip pointer-events-none absolute bottom-full z-30 mb-3 w-[185px] rounded-[4px] bg-white p-2 text-black opacity-0 shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-opacity duration-200',
-                    marker.left < 35
-                      ? 'left-0'
+                    marker.left < 30
+                      ? 'right-0'
                       : marker.left > 65
                         ? 'right-0'
-                        : 'left-1/2 -translate-x-1/2',
+                        : marker.left < 40
+                          ? 'left-0'
+                          : 'left-1/2 -translate-x-1/2',
                   ]}
                   role="tooltip"
                 >
@@ -117,6 +119,14 @@ const mapSrc =
 <style>
   .world-map-canvas {
     position: relative;
+  }
+
+  .world-map-marker {
+    z-index: 1;
+  }
+
+  .world-map-marker:is(:hover, :focus-within, [data-active='true']) {
+    z-index: 40;
   }
 
   .world-map-marker:is(:hover, :focus-within, [data-active='true']) .world-map-tooltip,
