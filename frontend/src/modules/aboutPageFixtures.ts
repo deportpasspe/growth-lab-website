@@ -107,6 +107,11 @@ export function aboutFixtures(locale: Locale): PageSection[] {
           organizations: [isEn ? 'Organization 1' : 'Organización 1'],
         },
         {
+          countryPreset: 'pe',
+          country: isEn ? 'Peru' : 'Perú',
+          organizations: [],
+        },
+        {
           countryPreset: 'br',
           country: isEn ? 'Brazil' : 'Brasil',
           organizations: [isEn ? 'Organization 1' : 'Organización 1'],
@@ -136,7 +141,7 @@ export function aboutFixtures(locale: Locale): PageSection[] {
     {
       _type: 'logoMarquee',
       _key: 'logos',
-      title: isEn ? 'Organizations that trust us.' : 'Organizaciones que confían en nosotros.',
+      title: isEn ? 'Our global experience.' : 'Nuestra experiencia a nivel global.',
       logos: [
         {name: 'Santander'},
         {name: 'Primax'},

@@ -38,7 +38,7 @@ const esList: CaseStudyListItem[] = [
     challenge:
       'Sistema de evaluación anual con baja adopción y sin conexión con los objetivos estratégicos.',
     result: 'Adopción del sistema subió de 45% a 91% en el primer ciclo.',
-    cover: '/assets/figma/home/case-one.webp',
+    cover: '/assets/figma/services/case-gestion.jpg',
   },
   {
     title: 'Alta dependencia de tres líderes clave sin planes de sucesión definidos.',
@@ -100,7 +100,7 @@ const enList: CaseStudyListItem[] = [
     service: 'Performance management',
     challenge: 'Annual evaluation system with low adoption and no link to strategic goals.',
     result: 'System adoption rose from 45% to 91% in the first cycle.',
-    cover: '/assets/figma/home/case-one.webp',
+    cover: '/assets/figma/services/case-gestion.jpg',
   },
   {
     title: 'High dependence on three key leaders with no defined succession plans.',

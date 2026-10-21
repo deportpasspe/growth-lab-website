@@ -66,7 +66,7 @@ export type PageSection =
         _key?: string
         country: string
         organizations: string[]
-        countryPreset?: 'us' | 'mx' | 'co' | 'ec' | 'br' | 'uy' | 'cl' | 'es' | 'it' | 'custom'
+        countryPreset?: 'us' | 'mx' | 'co' | 'ec' | 'pe' | 'br' | 'uy' | 'cl' | 'es' | 'it' | 'custom'
         flag?: ImageSource
         top?: number
         left?: number
@@ -292,12 +292,14 @@ export function homeFixtures(locale: Locale): PageSection[] {
             summary: 'Three critical hires and a succession map for a regional retailer.',
             industry: 'Banking',
             slug: 'talent-mapping-banking',
+            cover: '/assets/figma/services/case-potencial.jpg',
           },
           {
             title: 'Scaling people practices for a growth stage',
             summary: 'Performance and feedback systems that kept pace with headcount.',
             industry: 'Technology',
             slug: 'performance-management-energy',
+            cover: '/assets/figma/services/case-gestion.jpg',
           },
         ],
       },
@@ -420,6 +422,7 @@ export function homeFixtures(locale: Locale): PageSection[] {
             'Tres contrataciones críticas y un mapa de sucesión para un retailer regional.',
           industry: 'Banca',
           slug: 'potencial-talento-banca',
+          cover: '/assets/figma/services/case-potencial.jpg',
         },
         {
           title: 'Escalar prácticas de gente en etapa de crecimiento',
@@ -427,6 +430,7 @@ export function homeFixtures(locale: Locale): PageSection[] {
             'Sistemas de desempeño y feedback que acompañaron el aumento de headcount.',
           industry: 'Tecnología',
           slug: 'gestion-desempeno-energia',
+          cover: '/assets/figma/services/case-gestion.jpg',
         },
       ],
     },

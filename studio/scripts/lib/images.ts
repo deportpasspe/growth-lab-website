@@ -25,6 +25,7 @@ export const FLAG_PRESET_PATHS: Record<string, string> = {
   mx: '/assets/figma/about/flag-mx.png',
   co: '/assets/figma/about/flag-co.png',
   ec: '/assets/figma/about/flag-ec.png',
+  pe: '/assets/figma/about/flag-pe.svg',
   br: '/assets/figma/about/flag-br.png',
   uy: '/assets/figma/about/flag-uy.png',
   cl: '/assets/figma/about/flag-cl.png',

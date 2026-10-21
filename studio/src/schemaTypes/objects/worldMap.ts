@@ -7,6 +7,7 @@ const COUNTRY_PRESETS = [
   {title: 'México', value: 'mx'},
   {title: 'Colombia', value: 'co'},
   {title: 'Ecuador', value: 'ec'},
+  {title: 'Perú', value: 'pe'},
   {title: 'Brasil', value: 'br'},
   {title: 'Uruguay', value: 'uy'},
   {title: 'Chile', value: 'cl'},
